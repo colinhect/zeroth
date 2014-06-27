@@ -1,0 +1,16 @@
+Bin/*
+Win32/*
+x64/*
+Ignore.txt
+Intermediate/*
+Source/Hect/Generated/*
+HectDocs/Output/*
+HectDocs/Intermediate/*
+HectReflect/Intermediate/*
+HectTests/Intermediate/*
+Zeroth/Intermediate/*
+Dependencies/*
+*.opensdf
+*.sdf
+*.suo
+*.sublime-workspace

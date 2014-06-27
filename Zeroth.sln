@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2013 for Windows Desktop
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Zeroth", "Zeroth.vcxproj", "{6BC71957-CDC5-4DAB-A8F3-3D9E05169DDC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hect", "Hect", "{F65D85A9-3F49-4C7A-AF7B-E96D1D0DE891}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hect", "..\hect\Hect.vcxproj", "{EAFD1572-5569-4643-A694-7F8F8D66E3AE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6BC71957-CDC5-4DAB-A8F3-3D9E05169DDC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6BC71957-CDC5-4DAB-A8F3-3D9E05169DDC}.Debug|Win32.Build.0 = Debug|Win32
+		{6BC71957-CDC5-4DAB-A8F3-3D9E05169DDC}.Debug|x64.ActiveCfg = Debug|x64
+		{6BC71957-CDC5-4DAB-A8F3-3D9E05169DDC}.Debug|x64.Build.0 = Debug|x64
+		{6BC71957-CDC5-4DAB-A8F3-3D9E05169DDC}.Release|Win32.ActiveCfg = Release|Win32
+		{6BC71957-CDC5-4DAB-A8F3-3D9E05169DDC}.Release|Win32.Build.0 = Release|Win32
+		{6BC71957-CDC5-4DAB-A8F3-3D9E05169DDC}.Release|x64.ActiveCfg = Release|x64
+		{6BC71957-CDC5-4DAB-A8F3-3D9E05169DDC}.Release|x64.Build.0 = Release|x64
+		{EAFD1572-5569-4643-A694-7F8F8D66E3AE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EAFD1572-5569-4643-A694-7F8F8D66E3AE}.Debug|Win32.Build.0 = Debug|Win32
+		{EAFD1572-5569-4643-A694-7F8F8D66E3AE}.Debug|x64.ActiveCfg = Debug|x64
+		{EAFD1572-5569-4643-A694-7F8F8D66E3AE}.Debug|x64.Build.0 = Debug|x64
+		{EAFD1572-5569-4643-A694-7F8F8D66E3AE}.Release|Win32.ActiveCfg = Release|Win32
+		{EAFD1572-5569-4643-A694-7F8F8D66E3AE}.Release|Win32.Build.0 = Release|Win32
+		{EAFD1572-5569-4643-A694-7F8F8D66E3AE}.Release|x64.ActiveCfg = Release|x64
+		{EAFD1572-5569-4643-A694-7F8F8D66E3AE}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EAFD1572-5569-4643-A694-7F8F8D66E3AE} = {F65D85A9-3F49-4C7A-AF7B-E96D1D0DE891}
+	EndGlobalSection
+EndGlobal
