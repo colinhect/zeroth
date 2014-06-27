@@ -4,5 +4,33 @@
     <Filter Include="Source">
       <UniqueIdentifier>{43f0c408-2bf8-403d-96b9-35695f1ca891}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Systems">
+      <UniqueIdentifier>{de634da5-f70f-4cc1-966c-69d76b7a8cfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Components">
+      <UniqueIdentifier>{8f612d2d-7fca-42b5-b9cb-a4b254f959f9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainLogicLayer.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Systems\PlayerCameraSystem.cpp">
+      <Filter>Source\Systems</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\MainLogicLayer.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Components\PlayerCamera.h">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Systems\PlayerCameraSystem.h">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

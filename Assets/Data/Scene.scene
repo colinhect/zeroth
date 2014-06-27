@@ -1,0 +1,18 @@
+{
+    "entities" :
+    [
+        {
+            "archetype" : "Player.entity"
+        },
+        {
+            "archetype" : "Cube.entity",
+            "components" :
+            [
+                {
+                    "type" : "Transform",
+                    "position" : [ 0, 0, -10 ]
+                }
+            ]
+        }
+    ]
+}
