@@ -8,8 +8,8 @@
     },
     "dataSources" :
     [
-        "Assets/Data",
-        "Bin/Debug/x64/Hect.data"
+        "Hect.data",
+        "Zeroth.data"
     ],
     "inputAxes" :
     [
