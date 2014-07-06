@@ -34,6 +34,7 @@ MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem,
     _taskPool(4),
     _cameraSystem(_scene),
     _renderSystem(_scene, renderer),
+    _debugRenderSystem(_scene, renderer, assetCache),
     _transformSystem(_scene),
     _physicsSystem(_scene, _taskPool),
     _playerCameraSystem(_scene, inputSystem)
@@ -93,6 +94,7 @@ void MainLogicLayer::frameUpdate(Real delta)
     camera.setAspectRatio(_window->aspectRatio());
 
     _renderSystem.renderAll(camera, *_window);
+    _debugRenderSystem.renderAllLayers(camera, *_window);
 
     _window->swapBuffers();
 }

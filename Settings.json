@@ -8,7 +8,8 @@
     },
     "dataSources" :
     [
-        "Data"
+        "Assets/Data",
+        "Bin/Debug/x64/Hect.data"
     ],
     "inputAxes" :
     [

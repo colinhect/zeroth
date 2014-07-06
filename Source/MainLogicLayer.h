@@ -31,6 +31,7 @@
 #include <Hect/Logic/Scene.h>
 #include <Hect/Graphics/Systems/CameraSystem.h>
 #include <Hect/Graphics/Systems/RenderSystem.h>
+#include <Hect/Graphics/Systems/DebugRenderSystem.h>
 #include <Hect/Graphics/Systems/TransformSystem.h>
 #include <Hect/Physics/Systems/PhysicsSystem.h>
 #include <Hect/Graphics/Renderer.h>
@@ -70,6 +71,7 @@ private:
 
     CameraSystem _cameraSystem;
     RenderSystem _renderSystem;
+    DebugRenderSystem _debugRenderSystem;
     TransformSystem _transformSystem;
     PhysicsSystem _physicsSystem;
 
