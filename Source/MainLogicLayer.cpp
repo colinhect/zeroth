@@ -26,6 +26,7 @@
 #include <Hect/Graphics/Components/Geometry.h>
 #include <Hect/Graphics/Components/Transform.h>
 #include <Hect/Physics/Components/RigidBody.h>
+#include <Hect/Debug/TransformDebugRenderLayer.h>
 
 MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer) :
     _assetCache(&assetCache),
@@ -34,12 +35,14 @@ MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem,
     _taskPool(4),
     _cameraSystem(_scene),
     _renderSystem(_scene, renderer),
-    _debugRenderSystem(_scene, renderer, assetCache),
     _transformSystem(_scene),
     _physicsSystem(_scene, _taskPool),
+    _debugSystem(_scene),
     _playerCameraSystem(_scene, inputSystem)
 {
     _scene.registerComponent<PlayerCamera>("PlayerCamera");
+
+    _debugSystem.addRenderLayer(Key::F5, new TransformDebugRenderLayer(assetCache));
 
     {
         JsonValue& jsonValue = assetCache.get<JsonValue>("Player.entity");
@@ -60,6 +63,7 @@ MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem,
 
     Dispatcher<KeyboardEvent>& keyboardDispatcher = _input->keyboard().dispatcher();
     keyboardDispatcher.addListener(*this);
+    keyboardDispatcher.addListener(_debugSystem);
 
     Mouse& mouse = _input->mouse();
     mouse.setMode(MouseMode::Relative);
@@ -68,6 +72,7 @@ MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem,
 MainLogicLayer::~MainLogicLayer()
 {
     Dispatcher<KeyboardEvent>& keyboardDispatcher = _input->keyboard().dispatcher();
+    keyboardDispatcher.removeListener(_debugSystem);
     keyboardDispatcher.removeListener(*this);
 }
 
@@ -94,7 +99,7 @@ void MainLogicLayer::frameUpdate(Real delta)
     camera.setAspectRatio(_window->aspectRatio());
 
     _renderSystem.renderAll(camera, *_window);
-    _debugRenderSystem.renderAllLayers(camera, *_window);
+    _debugSystem.renderActivatedRenderLayers(_renderSystem, camera, *_window);
 
     _window->swapBuffers();
 }
