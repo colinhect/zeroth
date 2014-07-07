@@ -23,17 +23,16 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "MainLogicLayer.h"
 
-#include <Hect/Graphics/Components/Geometry.h>
-#include <Hect/Graphics/Components/Transform.h>
-#include <Hect/Physics/Components/RigidBody.h>
+#include <Hect/Logic/Components/Geometry.h>
+#include <Hect/Logic/Components/Transform.h>
+#include <Hect/Logic/Components/RigidBody.h>
 #include <Hect/Debug/TransformDebugRenderLayer.h>
 
 MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer) :
     _assetCache(&assetCache),
     _input(&inputSystem),
     _window(&window),
-    _taskPool(4),
-    _cameraSystem(_scene),
+    _taskPool(1),
     _renderSystem(_scene, renderer),
     _transformSystem(_scene),
     _physicsSystem(_scene, _taskPool),
@@ -78,28 +77,23 @@ MainLogicLayer::~MainLogicLayer()
 
 void MainLogicLayer::fixedUpdate(Real timeStep)
 {
-    _cameraSystem.update();
-    _physicsSystem.updateTransforms();
-    _transformSystem.update();
-    _playerCameraSystem.update(timeStep);
-    _physicsSystem.asynchronousUpdate(timeStep, 4);
     _input->updateAxes(timeStep);
+
+    _physicsSystem.endAsynchronousUpdate();
+
+    _playerCameraSystem.update(timeStep);
+    _renderSystem.updateActiveCamera();
+    _transformSystem.update();
+
+    _physicsSystem.beginAsynchronousUpdate(timeStep, 4);
 }
 
 void MainLogicLayer::frameUpdate(Real delta)
 {
     delta;
 
-    if (!_cameraSystem.hasCamera())
-    {
-        return;
-    }
-
-    Camera& camera = _cameraSystem.camera();
-    camera.setAspectRatio(_window->aspectRatio());
-
-    _renderSystem.renderAll(camera, *_window);
-    _debugSystem.renderActivatedRenderLayers(_renderSystem, camera, *_window);
+    _renderSystem.renderAll(*_window);
+    _debugSystem.renderActivatedRenderLayers(_renderSystem, *_window);
 
     _window->swapBuffers();
 }

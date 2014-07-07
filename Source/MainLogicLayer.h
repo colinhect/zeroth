@@ -29,11 +29,10 @@
 #include <Hect/Core/TaskPool.h>
 #include <Hect/Asset/AssetCache.h>
 #include <Hect/Logic/Scene.h>
-#include <Hect/Graphics/Systems/CameraSystem.h>
-#include <Hect/Graphics/Systems/RenderSystem.h>
-#include <Hect/Graphics/Systems/TransformSystem.h>
-#include <Hect/Physics/Systems/PhysicsSystem.h>
-#include <Hect/Debug/Systems/DebugSystem.h>
+#include <Hect/Logic/Systems/RenderSystem.h>
+#include <Hect/Logic/Systems/TransformSystem.h>
+#include <Hect/Logic/Systems/PhysicsSystem.h>
+#include <Hect/Logic/Systems/DebugSystem.h>
 #include <Hect/Graphics/Renderer.h>
 #include <Hect/Graphics/Window.h>
 #include <Hect/Input/InputSystem.h>
@@ -69,7 +68,6 @@ private:
     Entity::Iter _player;
     Entity::Iter _cube;
 
-    CameraSystem _cameraSystem;
     RenderSystem _renderSystem;
     TransformSystem _transformSystem;
     PhysicsSystem _physicsSystem;
