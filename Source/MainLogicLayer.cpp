@@ -27,6 +27,7 @@
 #include <Hect/Logic/Components/Transform.h>
 #include <Hect/Logic/Components/RigidBody.h>
 #include <Hect/Debug/TransformDebugRenderLayer.h>
+#include <Hect/Debug/BoundingBoxDebugRenderLayer.h>
 
 MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer) :
     _assetCache(&assetCache),
@@ -42,6 +43,7 @@ MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem,
     _scene.registerComponent<PlayerCamera>("PlayerCamera");
 
     _debugSystem.addRenderLayer(Key::F5, new TransformDebugRenderLayer(assetCache));
+    _debugSystem.addRenderLayer(Key::F6, new BoundingBoxDebugRenderLayer(assetCache));
 
     {
         JsonValue& jsonValue = assetCache.get<JsonValue>("Player.entity");
