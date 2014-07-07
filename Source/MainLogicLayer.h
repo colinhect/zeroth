@@ -27,7 +27,7 @@
 #include <Hect/Core/Listener.h>
 #include <Hect/Core/Uncopyable.h>
 #include <Hect/Core/TaskPool.h>
-#include <Hect/Asset/AssetCache.h>
+#include <Hect/IO/AssetCache.h>
 #include <Hect/Logic/Scene.h>
 #include <Hect/Logic/Systems/RenderSystem.h>
 #include <Hect/Logic/Systems/TransformSystem.h>
