@@ -102,11 +102,8 @@
     </CustomBuildStep>
     <PostBuildEvent>
       <Command>copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\SDL2.dll $(SolutionDir)Deploy
-copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\Zeroth.exe $(SolutionDir)Deploy /Y
-
-python $(SolutionDir)..\hect\Tools\create_zip.py $(SolutionDir)\Deploy\Hect.data $(SolutionDir)..\hect\Assets\Hect Hect
-
-</Command>
+copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\Hect.data $(SolutionDir)Deploy /Y
+copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\Zeroth.exe $(SolutionDir)Deploy /Y</Command>
       <Message>Copying binaries...</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -131,11 +128,8 @@ python $(SolutionDir)..\hect\Tools\create_zip.py $(SolutionDir)\Deploy\Hect.data
     </CustomBuildStep>
     <PostBuildEvent>
       <Command>copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\SDL2.dll $(SolutionDir)Deploy
-copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\Zeroth.exe $(SolutionDir)Deploy /Y
-
-python $(SolutionDir)..\hect\Tools\create_zip.py $(SolutionDir)\Deploy\Hect.data $(SolutionDir)..\hect\Assets\Hect Hect
-
-</Command>
+copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\Hect.data $(SolutionDir)Deploy /Y
+copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\Zeroth.exe $(SolutionDir)Deploy /Y</Command>
       <Message>Copying binaries...</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -164,11 +158,8 @@ python $(SolutionDir)..\hect\Tools\create_zip.py $(SolutionDir)\Deploy\Hect.data
     </CustomBuildStep>
     <PostBuildEvent>
       <Command>copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\SDL2.dll $(SolutionDir)Deploy
-copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\Zeroth.exe $(SolutionDir)Deploy /Y
-
-python $(SolutionDir)..\hect\Tools\create_zip.py $(SolutionDir)\Deploy\Hect.data $(SolutionDir)..\hect\Assets\Hect Hect
-
-</Command>
+copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\Hect.data $(SolutionDir)Deploy /Y
+copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\Zeroth.exe $(SolutionDir)Deploy /Y</Command>
       <Message>Copying binaries...</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -197,11 +188,8 @@ python $(SolutionDir)..\hect\Tools\create_zip.py $(SolutionDir)\Deploy\Hect.data
     </CustomBuildStep>
     <PostBuildEvent>
       <Command>copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\SDL2.dll $(SolutionDir)Deploy
-copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\Zeroth.exe $(SolutionDir)Deploy /Y
-
-python $(SolutionDir)..\hect\Tools\create_zip.py $(SolutionDir)\Deploy\Hect.data $(SolutionDir)..\hect\Assets\Hect Hect
-
-</Command>
+copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\Hect.data $(SolutionDir)Deploy /Y
+copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\Zeroth.exe $(SolutionDir)Deploy /Y</Command>
       <Message>Copying binaries...</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
