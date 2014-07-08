@@ -9,7 +9,7 @@
     "dataSources" :
     [
         "Hect.data",
-        "Zeroth.data"
+        "ZerothCommon.data"
     ],
     "inputAxes" :
     [

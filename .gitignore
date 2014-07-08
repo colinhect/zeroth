@@ -3,6 +3,8 @@ Win32/*
 x64/*
 Ignore.txt
 Intermediate/*
+Deploy/*.exe
+Deploy/*.dll
 Source/Hect/Generated/*
 HectDocs/Output/*
 HectDocs/Intermediate/*
