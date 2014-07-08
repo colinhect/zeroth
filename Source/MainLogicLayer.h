@@ -31,6 +31,7 @@
 #include <Hect/Logic/Scene.h>
 #include <Hect/Logic/Systems/RenderSystem.h>
 #include <Hect/Logic/Systems/TransformSystem.h>
+#include <Hect/Logic/Systems/BoundingBoxSystem.h>
 #include <Hect/Logic/Systems/PhysicsSystem.h>
 #include <Hect/Logic/Systems/DebugSystem.h>
 #include <Hect/Graphics/Renderer.h>
@@ -70,6 +71,7 @@ private:
 
     RenderSystem _renderSystem;
     TransformSystem _transformSystem;
+    BoundingBoxSystem _boundingBoxSystem;
     PhysicsSystem _physicsSystem;
     DebugSystem _debugSystem;
 

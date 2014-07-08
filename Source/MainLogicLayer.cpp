@@ -36,6 +36,7 @@ MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem,
     _taskPool(1),
     _renderSystem(_scene, renderer),
     _transformSystem(_scene),
+    _boundingBoxSystem(_scene),
     _physicsSystem(_scene, _taskPool),
     _debugSystem(_scene),
     _playerCameraSystem(_scene, inputSystem)
@@ -86,6 +87,7 @@ void MainLogicLayer::fixedUpdate(Real timeStep)
     _playerCameraSystem.update(timeStep);
     _renderSystem.updateActiveCamera();
     _transformSystem.update();
+    _boundingBoxSystem.update();
 
     _physicsSystem.beginAsynchronousUpdate(timeStep, 4);
 }
