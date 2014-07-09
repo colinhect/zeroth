@@ -195,12 +195,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\MainLogicLayer.cpp" />
+    <ClCompile Include="Source\ServerLoop.cpp" />
     <ClCompile Include="Source\Systems\PlayerCameraSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Components\PlayerCamera.h" />
-    <ClInclude Include="Source\MainLogicLayer.h" />
+    <ClInclude Include="Source\ServerLoop.h" />
     <ClInclude Include="Source\Systems\PlayerCameraSystem.h" />
   </ItemGroup>
   <ItemGroup>

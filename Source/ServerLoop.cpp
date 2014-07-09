@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "MainLogicLayer.h"
+#include "ServerLoop.h"
 
 #include <Hect/Logic/Components/Geometry.h>
 #include <Hect/Logic/Components/Transform.h>
@@ -29,7 +29,8 @@
 #include <Hect/Debug/TransformDebugRenderLayer.h>
 #include <Hect/Debug/BoundingBoxDebugRenderLayer.h>
 
-MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer) :
+ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer) :
+    Loop(TimeSpan::fromSeconds((Real)1 / (Real)60)),
     _assetCache(&assetCache),
     _input(&inputSystem),
     _window(&window),
@@ -39,12 +40,14 @@ MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem,
     _boundingBoxSystem(_scene),
     _physicsSystem(_scene, _taskPool),
     _debugSystem(_scene),
-    _playerCameraSystem(_scene, inputSystem)
+    _playerCameraSystem(_scene, inputSystem),
+    _transformDebugRenderLayer(assetCache),
+    _boundingBoxDebugRenderLayer(assetCache)
 {
     _scene.registerComponent<PlayerCamera>("PlayerCamera");
 
-    _debugSystem.addRenderLayer(Key::F5, new TransformDebugRenderLayer(assetCache));
-    _debugSystem.addRenderLayer(Key::F6, new BoundingBoxDebugRenderLayer(assetCache));
+    _debugSystem.addRenderLayer(Key::F5, _transformDebugRenderLayer);
+    _debugSystem.addRenderLayer(Key::F6, _boundingBoxDebugRenderLayer);
 
     {
         JsonValue& jsonValue = assetCache.get<JsonValue>("Player.entity");
@@ -71,14 +74,14 @@ MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem,
     mouse.setMode(MouseMode::Relative);
 }
 
-MainLogicLayer::~MainLogicLayer()
+ServerLoop::~ServerLoop()
 {
     Dispatcher<KeyboardEvent>& keyboardDispatcher = _input->keyboard().dispatcher();
     keyboardDispatcher.removeListener(_debugSystem);
     keyboardDispatcher.removeListener(*this);
 }
 
-void MainLogicLayer::fixedUpdate(Real timeStep)
+void ServerLoop::fixedUpdate(Real timeStep)
 {
     _input->updateAxes(timeStep);
 
@@ -92,7 +95,7 @@ void MainLogicLayer::fixedUpdate(Real timeStep)
     _physicsSystem.beginAsynchronousUpdate(timeStep, 4);
 }
 
-void MainLogicLayer::frameUpdate(Real delta)
+void ServerLoop::frameUpdate(Real delta)
 {
     delta;
 
@@ -102,7 +105,7 @@ void MainLogicLayer::frameUpdate(Real delta)
     _window->swapBuffers();
 }
 
-void MainLogicLayer::receiveEvent(const KeyboardEvent& event)
+void ServerLoop::receiveEvent(const KeyboardEvent& event)
 {
     if (event.type != KeyboardEventType::KeyDown)
     {

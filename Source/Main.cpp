@@ -22,7 +22,6 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/Core/Configuration.h>
-#include <Hect/Core/LogicFlow.h>
 #include <Hect/IO/JsonValue.h>
 #include <Hect/IO/FileSystem.h>
 #include <Hect/Graphics/Renderer.h>
@@ -36,7 +35,7 @@ using namespace hect;
 #endif
 #endif
 
-#include "MainLogicLayer.h"
+#include "ServerLoop.h"
 
 int main(int argc, const char* argv[])
 {
@@ -91,14 +90,12 @@ int main(int argc, const char* argv[])
         AssetCache assetCache(fileSystem);
 
         // Create the logic flow
-        MainLogicLayer main(assetCache, inputSystem, window, renderer);
-        LogicFlow logicFlow(TimeSpan::fromSeconds((Real)1 / (Real)60));
-        logicFlow.addLayer(main);
+        ServerLoop loop(assetCache, inputSystem, window, renderer);
 
         // Update until the flow is complete
         while (window.pollEvents(inputSystem))
         {
-            if (!logicFlow.update())
+            if (!loop.tick())
             {
                 break;
             }

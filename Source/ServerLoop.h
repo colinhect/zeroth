@@ -23,11 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect/Core/LogicLayer.h>
 #include <Hect/Core/Listener.h>
 #include <Hect/Core/Uncopyable.h>
 #include <Hect/Core/TaskPool.h>
 #include <Hect/IO/AssetCache.h>
+#include <Hect/Logic/Loop.h>
 #include <Hect/Logic/Scene.h>
 #include <Hect/Logic/Systems/RenderSystem.h>
 #include <Hect/Logic/Systems/TransformSystem.h>
@@ -37,20 +37,22 @@
 #include <Hect/Graphics/Renderer.h>
 #include <Hect/Graphics/Window.h>
 #include <Hect/Input/InputSystem.h>
+#include <Hect/Debug/BoundingBoxDebugRenderLayer.h>
+#include <Hect/Debug/TransformDebugRenderLayer.h>
 
 using namespace hect;
 
 #include "Components/PlayerCamera.h"
 #include "Systems/PlayerCameraSystem.h"
 
-class MainLogicLayer :
-    public LogicLayer,
+class ServerLoop :
+    public Loop,
     public Listener<KeyboardEvent>,
     public Uncopyable
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
+    ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
+    ~ServerLoop();
 
     void fixedUpdate(Real timeStep);
     void frameUpdate(Real delta);
@@ -76,4 +78,7 @@ private:
     DebugSystem _debugSystem;
 
     PlayerCameraSystem _playerCameraSystem;
+
+    TransformDebugRenderLayer _transformDebugRenderLayer;
+    BoundingBoxDebugRenderLayer _boundingBoxDebugRenderLayer;
 };

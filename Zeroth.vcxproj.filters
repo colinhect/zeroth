@@ -15,22 +15,22 @@
     <ClCompile Include="Source\Main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MainLogicLayer.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Systems\PlayerCameraSystem.cpp">
       <Filter>Source\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ServerLoop.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\MainLogicLayer.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Components\PlayerCamera.h">
       <Filter>Source\Components</Filter>
     </ClInclude>
     <ClInclude Include="Source\Systems\PlayerCameraSystem.h">
       <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ServerLoop.h">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
