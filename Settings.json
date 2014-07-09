@@ -8,8 +8,8 @@
     },
     "dataSources" :
     [
-        "Hect.data",
-        "ZerothCommon.data"
+        "hect/Assets",
+        "zeroth/Assets/Common"
     ],
     "inputAxes" :
     [

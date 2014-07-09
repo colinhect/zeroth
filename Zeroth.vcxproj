@@ -101,10 +101,10 @@
       </Outputs>
     </CustomBuildStep>
     <PostBuildEvent>
-      <Command>copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\SDL2.dll $(SolutionDir)Deploy
-copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\Hect.data $(SolutionDir)Deploy /Y
-copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\Zeroth.exe $(SolutionDir)Deploy /Y</Command>
-      <Message>Copying binaries...</Message>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -127,10 +127,10 @@ copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\Zeroth.exe $(SolutionDir)Dep
       </Outputs>
     </CustomBuildStep>
     <PostBuildEvent>
-      <Command>copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\SDL2.dll $(SolutionDir)Deploy
-copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\Hect.data $(SolutionDir)Deploy /Y
-copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\Zeroth.exe $(SolutionDir)Deploy /Y</Command>
-      <Message>Copying binaries...</Message>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -157,10 +157,10 @@ copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\Zeroth.exe $(SolutionDir)Dep
       </Outputs>
     </CustomBuildStep>
     <PostBuildEvent>
-      <Command>copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\SDL2.dll $(SolutionDir)Deploy
-copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\Hect.data $(SolutionDir)Deploy /Y
-copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\Zeroth.exe $(SolutionDir)Deploy /Y</Command>
-      <Message>Copying binaries...</Message>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -187,10 +187,10 @@ copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\Zeroth.exe $(SolutionDir)Dep
       </Outputs>
     </CustomBuildStep>
     <PostBuildEvent>
-      <Command>copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\SDL2.dll $(SolutionDir)Deploy
-copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\Hect.data $(SolutionDir)Deploy /Y
-copy $(SolutionDir)Bin\$(Configuration)\$(Platform)\Zeroth.exe $(SolutionDir)Deploy /Y</Command>
-      <Message>Copying binaries...</Message>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

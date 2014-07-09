@@ -58,7 +58,7 @@ int main(int argc, const char* argv[])
         // Load the settings
         JsonValue settings;
         {
-            FileReadStream stream = fileSystem.openFileForRead("Settings.json");
+            FileReadStream stream = fileSystem.openFileForRead("zeroth/Settings.json");
             settings.decodeFromJson(stream);
         }
 
