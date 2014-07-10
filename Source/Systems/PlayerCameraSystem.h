@@ -6,13 +6,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <Hect/Input/InputSystem.h>
 #include <Hect/Logic/Scene.h>
 #include <Hect/Logic/System.h>
-#include <Hect/Input/InputSystem.h>
-
-using namespace hect;
 
 #include "Components/PlayerCamera.h"
+
+using namespace hect;
 
 class PlayerCameraSystem :
     public System

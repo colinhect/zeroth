@@ -6,27 +6,27 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect/Core/Listener.h>
+#include <Hect/Concurrency/TaskPool.h>
 #include <Hect/Core/Uncopyable.h>
-#include <Hect/Core/TaskPool.h>
-#include <Hect/IO/AssetCache.h>
-#include <Hect/Logic/Loop.h>
-#include <Hect/Logic/Scene.h>
-#include <Hect/Logic/Systems/RenderSystem.h>
-#include <Hect/Logic/Systems/TransformSystem.h>
-#include <Hect/Logic/Systems/BoundingBoxSystem.h>
-#include <Hect/Logic/Systems/PhysicsSystem.h>
-#include <Hect/Logic/Systems/DebugSystem.h>
-#include <Hect/Graphics/Renderer.h>
-#include <Hect/Graphics/Window.h>
-#include <Hect/Input/InputSystem.h>
 #include <Hect/Debug/BoundingBoxDebugRenderLayer.h>
 #include <Hect/Debug/TransformDebugRenderLayer.h>
-
-using namespace hect;
+#include <Hect/Debug/Systems/DebugSystem.h>
+#include <Hect/Event/Listener.h>
+#include <Hect/Graphics/Renderer.h>
+#include <Hect/Graphics/Window.h>
+#include <Hect/Graphics/Systems/RenderSystem.h>
+#include <Hect/IO/AssetCache.h>
+#include <Hect/Input/InputSystem.h>
+#include <Hect/Logic/Loop.h>
+#include <Hect/Logic/Scene.h>
+#include <Hect/Physics/Systems/PhysicsSystem.h>
+#include <Hect/Spacial/Systems/TransformSystem.h>
+#include <Hect/Spacial/Systems/BoundingBoxSystem.h>
 
 #include "Components/PlayerCamera.h"
 #include "Systems/PlayerCameraSystem.h"
+
+using namespace hect;
 
 class ServerLoop :
     public Loop,

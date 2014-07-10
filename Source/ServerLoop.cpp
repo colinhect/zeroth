@@ -6,11 +6,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ServerLoop.h"
 
-#include <Hect/Logic/Components/Geometry.h>
-#include <Hect/Logic/Components/Transform.h>
-#include <Hect/Logic/Components/RigidBody.h>
 #include <Hect/Debug/TransformDebugRenderLayer.h>
 #include <Hect/Debug/BoundingBoxDebugRenderLayer.h>
+#include <Hect/Graphics/Components/Geometry.h>
+#include <Hect/Physics/Components/RigidBody.h>
+#include <Hect/Spacial/Components/Transform.h>
 
 ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer) :
     Loop(TimeSpan::fromSeconds((Real)1 / (Real)60)),

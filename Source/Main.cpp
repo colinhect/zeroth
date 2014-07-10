@@ -5,12 +5,13 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/Core/Configuration.h>
-#include <Hect/IO/JsonValue.h>
-#include <Hect/IO/FileSystem.h>
 #include <Hect/Graphics/Renderer.h>
 #include <Hect/Graphics/Window.h>
+#include <Hect/IO/JsonValue.h>
+#include <Hect/IO/FileSystem.h>
 
 #include "RegisterComponents.h"
+#include "ServerLoop.h"
 
 using namespace hect;
 
@@ -19,8 +20,6 @@ using namespace hect;
 #include <vld.h>
 #endif
 #endif
-
-#include "ServerLoop.h"
 
 int main(int argc, const char* argv[])
 {

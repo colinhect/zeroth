@@ -6,8 +6,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "PlayerCameraSystem.h"
 
-#include <Hect/Logic/Components/Camera.h>
-#include <Hect/Logic/Components/Transform.h>
+#include <Hect/Graphics/Components/Camera.h>
+#include <Hect/Spacial/Components/Transform.h>
 
 PlayerCameraSystem::PlayerCameraSystem(Scene& scene, InputSystem& inputSystem) :
     System(scene),
