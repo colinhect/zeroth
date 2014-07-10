@@ -27,8 +27,8 @@ ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window&
     _transformDebugRenderLayer(assetCache),
     _boundingBoxDebugRenderLayer(assetCache)
 {
-    _debugSystem.addRenderLayer(Key::F5, _transformDebugRenderLayer);
-    _debugSystem.addRenderLayer(Key::F6, _boundingBoxDebugRenderLayer);
+    _debugSystem.addRenderLayer(Key_F5, _transformDebugRenderLayer);
+    _debugSystem.addRenderLayer(Key_F6, _boundingBoxDebugRenderLayer);
 
     {
         JsonValue& jsonValue = assetCache.get<JsonValue>("Player.entity");
@@ -52,7 +52,7 @@ ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window&
     keyboardDispatcher.addListener(_debugSystem);
 
     Mouse& mouse = _input->mouse();
-    mouse.setMode(MouseMode::Relative);
+    mouse.setMode(MouseMode_Relative);
 }
 
 ServerLoop::~ServerLoop()
@@ -88,30 +88,30 @@ void ServerLoop::frameUpdate(Real delta)
 
 void ServerLoop::receiveEvent(const KeyboardEvent& event)
 {
-    if (event.type != KeyboardEventType::KeyDown)
+    if (event.type != KeyboardEventType_KeyDown)
     {
         return;
     }
 
-    if (event.key == Key::Esc)
+    if (event.key == Key_Esc)
     {
         setActive(false);
     }
 
-    if (event.key == Key::Tab)
+    if (event.key == Key_Tab)
     {
         Mouse& mouse = _input->mouse();
-        if (mouse.mode() == MouseMode::Cursor)
+        if (mouse.mode() == MouseMode_Cursor)
         {
-            mouse.setMode(MouseMode::Relative);
+            mouse.setMode(MouseMode_Relative);
         }
         else
         {
-            mouse.setMode(MouseMode::Cursor);
+            mouse.setMode(MouseMode_Cursor);
         }
     }
 
-    if (event.key == Key::F)
+    if (event.key == Key_F)
     {
         Entity::Iter cloneEntity = _cube->clone();
 

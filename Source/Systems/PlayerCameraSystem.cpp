@@ -41,7 +41,7 @@ void PlayerCameraSystem::update(Real timeStep)
                 Real rollSpeed = timeStep * 2;
                 Real moveSpeed = timeStep * _speed;
 
-                if (_mouse->mode() == MouseMode::Relative)
+                if (_mouse->mode() == MouseMode_Relative)
                 {
                     transform->rotate(up, _viewX->value() * rotateSpeed);
                     transform->rotate(right, _viewY->value() * -rotateSpeed);
