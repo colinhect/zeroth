@@ -12,15 +12,15 @@
             "surfaces" :
             [
                {
-                  "mesh" : "Cube.mesh",
-                  "material" : "Cube.material"
+                  "mesh" : "Test/Cube.mesh",
+                  "material" : "Test/Cube.material"
                }
             ]
         },
         {
             "type" : "RigidBody",
             "mass" : 1.0,
-            "mesh" : "Cube.mesh"
+            "mesh" : "Test/Cube.mesh"
         }
     ],
     "children" :
@@ -41,8 +41,8 @@
                     "surfaces" :
                     [
                        {
-                          "mesh" : "Cube.mesh",
-                          "material" : "Cube.material"
+                          "mesh" : "Test/Cube.mesh",
+                          "material" : "Test/Cube.material"
                        }
                     ]
                 }

@@ -31,7 +31,7 @@ ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window&
     _debugSystem.addRenderLayer(Key_F6, _boundingBoxDebugRenderLayer);
 
     {
-        JsonValue& jsonValue = assetCache.get<JsonValue>("Player.entity");
+        JsonValue& jsonValue = assetCache.get<JsonValue>("Test/Player.entity");
 
         _player = _scene.createEntity();
         _player->decodeFromJsonValue(jsonValue, assetCache);
@@ -39,7 +39,7 @@ ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window&
     }
 
     {
-        JsonValue& jsonValue = assetCache.get<JsonValue>("Cube.entity");
+        JsonValue& jsonValue = assetCache.get<JsonValue>("Test/Cube.entity");
 
         _cube = _scene.createEntity();
         _cube->decodeFromJsonValue(jsonValue, assetCache);
