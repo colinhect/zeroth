@@ -17,7 +17,7 @@
 using namespace hect;
 
 #ifdef HECT_WINDOWS
-#ifdef HECT_DEBUG
+#ifdef HECT_DEBUG_BUILD
 #include <vld.h>
 #endif
 #endif
@@ -91,6 +91,7 @@ int main(int argc, const char* argv[])
     }
     catch (Error& error)
     {
+        HECT_ERROR(error.what());
         Window::showFatalError(error.what());
     }
 
