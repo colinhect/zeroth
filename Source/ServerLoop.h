@@ -10,7 +10,7 @@
 #include <Hect/Core/Uncopyable.h>
 #include <Hect/Debug/BoundingBoxDebugRenderLayer.h>
 #include <Hect/Debug/TransformDebugRenderLayer.h>
-#include <Hect/Debug/Systems/DebugSystem.h>
+#include <Hect/Debug/Systems/DebugRenderSystem.h>
 #include <Hect/Event/Listener.h>
 #include <Hect/Graphics/Renderer.h>
 #include <Hect/Graphics/Window.h>
@@ -55,10 +55,10 @@ private:
     Entity::Iter _frigate;
 
     RenderSystem _renderSystem;
+    DebugRenderSystem _debugRenderSystem;
     TransformSystem _transformSystem;
     BoundingBoxSystem _boundingBoxSystem;
     PhysicsSystem _physicsSystem;
-    DebugSystem _debugSystem;
 
     PlayerCameraSystem _playerCameraSystem;
 

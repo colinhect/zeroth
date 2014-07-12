@@ -20,16 +20,16 @@ ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window&
     _taskPool(4),
     _scene(assetCache),
     _renderSystem(_scene, renderer),
+    _debugRenderSystem(_scene, renderer),
     _transformSystem(_scene),
     _boundingBoxSystem(_scene),
     _physicsSystem(_scene, _taskPool),
-    _debugSystem(_scene),
     _playerCameraSystem(_scene, inputSystem),
     _transformDebugRenderLayer(assetCache),
     _boundingBoxDebugRenderLayer(assetCache)
 {
-    _debugSystem.addRenderLayer(Key_F5, _transformDebugRenderLayer);
-    _debugSystem.addRenderLayer(Key_F6, _boundingBoxDebugRenderLayer);
+    _debugRenderSystem.addRenderLayer(Key_F5, _transformDebugRenderLayer);
+    _debugRenderSystem.addRenderLayer(Key_F6, _boundingBoxDebugRenderLayer);
 
     _player = _scene.createEntity("Test/Player.entity");
     _player->activate();
@@ -39,7 +39,7 @@ ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window&
 
     Dispatcher<KeyboardEvent>& keyboardDispatcher = _input->keyboard().dispatcher();
     keyboardDispatcher.addListener(*this);
-    keyboardDispatcher.addListener(_debugSystem);
+    keyboardDispatcher.addListener(_debugRenderSystem);
 
     Mouse& mouse = _input->mouse();
     mouse.setMode(MouseMode_Relative);
@@ -48,7 +48,7 @@ ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window&
 ServerLoop::~ServerLoop()
 {
     Dispatcher<KeyboardEvent>& keyboardDispatcher = _input->keyboard().dispatcher();
-    keyboardDispatcher.removeListener(_debugSystem);
+    keyboardDispatcher.removeListener(_debugRenderSystem);
     keyboardDispatcher.removeListener(*this);
 }
 
@@ -71,7 +71,7 @@ void ServerLoop::frameUpdate(Real delta)
     delta;
 
     _renderSystem.renderAll(*_window);
-    _debugSystem.renderActivatedRenderLayers(_renderSystem, *_window);
+    _debugRenderSystem.renderAll(*_window);
 
     _window->swapBuffers();
 }
