@@ -11,6 +11,7 @@
 #include <Hect/IO/FileSystem.h>
 
 #include "RegisterComponents.h"
+#include "AssetRefreshLoop.h"
 #include "ServerLoop.h"
 
 using namespace hect;
@@ -75,12 +76,13 @@ int main(int argc, const char* argv[])
 
         AssetCache assetCache(fileSystem);
 
-        // Create the logic flow
+        AssetRefreshLoop assetRefreshLoop(assetCache);
         ServerLoop loop(assetCache, inputSystem, window, renderer);
 
         // Update until the flow is complete
         while (window.pollEvents(inputSystem))
         {
+            assetRefreshLoop.tick();
             if (!loop.tick())
             {
                 break;
