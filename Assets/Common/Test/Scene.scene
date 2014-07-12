@@ -2,10 +2,10 @@
     "entities" :
     [
         {
-            "archetype" : "Test/Player.entity"
+            "archetype" : "Player.entity"
         },
         {
-            "archetype" : "Test/Cube.entity",
+            "archetype" : "Cube.entity",
             "components" :
             [
                 {

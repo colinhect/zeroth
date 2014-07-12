@@ -18,6 +18,7 @@ ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window&
     _input(&inputSystem),
     _window(&window),
     _taskPool(4),
+    _scene(assetCache),
     _renderSystem(_scene, renderer),
     _transformSystem(_scene),
     _boundingBoxSystem(_scene),
@@ -30,22 +31,11 @@ ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window&
     _debugSystem.addRenderLayer(Key_F5, _transformDebugRenderLayer);
     _debugSystem.addRenderLayer(Key_F6, _boundingBoxDebugRenderLayer);
 
-    {
-        JsonValue& jsonValue = assetCache.get<JsonValue>("Test/Player.entity");
+    _player = _scene.createEntity("Test/Player.entity");
+    _player->activate();
 
-        _player = _scene.createEntity();
-        _player->decodeFromJsonValue(jsonValue, assetCache);
-        _player->activate();
-    }
-
-    {
-        JsonValue& jsonValue = assetCache.get<JsonValue>("Test/Cube.entity");
-
-        _cube = _scene.createEntity();
-        _cube->decodeFromJsonValue(jsonValue, assetCache);
-
-        _cube->clone()->activate();
-    }
+    _cube = _scene.createEntity("Test/Cube.entity");
+    _cube->clone()->activate();
 
     Dispatcher<KeyboardEvent>& keyboardDispatcher = _input->keyboard().dispatcher();
     keyboardDispatcher.addListener(*this);

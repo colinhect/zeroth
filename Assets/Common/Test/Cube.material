@@ -14,7 +14,7 @@
                 ],
                 "textures" :
                 [
-                	"Test/Metal.texture"
+                	"Metal.texture"
                 ]
             }
         ]
