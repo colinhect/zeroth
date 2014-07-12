@@ -12,15 +12,15 @@
             "surfaces" :
             [
                {
-                  "mesh" : "Cube.mesh",
-                  "material" : "Cube.material"
+                  "mesh" : "Frigate.Hull.mesh",
+                  "material" : "Frigate.material"
                }
             ]
         },
         {
             "type" : "RigidBody",
             "mass" : 1.0,
-            "mesh" : "Cube.mesh"
+            "mesh" : "Frigate.Hull.mesh"
         }
     ],
     "children" :
@@ -41,8 +41,8 @@
                     "surfaces" :
                     [
                        {
-                          "mesh" : "Cube.mesh",
-                          "material" : "Cube.material"
+                          "mesh" : "Frigate.Hull.mesh",
+                          "material" : "Frigate.material"
                        }
                     ]
                 }

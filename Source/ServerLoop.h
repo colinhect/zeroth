@@ -52,7 +52,7 @@ private:
     Scene _scene;
 
     Entity::Iter _player;
-    Entity::Iter _cube;
+    Entity::Iter _frigate;
 
     RenderSystem _renderSystem;
     TransformSystem _transformSystem;
