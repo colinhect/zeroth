@@ -2,7 +2,8 @@
     "components" :
     [
         {
-            "type" : "Transform"
+            "type" : "Transform",
+            "position" : [ 0.0, 1.0, 3.0 ]
         },
         {
             "type" : "Camera",

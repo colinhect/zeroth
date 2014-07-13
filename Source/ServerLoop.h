@@ -52,7 +52,7 @@ private:
     Scene _scene;
 
     Entity::Iter _player;
-    Entity::Iter _frigate;
+    Entity::Iter _test;
 
     PhysicallyBasedRenderSystem _renderSystem;
     DebugRenderSystem _debugRenderSystem;

@@ -41,8 +41,8 @@ ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window&
     _player = _scene.createEntity("Test/Player.entity");
     _player->activate();
 
-    _frigate = _scene.createEntity("Test/Frigate.entity");
-    _frigate->clone()->activate();
+    _test = _scene.createEntity("Test/MaterialTest.entity");
+    _test->clone()->activate();
 
     Dispatcher<KeyboardEvent>& keyboardDispatcher = _input->keyboard().dispatcher();
     keyboardDispatcher.addListener(*this);
@@ -110,7 +110,7 @@ void ServerLoop::receiveEvent(const KeyboardEvent& event)
 
     if (event.key == Key_F)
     {
-        Entity::Iter cloneEntity = _frigate->clone();
+        Entity::Iter cloneEntity = _test->clone();
 
         cloneEntity->replaceComponent(*_player->component<Transform>());
 

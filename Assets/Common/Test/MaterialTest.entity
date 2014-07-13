@@ -1,0 +1,26 @@
+{
+    "components" :
+    [
+        {
+            "type" : "Transform"
+        },
+        {
+            "type" : "BoundingBox"
+        },
+        {
+            "type" : "Geometry",
+            "surfaces" :
+            [
+               {
+                  "mesh" : "MaterialTest.Base.mesh",
+                  "material" : "MaterialTest.material"
+               }
+            ]
+        },
+        {
+            "type" : "RigidBody",
+            "mass" : 1.0,
+            "mesh" : "MaterialTest.Base.mesh"
+        }
+    ]
+}

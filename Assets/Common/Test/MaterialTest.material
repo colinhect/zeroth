@@ -1,0 +1,22 @@
+{
+    "techniques" :
+    [
+        [
+            {
+                "shader" : "Hect/PhysicallyBased/Triplanar.shader",
+                "uniformValues" :
+                [
+                	{
+                		"name" : "textureScale",
+                		"type" : "Vector2",
+                		"value" : [ 1.0, 1.0 ]
+                	}
+                ],
+                "textures" :
+                [
+                	"Metal.texture"
+                ]
+            }
+        ]
+    ]
+}
