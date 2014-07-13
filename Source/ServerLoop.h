@@ -14,7 +14,7 @@
 #include <Hect/Event/Listener.h>
 #include <Hect/Graphics/Renderer.h>
 #include <Hect/Graphics/Window.h>
-#include <Hect/Graphics/Systems/RenderSystem.h>
+#include <Hect/Graphics/Systems/PhysicallyBasedRenderSystem.h>
 #include <Hect/IO/AssetCache.h>
 #include <Hect/Input/InputSystem.h>
 #include <Hect/Logic/Loop.h>
@@ -54,7 +54,7 @@ private:
     Entity::Iter _player;
     Entity::Iter _frigate;
 
-    RenderSystem _renderSystem;
+    PhysicallyBasedRenderSystem _renderSystem;
     DebugRenderSystem _debugRenderSystem;
     TransformSystem _transformSystem;
     BoundingBoxSystem _boundingBoxSystem;

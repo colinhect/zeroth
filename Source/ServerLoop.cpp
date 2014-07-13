@@ -8,6 +8,7 @@
 
 #include <Hect/Debug/TransformDebugRenderLayer.h>
 #include <Hect/Debug/BoundingBoxDebugRenderLayer.h>
+#include <Hect/Graphics/Components/DirectionalLight.h>
 #include <Hect/Graphics/Components/Geometry.h>
 #include <Hect/Physics/Components/RigidBody.h>
 #include <Hect/Spacial/Components/Transform.h>
@@ -19,7 +20,7 @@ ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window&
     _window(&window),
     _taskPool(4),
     _scene(assetCache),
-    _renderSystem(_scene, renderer),
+    _renderSystem(_scene, renderer, assetCache),
     _debugRenderSystem(_scene, renderer),
     _transformSystem(_scene),
     _boundingBoxSystem(_scene),
@@ -30,6 +31,12 @@ ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window&
 {
     _debugRenderSystem.addRenderLayer(Key_F5, _transformDebugRenderLayer);
     _debugRenderSystem.addRenderLayer(Key_F6, _boundingBoxDebugRenderLayer);
+
+    Entity::Iter sun = _scene.createEntity();
+    auto directionalLight = sun->addComponent(DirectionalLight());
+    directionalLight->setColor(Vector3(1.0, 1.0, 1.0));
+    directionalLight->setDirection(Vector3(1.0, 0.0, 0.0));
+    sun->activate();
 
     _player = _scene.createEntity("Test/Player.entity");
     _player->activate();

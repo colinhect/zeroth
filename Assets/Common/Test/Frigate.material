@@ -3,7 +3,7 @@
     [
         [
             {
-                "shader" : "Common/Triplanar.shader",
+                "shader" : "Hect/PhysicallyBased/Triplanar.shader",
                 "uniformValues" :
                 [
                 	{
