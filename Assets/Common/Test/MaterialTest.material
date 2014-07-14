@@ -9,7 +9,7 @@
                 	{
                 		"name" : "textureScale",
                 		"type" : "Vector2",
-                		"value" : [ 1.0, 1.0 ]
+                		"value" : [ 2.0, 2.0 ]
                 	}
                 ],
                 "textures" :

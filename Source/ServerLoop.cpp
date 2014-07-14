@@ -34,7 +34,7 @@ ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window&
 
     Entity::Iter sun = _scene.createEntity();
     auto directionalLight = sun->addComponent(DirectionalLight());
-    directionalLight->setColor(Vector3(1.0, 1.0, 1.0));
+    directionalLight->setColor(Vector3(0.5, 0.5, 0.5));
     directionalLight->setDirection(Vector3(1.0, -1.0, -1.0));
     sun->activate();
 

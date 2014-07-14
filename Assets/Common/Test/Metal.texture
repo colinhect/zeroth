@@ -1,4 +1,8 @@
 {
-	"image" : "Metal.png",
-	"wrapped" : true
+    "type" : "2D",
+    "wrapped" : true,
+    "images" : 
+    [
+        "Metal.png"
+    ]
 }
