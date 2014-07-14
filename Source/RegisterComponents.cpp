@@ -8,6 +8,7 @@
 #include <Hect/Graphics/Components/Camera.h>
 #include <Hect/Graphics/Components/DirectionalLight.h>
 #include <Hect/Graphics/Components/Geometry.h>
+#include <Hect/Graphics/Components/SkyBox.h>
 #include <Hect/Logic/Scene.h>
 #include <Hect/Physics/Components/RigidBody.h>
 #include <Hect/Spacial/Components/BoundingBox.h>
@@ -24,6 +25,7 @@ void registerComponents()
     Scene::registerComponent<Camera>("Camera");
     Scene::registerComponent<DirectionalLight>("DirectionalLight");
     Scene::registerComponent<Geometry>("Geometry");
+    Scene::registerComponent<SkyBox>("SkyBox");
     Scene::registerComponent<RigidBody>("RigidBody");
     Scene::registerComponent<Transform>("Transform");
     Scene::registerComponent<BoundingBox>("BoundingBox");

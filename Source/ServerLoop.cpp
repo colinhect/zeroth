@@ -10,6 +10,7 @@
 #include <Hect/Debug/BoundingBoxDebugRenderLayer.h>
 #include <Hect/Graphics/Components/DirectionalLight.h>
 #include <Hect/Graphics/Components/Geometry.h>
+#include <Hect/Graphics/Components/SkyBox.h>
 #include <Hect/Physics/Components/RigidBody.h>
 #include <Hect/Spacial/Components/Transform.h>
 

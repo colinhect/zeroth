@@ -6,15 +6,15 @@
                 "shader" : "Hect/PhysicallyBased/Triplanar.shader",
                 "uniformValues" :
                 [
-                	{
-                		"name" : "textureScale",
-                		"type" : "Vector2",
-                		"value" : [ 2.0, 2.0 ]
-                	}
+                    {
+                        "name" : "textureScale",
+                        "type" : "Vector2",
+                        "value" : [ 2.0, 2.0 ]
+                    }
                 ],
                 "textures" :
                 [
-                	"Metal.texture"
+                    "Metal.texture"
                 ]
             }
         ]
