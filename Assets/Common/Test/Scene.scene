@@ -2,15 +2,21 @@
     "entities" :
     [
         {
-            "archetype" : "Player.entity"
-        },
-        {
-            "archetype" : "Cube.entity",
             "components" :
             [
                 {
-                    "type" : "Transform",
-                    "position" : [ 0, 0, -10 ]
+                    "type" : "DirectionalLight",
+                    "color" : [ 7.5, 7.5, 7.5 ],
+                    "direction" : [ 1.0, -1.0, -1.0 ]
+                }
+            ]
+        },
+        {
+            "components" :
+            [
+                {
+                    "type" : "LightProbe",
+                    "texture" : "Test/TropicalSunnyDay.texture"
                 }
             ]
         }

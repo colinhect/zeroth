@@ -33,11 +33,10 @@ ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window&
     _debugRenderSystem.addRenderLayer(Key_F5, _transformDebugRenderLayer);
     _debugRenderSystem.addRenderLayer(Key_F6, _boundingBoxDebugRenderLayer);
 
-    Entity::Iter sun = _scene.createEntity();
-    auto directionalLight = sun->addComponent(DirectionalLight());
-    directionalLight->setColor(Vector3(0.5, 0.5, 0.5));
-    directionalLight->setDirection(Vector3(1.0, -1.0, -1.0));
-    sun->activate();
+    {
+        JsonValue& jsonValue = assetCache.get<JsonValue>("Test/Scene.scene");
+        _scene.decodeFromJsonValue(jsonValue, assetCache);
+    }
 
     _player = _scene.createEntity("Test/Player.entity");
     _player->activate();

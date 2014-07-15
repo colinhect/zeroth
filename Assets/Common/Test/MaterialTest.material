@@ -9,12 +9,14 @@
                     {
                         "name" : "textureScale",
                         "type" : "Vector2",
-                        "value" : [ 2.0, 2.0 ]
+                        "value" : [ 1.0, 1.0 ]
                     }
                 ],
                 "textures" :
                 [
-                    "Metal.texture"
+                    "Test_D.texture",
+                    "Test_M.texture",
+                    "Test_N.texture"
                 ]
             }
         ]

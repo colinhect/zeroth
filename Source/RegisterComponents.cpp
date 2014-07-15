@@ -4,10 +4,10 @@
 // Copyright (c) 2014 Colin Hill
 //
 ///////////////////////////////////////////////////////////////////////////////
-#include <Hect/Graphics/Components/AmbientLight.h>
 #include <Hect/Graphics/Components/Camera.h>
 #include <Hect/Graphics/Components/DirectionalLight.h>
 #include <Hect/Graphics/Components/Geometry.h>
+#include <Hect/Graphics/Components/LightProbe.h>
 #include <Hect/Graphics/Components/SkyBox.h>
 #include <Hect/Logic/Scene.h>
 #include <Hect/Physics/Components/RigidBody.h>
@@ -21,10 +21,10 @@ using namespace hect;
 void registerComponents()
 {
     // Hect components
-    Scene::registerComponent<AmbientLight>("AmbientLight");
     Scene::registerComponent<Camera>("Camera");
     Scene::registerComponent<DirectionalLight>("DirectionalLight");
     Scene::registerComponent<Geometry>("Geometry");
+    Scene::registerComponent<LightProbe>("LightProbe");
     Scene::registerComponent<SkyBox>("SkyBox");
     Scene::registerComponent<RigidBody>("RigidBody");
     Scene::registerComponent<Transform>("Transform");
