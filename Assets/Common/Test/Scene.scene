@@ -6,7 +6,7 @@
             [
                 {
                     "type" : "DirectionalLight",
-                    "color" : [ 7.5, 7.5, 7.5 ],
+                    "color" : [ 2.5, 2.5, 2.5 ],
                     "direction" : [ 1.0, -1.0, -1.0 ]
                 }
             ]

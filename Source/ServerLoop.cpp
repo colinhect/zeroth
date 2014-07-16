@@ -42,7 +42,40 @@ ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window&
     _player->activate();
 
     _test = _scene.createEntity("Test/MaterialTest.entity");
-    _test->clone()->activate();
+    //_test->clone()->activate();
+
+    for (float x = 0; x < 5; ++x)
+    {
+        for (float z = 0; z < 5; ++z)
+        {
+            Entity::Iter entity = _scene.createEntity("Test/MaterialTest.entity");
+            entity->component<Transform>()->translate(Vector3(x, 0, z) * 6);
+
+            auto geometry = entity->component<Geometry>();
+
+            PassUniformValue::Array uniformValues;
+            uniformValues.push_back(PassUniformValue("diffuse", Vector3(0.5, 0.5, 0.5)));
+            uniformValues.push_back(PassUniformValue("roughness", x / 4));
+            uniformValues.push_back(PassUniformValue("metallic", z / 4));
+
+            Pass pass;
+            pass.setShader(assetCache.getHandle<Shader>("Hect/PhysicallyBased/Solid.shader"));
+            pass.setUniformValues(uniformValues);
+           
+            Technique technique;
+            technique.passes().push_back(pass);
+
+            Technique::Array techniques;
+            techniques.push_back(technique);
+
+            AssetHandle<Material> material(new Material());
+            material->setTechniques(techniques);            
+            
+            geometry->surfaces()[0].material() = material;
+
+            entity->activate();
+        }
+    }
 
     Dispatcher<KeyboardEvent>& keyboardDispatcher = _input->keyboard().dispatcher();
     keyboardDispatcher.addListener(*this);
