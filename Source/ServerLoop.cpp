@@ -52,24 +52,18 @@ ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window&
             entity->component<Transform>()->translate(Vector3(x, 0, z) * 6);
 
             auto geometry = entity->component<Geometry>();
-
-            PassUniformValue::Array uniformValues;
-            uniformValues.push_back(PassUniformValue("diffuse", Vector3(0.5, 0.5, 0.5)));
-            uniformValues.push_back(PassUniformValue("roughness", x / 4));
-            uniformValues.push_back(PassUniformValue("metallic", z / 4));
-
+            
             Pass pass;
             pass.setShader(assetCache.getHandle<Shader>("Hect/PhysicallyBased/Solid.shader"));
-            pass.setUniformValues(uniformValues);
+            pass.addUniformValue("diffuse", Vector3(0.5, 0.5, 0.5));
+            pass.addUniformValue("roughness", x / 4);
+            pass.addUniformValue("metallic", z / 4);
            
             Technique technique;
             technique.addPass(pass);
 
-            Technique::Array techniques;
-            techniques.push_back(technique);
-
             AssetHandle<Material> material(new Material());
-            material->setTechniques(techniques);            
+            material->addTechnique(technique);      
             
             geometry->surfaces()[0].material() = material;
 
