@@ -4,6 +4,7 @@
 // Copyright (c) 2014 Colin Hill
 //
 ///////////////////////////////////////////////////////////////////////////////
+#include <Hect/Core/CollectionAccessor.h>
 #include <Hect/Core/Configuration.h>
 #include <Hect/Graphics/Renderer.h>
 #include <Hect/Graphics/Window.h>
@@ -21,6 +22,13 @@ using namespace hect;
 #include <vld.h>
 #endif
 #endif
+
+CollectionAccessor<int> testing()
+{
+    static std::vector<int> ints;
+    ints.push_back(12);
+    return ints;
+}
 
 int main(int argc, const char* argv[])
 {

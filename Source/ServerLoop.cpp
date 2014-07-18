@@ -63,7 +63,7 @@ ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window&
             pass.setUniformValues(uniformValues);
            
             Technique technique;
-            technique.passes().push_back(pass);
+            technique.addPass(pass);
 
             Technique::Array techniques;
             techniques.push_back(technique);
