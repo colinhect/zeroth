@@ -4,31 +4,22 @@
 // Copyright (c) 2014 Colin Hill
 //
 ///////////////////////////////////////////////////////////////////////////////
-#include <Hect/Core/CollectionAccessor.h>
 #include <Hect/Core/Configuration.h>
 #include <Hect/Graphics/Renderer.h>
 #include <Hect/Graphics/Window.h>
 #include <Hect/IO/JsonValue.h>
 #include <Hect/IO/FileSystem.h>
 
-#include "RegisterComponents.h"
 #include "AssetRefreshLoop.h"
 #include "ServerLoop.h"
 
 using namespace hect;
 
-#ifdef HECT_WINDOWS
+#ifdef HECT_WINDOWS_BUILD
 #ifdef HECT_DEBUG_BUILD
 #include <vld.h>
 #endif
 #endif
-
-CollectionAccessor<int> testing()
-{
-    static std::vector<int> ints;
-    ints.push_back(12);
-    return ints;
-}
 
 int main(int argc, const char* argv[])
 {
@@ -37,8 +28,6 @@ int main(int argc, const char* argv[])
 
     try
     {
-        registerComponents();
-
         // Create file system
         FileSystem fileSystem;
 
@@ -70,19 +59,19 @@ int main(int argc, const char* argv[])
         Window window("Sample", videoMode);
         Renderer renderer(window);
 
+        // Create the input system
+        InputSystem inputSystem;
+
         // Load the input axes from the settings
-        InputAxis::Array axes;
         for (const JsonValue& axisValue : settings["inputAxes"])
         {
             InputAxis axis;
             axis.decodeFromJsonValue(axisValue);
-            axes.push_back(axis);
+            inputSystem.addAxis(axis);
         }
 
-        // Create the input system
-        InputSystem inputSystem(axes);
-
-        AssetCache assetCache(fileSystem);
+        size_t threadCount = settings["assetCache"]["threadCount"].or(8).asUnsigned();
+        AssetCache assetCache(fileSystem, threadCount);
 
         AssetRefreshLoop assetRefreshLoop(assetCache);
         ServerLoop loop(assetCache, inputSystem, window, renderer);

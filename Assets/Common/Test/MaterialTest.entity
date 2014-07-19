@@ -8,7 +8,7 @@
             "type" : "BoundingBox"
         },
         {
-            "type" : "Geometry",
+            "type" : "Model",
             "surfaces" :
             [
                {

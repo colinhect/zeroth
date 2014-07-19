@@ -9,10 +9,12 @@
 #include <Hect/Debug/TransformDebugRenderLayer.h>
 #include <Hect/Debug/BoundingBoxDebugRenderLayer.h>
 #include <Hect/Graphics/Components/DirectionalLight.h>
-#include <Hect/Graphics/Components/Geometry.h>
+#include <Hect/Graphics/Components/Model.h>
 #include <Hect/Graphics/Components/SkyBox.h>
 #include <Hect/Physics/Components/RigidBody.h>
 #include <Hect/Spacial/Components/Transform.h>
+
+#include "RegisterComponents.h"
 
 ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer) :
     Loop(TimeSpan::fromSeconds((Real)1 / (Real)60)),
@@ -20,7 +22,7 @@ ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window&
     _input(&inputSystem),
     _window(&window),
     _taskPool(4),
-    _scene(assetCache),
+    _scene(assetCache, registerComponents),
     _renderSystem(_scene, renderer, assetCache),
     _debugRenderSystem(_scene, renderer),
     _transformSystem(_scene),
@@ -42,7 +44,6 @@ ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window&
     _player->activate();
 
     _test = _scene.createEntity("Test/MaterialTest.entity");
-    //_test->clone()->activate();
 
     for (float x = 0; x < 5; ++x)
     {
@@ -51,7 +52,7 @@ ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window&
             Entity::Iter entity = _scene.createEntity("Test/MaterialTest.entity");
             entity->component<Transform>()->translate(Vector3(x, 0, z) * 6);
 
-            auto geometry = entity->component<Geometry>();
+            auto model = entity->component<Model>();
             
             Pass pass;
             pass.setShader(assetCache.getHandle<Shader>("Hect/PhysicallyBased/Solid.shader"));
@@ -65,7 +66,7 @@ ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window&
             AssetHandle<Material> material(new Material());
             material->addTechnique(technique);      
             
-            geometry->surfaces()[0].material() = material;
+            model->surfaces().begin()->material() = material;
 
             entity->activate();
         }

@@ -6,8 +6,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/Graphics/Components/Camera.h>
 #include <Hect/Graphics/Components/DirectionalLight.h>
-#include <Hect/Graphics/Components/Geometry.h>
 #include <Hect/Graphics/Components/LightProbe.h>
+#include <Hect/Graphics/Components/Model.h>
 #include <Hect/Graphics/Components/SkyBox.h>
 #include <Hect/Logic/Scene.h>
 #include <Hect/Physics/Components/RigidBody.h>
@@ -18,18 +18,18 @@
 
 using namespace hect;
 
-void registerComponents()
+void registerComponents(Scene& scene)
 {
     // Hect components
-    Scene::registerComponent<Camera>("Camera");
-    Scene::registerComponent<DirectionalLight>("DirectionalLight");
-    Scene::registerComponent<Geometry>("Geometry");
-    Scene::registerComponent<LightProbe>("LightProbe");
-    Scene::registerComponent<SkyBox>("SkyBox");
-    Scene::registerComponent<RigidBody>("RigidBody");
-    Scene::registerComponent<Transform>("Transform");
-    Scene::registerComponent<BoundingBox>("BoundingBox");
+    scene.registerComponent<Camera>("Camera");
+    scene.registerComponent<DirectionalLight>("DirectionalLight");
+    scene.registerComponent<LightProbe>("LightProbe");
+    scene.registerComponent<Model>("Model");
+    scene.registerComponent<SkyBox>("SkyBox");
+    scene.registerComponent<RigidBody>("RigidBody");
+    scene.registerComponent<Transform>("Transform");
+    scene.registerComponent<BoundingBox>("BoundingBox");
 
     // Zeroth components
-    Scene::registerComponent<PlayerCamera>("PlayerCamera");
+    scene.registerComponent<PlayerCamera>("PlayerCamera");
 }

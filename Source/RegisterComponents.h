@@ -5,4 +5,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-void registerComponents();
+#include <Hect/Logic/Scene.h>
+
+using namespace hect;
+
+void registerComponents(Scene& scene);
