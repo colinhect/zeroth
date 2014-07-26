@@ -11,10 +11,10 @@
         "hect/Assets",
         "zeroth/Assets/Common"
     ],
-	"assetCache" :
-	{
-		"threadCount" : 16
-	},
+    "assetCache" :
+    {
+        "threadCount" : 16
+    },
     "inputAxes" :
     [
         {

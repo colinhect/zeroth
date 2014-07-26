@@ -9,9 +9,12 @@
 #include <Hect/Graphics/Window.h>
 #include <Hect/IO/JsonValue.h>
 #include <Hect/IO/FileSystem.h>
+#include <Hect/Reflection/Type.h>
 
 #include "AssetRefreshLoop.h"
 #include "ServerLoop.h"
+
+class HectTypes;
 
 using namespace hect;
 
@@ -28,8 +31,12 @@ int main(int argc, const char* argv[])
 
     try
     {
+        Type::registerTypes<HectTypes>();
+        
         // Create file system
         FileSystem fileSystem;
+
+        std::cout << Type::of(fileSystem).name() << std::endl;
 
         // Add the working directory as a data source
         Path workingDirectory = fileSystem.workingDirectory();
