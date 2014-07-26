@@ -36,8 +36,6 @@ int main(int argc, const char* argv[])
         // Create file system
         FileSystem fileSystem;
 
-        std::cout << Type::of(fileSystem).name() << std::endl;
-
         // Add the working directory as a data source
         Path workingDirectory = fileSystem.workingDirectory();
         fileSystem.addDataSource(workingDirectory);
