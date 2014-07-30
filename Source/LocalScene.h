@@ -24,33 +24,31 @@
 #include <Hect/Spacial/Systems/TransformSystem.h>
 #include <Hect/Spacial/Systems/BoundingBoxSystem.h>
 
-#include "LocalScene.h"
+#include "Components/PlayerCamera.h"
+#include "Systems/PlayerCameraSystem.h"
 
 using namespace hect;
 
-class ServerLoop :
-    public Loop,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+class LocalScene :
+    public Scene
 {
 public:
-    ServerLoop(Engine& engine);
-    ~ServerLoop();
+    LocalScene(Engine& engine);
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
-
-    void receiveEvent(const KeyboardEvent& event);
+    void update(Real timeStep);
+    void render(Real delta, RenderTarget& target);
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
     TaskPool _taskPool;
 
-    LocalScene _scene;
+    PhysicallyBasedRenderSystem _renderSystem;
+    DebugRenderSystem _debugRenderSystem;
+    TransformSystem _transformSystem;
+    BoundingBoxSystem _boundingBoxSystem;
+    PhysicsSystem _physicsSystem;
 
-    Entity::Iter _player;
-    Entity::Iter _test;
+    PlayerCameraSystem _playerCameraSystem;
+
+    TransformDebugRenderLayer _transformDebugRenderLayer;
+    BoundingBoxDebugRenderLayer _boundingBoxDebugRenderLayer;
 };

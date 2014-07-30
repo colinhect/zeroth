@@ -203,6 +203,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\AssetRefreshLoop.cpp" />
+    <ClCompile Include="Source\LocalScene.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\RegisterComponents.cpp" />
     <ClCompile Include="Source\ServerLoop.cpp" />
@@ -211,6 +212,7 @@
   <ItemGroup>
     <ClInclude Include="Source\AssetRefreshLoop.h" />
     <ClInclude Include="Source\Components\PlayerCamera.h" />
+    <ClInclude Include="Source\LocalScene.h" />
     <ClInclude Include="Source\RegisterComponents.h" />
     <ClInclude Include="Source\ServerLoop.h" />
     <ClInclude Include="Source\Systems\PlayerCameraSystem.h" />

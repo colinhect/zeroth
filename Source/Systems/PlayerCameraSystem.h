@@ -6,6 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <Hect/Event/Listener.h>
 #include <Hect/Input/InputSystem.h>
 #include <Hect/Logic/Scene.h>
 #include <Hect/Logic/System.h>
@@ -15,16 +16,18 @@
 using namespace hect;
 
 class PlayerCameraSystem :
-    public System
+    public System,
+    public Listener<KeyboardEvent>
 {
 public:
-    PlayerCameraSystem(Scene& scene, InputSystem& inputSystem);
+    PlayerCameraSystem(Scene& scene);
+    ~PlayerCameraSystem();
 
     void update(Real timeStep);
 
-private:
-    Mouse* _mouse;
+    void receiveEvent(const KeyboardEvent& event);
 
+private:
     const InputAxis* _viewX;
     const InputAxis* _viewY;
 
