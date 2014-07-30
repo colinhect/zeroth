@@ -7,6 +7,7 @@
 #pragma once
 
 #include <Hect/Concurrency/TaskPool.h>
+#include <Hect/Core/Engine.h>
 #include <Hect/Core/Uncopyable.h>
 #include <Hect/Debug/BoundingBoxDebugRenderLayer.h>
 #include <Hect/Debug/TransformDebugRenderLayer.h>
@@ -34,7 +35,7 @@ class ServerLoop :
     public Uncopyable
 {
 public:
-    ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
+    ServerLoop(Engine& engine);
     ~ServerLoop();
 
     void fixedUpdate(Real timeStep);

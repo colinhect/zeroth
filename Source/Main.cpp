@@ -5,18 +5,10 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/Core/Configuration.h>
-#include <Hect/Graphics/Renderer.h>
-#include <Hect/Graphics/Window.h>
-#include <Hect/IO/JsonValue.h>
-#include <Hect/IO/FileSystem.h>
-#include <Hect/Reflection/Type.h>
+#include <Hect/Core/Engine.h>
 
 #include "AssetRefreshLoop.h"
 #include "ServerLoop.h"
-
-class HectTypes;
-
-using namespace hect;
 
 #ifdef HECT_WINDOWS_BUILD
 #ifdef HECT_DEBUG_BUILD
@@ -31,60 +23,13 @@ int main(int argc, const char* argv[])
 
     try
     {
-        Type::registerTypes<HectTypes>();
+        hect::Engine engine("Zeroth", "zeroth/Settings.json");
         
-        // Create file system
-        FileSystem fileSystem;
-
-        std::cout << Type::of(fileSystem).name() << std::endl;
-
-        // Add the working directory as a data source
-        Path workingDirectory = fileSystem.workingDirectory();
-        fileSystem.addDataSource(workingDirectory);
-
-        // Set the working directory as the write directory
-        fileSystem.setWriteDirectory(workingDirectory);
-
-        // Load the settings
-        JsonValue settings;
-        {
-            FileReadStream stream = fileSystem.openFileForRead("zeroth/Settings.json");
-            settings.decodeFromJson(stream);
-        }
-
-        // Add the data sources listed in the settings
-        for (const JsonValue& dataSource : settings["dataSources"])
-        {
-            fileSystem.addDataSource(dataSource.asString());
-        }
-
-        // Load video mode
-        VideoMode videoMode;
-        videoMode.decodeFromJsonValue(settings["videoMode"]);
-
-        // Create window/renderer
-        Window window("Sample", videoMode);
-        Renderer renderer(window);
-
-        // Create the input system
-        InputSystem inputSystem;
-
-        // Load the input axes from the settings
-        for (const JsonValue& axisValue : settings["inputAxes"])
-        {
-            InputAxis axis;
-            axis.decodeFromJsonValue(axisValue);
-            inputSystem.addAxis(axis);
-        }
-
-        size_t threadCount = settings["assetCache"]["threadCount"].or(8).asUnsigned();
-        AssetCache assetCache(fileSystem, threadCount);
-
-        AssetRefreshLoop assetRefreshLoop(assetCache);
-        ServerLoop loop(assetCache, inputSystem, window, renderer);
+        AssetRefreshLoop assetRefreshLoop(engine.assetCache());
+        ServerLoop loop(engine);
 
         // Update until the flow is complete
-        while (window.pollEvents(inputSystem))
+        while (engine.window().pollEvents(engine.inputSystem()))
         {
             assetRefreshLoop.tick();
             if (!loop.tick())

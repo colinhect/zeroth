@@ -16,28 +16,28 @@
 
 #include "RegisterComponents.h"
 
-ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer) :
+ServerLoop::ServerLoop(Engine& engine) :
     Loop(TimeSpan::fromSeconds((Real)1 / (Real)60)),
-    _assetCache(&assetCache),
-    _input(&inputSystem),
-    _window(&window),
+    _assetCache(&engine.assetCache()),
+    _input(&engine.inputSystem()),
+    _window(&engine.window()),
     _taskPool(4),
-    _scene(assetCache, registerComponents),
-    _renderSystem(_scene, renderer, assetCache),
-    _debugRenderSystem(_scene, renderer),
+    _scene(engine.assetCache(), registerComponents),
+    _renderSystem(_scene, engine.renderer(), engine.assetCache()),
+    _debugRenderSystem(_scene, engine.renderer()),
     _transformSystem(_scene),
     _boundingBoxSystem(_scene),
     _physicsSystem(_scene, _taskPool),
-    _playerCameraSystem(_scene, inputSystem),
-    _transformDebugRenderLayer(assetCache),
-    _boundingBoxDebugRenderLayer(assetCache)
+    _playerCameraSystem(_scene, engine.inputSystem()),
+    _transformDebugRenderLayer(engine.assetCache()),
+    _boundingBoxDebugRenderLayer(engine.assetCache())
 {
     _debugRenderSystem.addRenderLayer(Key_F5, _transformDebugRenderLayer);
     _debugRenderSystem.addRenderLayer(Key_F6, _boundingBoxDebugRenderLayer);
 
     {
-        JsonValue& jsonValue = assetCache.get<JsonValue>("Test/Scene.scene");
-        _scene.decodeFromJsonValue(jsonValue, assetCache);
+        JsonValue& jsonValue = _assetCache->get<JsonValue>("Test/Scene.scene");
+        _scene.decodeFromJsonValue(jsonValue, *_assetCache);
     }
 
     _player = _scene.createEntity("Test/Player.entity");
@@ -55,7 +55,7 @@ ServerLoop::ServerLoop(AssetCache& assetCache, InputSystem& inputSystem, Window&
             auto model = entity->component<Model>();
             
             Pass pass;
-            pass.setShader(assetCache.getHandle<Shader>("Hect/PhysicallyBased/Solid.shader"));
+            pass.setShader(_assetCache->getHandle<Shader>("Hect/PhysicallyBased/Solid.shader"));
             pass.addUniformValue("diffuse", Vector3(0.5, 0.5, 0.5));
             pass.addUniformValue("roughness", x / 4);
             pass.addUniformValue("metallic", z / 4);
