@@ -52,7 +52,7 @@ void OrbitScene::update(Real timeStep)
     system<TransformSystem>().update();
     system<BoundingBoxSystem>().update();
 
-    _physicsUpdateTask = _taskPool.enqueue([=]()
+    _physicsUpdateTask = _taskPool.enqueue([this, timeStep]
         {
             system<PhysicsSystem>().simulate(timeStep, 4);
         }

@@ -1,8 +1,8 @@
 {
     "videoMode" :
     {
-        "width" : 800,
-        "height" : 600,
+        "width" : 1440,
+        "height" : 900,
         "bitsPerPixel" : 32,
         "fullscreen" : false
     },
@@ -11,10 +11,6 @@
         "hect/Assets",
         "zeroth/Assets/Common"
     ],
-    "assetCache" :
-    {
-        "threadCount" : 16
-    },
     "inputAxes" :
     [
         {
