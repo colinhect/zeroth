@@ -22,15 +22,12 @@ ServerLoop::ServerLoop(Engine& engine) :
     _taskPool(4),
     _scene(engine.inputSystem(), engine.assetCache(), engine.renderer())
 {
-    {
-        JsonValue& jsonValue = _assetCache->get<JsonValue>("Test/Scene.scene");
-        _scene.decodeFromJsonValue(jsonValue, *_assetCache);
-    }
-
-    _player = _scene.createEntity("Test/Player.entity", engine.assetCache());
-    _player->activate();
-
     _test = _scene.createEntity("Test/MaterialTest.entity", engine.assetCache());
+
+    _assetCache->pushPreferredDirectory("Test");
+    JsonValue& jsonValue = _assetCache->get<JsonValue>("Test/Scene.scene");
+    _scene.decodeFromJsonValue(jsonValue, *_assetCache);
+    _assetCache->popPreferredDirectory();
 
     for (float x = 0; x < 5; ++x)
     {
@@ -59,9 +56,10 @@ ServerLoop::ServerLoop(Engine& engine) :
         }
     }
 
+    _player = _scene.entities().findFirst([](const Entity& entity) { return entity.component<PlayerCamera>(); });
+
     Dispatcher<KeyboardEvent>& keyboardDispatcher = _input->keyboard().dispatcher();
     keyboardDispatcher.addListener(*this);
-   
 }
 
 ServerLoop::~ServerLoop()

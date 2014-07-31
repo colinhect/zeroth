@@ -2,6 +2,9 @@
     "entities" :
     [
         {
+            "archetype" : "Test/Player.entity"
+        },
+        {
             "components" :
             [
                 {
