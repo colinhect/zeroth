@@ -9,7 +9,7 @@
     "dataSources" :
     [
         "hect/Assets",
-        "zeroth/Assets/Common"
+        "zeroth/Assets"
     ],
     "inputAxes" :
     [
