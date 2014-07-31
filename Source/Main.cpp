@@ -28,7 +28,6 @@ int main(int argc, const char* argv[])
         AssetRefreshLoop assetRefreshLoop(engine.assetCache());
         ServerLoop loop(engine);
 
-        // Update until the flow is complete
         while (engine.window().pollEvents(engine.inputSystem()))
         {
             assetRefreshLoop.tick();

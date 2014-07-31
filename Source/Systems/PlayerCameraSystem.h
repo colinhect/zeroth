@@ -20,7 +20,7 @@ class PlayerCameraSystem :
     public Listener<KeyboardEvent>
 {
 public:
-    PlayerCameraSystem(Scene& scene);
+    PlayerCameraSystem(Scene& scene, InputSystem& inputSystem);
     ~PlayerCameraSystem();
 
     void update(Real timeStep);
@@ -28,6 +28,8 @@ public:
     void receiveEvent(const KeyboardEvent& event);
 
 private:
+    InputSystem* _inputSystem;
+
     const InputAxis* _viewX;
     const InputAxis* _viewY;
 

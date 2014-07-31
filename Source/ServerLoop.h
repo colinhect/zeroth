@@ -24,7 +24,7 @@
 #include <Hect/Spacial/Systems/TransformSystem.h>
 #include <Hect/Spacial/Systems/BoundingBoxSystem.h>
 
-#include "LocalScene.h"
+#include "OrbitScene.h"
 
 using namespace hect;
 
@@ -49,7 +49,7 @@ private:
 
     TaskPool _taskPool;
 
-    LocalScene _scene;
+    OrbitScene _scene;
 
     Entity::Iter _player;
     Entity::Iter _test;

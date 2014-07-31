@@ -9,25 +9,25 @@
 #include <Hect/Graphics/Components/Camera.h>
 #include <Hect/Spacial/Components/Transform.h>
 
-PlayerCameraSystem::PlayerCameraSystem(Scene& scene) :
+PlayerCameraSystem::PlayerCameraSystem(Scene& scene, InputSystem& inputSystem) :
     System(scene),
-    _viewX(&scene.inputSystem().axisWithName("viewX")),
-    _viewY(&scene.inputSystem().axisWithName("viewY")),
-    _moveX(&scene.inputSystem().axisWithName("moveX")),
-    _moveY(&scene.inputSystem().axisWithName("moveY")),
-    _roll(&scene.inputSystem().axisWithName("roll")),
+    _inputSystem(&inputSystem),
+    _viewX(&inputSystem.axisWithName("viewX")),
+    _viewY(&inputSystem.axisWithName("viewY")),
+    _moveX(&inputSystem.axisWithName("moveX")),
+    _moveY(&inputSystem.axisWithName("moveY")),
+    _roll(&inputSystem.axisWithName("roll")),
     _speed(16)
 {
-    Mouse& mouse = scene.inputSystem().mouse();
-    mouse.setMode(MouseMode_Relative);
+    _inputSystem->mouse().setMode(MouseMode_Relative);
 
-    Keyboard& keyboard = scene.inputSystem().keyboard();
+    Keyboard& keyboard = _inputSystem->keyboard();
     keyboard.dispatcher().addListener(*this);
 }
 
 PlayerCameraSystem::~PlayerCameraSystem()
 {
-    Keyboard& keyboard = scene().inputSystem().keyboard();
+    Keyboard& keyboard = _inputSystem->keyboard();
     keyboard.dispatcher().removeListener(*this);
 }
 
@@ -51,8 +51,7 @@ void PlayerCameraSystem::update(Real timeStep)
                 Real rollSpeed = timeStep * 2;
                 Real moveSpeed = timeStep * _speed;
 
-                Mouse& mouse = scene().inputSystem().mouse();
-                if (mouse.mode() == MouseMode_Relative)
+                if (_inputSystem->mouse().mode() == MouseMode_Relative)
                 {
                     transform->rotate(up, _viewX->value() * rotateSpeed);
                     transform->rotate(right, _viewY->value() * -rotateSpeed);
@@ -75,7 +74,7 @@ void PlayerCameraSystem::receiveEvent(const KeyboardEvent& event)
 
     if (event.key == Key_Tab)
     {
-        Mouse& mouse = scene().inputSystem().mouse();
+        Mouse& mouse = _inputSystem->mouse();
         if (mouse.mode() == MouseMode_Cursor)
         {
             mouse.setMode(MouseMode_Relative);

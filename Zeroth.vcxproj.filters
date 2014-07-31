@@ -21,13 +21,10 @@
     <ClCompile Include="Source\ServerLoop.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RegisterComponents.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Source\AssetRefreshLoop.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\LocalScene.cpp">
+    <ClCompile Include="Source\OrbitScene.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,13 +38,10 @@
     <ClInclude Include="Source\ServerLoop.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RegisterComponents.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="Source\AssetRefreshLoop.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Source\LocalScene.h">
+    <ClInclude Include="Source\OrbitScene.h">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

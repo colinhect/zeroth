@@ -29,11 +29,11 @@
 
 using namespace hect;
 
-class LocalScene :
+class OrbitScene :
     public Scene
 {
 public:
-    LocalScene(Engine& engine);
+    OrbitScene(InputSystem& inputSystem, AssetCache& assetCache, Renderer& renderer);
 
     void update(Real timeStep);
     void render(Real delta, RenderTarget& target);
@@ -41,14 +41,5 @@ public:
 private:
     TaskPool _taskPool;
 
-    PhysicallyBasedRenderSystem _renderSystem;
-    DebugRenderSystem _debugRenderSystem;
-    TransformSystem _transformSystem;
-    BoundingBoxSystem _boundingBoxSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    TransformDebugRenderLayer _transformDebugRenderLayer;
-    BoundingBoxDebugRenderLayer _boundingBoxDebugRenderLayer;
+    Task::Handle _physicsUpdateTask;
 };

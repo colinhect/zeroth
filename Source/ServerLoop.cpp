@@ -14,15 +14,13 @@
 #include <Hect/Physics/Components/RigidBody.h>
 #include <Hect/Spacial/Components/Transform.h>
 
-#include "RegisterComponents.h"
-
 ServerLoop::ServerLoop(Engine& engine) :
     Loop(TimeSpan::fromSeconds((Real)1 / (Real)60)),
     _assetCache(&engine.assetCache()),
     _input(&engine.inputSystem()),
     _window(&engine.window()),
     _taskPool(4),
-    _scene(engine)
+    _scene(engine.inputSystem(), engine.assetCache(), engine.renderer())
 {
     {
         JsonValue& jsonValue = _assetCache->get<JsonValue>("Test/Scene.scene");
@@ -100,7 +98,7 @@ void ServerLoop::receiveEvent(const KeyboardEvent& event)
     {
         Entity::Iter cloneEntity = _test->clone();
 
-        cloneEntity->replaceComponent(*_player->component<Transform>());
+        cloneEntity->replaceComponent<Transform>(*_player->component<Transform>());
 
         auto rigidBody = cloneEntity->component<RigidBody>();
         if (rigidBody)
