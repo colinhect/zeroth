@@ -11,6 +11,7 @@ AssetRefreshLoop::AssetRefreshLoop(AssetCache& assetCache) :
     _assetCache(&assetCache)
 {
 }
+
 void AssetRefreshLoop::fixedUpdate(Real timeStep)
 {
     //_assetCache->refresh();

@@ -11,6 +11,7 @@
 #include <Hect/Graphics/Components/DirectionalLight.h>
 #include <Hect/Graphics/Components/Model.h>
 #include <Hect/Graphics/Components/SkyBox.h>
+#include <Hect/IO/Data.h>
 #include <Hect/Physics/Components/RigidBody.h>
 #include <Hect/Spacial/Components/Transform.h>
 
@@ -22,18 +23,21 @@ ServerLoop::ServerLoop(Engine& engine) :
     _taskPool(4),
     _scene(engine.inputSystem(), engine.assetCache(), engine.renderer())
 {
-    _test = _scene.createEntity("Test/MaterialTest.entity", engine.assetCache());
+    AssetHandle<Data> mineralTestEntityData = _assetCache->getHandle<Data>("Test/MaterialTest.entity");
 
-    _assetCache->pushPreferredDirectory("Test");
-    JsonValue& jsonValue = _assetCache->get<JsonValue>("Test/Scene.scene");
-    _scene.decodeFromJsonValue(jsonValue, *_assetCache);
-    _assetCache->popPreferredDirectory();
+    _test = _scene.createEntity()->createHandle();
+    _test->decodeFromData(*mineralTestEntityData, engine.assetCache());
+
+    AssetHandle<Data> sceneData = _assetCache->getHandle<Data>("Test/Scene.scene");
+    _scene.decodeFromData(*sceneData, *_assetCache);
 
     for (float x = 0; x < 5; ++x)
     {
         for (float z = 0; z < 5; ++z)
         {
-            Entity::Iter entity = _scene.createEntity("Test/MaterialTest.entity", engine.assetCache());
+            Data& entityData = _assetCache->get<Data>("Test/Scene.scene");
+
+            Entity::Iterator entity = _test->clone();
             entity->component<Transform>()->translate(Vector3(x, 0, z) * 6);
 
             auto model = entity->component<Model>();
@@ -56,7 +60,7 @@ ServerLoop::ServerLoop(Engine& engine) :
         }
     }
 
-    _player = _scene.entities().findFirst([](const Entity& entity) { return entity.component<PlayerCamera>(); });
+    _player = _scene.entities().findFirst([](const Entity& entity) { return entity.component<PlayerCamera>(); })->createHandle();
 
     Dispatcher<KeyboardEvent>& keyboardDispatcher = _input->keyboard().dispatcher();
     keyboardDispatcher.addListener(*this);
@@ -94,7 +98,7 @@ void ServerLoop::receiveEvent(const KeyboardEvent& event)
     
     if (event.key == Key_F)
     {
-        Entity::Iter cloneEntity = _test->clone();
+        Entity::Iterator cloneEntity = _test->clone();
 
         cloneEntity->replaceComponent<Transform>(*_player->component<Transform>());
 

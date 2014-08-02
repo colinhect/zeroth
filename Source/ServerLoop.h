@@ -51,6 +51,6 @@ private:
 
     OrbitScene _scene;
 
-    Entity::Iter _player;
-    Entity::Iter _test;
+    Entity::Handle _player;
+    Entity::Handle _test;
 };
