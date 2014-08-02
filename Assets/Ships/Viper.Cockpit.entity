@@ -1,0 +1,23 @@
+{
+    "components" :
+    [
+        {
+            "type" : "Transform",
+            "position" : [ 0.0, 1.6, 2.3 ],
+            "rotation" :
+            {
+                "axis" : [ 0.0, 1.0, 0.0 ],
+                "angle" : 180.0
+            }
+        },
+        {
+            "type" : "Camera",
+            "fieldOfView" : 80,
+            "nearClip" : 0.01,
+            "farClip" : 250000
+        },
+        {
+            "type" : "PlayerCamera"
+        }
+    ]
+}

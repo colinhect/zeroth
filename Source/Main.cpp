@@ -8,7 +8,7 @@
 #include <Hect/Core/Engine.h>
 
 #include "AssetRefreshLoop.h"
-#include "ServerLoop.h"
+#include "MainLoop.h"
 
 #ifdef HECT_WINDOWS_BUILD
 #ifdef HECT_DEBUG_BUILD
@@ -25,12 +25,10 @@ int main(int argc, const char* argv[])
     {
         hect::Engine engine("Zeroth", "zeroth/Settings.json");
         
-        AssetRefreshLoop assetRefreshLoop(engine.assetCache());
-        ServerLoop loop(engine);
+        MainLoop loop(engine);
 
         while (engine.window().pollEvents(engine.inputSystem()))
         {
-            assetRefreshLoop.tick();
             if (!loop.tick())
             {
                 break;

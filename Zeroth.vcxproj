@@ -203,16 +203,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\AssetRefreshLoop.cpp" />
+    <ClCompile Include="Source\MainLoop.cpp" />
     <ClCompile Include="Source\OrbitScene.cpp" />
     <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\ServerLoop.cpp" />
+    <ClCompile Include="Source\MaterialTestLoop.cpp" />
     <ClCompile Include="Source\Systems\PlayerCameraSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\AssetRefreshLoop.h" />
     <ClInclude Include="Source\Components\PlayerCamera.h" />
+    <ClInclude Include="Source\MainLoop.h" />
     <ClInclude Include="Source\OrbitScene.h" />
-    <ClInclude Include="Source\ServerLoop.h" />
+    <ClInclude Include="Source\MaterialTestLoop.h" />
     <ClInclude Include="Source\Systems\PlayerCameraSystem.h" />
   </ItemGroup>
   <ItemGroup>

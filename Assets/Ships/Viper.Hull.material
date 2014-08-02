@@ -1,0 +1,28 @@
+{
+    "techniques" :
+    [
+        [
+            {
+                "shader" : "Hect/PhysicallyBased/Solid.shader",
+                "uniformValues" :
+                [
+                    {
+                        "name" : "diffuse",
+                        "type" : "Vector3",
+                        "value" : [ 0.2, 0.2, 0.2 ]
+                    },
+                    {
+                        "name" : "roughness",
+                        "type" : "Float",
+                        "value" : 0.7
+                    },
+                    {
+                        "name" : "metallic",
+                        "type" : "Float",
+                        "value" : 1.0
+                    }
+                ]
+            }
+        ]
+    ]
+}

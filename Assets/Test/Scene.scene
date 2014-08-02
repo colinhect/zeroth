@@ -2,7 +2,13 @@
     "entities" :
     [
         {
-            "archetype" : "Test/Player.entity"
+            "archetype" : "Ships/Viper.entity",
+            "children" :
+            [
+                {
+                    "archetype" : "Ships/Viper.Cockpit.entity"
+                }
+            ]
         },
         {
             "components" :
@@ -11,15 +17,14 @@
                     "type" : "DirectionalLight",
                     "color" : [ 2.5, 2.5, 2.5 ],
                     "direction" : [ 1.0, -1.0, -1.0 ]
-                }
-            ]
-        },
-        {
-            "components" :
-            [
+                },
                 {
                     "type" : "LightProbe",
-                    "texture" : "Test/TropicalSunnyDay.texture"
+                    "texture" : "TropicalSunnyDay.texture"
+                },
+                {
+                    "type" : "SkyBox",
+                    "texture" : "TropicalSunnyDay.texture"
                 }
             ]
         }

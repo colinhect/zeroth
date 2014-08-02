@@ -1,0 +1,26 @@
+{
+    "components" :
+    [
+        {
+            "type" : "Transform"
+        },
+        {
+            "type" : "BoundingBox"
+        },
+        {
+            "type" : "Model",
+            "surfaces" :
+            [
+               {
+                  "mesh" : "Viper.Hull.mesh",
+                  "material" : "Viper.Hull.material"
+               }
+            ]
+        },
+        {
+            "type" : "RigidBody",
+            "mass" : 1.0,
+            "mesh" : "Viper.Hull.mesh"
+        }
+    ]
+}

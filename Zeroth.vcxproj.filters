@@ -18,13 +18,16 @@
     <ClCompile Include="Source\Systems\PlayerCameraSystem.cpp">
       <Filter>Source\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ServerLoop.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Source\AssetRefreshLoop.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\OrbitScene.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MaterialTestLoop.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainLoop.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,13 +38,16 @@
     <ClInclude Include="Source\Systems\PlayerCameraSystem.h">
       <Filter>Source\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ServerLoop.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="Source\AssetRefreshLoop.h">
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\OrbitScene.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MaterialTestLoop.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MainLoop.h">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
