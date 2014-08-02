@@ -74,14 +74,17 @@ void PlayerCameraSystem::receiveEvent(const KeyboardEvent& event)
 
     if (event.key == Key_Tab)
     {
-        Mouse& mouse = _inputSystem->mouse();
-        if (mouse.mode() == MouseMode_Cursor)
+        if (scene().components<PlayerCamera>().begin())
         {
-            mouse.setMode(MouseMode_Relative);
-        }
-        else
-        {
-            mouse.setMode(MouseMode_Cursor);
+            Mouse& mouse = _inputSystem->mouse();
+            if (mouse.mode() == MouseMode_Cursor)
+            {
+                mouse.setMode(MouseMode_Relative);
+            }
+            else
+            {
+                mouse.setMode(MouseMode_Cursor);
+            }
         }
     }
 }

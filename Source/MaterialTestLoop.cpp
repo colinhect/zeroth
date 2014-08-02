@@ -15,6 +15,8 @@
 #include <Hect/Physics/Components/RigidBody.h>
 #include <Hect/Spacial/Components/Transform.h>
 
+#include "Components/PlayerCamera.h"
+
 MaterialTestLoop::MaterialTestLoop(Engine& engine) :
     Loop(TimeSpan::fromSeconds((Real)1 / (Real)60)),
     _assetCache(&engine.assetCache()),

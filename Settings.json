@@ -28,13 +28,29 @@
         {
             "name" : "moveX",
             "source" : "Key",
-            "positiveKey" : "D",
-            "negativeKey" : "A",
+            "positiveKey" : "T",
+            "negativeKey" : "G",
             "acceleration" : 4,
             "gravity" : 10
         },
         {
             "name" : "moveY",
+            "source" : "Key",
+            "positiveKey" : "R",
+            "negativeKey" : "F",
+            "acceleration" : 4,
+            "gravity" : 10
+        },
+        {
+            "name" : "yaw",
+            "source" : "Key",
+            "positiveKey" : "A",
+            "negativeKey" : "D",
+            "acceleration" : 4,
+            "gravity" : 10
+        },
+        {
+            "name" : "pitch",
             "source" : "Key",
             "positiveKey" : "W",
             "negativeKey" : "S",
@@ -46,6 +62,14 @@
             "source" : "Key",
             "positiveKey" : "E",
             "negativeKey" : "Q",
+            "acceleration" : 4,
+            "gravity" : 10
+        },
+        {
+            "name" : "thrust",
+            "source" : "Key",
+            "positiveKey" : "X",
+            "negativeKey" : "Z",
             "acceleration" : 4,
             "gravity" : 10
         }

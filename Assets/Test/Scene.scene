@@ -3,10 +3,30 @@
     [
         {
             "archetype" : "Ships/Viper.entity",
+            "components" :
+            [
+                {
+                    "type" : "PlayerShipControl"
+                },
+                {
+                    "type" : "Transform",
+                    "position" : [ 0.0, 0.0, 10.0 ]
+                }
+            ],
             "children" :
             [
                 {
                     "archetype" : "Ships/Viper.Cockpit.entity"
+                }
+            ]
+        },
+        {
+            "archetype" : "Ships/Viper.entity",
+            "components" :
+            [
+                {
+                    "type" : "Transform",
+                    "position" : [ 0.0, 0.0, 100.0 ]
                 }
             ]
         },

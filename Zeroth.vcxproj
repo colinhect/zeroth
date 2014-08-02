@@ -203,19 +203,31 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\AssetRefreshLoop.cpp" />
+    <ClCompile Include="Source\Components\Ship.cpp" />
+    <ClCompile Include="Source\Components\Thruster.cpp" />
     <ClCompile Include="Source\MainLoop.cpp" />
     <ClCompile Include="Source\OrbitScene.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\MaterialTestLoop.cpp" />
+    <ClCompile Include="Source\Systems\CockpitCameraSystem.cpp" />
     <ClCompile Include="Source\Systems\PlayerCameraSystem.cpp" />
+    <ClCompile Include="Source\Systems\PlayerShipControlSystem.cpp" />
+    <ClCompile Include="Source\Systems\ShipControlSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\AssetRefreshLoop.h" />
+    <ClInclude Include="Source\Components\CockpitCamera.h" />
     <ClInclude Include="Source\Components\PlayerCamera.h" />
+    <ClInclude Include="Source\Components\PlayerShipControl.h" />
+    <ClInclude Include="Source\Components\Ship.h" />
+    <ClInclude Include="Source\Components\Thruster.h" />
     <ClInclude Include="Source\MainLoop.h" />
     <ClInclude Include="Source\OrbitScene.h" />
     <ClInclude Include="Source\MaterialTestLoop.h" />
+    <ClInclude Include="Source\Systems\CockpitCameraSystem.h" />
     <ClInclude Include="Source\Systems\PlayerCameraSystem.h" />
+    <ClInclude Include="Source\Systems\PlayerShipControlSystem.h" />
+    <ClInclude Include="Source\Systems\ShipControlSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\hect\Hect.vcxproj">

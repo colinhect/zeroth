@@ -1,0 +1,16 @@
+///////////////////////////////////////////////////////////////////////////////
+// This source file is part of Zeroth.
+//
+// Copyright (c) 2014 Colin Hill
+//
+///////////////////////////////////////////////////////////////////////////////
+#pragma once
+
+#include <Hect/Logic/Component.h>
+
+using namespace hect;
+
+class PlayerShipControl :
+    public Component<PlayerShipControl>
+{
+};
