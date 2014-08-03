@@ -35,7 +35,7 @@
                 },
                 {
                     "type" : "Thruster",
-                    "power" : 1000.0,
+                    "power" : 4000.0,
                     "direction" : [ 0.0, 0.0, 1.0 ]
                 }
             ]

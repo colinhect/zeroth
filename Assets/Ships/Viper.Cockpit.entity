@@ -5,9 +5,6 @@
         {
             "type" : "Transform",
             "position" : [ 0.0, 1.6, 2.3 ]
-        },
-        {
-            "type" : "CockpitCamera"
         }
     ]
 }

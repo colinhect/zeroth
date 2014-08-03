@@ -31,36 +31,6 @@ MainLoop::~MainLoop()
 void MainLoop::fixedUpdate(Real timeStep)
 {
     _input->updateAxes(timeStep);
-
-
-    /*
-    for (size_t i = 0; i < _input->joystickCount(); ++i)
-    {
-        Joystick& joystick = _input->joystick(0);
-        for (size_t j = 0; j < joystick.axisCount(); ++j)
-        {
-            Real value = joystick.axisValue(j);
-            if (value > 0.7)
-            {
-                HECT_TRACE(format("%i", j));
-            }
-        }
-        for (size_t j = 0; j < joystick.buttonCount(); ++j)
-        {
-            if (joystick.isButtonDown(j))
-            {
-                HECT_TRACE(format("%i", j));
-            }
-        }
-    }
-    */
-
-    //Real value = _input->joystick(0).axisValue(0);
-    //HECT_TRACE(format("%f", value));
-
-    //Real value = _input->joystick(0).axisValue(0);
-    //HECT_TRACE(format("%f", value));
-
     _scene.update(timeStep);
 }
 

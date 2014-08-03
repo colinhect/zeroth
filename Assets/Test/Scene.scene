@@ -35,16 +35,16 @@
             [
                 {
                     "type" : "DirectionalLight",
-                    "color" : [ 2.5, 2.5, 2.5 ],
+                    "color" : [ 5.5, 5.5, 5.5 ],
                     "direction" : [ 1.0, -1.0, -1.0 ]
                 },
                 {
                     "type" : "LightProbe",
-                    "texture" : "TropicalSunnyDay.texture"
+                    "texture" : "Space.texture"
                 },
                 {
                     "type" : "SkyBox",
-                    "texture" : "TropicalSunnyDay.texture"
+                    "texture" : "Space.texture"
                 }
             ]
         }

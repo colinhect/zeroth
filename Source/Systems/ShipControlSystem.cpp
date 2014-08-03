@@ -31,13 +31,19 @@ void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, 
         {
             {
                 Vector3 angularVelocity = rigidBody->angularVelocity();
+                angularVelocity = angularVelocity - angularVelocity * timeStep * 1.0;
 
                 Vector3 angularDelta = transform->globalRotation() * angularAmount;
-                angularDelta *= timeStep;
+                angularDelta *= timeStep * 2.0;
 
                 rigidBody->setAngularVelocity(angularVelocity + angularDelta);
             }
             {
+                Vector3 linearVelocity = rigidBody->linearVelocity();
+                linearVelocity = linearVelocity - linearVelocity * timeStep * 0.5;
+                rigidBody->setLinearVelocity(linearVelocity);
+
+
                 auto thrusterEntities = ship.findDescendants([](const Entity& entity)
                 {
                     return entity.component<Thruster>();

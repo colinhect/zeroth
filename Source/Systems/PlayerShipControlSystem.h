@@ -20,7 +20,6 @@ class PlayerShipControlSystem :
 {
 public:
     PlayerShipControlSystem(Scene& scene, PhysicsSystem& physicsSystem, InputSystem& inputSystem);
-    ~PlayerShipControlSystem();
 
     void update(Real timeStep);
 
@@ -29,6 +28,10 @@ private:
 
     const InputAxis* _thrust;
     const InputAxis* _yaw;
+    const InputAxis* _yawLeft;
+    const InputAxis* _yawRight;
     const InputAxis* _pitch;
     const InputAxis* _roll;
+    const InputAxis* _rollLeft;
+    const InputAxis* _rollRight;
 };

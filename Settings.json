@@ -1,10 +1,10 @@
 {
     "videoMode" :
     {
-        "width" : 1440,
-        "height" : 900,
+        "width" : 1920,
+        "height" : 1080,
         "bitsPerPixel" : 32,
-        "fullscreen" : false
+        "fullscreen" : true
     },
     "dataSources" :
     [
@@ -15,39 +15,33 @@
     [
         {
             "name" : "viewX",
-            "source" : "MouseMoveX",
-            "acceleration" : 0.0025,
-            "gravity" : 10
+            "source" : "JoystickAxis",
+            "joystickIndex" : 0,
+            "joystickAxisIndex" : 0,
+            "joystickAxisDeadZone" : 0.2,
+            "joystickAxisInverted" : true
         },
         {
             "name" : "viewY",
-            "source" : "MouseMoveY",
-            "acceleration" : 0.0025,
-            "gravity" : 10
-        },
-        {
-            "name" : "moveX",
-            "source" : "Key",
-            "positiveKey" : "T",
-            "negativeKey" : "G",
-            "acceleration" : 4,
-            "gravity" : 10
-        },
-        {
-            "name" : "moveY",
-            "source" : "Key",
-            "positiveKey" : "R",
-            "negativeKey" : "F",
-            "acceleration" : 4,
-            "gravity" : 10
-        },
-        {
-            "name" : "yaw",
             "source" : "JoystickAxis",
             "joystickIndex" : 0,
-            "joystickAxisIndex" : 2,
+            "joystickAxisIndex" : 1,
             "joystickAxisDeadZone" : 0.2,
             "joystickAxisInverted" : true
+        },
+        {
+            "name" : "yawLeft",
+            "source" : "JoystickAxis",
+            "joystickIndex" : 0,
+            "joystickAxisIndex" : 5,
+            "joystickAxisDeadZone" : 0.2
+        },
+        {
+            "name" : "yawRight",
+            "source" : "JoystickAxis",
+            "joystickIndex" : 0,
+            "joystickAxisIndex" : 4,
+            "joystickAxisDeadZone" : 0.2
         },
         {
             "name" : "pitch",
@@ -59,7 +53,10 @@
         },
         {
             "name" : "roll",
-            "source" : "Key"
+            "source" : "JoystickAxis",
+            "joystickIndex" : 0,
+            "joystickAxisIndex" : 2,
+            "joystickAxisDeadZone" : 0.2
         },
         {
             "name" : "thrust",

@@ -12,10 +12,20 @@
 CockpitCameraSystem::CockpitCameraSystem(Scene& scene, InputSystem& inputSystem) :
     System(scene),
     _inputSystem(&inputSystem),
-    _viewX(&inputSystem.axisWithName("viewX")),
-    _viewY(&inputSystem.axisWithName("viewY"))
+    _viewX(nullptr),
+    _viewY(nullptr)
 {
     _inputSystem->mouse().setMode(MouseMode_Relative);
+
+    if (inputSystem.hasAxisWithName("viewX"))
+    {
+        _viewX = &inputSystem.axisWithName("viewX");
+    }
+
+    if (inputSystem.hasAxisWithName("viewY"))
+    {
+        _viewY = &inputSystem.axisWithName("viewY");
+    }
 
     Keyboard& keyboard = _inputSystem->keyboard();
     keyboard.dispatcher().addListener(*this);
@@ -39,13 +49,13 @@ void CockpitCameraSystem::update(Real timeStep)
             auto camera = entity.component<Camera>();
             if (camera)
             {
-                /*
                 const Vector3& up = camera->up();
                 const Vector3& right = camera->right();
 
-                Real rotateSpeed = timeStep * 50;
+                Real rotateSpeed = timeStep * 1;
 
-                if (_inputSystem->mouse().mode() == MouseMode_Relative)
+                /*
+                if (_inputSystem->mouse().mode() == MouseMode_Relative && _viewX && _viewY)
                 {
                     transform->rotate(Vector3::unitY(), _viewX->value() * rotateSpeed);
                     transform->rotate(right, _viewY->value() * -rotateSpeed);

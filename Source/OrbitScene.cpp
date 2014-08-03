@@ -70,6 +70,7 @@ void OrbitScene::update(Real timeStep)
         system<PhysicsSystem>().updateTransforms();
     }
     system<TransformSystem>().update();
+    system<BoundingBoxSystem>().update();
 
     system<PhysicallyBasedRenderSystem>().updateActiveCamera();
 
@@ -77,6 +78,7 @@ void OrbitScene::update(Real timeStep)
     system<PlayerCameraSystem>().update(timeStep);
     system<PlayerShipControlSystem>().update(timeStep);
 
+    system<TransformSystem>().update();
     system<BoundingBoxSystem>().update();
 
     _physicsTaskHandle = _taskPool.enqueue([this, timeStep]
