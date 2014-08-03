@@ -35,7 +35,7 @@ void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, 
                 Vector3 angularDelta = transform->globalRotation() * angularAmount;
                 angularDelta *= timeStep;
 
-                rigidBody->setAngularVelocity((angularVelocity + angularDelta) * 0.99);
+                rigidBody->setAngularVelocity(angularVelocity + angularDelta);
             }
             {
                 auto thrusterEntities = ship.findDescendants([](const Entity& entity)

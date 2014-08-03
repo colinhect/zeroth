@@ -43,33 +43,30 @@
         },
         {
             "name" : "yaw",
-            "source" : "Key",
-            "positiveKey" : "A",
-            "negativeKey" : "D",
-            "acceleration" : 4,
-            "gravity" : 10
+            "source" : "JoystickAxis",
+            "joystickIndex" : 0,
+            "joystickAxisIndex" : 2,
+            "joystickAxisDeadZone" : 0.2,
+            "joystickAxisInverted" : true
         },
         {
             "name" : "pitch",
-            "source" : "Key",
-            "positiveKey" : "W",
-            "negativeKey" : "S",
-            "acceleration" : 4,
-            "gravity" : 10
+            "source" : "JoystickAxis",
+            "joystickIndex" : 0,
+            "joystickAxisIndex" : 3,
+            "joystickAxisDeadZone" : 0.2,
+            "joystickAxisInverted" : true
         },
         {
             "name" : "roll",
-            "source" : "Key",
-            "positiveKey" : "E",
-            "negativeKey" : "Q",
-            "acceleration" : 4,
-            "gravity" : 10
+            "source" : "Key"
         },
         {
             "name" : "thrust",
-            "source" : "Key",
-            "positiveKey" : "X",
-            "negativeKey" : "Z",
+            "source" : "JoystickButton",
+            "joystickIndex" : 0,
+            "positiveJoystickButtonIndex" : 7,
+            "negativeJoystickButtonIndex" : 6,
             "acceleration" : 4,
             "gravity" : 10
         }
