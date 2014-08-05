@@ -18,18 +18,6 @@
     <ClCompile Include="Source\Systems\PlayerCameraSystem.cpp">
       <Filter>Source\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Source\AssetRefreshLoop.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\OrbitScene.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MaterialTestLoop.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MainLoop.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Systems\CockpitCameraSystem.cpp">
       <Filter>Source\Systems</Filter>
     </ClCompile>
@@ -45,7 +33,10 @@
     <ClCompile Include="Source\Systems\PlayerShipControlSystem.cpp">
       <Filter>Source\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ZerothApplication.cpp">
+    <ClCompile Include="Source\ZerothScene.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ZerothGame.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -55,18 +46,6 @@
     </ClInclude>
     <ClInclude Include="Source\Systems\PlayerCameraSystem.h">
       <Filter>Source\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\AssetRefreshLoop.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\OrbitScene.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\MaterialTestLoop.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\MainLoop.h">
-      <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\Components\CockpitCamera.h">
       <Filter>Source\Components</Filter>
@@ -89,7 +68,10 @@
     <ClInclude Include="Source\Systems\PlayerShipControlSystem.h">
       <Filter>Source\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ZerothApplication.h">
+    <ClInclude Include="Source\ZerothScene.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ZerothGame.h">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

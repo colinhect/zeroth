@@ -6,7 +6,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/Core/Configuration.h>
 
-#include "ZerothApplication.h"
+using namespace hect;
+
+#include "ZerothGame.h"
 
 #ifdef HECT_WINDOWS_BUILD
 #ifdef HECT_DEBUG_BUILD
@@ -21,13 +23,12 @@ int main(int argc, const char* argv[])
 
     try
     {
-        ZerothApplication application;
-        application.execute();
+        ZerothGame().execute();
     }
-    catch (hect::Error& error)
+    catch (Error& error)
     {
         HECT_ERROR(error.what());
-        hect::Window::showFatalError(error.what());
+        Window::showFatalError(error.what());
     }
 
     return 0;

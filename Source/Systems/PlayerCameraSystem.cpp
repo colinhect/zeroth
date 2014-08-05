@@ -19,8 +19,6 @@ PlayerCameraSystem::PlayerCameraSystem(Scene& scene, Input& input) :
     _roll(nullptr),
     _speed(16)
 {
-    _input->mouse().setMode(MouseMode_Relative);
-
     if (input.axisExists("viewX"))
     {
         _viewX = &input.axis("viewX");

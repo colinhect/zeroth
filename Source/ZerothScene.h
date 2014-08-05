@@ -6,13 +6,15 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect/Core/Application.h>
+#include <Hect/Logic/DefaultScene.h>
 
-class ZerothApplication :
-    public hect::Application
+using namespace hect;
+
+class ZerothScene :
+    public DefaultScene
 {
 public:
-    ZerothApplication();
+    ZerothScene(Input& input, Renderer& renderer, AssetCache& assetCache);
 
-    void execute();
+    void systemUpdate(Real timeStep);
 };

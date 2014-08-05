@@ -6,20 +6,15 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect/IO/AssetCache.h>
-#include <Hect/Logic/Loop.h>
+#include <Hect/Logic/Game.h>
 
 using namespace hect;
 
-class AssetRefreshLoop :
-    public Loop,
-    public Uncopyable
+class ZerothGame :
+    public Game
 {
 public:
-    AssetRefreshLoop(AssetCache& assetCache);
+    ZerothGame();
 
-    void fixedUpdate(Real timeStep);
-
-private:
-    AssetCache* _assetCache;
+    void execute();
 };

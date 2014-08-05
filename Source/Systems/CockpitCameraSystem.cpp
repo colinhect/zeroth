@@ -15,8 +15,6 @@ CockpitCameraSystem::CockpitCameraSystem(Scene& scene, Input& input) :
     _viewX(nullptr),
     _viewY(nullptr)
 {
-    _input->mouse().setMode(MouseMode_Relative);
-
     if (input.axisExists("viewX"))
     {
         _viewX = &input.axis("viewX");
