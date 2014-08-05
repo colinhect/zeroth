@@ -17,26 +17,26 @@
 
 #include "Components/PlayerCamera.h"
 
-MaterialTestLoop::MaterialTestLoop(Engine& engine) :
+MaterialTestLoop::MaterialTestLoop(Application& application) :
     Loop(TimeSpan::fromSeconds((Real)1 / (Real)60)),
-    _assetCache(&engine.assetCache()),
-    _input(&engine.inputSystem()),
-    _window(&engine.window()),
+    _assetCache(application.storage()),
+    _input(&application.input()),
+    _window(&application.window()),
     _taskPool(4),
-    _scene(engine.inputSystem(), engine.assetCache(), engine.renderer())
+    _scene(application.input(), _assetCache, application.renderer())
 {
-    AssetHandle<Data> mineralTestEntityData = _assetCache->getHandle<Data>("Test/MaterialTest.entity");
+    AssetHandle<Data> mineralTestEntityData = _assetCache.getHandle<Data>("Test/MaterialTest.entity");
     _test = _scene.createEntity()->createHandle();
-    _test->decodeFromData(*mineralTestEntityData, engine.assetCache());
+    _test->decodeFromData(*mineralTestEntityData, _assetCache);
 
-    AssetHandle<Data> sceneData = _assetCache->getHandle<Data>("Test/Scene.scene");
-    _scene.decodeFromData(*sceneData, *_assetCache);
+    AssetHandle<Data> sceneData = _assetCache.getHandle<Data>("Test/Scene.scene");
+    _scene.decodeFromData(*sceneData, _assetCache);
 
     for (float x = 0; x < 5; ++x)
     {
         for (float z = 0; z < 5; ++z)
         {
-            Data& entityData = _assetCache->get<Data>("Test/Scene.scene");
+            Data& entityData = _assetCache.get<Data>("Test/Scene.scene");
 
             Entity::Iterator entity = _test->clone();
             entity->component<Transform>()->translate(Vector3(x, 0, z) * 6);
@@ -44,7 +44,7 @@ MaterialTestLoop::MaterialTestLoop(Engine& engine) :
             auto model = entity->component<Model>();
             
             Pass pass;
-            pass.setShader(_assetCache->getHandle<Shader>("Hect/PhysicallyBased/Solid.shader"));
+            pass.setShader(_assetCache.getHandle<Shader>("Hect/PhysicallyBased/Solid.shader"));
             pass.addUniformValue("diffuse", Vector3(0.5, 0.5, 0.5));
             pass.addUniformValue("roughness", x / 4);
             pass.addUniformValue("metallic", z / 4);

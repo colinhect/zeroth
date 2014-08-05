@@ -45,6 +45,9 @@
     <ClCompile Include="Source\Systems\PlayerShipControlSystem.cpp">
       <Filter>Source\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ZerothApplication.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Components\PlayerCamera.h">
@@ -85,6 +88,9 @@
     </ClInclude>
     <ClInclude Include="Source\Systems\PlayerShipControlSystem.h">
       <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ZerothApplication.h">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

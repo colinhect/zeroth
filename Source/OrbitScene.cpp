@@ -29,7 +29,7 @@
 #include "Systems/PlayerCameraSystem.h"
 #include "Systems/PlayerShipControlSystem.h"
 
-OrbitScene::OrbitScene(InputSystem& inputSystem, AssetCache& assetCache, Renderer& renderer) :
+OrbitScene::OrbitScene(Input& input, AssetCache& assetCache, Renderer& renderer) :
     _taskPool(4)
 {
     // Hect components
@@ -44,7 +44,7 @@ OrbitScene::OrbitScene(InputSystem& inputSystem, AssetCache& assetCache, Rendere
 
     // Hect systems
     addSystem<PhysicallyBasedRenderSystem>(assetCache, renderer);
-    addSystem<DebugRenderSystem>(inputSystem, assetCache, renderer);
+    addSystem<DebugRenderSystem>(input, assetCache, renderer);
     addSystem<TransformSystem>();
     addSystem<BoundingBoxSystem>();
     addSystem<PhysicsSystem>();
@@ -57,9 +57,9 @@ OrbitScene::OrbitScene(InputSystem& inputSystem, AssetCache& assetCache, Rendere
     registerComponent<Thruster>();
 
     // Zeroth system
-    addSystem<CockpitCameraSystem>(inputSystem);
-    addSystem<PlayerCameraSystem>(inputSystem);
-    addSystem<PlayerShipControlSystem>(system<PhysicsSystem>(), inputSystem);
+    addSystem<CockpitCameraSystem>(input);
+    addSystem<PlayerCameraSystem>(input);
+    addSystem<PlayerShipControlSystem>(system<PhysicsSystem>(), input);
 }
 
 void OrbitScene::update(Real timeStep)

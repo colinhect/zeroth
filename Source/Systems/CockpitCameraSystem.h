@@ -7,7 +7,7 @@
 #pragma once
 
 #include <Hect/Event/Listener.h>
-#include <Hect/Input/InputSystem.h>
+#include <Hect/Input/Input.h>
 #include <Hect/Logic/Scene.h>
 #include <Hect/Logic/System.h>
 
@@ -20,7 +20,7 @@ class CockpitCameraSystem :
     public Listener<KeyboardEvent>
 {
 public:
-    CockpitCameraSystem(Scene& scene, InputSystem& inputSystem);
+    CockpitCameraSystem(Scene& scene, Input& input);
     ~CockpitCameraSystem();
 
     void update(Real timeStep);
@@ -28,7 +28,7 @@ public:
     void receiveEvent(const KeyboardEvent& event);
 
 private:
-    InputSystem* _inputSystem;
+    Input* _input;
 
     const InputAxis* _viewX;
     const InputAxis* _viewY;

@@ -9,31 +9,31 @@
 #include <Hect/Graphics/Components/Camera.h>
 #include <Hect/Spacial/Components/Transform.h>
 
-CockpitCameraSystem::CockpitCameraSystem(Scene& scene, InputSystem& inputSystem) :
+CockpitCameraSystem::CockpitCameraSystem(Scene& scene, Input& input) :
     System(scene),
-    _inputSystem(&inputSystem),
+    _input(&input),
     _viewX(nullptr),
     _viewY(nullptr)
 {
-    _inputSystem->mouse().setMode(MouseMode_Relative);
+    _input->mouse().setMode(MouseMode_Relative);
 
-    if (inputSystem.hasAxisWithName("viewX"))
+    if (input.axisExists("viewX"))
     {
-        _viewX = &inputSystem.axisWithName("viewX");
+        _viewX = &input.axis("viewX");
     }
 
-    if (inputSystem.hasAxisWithName("viewY"))
+    if (input.axisExists("viewY"))
     {
-        _viewY = &inputSystem.axisWithName("viewY");
+        _viewY = &input.axis("viewY");
     }
 
-    Keyboard& keyboard = _inputSystem->keyboard();
+    Keyboard& keyboard = _input->keyboard();
     keyboard.dispatcher().addListener(*this);
 }
 
 CockpitCameraSystem::~CockpitCameraSystem()
 {
-    Keyboard& keyboard = _inputSystem->keyboard();
+    Keyboard& keyboard = _input->keyboard();
     keyboard.dispatcher().removeListener(*this);
 }
 
@@ -55,7 +55,7 @@ void CockpitCameraSystem::update(Real timeStep)
                 Real rotateSpeed = timeStep * 1;
 
                 /*
-                if (_inputSystem->mouse().mode() == MouseMode_Relative && _viewX && _viewY)
+                if (_input->mouse().mode() == MouseMode_Relative && _viewX && _viewY)
                 {
                     transform->rotate(Vector3::unitY(), _viewX->value() * rotateSpeed);
                     transform->rotate(right, _viewY->value() * -rotateSpeed);
@@ -75,7 +75,7 @@ void CockpitCameraSystem::receiveEvent(const KeyboardEvent& event)
 
     if (event.key == Key_Tab)
     {
-        Mouse& mouse = _inputSystem->mouse();
+        Mouse& mouse = _input->mouse();
         if (mouse.mode() == MouseMode_Cursor)
         {
             mouse.setMode(MouseMode_Relative);

@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect/Input/InputSystem.h>
+#include <Hect/Input/Input.h>
 #include <Hect/Logic/Scene.h>
 #include <Hect/Logic/System.h>
 
@@ -19,12 +19,12 @@ class PlayerShipControlSystem :
     public ShipControlSystem
 {
 public:
-    PlayerShipControlSystem(Scene& scene, PhysicsSystem& physicsSystem, InputSystem& inputSystem);
+    PlayerShipControlSystem(Scene& scene, PhysicsSystem& physicsSystem, Input& input);
 
     void update(Real timeStep);
 
 private:
-    InputSystem* _inputSystem;
+    Input* _input;
 
     const InputAxis* _thrust;
     const InputAxis* _yaw;

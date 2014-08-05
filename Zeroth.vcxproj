@@ -213,6 +213,7 @@
     <ClCompile Include="Source\Systems\PlayerCameraSystem.cpp" />
     <ClCompile Include="Source\Systems\PlayerShipControlSystem.cpp" />
     <ClCompile Include="Source\Systems\ShipControlSystem.cpp" />
+    <ClCompile Include="Source\ZerothApplication.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\AssetRefreshLoop.h" />
@@ -228,6 +229,7 @@
     <ClInclude Include="Source\Systems\PlayerCameraSystem.h" />
     <ClInclude Include="Source\Systems\PlayerShipControlSystem.h" />
     <ClInclude Include="Source\Systems\ShipControlSystem.h" />
+    <ClInclude Include="Source\ZerothApplication.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\hect\Hect.vcxproj">

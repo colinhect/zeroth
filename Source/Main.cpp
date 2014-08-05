@@ -5,10 +5,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/Core/Configuration.h>
-#include <Hect/Core/Engine.h>
 
-#include "AssetRefreshLoop.h"
-#include "MainLoop.h"
+#include "ZerothApplication.h"
 
 #ifdef HECT_WINDOWS_BUILD
 #ifdef HECT_DEBUG_BUILD
@@ -23,22 +21,13 @@ int main(int argc, const char* argv[])
 
     try
     {
-        hect::Engine engine("Zeroth", "zeroth/Settings.json");
-        
-        MainLoop loop(engine);
-
-        while (engine.window().pollEvents(engine.inputSystem()))
-        {
-            if (!loop.tick())
-            {
-                break;
-            }
-        }
+        ZerothApplication application;
+        application.execute();
     }
-    catch (Error& error)
+    catch (hect::Error& error)
     {
         HECT_ERROR(error.what());
-        Window::showFatalError(error.what());
+        hect::Window::showFatalError(error.what());
     }
 
     return 0;

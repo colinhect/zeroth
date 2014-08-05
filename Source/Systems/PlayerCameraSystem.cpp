@@ -9,9 +9,9 @@
 #include <Hect/Graphics/Components/Camera.h>
 #include <Hect/Spacial/Components/Transform.h>
 
-PlayerCameraSystem::PlayerCameraSystem(Scene& scene, InputSystem& inputSystem) :
+PlayerCameraSystem::PlayerCameraSystem(Scene& scene, Input& input) :
     System(scene),
-    _inputSystem(&inputSystem),
+    _input(&input),
     _viewX(nullptr),
     _viewY(nullptr),
     _moveX(nullptr),
@@ -19,40 +19,40 @@ PlayerCameraSystem::PlayerCameraSystem(Scene& scene, InputSystem& inputSystem) :
     _roll(nullptr),
     _speed(16)
 {
-    _inputSystem->mouse().setMode(MouseMode_Relative);
+    _input->mouse().setMode(MouseMode_Relative);
 
-    if (inputSystem.hasAxisWithName("viewX"))
+    if (input.axisExists("viewX"))
     {
-        _viewX = &inputSystem.axisWithName("viewX");
+        _viewX = &input.axis("viewX");
     }
 
-    if (inputSystem.hasAxisWithName("viewY"))
+    if (input.axisExists("viewY"))
     {
-        _viewY = &inputSystem.axisWithName("viewY");
+        _viewY = &input.axis("viewY");
     }
 
-    if (inputSystem.hasAxisWithName("moveX"))
+    if (input.axisExists("moveX"))
     {
-        _moveX = &inputSystem.axisWithName("moveX");
+        _moveX = &input.axis("moveX");
     }
 
-    if (inputSystem.hasAxisWithName("moveY"))
+    if (input.axisExists("moveY"))
     {
-        _moveY = &inputSystem.axisWithName("moveY");
+        _moveY = &input.axis("moveY");
     }
 
-    if (inputSystem.hasAxisWithName("roll"))
+    if (input.axisExists("roll"))
     {
-        _roll = &inputSystem.axisWithName("roll");
+        _roll = &input.axis("roll");
     }
 
-    Keyboard& keyboard = _inputSystem->keyboard();
+    Keyboard& keyboard = _input->keyboard();
     keyboard.dispatcher().addListener(*this);
 }
 
 PlayerCameraSystem::~PlayerCameraSystem()
 {
-    Keyboard& keyboard = _inputSystem->keyboard();
+    Keyboard& keyboard = _input->keyboard();
     keyboard.dispatcher().removeListener(*this);
 }
 
@@ -76,7 +76,7 @@ void PlayerCameraSystem::update(Real timeStep)
                 Real rollSpeed = timeStep * 2;
                 Real moveSpeed = timeStep * _speed;
 
-                if (_inputSystem->mouse().mode() == MouseMode_Relative)
+                if (_input->mouse().mode() == MouseMode_Relative)
                 {
                     if (_viewX)
                     {
@@ -119,7 +119,7 @@ void PlayerCameraSystem::receiveEvent(const KeyboardEvent& event)
     {
         if (scene().components<PlayerCamera>().begin())
         {
-            Mouse& mouse = _inputSystem->mouse();
+            Mouse& mouse = _input->mouse();
             if (mouse.mode() == MouseMode_Cursor)
             {
                 mouse.setMode(MouseMode_Relative);

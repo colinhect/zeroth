@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect/Core/Engine.h>
+#include <Hect/Core/Application.h>
 #include <Hect/Core/Uncopyable.h>
 #include <Hect/Event/Listener.h>
 #include <Hect/Logic/Loop.h>
@@ -22,7 +22,7 @@ class MainLoop :
     public Uncopyable
 {
 public:
-    MainLoop(Engine& engine);
+    MainLoop(Input& input, Storage& storage, Renderer& renderer, RenderTarget& renderTarget);
     ~MainLoop();
 
     void fixedUpdate(Real timeStep);
@@ -31,9 +31,9 @@ public:
     void receiveEvent(const KeyboardEvent& event);
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
+    Input* _input;
+    RenderTarget* _renderTarget;
 
+    AssetCache _assetCache;
     OrbitScene _scene;
 };

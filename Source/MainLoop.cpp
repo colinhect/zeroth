@@ -8,15 +8,15 @@
 
 #include <Hect/IO/Data.h>
 
-MainLoop::MainLoop(Engine& engine) :
+MainLoop::MainLoop(Input& input, Storage& storage, Renderer& renderer, RenderTarget& renderTarget) :
     Loop(TimeSpan::fromSeconds((Real)1 / (Real)60)),
-    _assetCache(&engine.assetCache()),
-    _input(&engine.inputSystem()),
-    _window(&engine.window()),
-    _scene(engine.inputSystem(), engine.assetCache(), engine.renderer())
+    _input(&input),
+    _renderTarget(&renderTarget),
+    _assetCache(storage),
+    _scene(input, _assetCache, renderer)
 {
-    AssetHandle<Data> sceneData = _assetCache->getHandle<Data>("Test/Scene.scene");
-    _scene.decodeFromData(*sceneData, *_assetCache);
+    AssetHandle<Data> sceneData = _assetCache.getHandle<Data>("Test/Scene.scene");
+    _scene.decodeFromData(*sceneData, _assetCache);
 
     Dispatcher<KeyboardEvent>& keyboardDispatcher = _input->keyboard().dispatcher();
     keyboardDispatcher.addListener(*this);
@@ -36,8 +36,8 @@ void MainLoop::fixedUpdate(Real timeStep)
 
 void MainLoop::frameUpdate(Real delta)
 {
-    _scene.render(delta, *_window);
-    _window->swapBuffers();
+    _scene.render(delta, *_renderTarget);
+    _renderTarget->swapBuffers();
 }
 
 void MainLoop::receiveEvent(const KeyboardEvent& event)

@@ -8,9 +8,9 @@
 
 #include "Components/PlayerShipControl.h"
 
-PlayerShipControlSystem::PlayerShipControlSystem(Scene& scene, PhysicsSystem& physicsSystem, InputSystem& inputSystem) :
+PlayerShipControlSystem::PlayerShipControlSystem(Scene& scene, PhysicsSystem& physicsSystem, Input& input) :
     ShipControlSystem(scene, physicsSystem),
-    _inputSystem(&inputSystem),
+    _input(&input),
     _thrust(nullptr),
     _yaw(nullptr),
     _yawLeft(nullptr),
@@ -20,44 +20,44 @@ PlayerShipControlSystem::PlayerShipControlSystem(Scene& scene, PhysicsSystem& ph
     _rollLeft(nullptr),
     _rollRight(nullptr)
 {
-    if (inputSystem.hasAxisWithName("thrust"))
+    if (input.axisExists("thrust"))
     {
-        _thrust = &inputSystem.axisWithName("thrust");
+        _thrust = &input.axis("thrust");
     }
 
-    if (inputSystem.hasAxisWithName("yaw"))
+    if (input.axisExists("yaw"))
     {
-        _yaw = &inputSystem.axisWithName("yaw");
+        _yaw = &input.axis("yaw");
     }
 
-    if (inputSystem.hasAxisWithName("yawLeft"))
+    if (input.axisExists("yawLeft"))
     {
-        _yawLeft = &inputSystem.axisWithName("yawLeft");
+        _yawLeft = &input.axis("yawLeft");
     }
 
-    if (inputSystem.hasAxisWithName("yawRight"))
+    if (input.axisExists("yawRight"))
     {
-        _yawRight = &inputSystem.axisWithName("yawRight");
+        _yawRight = &input.axis("yawRight");
     }
 
-    if (inputSystem.hasAxisWithName("pitch"))
+    if (input.axisExists("pitch"))
     {
-        _pitch = &inputSystem.axisWithName("pitch");
+        _pitch = &input.axis("pitch");
     }
 
-    if (inputSystem.hasAxisWithName("roll"))
+    if (input.axisExists("roll"))
     {
-        _roll = &inputSystem.axisWithName("roll");
+        _roll = &input.axis("roll");
     }
 
-    if (inputSystem.hasAxisWithName("rollLeft"))
+    if (input.axisExists("rollLeft"))
     {
-        _rollLeft = &inputSystem.axisWithName("rollLeft");
+        _rollLeft = &input.axis("rollLeft");
     }
 
-    if (inputSystem.hasAxisWithName("rollRight"))
+    if (input.axisExists("rollRight"))
     {
-        _rollRight = &inputSystem.axisWithName("rollRight");
+        _rollRight = &input.axis("rollRight");
     }
 }
 
@@ -110,7 +110,7 @@ void PlayerShipControlSystem::update(Real timeStep)
             if (totalThrust > 0.1)
             {
                 size_t joystickIndex = _thrust->joystickIndex();
-                Joystick& joystick = _inputSystem->joystick(joystickIndex);
+                Joystick& joystick = _input->joystick(joystickIndex);
                 joystick.hapticRumble(totalThrust, TimeSpan::fromSeconds(timeStep));
             }
         }
