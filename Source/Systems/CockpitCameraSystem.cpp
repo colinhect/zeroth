@@ -7,36 +7,21 @@
 #include "CockpitCameraSystem.h"
 
 #include <Hect/Graphics/Components/Camera.h>
+#include <Hect/Input/Systems/InputSystem.h>
+#include <Hect/Logic/Scene.h>
 #include <Hect/Spacial/Components/Transform.h>
 
-CockpitCameraSystem::CockpitCameraSystem(Scene& scene, Input& input) :
-    System(scene),
-    _input(&input),
-    _viewX(nullptr),
-    _viewY(nullptr)
+#include "Components/CockpitCamera.h"
+
+CockpitCameraSystem::CockpitCameraSystem(Scene& scene) :
+    System(scene)
 {
-    if (input.axisExists("viewX"))
-    {
-        _viewX = &input.axis("viewX");
-    }
-
-    if (input.axisExists("viewY"))
-    {
-        _viewY = &input.axis("viewY");
-    }
-
-    Keyboard& keyboard = _input->keyboard();
-    keyboard.dispatcher().addListener(*this);
 }
 
-CockpitCameraSystem::~CockpitCameraSystem()
+void CockpitCameraSystem::update()
 {
-    Keyboard& keyboard = _input->keyboard();
-    keyboard.dispatcher().removeListener(*this);
-}
+    Real timeStep = scene().timeStep().seconds();
 
-void CockpitCameraSystem::update(Real timeStep)
-{
     for (CockpitCamera& cockpitCamera : scene().components<CockpitCamera>())
     {
         Entity& entity = cockpitCamera.entity();
@@ -53,34 +38,13 @@ void CockpitCameraSystem::update(Real timeStep)
                 Real rotateSpeed = timeStep * 1;
 
                 /*
-                if (_input->mouse().mode() == MouseMode_Relative && _viewX && _viewY)
+                if (_inputDevices->mouse().mode() == MouseMode_Relative && _viewX && _viewY)
                 {
                     transform->rotate(Vector3::unitY(), _viewX->value() * rotateSpeed);
                     transform->rotate(right, _viewY->value() * -rotateSpeed);
                 }
                 */
             }
-        }
-    }
-}
-
-void CockpitCameraSystem::receiveEvent(const KeyboardEvent& event)
-{
-    if (event.type != KeyboardEventType_KeyDown)
-    {
-        return;
-    }
-
-    if (event.key == Key_Tab)
-    {
-        Mouse& mouse = _input->mouse();
-        if (mouse.mode() == MouseMode_Cursor)
-        {
-            mouse.setMode(MouseMode_Relative);
-        }
-        else
-        {
-            mouse.setMode(MouseMode_Cursor);
         }
     }
 }

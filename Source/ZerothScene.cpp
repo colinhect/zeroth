@@ -6,6 +6,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ZerothScene.h"
 
+#include <Hect/Input/Systems/InputSystem.h>
+
 #include "Components/CockpitCamera.h"
 #include "Components/PlayerCamera.h"
 #include "Components/PlayerShipControl.h"
@@ -15,8 +17,8 @@
 #include "Systems/PlayerCameraSystem.h"
 #include "Systems/PlayerShipControlSystem.h"
 
-ZerothScene::ZerothScene(Input& input, Renderer& renderer, hect::AssetCache& assetCache) :
-    DefaultScene(input, renderer, assetCache)
+ZerothScene::ZerothScene(InputDevices& inputDevices, Renderer& renderer, RenderTarget& renderTarget, AssetCache& assetCache, const JsonValue& settings) :
+    DefaultScene(inputDevices, renderer, renderTarget, assetCache)
 {
     // Zeroth components
     registerComponent<CockpitCamera>();
@@ -26,16 +28,24 @@ ZerothScene::ZerothScene(Input& input, Renderer& renderer, hect::AssetCache& ass
     registerComponent<Thruster>();
 
     // Zeroth system
-    addSystem<CockpitCameraSystem>(input);
-    addSystem<PlayerCameraSystem>(input);
-    addSystem<PlayerShipControlSystem>(system<PhysicsSystem>(), input);
+    addSystem<CockpitCameraSystem>();
+    addSystem<PlayerCameraSystem>();
+    addSystem<PlayerShipControlSystem>();
 
-    //system<InputSystem>().loadAxes(*axisData);
+    InputSystem& inputSystem = system<InputSystem>();
+    for (const JsonValue& axisValue : settings["inputAxes"])
+    {
+        InputAxis axis;
+        axis.decodeFromJsonValue(axisValue);
+        inputSystem.addAxis(axis);
+    }
 }
 
-void ZerothScene::systemUpdate(Real timeStep)
+void ZerothScene::fixedUpdate()
 {
-    system<CockpitCameraSystem>().update(timeStep);
-    system<PlayerCameraSystem>().update(timeStep);
-    system<PlayerShipControlSystem>().update(timeStep);
+    DefaultScene::fixedUpdate();
+
+    system<CockpitCameraSystem>().update();
+    system<PlayerCameraSystem>().update();
+    system<PlayerShipControlSystem>().update();
 }

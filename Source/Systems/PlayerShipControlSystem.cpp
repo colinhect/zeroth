@@ -6,113 +6,41 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "PlayerShipControlSystem.h"
 
+#include <Hect/Input/Systems/InputSystem.h>
+#include <Hect/Logic/Scene.h>
+
 #include "Components/PlayerShipControl.h"
 
-PlayerShipControlSystem::PlayerShipControlSystem(Scene& scene, PhysicsSystem& physicsSystem, Input& input) :
-    ShipControlSystem(scene, physicsSystem),
-    _input(&input),
-    _thrust(nullptr),
-    _yaw(nullptr),
-    _yawLeft(nullptr),
-    _yawRight(nullptr),
-    _pitch(nullptr),
-    _roll(nullptr),
-    _rollLeft(nullptr),
-    _rollRight(nullptr)
+PlayerShipControlSystem::PlayerShipControlSystem(Scene& scene) :
+    ShipControlSystem(scene)
 {
-    if (input.axisExists("thrust"))
-    {
-        _thrust = &input.axis("thrust");
-    }
-
-    if (input.axisExists("yaw"))
-    {
-        _yaw = &input.axis("yaw");
-    }
-
-    if (input.axisExists("yawLeft"))
-    {
-        _yawLeft = &input.axis("yawLeft");
-    }
-
-    if (input.axisExists("yawRight"))
-    {
-        _yawRight = &input.axis("yawRight");
-    }
-
-    if (input.axisExists("pitch"))
-    {
-        _pitch = &input.axis("pitch");
-    }
-
-    if (input.axisExists("roll"))
-    {
-        _roll = &input.axis("roll");
-    }
-
-    if (input.axisExists("rollLeft"))
-    {
-        _rollLeft = &input.axis("rollLeft");
-    }
-
-    if (input.axisExists("rollRight"))
-    {
-        _rollRight = &input.axis("rollRight");
-    }
 }
 
-void PlayerShipControlSystem::update(Real timeStep)
+void PlayerShipControlSystem::update()
 {
+    Real timeStep = scene().timeStep().seconds();
+    InputSystem& inputSystem = scene().system<InputSystem>();
+
     for (PlayerShipControl& playerShipControl : scene().components<PlayerShipControl>())
     {
         Entity& entity = playerShipControl.entity();
 
-        Real pitch = 0;
-        if (_pitch)
-        {
-            pitch = _pitch->value();
-        }
-        
+        Real pitch = inputSystem.axisValue("pitch");
+
         Real yaw = 0;
-        if (_yaw)
-        {
-            yaw = _yaw->value();
-        }
-        if (_yawLeft)
-        {
-            yaw -= (_yawLeft->value() + 1) * 0.5;
-        }
-        if (_yawRight)
-        {
-            yaw += (_yawRight->value() + 1) * 0.5;
-        }
+        yaw -= (inputSystem.axisValue("yawLeft") + 1) * 0.5;
+        yaw += (inputSystem.axisValue("yawRight") + 1) * 0.5;
 
-        Real roll = 0;
-        if (_roll)
-        {
-            roll = _roll->value();
-        }
-        if (_rollLeft)
-        {
-            roll -= (_rollLeft->value() + 1) * 0.5;
-        }
-        if (_rollRight)
-        {
-            roll += (_rollRight->value() + 1) * 0.5;
-        }
+        Real roll = inputSystem.axisValue("roll");
 
-        Real thrust = 0;
-        if (_thrust)
-        {
-            thrust = _thrust->value();
+        Real thrust = inputSystem.axisValue("thrust");
 
-            Real totalThrust = std::abs(thrust);
-            if (totalThrust > 0.1)
-            {
-                size_t joystickIndex = _thrust->joystickIndex();
-                Joystick& joystick = _input->joystick(joystickIndex);
-                joystick.hapticRumble(totalThrust, TimeSpan::fromSeconds(timeStep));
-            }
+        Real totalThrust = std::abs(thrust);
+        if (totalThrust > 0.1)
+        {
+            //size_t joystickIndex = _thrust->joystickIndex();
+            //Joystick& joystick = _inputDevices->joystick(joystickIndex);
+            //joystick.hapticRumble(totalThrust, TimeSpan::fromSeconds(timeStep));
         }
 
         Vector3 angularAxis(pitch, yaw, roll);

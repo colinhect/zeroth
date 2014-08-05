@@ -6,23 +6,22 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ShipControlSystem.h"
 
+#include <Hect/Logic/Scene.h>
 #include <Hect/Physics/Components/RigidBody.h>
+#include <Hect/Physics/Systems/PhysicsSystem.h>
 #include <Hect/Spacial/Components/Transform.h>
 
 #include "Components/Thruster.h"
 
-ShipControlSystem::ShipControlSystem(Scene& scene, PhysicsSystem& physicsSystem) :
-    System(scene),
-    _physicsSystem(&physicsSystem)
-{
-}
-
-ShipControlSystem::~ShipControlSystem()
+ShipControlSystem::ShipControlSystem(Scene& scene) :
+    System(scene)
 {
 }
 
 void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, Real thrustAmount, Real timeStep)
 {
+    PhysicsSystem& physicsSystem = scene().system<PhysicsSystem>();
+
     auto transform = ship.component<Transform>();
     if (transform)
     {
@@ -60,7 +59,7 @@ void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, 
                             Vector3 thrustVector = transform->globalRotation() * thruster->direction;
                             thrustVector = thrustVector.normalized() * thruster->power * thrustAmount;
 
-                            _physicsSystem->applyForce(*rigidBody, thrustVector, Vector3::zero());
+                            physicsSystem.applyForce(*rigidBody, thrustVector, Vector3::zero());
                         }
                     }
                 }

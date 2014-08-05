@@ -7,55 +7,22 @@
 #include "PlayerCameraSystem.h"
 
 #include <Hect/Graphics/Components/Camera.h>
+#include <Hect/Input/Systems/InputSystem.h>
+#include <Hect/Logic/Scene.h>
 #include <Hect/Spacial/Components/Transform.h>
 
-PlayerCameraSystem::PlayerCameraSystem(Scene& scene, Input& input) :
+#include "Components/PlayerCamera.h"
+
+PlayerCameraSystem::PlayerCameraSystem(Scene& scene) :
     System(scene),
-    _input(&input),
-    _viewX(nullptr),
-    _viewY(nullptr),
-    _moveX(nullptr),
-    _moveY(nullptr),
-    _roll(nullptr),
     _speed(16)
 {
-    if (input.axisExists("viewX"))
-    {
-        _viewX = &input.axis("viewX");
-    }
-
-    if (input.axisExists("viewY"))
-    {
-        _viewY = &input.axis("viewY");
-    }
-
-    if (input.axisExists("moveX"))
-    {
-        _moveX = &input.axis("moveX");
-    }
-
-    if (input.axisExists("moveY"))
-    {
-        _moveY = &input.axis("moveY");
-    }
-
-    if (input.axisExists("roll"))
-    {
-        _roll = &input.axis("roll");
-    }
-
-    Keyboard& keyboard = _input->keyboard();
-    keyboard.dispatcher().addListener(*this);
 }
 
-PlayerCameraSystem::~PlayerCameraSystem()
+void PlayerCameraSystem::update()
 {
-    Keyboard& keyboard = _input->keyboard();
-    keyboard.dispatcher().removeListener(*this);
-}
+    Real timeStep = scene().timeStep().seconds();
 
-void PlayerCameraSystem::update(Real timeStep)
-{
     for (PlayerCamera& playerCamera : scene().components<PlayerCamera>())
     {
         Entity& entity = playerCamera.entity();
@@ -74,7 +41,8 @@ void PlayerCameraSystem::update(Real timeStep)
                 Real rollSpeed = timeStep * 2;
                 Real moveSpeed = timeStep * _speed;
 
-                if (_input->mouse().mode() == MouseMode_Relative)
+                /*
+                if (_inputDevices->mouse().mode() == MouseMode_Relative)
                 {
                     if (_viewX)
                     {
@@ -101,30 +69,7 @@ void PlayerCameraSystem::update(Real timeStep)
                 {
                     transform->translate(front * _moveY->value() * moveSpeed);
                 }
-            }
-        }
-    }
-}
-
-void PlayerCameraSystem::receiveEvent(const KeyboardEvent& event)
-{
-    if (event.type != KeyboardEventType_KeyDown)
-    {
-        return;
-    }
-
-    if (event.key == Key_Tab)
-    {
-        if (scene().components<PlayerCamera>().begin())
-        {
-            Mouse& mouse = _input->mouse();
-            if (mouse.mode() == MouseMode_Cursor)
-            {
-                mouse.setMode(MouseMode_Relative);
-            }
-            else
-            {
-                mouse.setMode(MouseMode_Cursor);
+                */
             }
         }
     }
