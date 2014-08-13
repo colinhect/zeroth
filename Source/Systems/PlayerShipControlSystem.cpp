@@ -26,13 +26,8 @@ void PlayerShipControlSystem::update()
         Entity& entity = playerShipControl.entity();
 
         Real pitch = inputSystem.axisValue("pitch");
-
-        Real yaw = 0;
-        yaw -= (inputSystem.axisValue("yawLeft") + 1) * 0.5;
-        yaw += (inputSystem.axisValue("yawRight") + 1) * 0.5;
-
+        Real yaw = inputSystem.axisValue("yaw");
         Real roll = inputSystem.axisValue("roll");
-
         Real thrust = inputSystem.axisValue("thrust");
 
         Real totalThrust = std::abs(thrust);
