@@ -14,7 +14,7 @@ class PlayerShipControlSystem :
     public ShipControlSystem
 {
 public:
-    PlayerShipControlSystem(Scene& scene);
+    PlayerShipControlSystem(World& world);
 
     void update();
 };

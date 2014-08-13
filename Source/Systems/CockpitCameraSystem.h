@@ -14,7 +14,7 @@ class CockpitCameraSystem :
     public System
 {
 public:
-    CockpitCameraSystem(Scene& scene);
+    CockpitCameraSystem(World& world);
 
     void update();
 };

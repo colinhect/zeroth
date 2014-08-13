@@ -15,7 +15,7 @@ class PlayerCameraSystem :
     public System
 {
 public:
-    PlayerCameraSystem(Scene& scene);
+    PlayerCameraSystem(World& world);
 
     void update();
 

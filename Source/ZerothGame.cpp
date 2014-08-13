@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ZerothGame.h"
 
-#include "ZerothScene.h"
+#include "ZerothWorld.h"
 
 ZerothGame::ZerothGame() :
     Game("Zeroth", "zeroth/Settings.json")
@@ -17,10 +17,10 @@ void ZerothGame::execute()
 {
     AssetCache assetCache;
 
-    AssetHandle<Data> sceneData = assetCache.getHandle<Data>("Test/Scene.scene");
+    AssetHandle<Data> worldData = assetCache.getHandle<Data>("Test/World.world");
 
-    ZerothScene scene(renderer(), window(), assetCache, settings());
-    scene.decodeFromData(*sceneData, assetCache);
+    ZerothWorld world(renderer(), window(), assetCache, settings());
+    world.decodeFromData(*worldData, assetCache);
 
-    playScene(scene);
+    playWorld(world);
 }

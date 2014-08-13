@@ -8,21 +8,21 @@
 
 #include <Hect/Graphics/Components/Camera.h>
 #include <Hect/Input/Systems/InputSystem.h>
-#include <Hect/Logic/Scene.h>
+#include <Hect/Logic/World.h>
 #include <Hect/Spacial/Components/Transform.h>
 
 #include "Components/CockpitCamera.h"
 
-CockpitCameraSystem::CockpitCameraSystem(Scene& scene) :
-    System(scene)
+CockpitCameraSystem::CockpitCameraSystem(World& world) :
+    System(world)
 {
 }
 
 void CockpitCameraSystem::update()
 {
-    Real timeStep = scene().timeStep().seconds();
+    Real timeStep = world().timeStep().seconds();
 
-    for (CockpitCamera& cockpitCamera : scene().components<CockpitCamera>())
+    for (CockpitCamera& cockpitCamera : world().components<CockpitCamera>())
     {
         Entity& entity = cockpitCamera.entity();
 

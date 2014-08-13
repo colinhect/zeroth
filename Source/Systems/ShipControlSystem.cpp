@@ -6,21 +6,21 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ShipControlSystem.h"
 
-#include <Hect/Logic/Scene.h>
+#include <Hect/Logic/World.h>
 #include <Hect/Physics/Components/RigidBody.h>
 #include <Hect/Physics/Systems/PhysicsSystem.h>
 #include <Hect/Spacial/Components/Transform.h>
 
 #include "Components/Thruster.h"
 
-ShipControlSystem::ShipControlSystem(Scene& scene) :
-    System(scene)
+ShipControlSystem::ShipControlSystem(World& world) :
+    System(world)
 {
 }
 
 void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, Real thrustAmount, Real timeStep)
 {
-    PhysicsSystem& physicsSystem = scene().system<PhysicsSystem>();
+    PhysicsSystem& physicsSystem = world().system<PhysicsSystem>();
 
     auto transform = ship.component<Transform>();
     if (transform)

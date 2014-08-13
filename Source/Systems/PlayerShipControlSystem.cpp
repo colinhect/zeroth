@@ -7,21 +7,21 @@
 #include "PlayerShipControlSystem.h"
 
 #include <Hect/Input/Systems/InputSystem.h>
-#include <Hect/Logic/Scene.h>
+#include <Hect/Logic/World.h>
 
 #include "Components/PlayerShipControl.h"
 
-PlayerShipControlSystem::PlayerShipControlSystem(Scene& scene) :
-    ShipControlSystem(scene)
+PlayerShipControlSystem::PlayerShipControlSystem(World& world) :
+    ShipControlSystem(world)
 {
 }
 
 void PlayerShipControlSystem::update()
 {
-    Real timeStep = scene().timeStep().seconds();
-    InputSystem& inputSystem = scene().system<InputSystem>();
+    Real timeStep = world().timeStep().seconds();
+    InputSystem& inputSystem = world().system<InputSystem>();
 
-    for (PlayerShipControl& playerShipControl : scene().components<PlayerShipControl>())
+    for (PlayerShipControl& playerShipControl : world().components<PlayerShipControl>())
     {
         Entity& entity = playerShipControl.entity();
 

@@ -6,15 +6,15 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect/Logic/DefaultScene.h>
+#include <Hect/Logic/DefaultWorld.h>
 
 using namespace hect;
 
-class ZerothScene :
-    public DefaultScene
+class ZerothWorld :
+    public DefaultWorld
 {
 public:
-    ZerothScene(Renderer& renderer, RenderTarget& renderTarget, AssetCache& assetCache, const JsonValue& settings);
+    ZerothWorld(Renderer& renderer, RenderTarget& renderTarget, AssetCache& assetCache, const JsonValue& settings);
 
     void fixedUpdate();
 };

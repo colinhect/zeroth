@@ -4,7 +4,7 @@
 // Copyright (c) 2014 Colin Hill
 //
 ///////////////////////////////////////////////////////////////////////////////
-#include "ZerothScene.h"
+#include "ZerothWorld.h"
 
 #include <Hect/Input/Systems/InputSystem.h>
 
@@ -17,8 +17,8 @@
 #include "Systems/PlayerCameraSystem.h"
 #include "Systems/PlayerShipControlSystem.h"
 
-ZerothScene::ZerothScene(Renderer& renderer, RenderTarget& renderTarget, AssetCache& assetCache, const JsonValue& settings) :
-    DefaultScene(renderer, renderTarget, assetCache)
+ZerothWorld::ZerothWorld(Renderer& renderer, RenderTarget& renderTarget, AssetCache& assetCache, const JsonValue& settings) :
+    DefaultWorld(renderer, renderTarget, assetCache)
 {
     // Zeroth components
     registerComponent<CockpitCamera>();
@@ -41,9 +41,9 @@ ZerothScene::ZerothScene(Renderer& renderer, RenderTarget& renderTarget, AssetCa
     }
 }
 
-void ZerothScene::fixedUpdate()
+void ZerothWorld::fixedUpdate()
 {
-    DefaultScene::fixedUpdate();
+    DefaultWorld::fixedUpdate();
 
     system<CockpitCameraSystem>().update();
     system<PlayerCameraSystem>().update();

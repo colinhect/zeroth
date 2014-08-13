@@ -204,7 +204,7 @@
   <ItemGroup>
     <ClCompile Include="Source\Components\Ship.cpp" />
     <ClCompile Include="Source\Components\Thruster.cpp" />
-    <ClCompile Include="Source\ZerothScene.cpp" />
+    <ClCompile Include="Source\ZerothWorld.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Systems\CockpitCameraSystem.cpp" />
     <ClCompile Include="Source\Systems\PlayerCameraSystem.cpp" />
@@ -218,7 +218,7 @@
     <ClInclude Include="Source\Components\PlayerShipControl.h" />
     <ClInclude Include="Source\Components\Ship.h" />
     <ClInclude Include="Source\Components\Thruster.h" />
-    <ClInclude Include="Source\ZerothScene.h" />
+    <ClInclude Include="Source\ZerothWorld.h" />
     <ClInclude Include="Source\Systems\CockpitCameraSystem.h" />
     <ClInclude Include="Source\Systems\PlayerCameraSystem.h" />
     <ClInclude Include="Source\Systems\PlayerShipControlSystem.h" />

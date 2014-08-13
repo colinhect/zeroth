@@ -8,22 +8,22 @@
 
 #include <Hect/Graphics/Components/Camera.h>
 #include <Hect/Input/Systems/InputSystem.h>
-#include <Hect/Logic/Scene.h>
+#include <Hect/Logic/World.h>
 #include <Hect/Spacial/Components/Transform.h>
 
 #include "Components/PlayerCamera.h"
 
-PlayerCameraSystem::PlayerCameraSystem(Scene& scene) :
-    System(scene),
+PlayerCameraSystem::PlayerCameraSystem(World& world) :
+    System(world),
     _speed(16)
 {
 }
 
 void PlayerCameraSystem::update()
 {
-    Real timeStep = scene().timeStep().seconds();
+    Real timeStep = world().timeStep().seconds();
 
-    for (PlayerCamera& playerCamera : scene().components<PlayerCamera>())
+    for (PlayerCamera& playerCamera : world().components<PlayerCamera>())
     {
         Entity& entity = playerCamera.entity();
 
