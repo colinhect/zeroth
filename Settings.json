@@ -6,7 +6,7 @@
         "bitsPerPixel" : 32,
         "fullscreen" : false
     },
-    "dataSources" :
+    "paths" :
     [
         "hect/Assets",
         "zeroth/Assets"
@@ -15,55 +15,55 @@
     [
         {
             "name" : "viewX",
-            "source" : "JoystickAxis",
-            "joystickIndex" : 0,
-            "joystickAxisIndex" : 0,
-            "joystickAxisDeadZone" : 0.2,
-            "joystickAxisInverted" : true
+            "source" : "GamepadAxis",
+            "gamepadIndex" : 0,
+            "gamepadAxisIndex" : 0,
+            "gamepadAxisDeadZone" : 0.2,
+            "gamepadAxisInverted" : true
         },
         {
             "name" : "viewY",
-            "source" : "JoystickAxis",
-            "joystickIndex" : 0,
-            "joystickAxisIndex" : 1,
-            "joystickAxisDeadZone" : 0.2,
-            "joystickAxisInverted" : true
+            "source" : "GamepadAxis",
+            "gamepadIndex" : 0,
+            "gamepadAxisIndex" : 1,
+            "gamepadAxisDeadZone" : 0.2,
+            "gamepadAxisInverted" : true
         },
         {
             "name" : "yawLeft",
-            "source" : "JoystickAxis",
-            "joystickIndex" : 0,
-            "joystickAxisIndex" : 5,
-            "joystickAxisDeadZone" : 0.2
+            "source" : "GamepadAxis",
+            "gamepadIndex" : 0,
+            "gamepadAxisIndex" : 5,
+            "gamepadAxisDeadZone" : 0.2
         },
         {
             "name" : "yawRight",
-            "source" : "JoystickAxis",
-            "joystickIndex" : 0,
-            "joystickAxisIndex" : 4,
-            "joystickAxisDeadZone" : 0.2
+            "source" : "GamepadAxis",
+            "gamepadIndex" : 0,
+            "gamepadAxisIndex" : 4,
+            "gamepadAxisDeadZone" : 0.2
         },
         {
             "name" : "pitch",
-            "source" : "JoystickAxis",
-            "joystickIndex" : 0,
-            "joystickAxisIndex" : 3,
-            "joystickAxisDeadZone" : 0.2,
-            "joystickAxisInverted" : true
+            "source" : "GamepadAxis",
+            "gamepadIndex" : 0,
+            "gamepadAxisIndex" : 3,
+            "gamepadAxisDeadZone" : 0.2,
+            "gamepadAxisInverted" : true
         },
         {
             "name" : "roll",
-            "source" : "JoystickAxis",
-            "joystickIndex" : 0,
-            "joystickAxisIndex" : 2,
-            "joystickAxisDeadZone" : 0.2
+            "source" : "GamepadAxis",
+            "gamepadIndex" : 0,
+            "gamepadAxisIndex" : 2,
+            "gamepadAxisDeadZone" : 0.2
         },
         {
             "name" : "thrust",
-            "source" : "JoystickButton",
-            "joystickIndex" : 0,
-            "positiveJoystickButtonIndex" : 7,
-            "negativeJoystickButtonIndex" : 6,
+            "source" : "GamepadButton",
+            "gamepadIndex" : 0,
+            "positiveGamepadButtonIndex" : 7,
+            "negativeGamepadButtonIndex" : 6,
             "acceleration" : 4,
             "gravity" : 10
         }

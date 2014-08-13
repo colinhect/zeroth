@@ -5,6 +5,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/Core/Configuration.h>
+#include <Hect/Platform/Platform.h>
 
 using namespace hect;
 
