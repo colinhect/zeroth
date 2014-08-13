@@ -39,7 +39,7 @@ void PlayerShipControlSystem::update()
         if (totalThrust > 0.1)
         {
             //size_t joystickIndex = _thrust->joystickIndex();
-            //Joystick& joystick = _inputDevices->joystick(joystickIndex);
+            //Joystick& joystick = ->joystick(joystickIndex);
             //joystick.hapticRumble(totalThrust, TimeSpan::fromSeconds(timeStep));
         }
 

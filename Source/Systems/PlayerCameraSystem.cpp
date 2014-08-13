@@ -42,7 +42,7 @@ void PlayerCameraSystem::update()
                 Real moveSpeed = timeStep * _speed;
 
                 /*
-                if (_inputDevices->mouse().mode() == MouseMode_Relative)
+                if (->mouse().mode() == MouseMode_Relative)
                 {
                     if (_viewX)
                     {

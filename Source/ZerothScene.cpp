@@ -17,8 +17,8 @@
 #include "Systems/PlayerCameraSystem.h"
 #include "Systems/PlayerShipControlSystem.h"
 
-ZerothScene::ZerothScene(InputDevices& inputDevices, Renderer& renderer, RenderTarget& renderTarget, AssetCache& assetCache, const JsonValue& settings) :
-    DefaultScene(inputDevices, renderer, renderTarget, assetCache)
+ZerothScene::ZerothScene(Renderer& renderer, RenderTarget& renderTarget, AssetCache& assetCache, const JsonValue& settings) :
+    DefaultScene(renderer, renderTarget, assetCache)
 {
     // Zeroth components
     registerComponent<CockpitCamera>();

@@ -28,7 +28,7 @@ int main(int argc, const char* argv[])
     catch (Error& error)
     {
         HECT_ERROR(error.what());
-        Window::showFatalError(error.what());
+        Platform::showFatalError(error.what());
     }
 
     return 0;

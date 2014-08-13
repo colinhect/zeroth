@@ -38,7 +38,7 @@ void CockpitCameraSystem::update()
                 Real rotateSpeed = timeStep * 1;
 
                 /*
-                if (_inputDevices->mouse().mode() == MouseMode_Relative && _viewX && _viewY)
+                if (->mouse().mode() == MouseMode_Relative && _viewX && _viewY)
                 {
                     transform->rotate(Vector3::unitY(), _viewX->value() * rotateSpeed);
                     transform->rotate(right, _viewY->value() * -rotateSpeed);

@@ -14,7 +14,7 @@ class ZerothScene :
     public DefaultScene
 {
 public:
-    ZerothScene(InputDevices& inputDevices, Renderer& renderer, RenderTarget& renderTarget, AssetCache& assetCache, const JsonValue& settings);
+    ZerothScene(Renderer& renderer, RenderTarget& renderTarget, AssetCache& assetCache, const JsonValue& settings);
 
     void fixedUpdate();
 };
