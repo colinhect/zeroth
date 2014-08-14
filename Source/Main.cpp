@@ -6,10 +6,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/Core/Configuration.h>
 #include <Hect/Platform/Platform.h>
+#include <Hect/Runtime/Engine.h>
 
 using namespace hect;
 
-#include "ZerothGame.h"
+#include "ZerothGameMode.h"
 
 #ifdef HECT_WINDOWS_BUILD
 #ifdef HECT_DEBUG_BUILD
@@ -24,7 +25,8 @@ int main(int argc, const char* argv[])
 
     try
     {
-        ZerothGame().execute();
+        Engine engine(argc, argv);
+        ZerothGameMode(engine).execute();
     }
     catch (Error& error)
     {

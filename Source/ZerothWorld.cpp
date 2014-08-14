@@ -17,8 +17,8 @@
 #include "Systems/PlayerCameraSystem.h"
 #include "Systems/PlayerShipControlSystem.h"
 
-ZerothWorld::ZerothWorld(Renderer& renderer, RenderTarget& renderTarget, AssetCache& assetCache, const JsonValue& settings) :
-    DefaultWorld(renderer, renderTarget, assetCache)
+ZerothWorld::ZerothWorld(ZerothGameMode& gameMode) :
+    DefaultWorld(gameMode)
 {
     // Zeroth components
     registerComponent<CockpitCamera>();
@@ -33,7 +33,7 @@ ZerothWorld::ZerothWorld(Renderer& renderer, RenderTarget& renderTarget, AssetCa
     addSystem<PlayerShipControlSystem>();
 
     InputSystem& inputSystem = system<InputSystem>();
-    for (const JsonValue& axisValue : settings["inputAxes"])
+    for (const JsonValue& axisValue : gameMode.engine().settings()["inputAxes"])
     {
         InputAxis axis;
         axis.decodeFromJsonValue(axisValue);

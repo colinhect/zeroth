@@ -210,7 +210,7 @@
     <ClCompile Include="Source\Systems\PlayerCameraSystem.cpp" />
     <ClCompile Include="Source\Systems\PlayerShipControlSystem.cpp" />
     <ClCompile Include="Source\Systems\ShipControlSystem.cpp" />
-    <ClCompile Include="Source\ZerothGame.cpp" />
+    <ClCompile Include="Source\ZerothGameMode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Components\CockpitCamera.h" />
@@ -223,7 +223,7 @@
     <ClInclude Include="Source\Systems\PlayerCameraSystem.h" />
     <ClInclude Include="Source\Systems\PlayerShipControlSystem.h" />
     <ClInclude Include="Source\Systems\ShipControlSystem.h" />
-    <ClInclude Include="Source\ZerothGame.h" />
+    <ClInclude Include="Source\ZerothGameMode.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\hect\Hect.vcxproj">

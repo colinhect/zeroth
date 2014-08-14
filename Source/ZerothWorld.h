@@ -8,13 +8,15 @@
 
 #include <Hect/Logic/DefaultWorld.h>
 
+#include "ZerothGameMode.h"
+
 using namespace hect;
 
 class ZerothWorld :
     public DefaultWorld
 {
 public:
-    ZerothWorld(Renderer& renderer, RenderTarget& renderTarget, AssetCache& assetCache, const JsonValue& settings);
+    ZerothWorld(ZerothGameMode& gameMode);
 
     void fixedUpdate();
 };

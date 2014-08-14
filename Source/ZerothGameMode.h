@@ -6,15 +6,15 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect/Logic/Game.h>
+#include <Hect/Logic/GameMode.h>
 
 using namespace hect;
 
-class ZerothGame :
-    public Game
+class ZerothGameMode :
+    public GameMode
 {
 public:
-    ZerothGame();
+    ZerothGameMode(Engine& engine);
 
     void execute();
 };

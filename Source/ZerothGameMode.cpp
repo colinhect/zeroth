@@ -4,23 +4,26 @@
 // Copyright (c) 2014 Colin Hill
 //
 ///////////////////////////////////////////////////////////////////////////////
-#include "ZerothGame.h"
+#include "ZerothGameMode.h"
 
 #include "ZerothWorld.h"
 
-ZerothGame::ZerothGame() :
-    Game("Zeroth", "zeroth/Settings.json")
+ZerothGameMode::ZerothGameMode(Engine& engine) :
+    GameMode(engine)
 {
 }
 
-void ZerothGame::execute()
+void ZerothGameMode::execute()
 {
-    AssetCache assetCache;
-
+    AssetCache& assetCache = engine().assetCache();
     AssetHandle<Data> worldData = assetCache.getHandle<Data>("Test/World.world");
 
-    ZerothWorld world(renderer(), window(), assetCache, settings());
+    ZerothWorld world(*this);
     world.decodeFromData(*worldData, assetCache);
 
-    playWorld(world);
+    while (engine().handleEvents())
+    {
+        world.tick();
+        engine().window().swapBuffers();
+    }
 }
