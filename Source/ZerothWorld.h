@@ -16,7 +16,7 @@ class ZerothWorld :
     public DefaultWorld
 {
 public:
-    ZerothWorld(ZerothGameMode& gameMode);
+    ZerothWorld();
 
     void fixedUpdate();
 };

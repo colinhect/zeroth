@@ -15,7 +15,7 @@
     [
         {
             "name" : "yaw",
-            "sources" :
+            "bindings" :
             [
                 {
                     "type" : "GamepadAxis",
@@ -33,7 +33,7 @@
         },
         {
             "name" : "pitch",
-            "sources" :
+            "bindings" :
             [
                 {
                     "type" : "GamepadAxis",
@@ -45,7 +45,7 @@
         },
         {
             "name" : "roll",
-            "sources" :
+            "bindings" :
             [
                 {
                     "type" : "GamepadAxis",
@@ -67,7 +67,7 @@
         },
         {
             "name" : "thrust",
-            "sources" :
+            "bindings" :
             [
                 {
                     "type" : "GamepadButton",

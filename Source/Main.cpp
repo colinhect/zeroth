@@ -20,13 +20,11 @@ using namespace hect;
 
 int main(int argc, const char* argv[])
 {
-    argc;
-    argv;
-
     try
     {
-        Engine engine(argc, argv);
-        ZerothGameMode(engine).execute();
+        Engine::initialize(argc, argv);
+        ZerothGameMode().execute();
+        Engine::deinitialize();
     }
     catch (Error& error)
     {

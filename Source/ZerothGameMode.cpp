@@ -8,22 +8,26 @@
 
 #include "ZerothWorld.h"
 
-ZerothGameMode::ZerothGameMode(Engine& engine) :
-    GameMode(engine)
+ZerothGameMode::ZerothGameMode()
+{
+}
+
+ZerothGameMode::~ZerothGameMode()
 {
 }
 
 void ZerothGameMode::execute()
 {
-    AssetCache& assetCache = engine().assetCache();
+    AssetCache& assetCache = Engine::assetCache();
+
     AssetHandle<Data> worldData = assetCache.getHandle<Data>("Test/World.world");
 
-    ZerothWorld world(*this);
+    ZerothWorld world;
     world.decodeFromData(*worldData, assetCache);
 
-    while (engine().handleEvents())
+    while (Engine::handleEvents())
     {
         world.tick();
-        engine().window().swapBuffers();
+        Engine::window().swapBuffers();
     }
 }

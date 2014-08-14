@@ -14,7 +14,8 @@ class ZerothGameMode :
     public GameMode
 {
 public:
-    ZerothGameMode(Engine& engine);
+    ZerothGameMode();
+    ~ZerothGameMode();
 
     void execute();
 };
