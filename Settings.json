@@ -1,4 +1,6 @@
 {
+    "defaultGameMode" : "ZerothGameMode",
+    "defaultWorld" : "Test/World.world",
     "videoMode" :
     {
         "width" : 1440,

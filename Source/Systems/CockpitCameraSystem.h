@@ -6,6 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <Hect/Core/Real.h>
 #include <Hect/Logic/System.h>
 
 using namespace hect;
@@ -16,5 +17,5 @@ class CockpitCameraSystem :
 public:
     CockpitCameraSystem(World& world);
 
-    void update();
+    void tick(Real timeStep);
 };

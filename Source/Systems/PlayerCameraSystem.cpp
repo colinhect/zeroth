@@ -19,9 +19,8 @@ PlayerCameraSystem::PlayerCameraSystem(World& world) :
 {
 }
 
-void PlayerCameraSystem::update()
+void PlayerCameraSystem::tick(Real timeStep)
 {
-    Real timeStep = world().timeStep().seconds();
 
     for (PlayerCamera& playerCamera : world().components<PlayerCamera>())
     {

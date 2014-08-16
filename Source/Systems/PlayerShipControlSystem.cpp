@@ -16,9 +16,8 @@ PlayerShipControlSystem::PlayerShipControlSystem(World& world) :
 {
 }
 
-void PlayerShipControlSystem::update()
+void PlayerShipControlSystem::tick(Real timeStep)
 {
-    Real timeStep = world().timeStep().seconds();
     InputSystem& inputSystem = world().system<InputSystem>();
 
     for (PlayerShipControl& playerShipControl : world().components<PlayerShipControl>())

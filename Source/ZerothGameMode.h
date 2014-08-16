@@ -7,6 +7,7 @@
 #pragma once
 
 #include <Hect/Logic/GameMode.h>
+#include <Hect/Logic/World.h>
 
 using namespace hect;
 
@@ -14,8 +15,11 @@ class ZerothGameMode :
     public GameMode
 {
 public:
-    ZerothGameMode();
+    ZerothGameMode(Engine& engine);
     ~ZerothGameMode();
 
-    void execute();
+    void tick();
+
+private:
+    World _world;
 };

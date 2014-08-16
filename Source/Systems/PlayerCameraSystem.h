@@ -17,7 +17,7 @@ class PlayerCameraSystem :
 public:
     PlayerCameraSystem(World& world);
 
-    void update();
+    void tick(Real timeStep);
 
 private:
     Real _speed;

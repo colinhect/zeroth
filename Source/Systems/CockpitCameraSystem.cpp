@@ -18,10 +18,8 @@ CockpitCameraSystem::CockpitCameraSystem(World& world) :
 {
 }
 
-void CockpitCameraSystem::update()
+void CockpitCameraSystem::tick(Real timeStep)
 {
-    Real timeStep = world().timeStep().seconds();
-
     for (CockpitCamera& cockpitCamera : world().components<CockpitCamera>())
     {
         Entity& entity = cockpitCamera.entity();

@@ -16,5 +16,5 @@ class PlayerShipControlSystem :
 public:
     PlayerShipControlSystem(World& world);
 
-    void update();
+    void tick(Real timeStep);
 };

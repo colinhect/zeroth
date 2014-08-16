@@ -33,9 +33,6 @@
     <ClCompile Include="Source\Systems\PlayerShipControlSystem.cpp">
       <Filter>Source\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ZerothWorld.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ZerothGameMode.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -67,9 +64,6 @@
     </ClInclude>
     <ClInclude Include="Source\Systems\PlayerShipControlSystem.h">
       <Filter>Source\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ZerothWorld.h">
-      <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\ZerothGameMode.h">
       <Filter>Source</Filter>

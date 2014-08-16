@@ -22,9 +22,9 @@ int main(int argc, const char* argv[])
 {
     try
     {
-        Engine::initialize(argc, argv);
-        ZerothGameMode().execute();
-        Engine::deinitialize();
+        Engine engine(argc, argv);
+        engine.registerGameMode<ZerothGameMode>();
+        return engine.main();
     }
     catch (Error& error)
     {
