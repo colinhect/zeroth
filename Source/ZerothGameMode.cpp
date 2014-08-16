@@ -15,6 +15,7 @@
 #include <Hect/Logic/GameMode.h>
 #include <Hect/Physics/Components/RigidBody.h>
 #include <Hect/Physics/Systems/PhysicsSystem.h>
+#include <Hect/Runtime/Engine.h>
 #include <Hect/Spacial/Components/BoundingBox.h>
 #include <Hect/Spacial/Components/Transform.h>
 #include <Hect/Spacial/Systems/BoundingBoxSystem.h>
@@ -34,21 +35,6 @@ ZerothGameMode::ZerothGameMode(Engine& engine) :
     GameMode(engine, TimeSpan::fromSeconds((Real)1 / (Real)60))
 {
     engine.renderSystem().addWorld(_world);
-
-    _world.registerComponent<BoundingBox>();
-    _world.registerComponent<Camera>();
-    _world.registerComponent<DirectionalLight>();
-    _world.registerComponent<LightProbe>();
-    _world.registerComponent<Model>();
-    _world.registerComponent<RigidBody>();
-    _world.registerComponent<SkyBox>();
-    _world.registerComponent<Transform>();
-    //
-    _world.registerComponent<CockpitCamera>();
-    _world.registerComponent<PlayerCamera>();
-    _world.registerComponent<PlayerShipControl>();
-    _world.registerComponent<Ship>();
-    _world.registerComponent<Thruster>();
 
     _world.addSystem<BoundingBoxSystem>();
     _world.addSystem<InputSystem>();
