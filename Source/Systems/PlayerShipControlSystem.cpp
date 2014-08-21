@@ -10,10 +10,12 @@
 #include <Hect/Logic/World.h>
 
 #include "Components/PlayerShipControl.h"
+#include "Systems/PlayerCameraSystem.h"
 
 PlayerShipControlSystem::PlayerShipControlSystem(World& world) :
     ShipControlSystem(world)
 {
+    tickAfter<PlayerCameraSystem>();
 }
 
 void PlayerShipControlSystem::tick(Real timeStep)

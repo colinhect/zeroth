@@ -12,11 +12,13 @@
 #include <Hect/Spacial/Components/Transform.h>
 
 #include "Components/PlayerCamera.h"
+#include "Systems/CockpitCameraSystem.h"
 
 PlayerCameraSystem::PlayerCameraSystem(World& world) :
     System(world),
     _speed(16)
 {
+    tickAfter<CockpitCameraSystem>();
 }
 
 void PlayerCameraSystem::tick(Real timeStep)

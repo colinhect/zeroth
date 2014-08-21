@@ -7,6 +7,7 @@
 #include <Hect/Core/Configuration.h>
 #include <Hect/Logic/ComponentRegistry.h>
 #include <Hect/Logic/GameModeRegistry.h>
+#include <Hect/Logic/SystemRegistry.h>
 #include <Hect/Platform/Platform.h>
 #include <Hect/Runtime/Engine.h>
 
@@ -19,7 +20,8 @@
 #include <Hect/Input/Systems/InputSystem.h>
 #include <Hect/Logic/GameMode.h>
 #include <Hect/Physics/Components/RigidBody.h>
-#include <Hect/Physics/Systems/PhysicsSystem.h>
+#include <Hect/Physics/Systems/PhysicsSimulationSystem.h>
+#include <Hect/Physics/Systems/PhysicsTransformSystem.h>
 #include <Hect/Runtime/Engine.h>
 #include <Hect/Spacial/Components/BoundingBox.h>
 #include <Hect/Spacial/Components/Transform.h>
@@ -65,6 +67,16 @@ int main(int argc, const char* argv[])
         ComponentRegistry::registerType<PlayerShipControl>();
         ComponentRegistry::registerType<Ship>();
         ComponentRegistry::registerType<Thruster>();
+
+        SystemRegistry::registerType<BoundingBoxSystem>();
+        SystemRegistry::registerType<InputSystem>();
+        SystemRegistry::registerType<PhysicsSimulationSystem>();
+        SystemRegistry::registerType<PhysicsTransformSystem>();
+        SystemRegistry::registerType<TransformSystem>();
+        //
+        SystemRegistry::registerType<CockpitCameraSystem>();
+        SystemRegistry::registerType<PlayerCameraSystem>();
+        SystemRegistry::registerType<PlayerShipControlSystem>();
 
         Engine engine(argc, argv);
         return engine.main();

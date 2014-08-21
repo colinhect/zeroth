@@ -14,7 +14,8 @@
 #include <Hect/Input/Systems/InputSystem.h>
 #include <Hect/Logic/GameMode.h>
 #include <Hect/Physics/Components/RigidBody.h>
-#include <Hect/Physics/Systems/PhysicsSystem.h>
+#include <Hect/Physics/Systems/PhysicsSimulationSystem.h>
+#include <Hect/Physics/Systems/PhysicsTransformSystem.h>
 #include <Hect/Runtime/Engine.h>
 #include <Hect/Spacial/Components/BoundingBox.h>
 #include <Hect/Spacial/Components/Transform.h>
@@ -35,15 +36,6 @@ ZerothGameMode::ZerothGameMode(Engine& engine) :
     GameMode(engine, TimeSpan::fromSeconds((Real)1 / (Real)60))
 {
     engine.renderSystem().addWorld(_world);
-
-    _world.addSystem<BoundingBoxSystem>();
-    _world.addSystem<InputSystem>();
-    _world.addSystem<PhysicsSystem>();
-    _world.addSystem<TransformSystem>();
-    //
-    _world.addSystem<CockpitCameraSystem>();
-    _world.addSystem<PlayerCameraSystem>();
-    _world.addSystem<PlayerShipControlSystem>();
 
     InputSystem& inputSystem = _world.system<InputSystem>();
     for (const JsonValue& axisValue : engine.settings()["inputAxes"])
@@ -66,14 +58,16 @@ ZerothGameMode::~ZerothGameMode()
 
 void ZerothGameMode::tick()
 {
-    _world.system<InputSystem>().tick(timeStep().seconds());
-    _world.system<PhysicsSystem>().updateTransforms();
-    _world.system<TransformSystem>().update();
-    _world.system<BoundingBoxSystem>().update();
+    Real timeStepInSeconds = timeStep().seconds();
 
-    _world.system<CockpitCameraSystem>().tick(timeStep().seconds());
-    _world.system<PlayerCameraSystem>().tick(timeStep().seconds());
-    _world.system<PlayerShipControlSystem>().tick(timeStep().seconds());
+    _world.system<InputSystem>().tick(timeStepInSeconds);
+    _world.system<PhysicsTransformSystem>().tick(timeStepInSeconds);
+    _world.system<TransformSystem>().tick(timeStepInSeconds);
+    _world.system<BoundingBoxSystem>().tick(timeStepInSeconds);
+    _world.system<PhysicsSimulationSystem>().tick(timeStepInSeconds);
 
-    _world.system<PhysicsSystem>().simulate(timeStep());
+    _world.system<CockpitCameraSystem>().tick(timeStepInSeconds);
+    _world.system<PlayerCameraSystem>().tick(timeStepInSeconds);
+    _world.system<PlayerShipControlSystem>().tick(timeStepInSeconds);
+
 }

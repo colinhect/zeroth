@@ -17,5 +17,5 @@ class CockpitCameraSystem :
 public:
     CockpitCameraSystem(World& world);
 
-    void tick(Real timeStep);
+    void tick(Real timeStep) override;
 };
