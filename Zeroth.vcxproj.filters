@@ -10,6 +10,9 @@
     <Filter Include="Source\Components">
       <UniqueIdentifier>{8f612d2d-7fca-42b5-b9cb-a4b254f959f9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Generated">
+      <UniqueIdentifier>{70ace904-168e-4a04-8b5f-d6167e8383c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -35,6 +38,9 @@
     </ClCompile>
     <ClCompile Include="Source\ZerothGameMode.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Generated\CustomTypes.cpp">
+      <Filter>Source\Generated</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

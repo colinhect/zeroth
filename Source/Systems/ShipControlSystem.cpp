@@ -8,7 +8,7 @@
 
 #include <Hect/Logic/World.h>
 #include <Hect/Physics/Components/RigidBody.h>
-#include <Hect/Physics/Systems/PhysicsSimulationSystem.h>
+#include <Hect/Physics/Systems/PhysicsSystem.h>
 #include <Hect/Spacial/Components/Transform.h>
 
 #include "Components/Thruster.h"
@@ -20,7 +20,7 @@ ShipControlSystem::ShipControlSystem(World& world) :
 
 void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, Real thrustAmount, Real timeStep)
 {
-    PhysicsSimulationSystem& physicsSystem = world().system<PhysicsSimulationSystem>();
+    PhysicsSystem& physicsSystem = world().system<PhysicsSystem>();
 
     auto transform = ship.component<Transform>();
     if (transform)

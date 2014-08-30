@@ -108,6 +108,10 @@
       <Message>
       </Message>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>cd $(SolutionDir)..\hect\Tools\
+python reflect.py ..\..\zeroth\Source\ ..\..\zeroth\Source\Generated\ CustomTypes</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -136,6 +140,10 @@
       <Message>
       </Message>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>cd $(SolutionDir)..\hect\Tools\
+python reflect.py ..\..\zeroth\Source\ ..\..\zeroth\Source\Generated\ CustomTypes</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -168,6 +176,10 @@
       <Message>
       </Message>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>cd $(SolutionDir)..\hect\Tools\
+python reflect.py ..\..\zeroth\Source\ ..\..\zeroth\Source\Generated\ CustomTypes</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -200,10 +212,15 @@
       <Message>
       </Message>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>cd $(SolutionDir)..\hect\Tools\
+python reflect.py ..\..\zeroth\Source\ ..\..\zeroth\Source\Generated\ CustomTypes</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Components\Ship.cpp" />
     <ClCompile Include="Source\Components\Thruster.cpp" />
+    <ClCompile Include="Source\Generated\CustomTypes.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Systems\CockpitCameraSystem.cpp" />
     <ClCompile Include="Source\Systems\PlayerCameraSystem.cpp" />

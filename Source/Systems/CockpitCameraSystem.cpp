@@ -9,7 +9,7 @@
 #include <Hect/Graphics/Components/Camera.h>
 #include <Hect/Input/Systems/InputSystem.h>
 #include <Hect/Logic/World.h>
-#include <Hect/Physics/Systems/PhysicsSimulationSystem.h>
+#include <Hect/Physics/Systems/PhysicsSystem.h>
 #include <Hect/Spacial/Components/Transform.h>
 
 #include "Components/CockpitCamera.h"
@@ -17,7 +17,7 @@
 CockpitCameraSystem::CockpitCameraSystem(World& world) :
     System(world)
 {
-    tickAfter<PhysicsSimulationSystem>();
+    tickAfter<PhysicsSystem>();
 }
 
 void CockpitCameraSystem::tick(Real timeStep)

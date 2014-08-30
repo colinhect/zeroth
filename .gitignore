@@ -6,6 +6,7 @@ Intermediate/*
 Assets/Intermediate/*
 Deploy/*.exe
 Deploy/*.dll
+Source/Generated/*
 Zeroth/Intermediate/*
 *.opensdf
 *.sdf
