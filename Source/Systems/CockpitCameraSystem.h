@@ -6,7 +6,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect/Core/Real.h>
 #include <Hect/Logic/System.h>
 
 using namespace hect;

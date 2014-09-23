@@ -4,7 +4,7 @@
     [
         {
             "type" : "Transform",
-            "position" : [ 0.0, 1.6, 2.3 ]
+            "localPosition" : [ 0.0, 1.6, 2.3 ]
         }
     ]
 }

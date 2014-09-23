@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ZerothGameMode.h"
 
-#include <Hect/Input/Systems/InputSystem.h>
+#include <Hect/Logic/Systems/InputSystem.h>
 #include <Hect/Runtime/Engine.h>
 
 ZerothGameMode::ZerothGameMode(Engine& engine) :

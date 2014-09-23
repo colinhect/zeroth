@@ -6,11 +6,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "CockpitCameraSystem.h"
 
-#include <Hect/Graphics/Components/Camera.h>
-#include <Hect/Input/Systems/InputSystem.h>
 #include <Hect/Logic/World.h>
-#include <Hect/Physics/Systems/PhysicsSystem.h>
-#include <Hect/Spacial/Components/Transform.h>
+#include <Hect/Logic/Components/Camera.h>
+#include <Hect/Logic/Components/Transform.h>
+#include <Hect/Logic/Systems/InputSystem.h>
+#include <Hect/Logic/Systems/PhysicsSystem.h>
 
 #include "Components/CockpitCamera.h"
 
@@ -32,8 +32,8 @@ void CockpitCameraSystem::tick(Real timeStep)
             auto camera = entity.component<Camera>();
             if (camera)
             {
-                const Vector3& up = camera->up();
-                const Vector3& right = camera->right();
+                const Vector3& up = camera->up;
+                const Vector3& right = camera->right;
 
                 Real rotateSpeed = timeStep * 1;
 

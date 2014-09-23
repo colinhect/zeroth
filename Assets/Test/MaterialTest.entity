@@ -2,9 +2,6 @@
     "components" :
     [
         {
-            "type" : "Transform"
-        },
-        {
             "type" : "BoundingBox"
         },
         {

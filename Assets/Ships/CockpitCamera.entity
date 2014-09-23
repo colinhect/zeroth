@@ -17,9 +17,7 @@
             "children" :
             [
                 {
-                    "components" :
-                    [
-                    ]
+                    "components" : [ ]
                 }
             ]
         }

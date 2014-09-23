@@ -7,9 +7,9 @@
 #include "ShipControlSystem.h"
 
 #include <Hect/Logic/World.h>
-#include <Hect/Physics/Components/RigidBody.h>
-#include <Hect/Physics/Systems/PhysicsSystem.h>
-#include <Hect/Spacial/Components/Transform.h>
+#include <Hect/Logic/Components/RigidBody.h>
+#include <Hect/Logic/Systems/PhysicsSystem.h>
+#include <Hect/Logic/Components/Transform.h>
 
 #include "Components/Thruster.h"
 
@@ -29,19 +29,18 @@ void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, 
         if (rigidBody)
         {
             {
-                Vector3 angularVelocity = rigidBody->angularVelocity();
+                Vector3 angularVelocity = rigidBody->angularVelocity;
                 angularVelocity = angularVelocity - angularVelocity * timeStep * 1.0;
 
-                Vector3 angularDelta = transform->globalRotation() * angularAmount;
+                Vector3 angularDelta = transform->globalRotation * angularAmount;
                 angularDelta *= timeStep * 2.0;
 
-                rigidBody->setAngularVelocity(angularVelocity + angularDelta);
+                physicsSystem.setAngularVelocity(*rigidBody, angularVelocity + angularDelta);
             }
             {
-                Vector3 linearVelocity = rigidBody->linearVelocity();
+                Vector3 linearVelocity = rigidBody->linearVelocity;
                 linearVelocity = linearVelocity - linearVelocity * timeStep * 0.5;
-                rigidBody->setLinearVelocity(linearVelocity);
-
+                physicsSystem.setLinearVelocity(*rigidBody, linearVelocity);
 
                 auto thrusterEntities = ship.findDescendants([](const Entity& entity)
                 {
@@ -56,7 +55,7 @@ void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, 
                         auto thrusterTransform = thrusterEntity->component<Transform>();
                         if (thrusterTransform)
                         {
-                            Vector3 thrustVector = transform->globalRotation() * thruster->direction;
+                            Vector3 thrustVector = transform->globalRotation * thruster->direction;
                             thrustVector = thrustVector.normalized() * thruster->power * thrustAmount;
 
                             physicsSystem.applyForce(*rigidBody, thrustVector, Vector3::zero());

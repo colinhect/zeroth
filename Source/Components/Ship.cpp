@@ -18,7 +18,7 @@ void Ship::encode(ObjectEncoder& encoder) const
 
 void Ship::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
-    if (decoder.hasMember("power"))
+    if (decoder.hasMember("name"))
     {
         name = decoder.decodeString("name");
     }

@@ -6,8 +6,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "PlayerShipControlSystem.h"
 
-#include <Hect/Input/Systems/InputSystem.h>
 #include <Hect/Logic/World.h>
+#include <Hect/Logic/Systems/InputSystem.h>
 
 #include "Components/PlayerShipControl.h"
 #include "Systems/PlayerCameraSystem.h"
