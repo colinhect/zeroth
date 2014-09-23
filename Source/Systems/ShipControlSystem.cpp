@@ -35,12 +35,12 @@ void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, 
                 Vector3 angularDelta = transform->globalRotation * angularAmount;
                 angularDelta *= timeStep * 2.0;
 
-                physicsSystem.setAngularVelocity(*rigidBody, angularVelocity + angularDelta);
+                rigidBody->angularVelocity = angularVelocity + angularDelta;
             }
             {
                 Vector3 linearVelocity = rigidBody->linearVelocity;
                 linearVelocity = linearVelocity - linearVelocity * timeStep * 0.5;
-                physicsSystem.setLinearVelocity(*rigidBody, linearVelocity);
+                rigidBody->linearVelocity = linearVelocity;
 
                 auto thrusterEntities = ship.findDescendants([](const Entity& entity)
                 {
@@ -63,6 +63,8 @@ void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, 
                     }
                 }
             }
+
+            physicsSystem.updateRigidBody(*rigidBody);
         }
     }
 }
