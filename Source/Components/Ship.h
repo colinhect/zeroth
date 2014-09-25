@@ -16,7 +16,7 @@ class Ship :
 public:
     Ship();
 
-    void encode(ObjectEncoder& encoder) const;
+    void encode(Encoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
     std::string name;

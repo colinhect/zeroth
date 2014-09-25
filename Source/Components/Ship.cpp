@@ -11,9 +11,9 @@ Ship::Ship() :
 {
 }
 
-void Ship::encode(ObjectEncoder& encoder) const
+void Ship::encode(Encoder& encoder) const
 {
-    encoder.encodeString("name", name);
+    encoder << encodeValue("name", name);
 }
 
 void Ship::decode(ObjectDecoder& decoder, AssetCache& assetCache)

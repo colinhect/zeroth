@@ -12,10 +12,10 @@ Thruster::Thruster() :
 {
 }
 
-void Thruster::encode(ObjectEncoder& encoder) const
+void Thruster::encode(Encoder& encoder) const
 {
-    encoder.encodeReal("power", power);
-    encoder.encodeVector3("direction", direction);
+    encoder << encodeValue("power", power)
+        << encodeValue("direction", direction);
 }
 
 void Thruster::decode(ObjectDecoder& decoder, AssetCache& assetCache)
