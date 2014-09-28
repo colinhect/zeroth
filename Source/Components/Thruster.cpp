@@ -14,12 +14,16 @@ Thruster::Thruster() :
 
 void Thruster::encode(Encoder& encoder) const
 {
-    encoder << encodeValue("power", power)
-        << encodeValue("direction", direction);
+    encoder << beginObject()
+            << encodeValue("power", power)
+            << encodeValue("direction", direction)
+            << endObject();
 }
 
 void Thruster::decode(Decoder& decoder)
 {
-    decoder >> decodeValue("power", power)
-        >> decodeValue("direction", direction);
+    decoder >> beginObject()
+            >> decodeValue("power", power)
+            >> decodeValue("direction", direction)
+            >> endObject();
 }

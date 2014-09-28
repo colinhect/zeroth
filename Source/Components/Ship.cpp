@@ -13,10 +13,14 @@ Ship::Ship() :
 
 void Ship::encode(Encoder& encoder) const
 {
-    encoder << encodeValue("name", name);
+    encoder << beginObject()
+            << encodeValue("name", name)
+            << endObject();
 }
 
 void Ship::decode(Decoder& decoder)
 {
-    decoder >> decodeValue("name", name);
+    decoder >> beginObject()
+            >> decodeValue("name", name)
+            >> endObject();
 }

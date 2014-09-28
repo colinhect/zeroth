@@ -4,15 +4,15 @@
         {
             "archetype" : "Ships/Viper.entity",
             "components" :
-            [
+            {
+                "PlayerShipControl" :
                 {
-                    "type" : "PlayerShipControl"
                 },
+                "Transform" :
                 {
-                    "type" : "Transform",
                     "localPosition" : [ 0.0, 0.0, 10.0 ]
                 }
-            ],
+            },
             "children" :
             [
                 {
@@ -23,30 +23,30 @@
         {
             "archetype" : "Ships/Viper.entity",
             "components" :
-            [
+            {
+                "Transform" :
                 {
-                    "type" : "Transform",
                     "localPosition" : [ 0.0, 0.0, 100.0 ]
                 }
-            ]
+            }
         },
         {
             "components" :
-            [
+            {
+                "DirectionalLight" :
                 {
-                    "type" : "DirectionalLight",
                     "color" : [ 5.5, 5.5, 5.5 ],
                     "direction" : [ 1.0, -1.0, -1.0 ]
                 },
+                "LightProbe" :
                 {
-                    "type" : "LightProbe",
                     "texture" : "Space.texture"
                 },
+                "SkyBox" :
                 {
-                    "type" : "SkyBox",
                     "texture" : "Space.texture"
                 }
-            ]
+            }
         }
     ]
 }
