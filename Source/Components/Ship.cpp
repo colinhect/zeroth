@@ -16,10 +16,7 @@ void Ship::encode(Encoder& encoder) const
     encoder << encodeValue("name", name);
 }
 
-void Ship::decode(ObjectDecoder& decoder, AssetCache& assetCache)
+void Ship::decode(Decoder& decoder)
 {
-    if (decoder.hasMember("name"))
-    {
-        name = decoder.decodeString("name");
-    }
+    decoder >> decodeValue("name", name);
 }

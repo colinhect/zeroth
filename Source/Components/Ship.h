@@ -17,7 +17,7 @@ public:
     Ship();
 
     void encode(Encoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
+    void decode(Decoder& decoder);
 
     std::string name;
 };

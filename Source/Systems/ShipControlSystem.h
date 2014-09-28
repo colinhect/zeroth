@@ -8,6 +8,7 @@
 
 #include <Hect/Logic/Entity.h>
 #include <Hect/Logic/System.h>
+#include <Hect/Math/Vector3.h>
 
 using namespace hect;
 

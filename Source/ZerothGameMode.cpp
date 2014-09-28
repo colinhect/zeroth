@@ -6,6 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ZerothGameMode.h"
 
+#include <Hect/IO/JsonDecoder.h>
 #include <Hect/Logic/Systems/InputSystem.h>
 #include <Hect/Runtime/Engine.h>
 
@@ -18,12 +19,18 @@ ZerothGameMode::ZerothGameMode(Engine& engine) :
     for (const JsonValue& axisValue : engine.settings()["inputAxes"])
     {
         InputAxis axis;
-        axis.decodeFromJsonValue(axisValue);
+
+        JsonDecoder decoder(axisValue);
+        decoder >> decodeValue(axis);
+
         inputSystem.addAxis(axis);
     }
 
-    AssetHandle<Data> worldData = engine.assetCache().getHandle<Data>("Test/World.world");
-    _world.decodeFromData(*worldData, engine.assetCache());
+    AssetCache::SelectDirectoryScope scope(engine.assetCache(), "Test");
+
+    AssetHandle<JsonValue> worldJsonValue = engine.assetCache().getHandle<JsonValue>("Test/World.world");
+    JsonDecoder decoder(*worldJsonValue, engine.assetCache());
+    decoder >> beginObject() >> decodeValue(_world) >> endObject();
 }
 
 ZerothGameMode::~ZerothGameMode()

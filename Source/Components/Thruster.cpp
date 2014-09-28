@@ -18,15 +18,8 @@ void Thruster::encode(Encoder& encoder) const
         << encodeValue("direction", direction);
 }
 
-void Thruster::decode(ObjectDecoder& decoder, AssetCache& assetCache)
+void Thruster::decode(Decoder& decoder)
 {
-    if (decoder.hasMember("power"))
-    {
-        power = decoder.decodeReal("power");
-    }
-
-    if (decoder.hasMember("direction"))
-    {
-        direction = decoder.decodeVector3("direction");
-    }
+    decoder >> decodeValue("power", power)
+        >> decodeValue("direction", direction);
 }
