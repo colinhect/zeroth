@@ -11,6 +11,9 @@
 
 using namespace hect;
 
+namespace zeroth
+{
+
 class ZerothGameMode :
     public GameMode
 {
@@ -23,3 +26,5 @@ public:
 private:
     World _world;
 };
+
+}

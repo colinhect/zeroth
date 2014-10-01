@@ -14,6 +14,8 @@
 #include "Components/PlayerCamera.h"
 #include "Systems/CockpitCameraSystem.h"
 
+using namespace zeroth;
+
 PlayerCameraSystem::PlayerCameraSystem(World& world) :
     System(world),
     _speed(16)

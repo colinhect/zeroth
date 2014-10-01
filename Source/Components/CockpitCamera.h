@@ -6,11 +6,16 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect/Logic/Component.h>
+#include <Hect/Logic/ComponentRegistry.h>
 
 using namespace hect;
+
+namespace zeroth
+{
 
 class CockpitCamera :
     public Component<CockpitCamera>
 {
 };
+
+}

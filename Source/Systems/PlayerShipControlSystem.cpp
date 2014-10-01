@@ -12,6 +12,8 @@
 #include "Components/PlayerShipControl.h"
 #include "Systems/PlayerCameraSystem.h"
 
+using namespace zeroth;
+
 PlayerShipControlSystem::PlayerShipControlSystem(World& world) :
     ShipControlSystem(world)
 {

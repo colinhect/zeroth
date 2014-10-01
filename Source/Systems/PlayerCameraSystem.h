@@ -7,9 +7,12 @@
 #pragma once
 
 #include <Hect/Core/Real.h>
-#include <Hect/Logic/System.h>
+#include <Hect/Logic/SystemRegistry.h>
 
 using namespace hect;
+
+namespace zeroth
+{
 
 class PlayerCameraSystem :
     public System
@@ -22,3 +25,5 @@ public:
 private:
     Real _speed;
 };
+
+}

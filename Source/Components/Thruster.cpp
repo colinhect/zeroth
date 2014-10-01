@@ -6,6 +6,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Thruster.h"
 
+using namespace zeroth;
+
 Thruster::Thruster() :
     power(1.0),
     direction(Vector3::unitZ())

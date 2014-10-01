@@ -10,6 +10,8 @@
 #include <Hect/Logic/Systems/InputSystem.h>
 #include <Hect/Runtime/Engine.h>
 
+using namespace zeroth;
+
 ZerothGameMode::ZerothGameMode(Engine& engine) :
     GameMode(engine, TimeSpan::fromSeconds((Real)1 / (Real)60))
 {

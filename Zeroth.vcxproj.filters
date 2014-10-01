@@ -39,7 +39,7 @@
     <ClCompile Include="Source\ZerothGameMode.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Generated\CustomTypes.cpp">
+    <ClCompile Include="Source\Generated\_reflect_zeroth.cpp">
       <Filter>Source\Generated</Filter>
     </ClCompile>
   </ItemGroup>
@@ -73,6 +73,9 @@
     </ClInclude>
     <ClInclude Include="Source\ZerothGameMode.h">
       <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Generated\_reflect_zeroth.h">
+      <Filter>Source\Generated</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

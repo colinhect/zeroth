@@ -10,6 +10,9 @@
 
 using namespace hect;
 
+namespace zeroth
+{
+
 class PlayerShipControlSystem :
     public ShipControlSystem
 {
@@ -18,3 +21,5 @@ public:
 
     void tick(Real timeStep) override;
 };
+
+}

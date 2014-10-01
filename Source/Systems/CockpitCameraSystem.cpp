@@ -14,6 +14,8 @@
 
 #include "Components/CockpitCamera.h"
 
+using namespace zeroth;
+
 CockpitCameraSystem::CockpitCameraSystem(World& world) :
     System(world)
 {

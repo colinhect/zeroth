@@ -6,10 +6,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect/Logic/Component.h>
+#include <Hect/Logic/ComponentRegistry.h>
 #include <Hect/Math/Vector3.h>
 
 using namespace hect;
+
+namespace zeroth
+{
 
 class Thruster :
     public Component<Thruster>
@@ -23,3 +26,5 @@ public:
     Real power;
     Vector3 direction;
 };
+
+}

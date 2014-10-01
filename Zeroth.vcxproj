@@ -110,7 +110,7 @@
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>cd $(SolutionDir)..\hect\Tools\
-python reflect.py ..\..\zeroth\Source\ ..\..\zeroth\Source\Generated\ CustomTypes</Command>
+python reflect.py ..\..\zeroth\Source\ ..\..\zeroth\Source\Generated\ zeroth</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -142,7 +142,7 @@ python reflect.py ..\..\zeroth\Source\ ..\..\zeroth\Source\Generated\ CustomType
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>cd $(SolutionDir)..\hect\Tools\
-python reflect.py ..\..\zeroth\Source\ ..\..\zeroth\Source\Generated\ CustomTypes</Command>
+python reflect.py ..\..\zeroth\Source\ ..\..\zeroth\Source\Generated\ zeroth</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -178,7 +178,7 @@ python reflect.py ..\..\zeroth\Source\ ..\..\zeroth\Source\Generated\ CustomType
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>cd $(SolutionDir)..\hect\Tools\
-python reflect.py ..\..\zeroth\Source\ ..\..\zeroth\Source\Generated\ CustomTypes</Command>
+python reflect.py ..\..\zeroth\Source\ ..\..\zeroth\Source\Generated\ zeroth</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -214,13 +214,13 @@ python reflect.py ..\..\zeroth\Source\ ..\..\zeroth\Source\Generated\ CustomType
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>cd $(SolutionDir)..\hect\Tools\
-python reflect.py ..\..\zeroth\Source\ ..\..\zeroth\Source\Generated\ CustomTypes</Command>
+python reflect.py ..\..\zeroth\Source\ ..\..\zeroth\Source\Generated\ zeroth</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Components\Ship.cpp" />
     <ClCompile Include="Source\Components\Thruster.cpp" />
-    <ClCompile Include="Source\Generated\CustomTypes.cpp" />
+    <ClCompile Include="Source\Generated\_reflect_zeroth.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Systems\CockpitCameraSystem.cpp" />
     <ClCompile Include="Source\Systems\PlayerCameraSystem.cpp" />
@@ -234,6 +234,7 @@ python reflect.py ..\..\zeroth\Source\ ..\..\zeroth\Source\Generated\ CustomType
     <ClInclude Include="Source\Components\PlayerShipControl.h" />
     <ClInclude Include="Source\Components\Ship.h" />
     <ClInclude Include="Source\Components\Thruster.h" />
+    <ClInclude Include="Source\Generated\_reflect_zeroth.h" />
     <ClInclude Include="Source\Systems\CockpitCameraSystem.h" />
     <ClInclude Include="Source\Systems\PlayerCameraSystem.h" />
     <ClInclude Include="Source\Systems\PlayerShipControlSystem.h" />

@@ -13,6 +13,8 @@
 
 #include "Components/Thruster.h"
 
+using namespace zeroth;
+
 ShipControlSystem::ShipControlSystem(World& world) :
     System(world)
 {

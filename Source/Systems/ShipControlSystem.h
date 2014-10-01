@@ -7,10 +7,13 @@
 #pragma once
 
 #include <Hect/Logic/Entity.h>
-#include <Hect/Logic/System.h>
+#include <Hect/Logic/SystemRegistry.h>
 #include <Hect/Math/Vector3.h>
 
 using namespace hect;
+
+namespace zeroth
+{
 
 class ShipControlSystem :
     public System
@@ -20,3 +23,5 @@ public:
 
     void controlShip(Entity& ship, const Vector3& angularAmount, Real thrustAmount, Real timeStep);
 };
+
+}

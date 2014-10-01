@@ -6,9 +6,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect/Logic/System.h>
+#include <Hect/Logic/SystemRegistry.h>
 
 using namespace hect;
+
+namespace zeroth
+{
 
 class CockpitCameraSystem :
     public System
@@ -18,3 +21,5 @@ public:
 
     void tick(Real timeStep) override;
 };
+
+}
