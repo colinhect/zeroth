@@ -15,66 +15,66 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Main.cpp">
+    <ClCompile Include="..\..\..\Source\Main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Systems\PlayerCameraSystem.cpp">
+    <ClCompile Include="..\..\..\Source\Systems\PlayerCameraSystem.cpp">
       <Filter>Source\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Systems\CockpitCameraSystem.cpp">
+    <ClCompile Include="..\..\..\Source\Systems\CockpitCameraSystem.cpp">
       <Filter>Source\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Components\Thruster.cpp">
+    <ClCompile Include="..\..\..\Source\Components\Thruster.cpp">
       <Filter>Source\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Components\Ship.cpp">
+    <ClCompile Include="..\..\..\Source\Components\Ship.cpp">
       <Filter>Source\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Systems\ShipControlSystem.cpp">
+    <ClCompile Include="..\..\..\Source\Systems\ShipControlSystem.cpp">
       <Filter>Source\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Systems\PlayerShipControlSystem.cpp">
+    <ClCompile Include="..\..\..\Source\Systems\PlayerShipControlSystem.cpp">
       <Filter>Source\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ZerothGameMode.cpp">
+    <ClCompile Include="..\..\..\Source\ZerothGameMode.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Generated\_reflect_zeroth.cpp">
+    <ClCompile Include="..\..\..\Source\Generated\_reflect_zeroth.cpp">
       <Filter>Source\Generated</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Components\PlayerCamera.h">
+    <ClInclude Include="..\..\..\Source\Components\PlayerCamera.h">
       <Filter>Source\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Systems\PlayerCameraSystem.h">
+    <ClInclude Include="..\..\..\Source\Systems\PlayerCameraSystem.h">
       <Filter>Source\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Components\CockpitCamera.h">
+    <ClInclude Include="..\..\..\Source\Components\CockpitCamera.h">
       <Filter>Source\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Systems\CockpitCameraSystem.h">
+    <ClInclude Include="..\..\..\Source\Systems\CockpitCameraSystem.h">
       <Filter>Source\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Components\Thruster.h">
+    <ClInclude Include="..\..\..\Source\Components\Thruster.h">
       <Filter>Source\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Components\Ship.h">
+    <ClInclude Include="..\..\..\Source\Components\Ship.h">
       <Filter>Source\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Systems\ShipControlSystem.h">
+    <ClInclude Include="..\..\..\Source\Systems\ShipControlSystem.h">
       <Filter>Source\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Components\PlayerShipControl.h">
+    <ClInclude Include="..\..\..\Source\Components\PlayerShipControl.h">
       <Filter>Source\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Systems\PlayerShipControlSystem.h">
+    <ClInclude Include="..\..\..\Source\Systems\PlayerShipControlSystem.h">
       <Filter>Source\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ZerothGameMode.h">
+    <ClInclude Include="..\..\..\Source\ZerothGameMode.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Generated\_reflect_zeroth.h">
+    <ClInclude Include="..\..\..\Source\Generated\_reflect_zeroth.h">
       <Filter>Source\Generated</Filter>
     </ClInclude>
   </ItemGroup>

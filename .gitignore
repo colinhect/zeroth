@@ -1,13 +1,6 @@
-Bin/*
-Win32/*
-x64/*
-Ignore.txt
-Intermediate/*
-Assets/Intermediate/*
-Deploy/*.exe
-Deploy/*.dll
+Build/Windows/Bin/*
+Build/Windows/Zeroth/Intermediate/*
 Source/Generated/*
-Zeroth/Intermediate/*
 *.opensdf
 *.sdf
 *.suo
