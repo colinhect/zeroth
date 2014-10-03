@@ -16,13 +16,13 @@
 #endif
 #endif
 
-int main(int argc, const char* argv[])
+int main(int argc, char* const argv[])
 {
     try
     {
         zeroth::registerTypes();
 
-        hect::Engine engine(argc, argv);
+        hect::Engine engine{ argc, argv };
         return engine.main();
     }
     catch (hect::Error& error)
