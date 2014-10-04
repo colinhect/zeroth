@@ -10,8 +10,8 @@
     },
     "paths" :
     [
-        "hect/Assets",
-        "zeroth/Assets"
+        "../../../../../../hect/Assets"
+        "../../../../../Assets"
     ],
     "inputAxes" :
     [
