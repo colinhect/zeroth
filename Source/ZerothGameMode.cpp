@@ -18,7 +18,7 @@ ZerothGameMode::ZerothGameMode(Engine& engine) :
     engine.renderSystem().addWorld(_world);
 
     InputSystem& inputSystem = _world.system<InputSystem>();
-    for (const JsonValue& axisValue : engine.settings()["inputAxes"])
+    for (const JsonValue& axisValue : engine.config()["inputAxes"])
     {
         InputAxis axis;
 

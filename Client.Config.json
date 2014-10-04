@@ -1,6 +1,5 @@
 {
     "defaultGameMode" : "ZerothGameMode",
-    "defaultWorld" : "Test/World.world",
     "videoMode" :
     {
         "width" : 1440,
@@ -8,11 +7,6 @@
         "bitsPerPixel" : 32,
         "fullscreen" : false
     },
-    "paths" :
-    [
-        "../../../../../../hect/Assets"
-        "../../../../../Assets"
-    ],
     "inputAxes" :
     [
         {
