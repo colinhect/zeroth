@@ -1,23 +1,19 @@
 {
-    "components" :
-    {
-        "Camera" :
-        {
-            "fieldOfView" : 80,
-            "nearClip" : 0.01,
-            "farClip" : 250000
-        },
-        "CockpitCamera" : { }
-    },
-    "children" :
-    [
-        {
-            "children" :
-            [
-                {
-                    "components" : { }
-                }
-            ]
-        }
-    ]
+   "children" : [
+      {
+         "children" : [
+            {
+               "components" : {}
+            }
+         ]
+      }
+   ],
+   "components" : {
+      "Camera" : {
+         "farClip" : 250000,
+         "fieldOfView" : 80,
+         "nearClip" : 0.010
+      },
+      "CockpitCamera" : {}
+   }
 }

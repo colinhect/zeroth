@@ -1,42 +1,33 @@
 {
-    "components" :
-    {
-        "BoundingBox" : { },
-        "Model" :
-        {
-            "surfaces" :
-            [
-               {
-                  "mesh" : "Viper.Hull.mesh",
-                  "material" : "Viper.Hull.material"
-               }
-            ]
-        },
-        "RigidBody" :
-        {
-            "mass" : 100.0,
-            "mesh" : "Viper.Collision.mesh"
-        },
-        "Ship" :
-        {
-            "name" : "Viper"
-        }
-    },
-    "children" :
-    [
-        {
-            "components" :
-            {
-                "Transform" :
-                {
-                    "localPosition" : [ 0.0, 0.0, -7.0 ]
-                },
-                "Thruster" :
-                {
-                    "power" : 4000.0,
-                    "direction" : [ 0.0, 0.0, 1.0 ]
-                }
+   "children" : [
+      {
+         "components" : {
+            "Thruster" : {
+               "direction" : [ 0.0, 0.0, 1.0 ],
+               "power" : 4000.0
+            },
+            "Transform" : {
+               "localPosition" : [ 0.0, 0.0, -7.0 ]
             }
-        }
-    ]
+         }
+      }
+   ],
+   "components" : {
+      "BoundingBox" : {},
+      "Model" : {
+         "surfaces" : [
+            {
+               "material" : "Viper.Hull.material",
+               "mesh" : "Viper.Hull.mesh"
+            }
+         ]
+      },
+      "RigidBody" : {
+         "mass" : 100.0,
+         "mesh" : "Viper.Collision.mesh"
+      },
+      "Ship" : {
+         "name" : "Viper"
+      }
+   }
 }

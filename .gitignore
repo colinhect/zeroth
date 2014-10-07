@@ -1,5 +1,6 @@
 Build/Windows/Bin/*
 Build/Windows/Zeroth/Intermediate/*
+Build/Windows/ZerothAssets/Intermediate/*
 Source/Generated/*
 *.opensdf
 *.sdf
