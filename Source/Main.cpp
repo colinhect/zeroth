@@ -22,7 +22,7 @@ int main(int argc, char* const argv[])
     {
         zeroth::registerTypes();
 
-        hect::Engine engine{ argc, argv };
+        hect::Engine engine(argc, argv);
         return engine.main();
     }
     catch (hect::Error& error)
