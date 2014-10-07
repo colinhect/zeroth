@@ -1,18 +1,11 @@
 import os
-from subprocess import call
+import subprocess
 
-def execute(path, args=""):
-    if os.path.exists(path):
-        call(path + " " + args, shell=True)
+def execute(dir, exe, args=""):
+    if os.path.exists(dir):
+        subprocess.call("cd " + dir + " & " + exe + " " + args, shell=True)
 
-execute("Build\\Windows\\Bin\\Debug\\Win32\\HectUnitTests.exe")
-execute("Build\\Windows\\Bin\\Debug\\x64\\HectUnitTests.exe")
-execute("Build\\Windows\\Bin\\Release\\Win32\\HectUnitTests.exe")
-execute("Build\\Windows\\Bin\\Release\\x64\\HectUnitTests.exe")
-
-execute("Build\\Windows\\Bin\\Debug\\Win32\\HectSystemTests.exe", "--path ..\\hect\\Tests\\Assets")
-execute("Build\\Windows\\Bin\\Debug\\x64\\HectSystemTests.exe", "--path ..\\hect\\Tests\\Assets")
-execute("Build\\Windows\\Bin\\Release\\Win32\\HectSystemTests.exe", "--path ..\\hect\\Tests\\Assets")
-execute("Build\\Windows\\Bin\\Release\\x64\\HectSystemTests.exe", "--path ..\\hect\\Tests\\Assets")
+execute("Build\\Windows\\Bin\\Debug\\x64", "HectUnitTests.exe")
+execute("Build\\Windows\\Bin\\Debug\\x64", "HectSystemTests.exe", "--config SystemTests.config")
 
 input("Press any key to continue")
