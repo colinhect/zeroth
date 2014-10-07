@@ -23,7 +23,7 @@
                         "type": "Float"
                     }
                 ],
-                "shader": "Hect/PhysicallyBased/Solid.shader"
+                "shader": "Hect/Solid.shader"
             }
         ]
     ]

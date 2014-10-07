@@ -28,9 +28,9 @@ ZerothGameMode::ZerothGameMode(Engine& engine) :
         inputSystem.addAxis(axis);
     }
 
-    AssetCache::SelectDirectoryScope scope(engine.assetCache(), "Test");
+    AssetCache::SelectDirectoryScope scope(engine.assetCache(), "Zeroth/Test");
 
-    AssetHandle<JsonValue> worldJsonValue = engine.assetCache().getHandle<JsonValue>("Test/World.world");
+    AssetHandle<JsonValue> worldJsonValue = engine.assetCache().getHandle<JsonValue>("World.world");
     JsonDecoder decoder(*worldJsonValue, engine.assetCache());
     decoder >> beginObject() >> decodeValue(_world) >> endObject();
 }

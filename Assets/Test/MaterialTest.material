@@ -17,7 +17,7 @@
                     "Test_M.texture",
                     "Test_N.texture"
                 ],
-                "shader": "Hect/PhysicallyBased/Triplanar.shader"
+                "shader": "Hect/Triplanar.shader"
             }
         ]
     ]
