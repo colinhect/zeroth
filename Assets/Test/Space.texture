@@ -1,7 +1,6 @@
 {
-    "type" : "CubeMap",
-    "images" : 
-    [
+    "type": "CubeMap",
+    "images": [
         "Space_right1.png",
         "Space_left2.png",
         "Space_bottom4.png",

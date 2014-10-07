@@ -1,23 +1,21 @@
 {
-    "components" :
-    [
+    "components": [
         {
-            "type" : "BoundingBox"
+            "type": "BoundingBox"
         },
         {
-            "type" : "Model",
-            "surfaces" :
-            [
-               {
-                  "mesh" : "MaterialTest.Base.mesh",
-                  "material" : "MaterialTest.material"
-               }
+            "type": "Model",
+            "surfaces": [
+                {
+                    "mesh": "MaterialTest.Base.mesh",
+                    "material": "MaterialTest.material"
+                }
             ]
         },
         {
-            "type" : "RigidBody",
-            "mass" : 1.0,
-            "mesh" : "MaterialTest.Base.mesh"
+            "mass": 1.0,
+            "mesh": "MaterialTest.Base.mesh",
+            "type": "RigidBody"
         }
     ]
 }

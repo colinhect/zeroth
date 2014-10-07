@@ -1,50 +1,54 @@
 {
-    "entities" :
-    [
+    "entities": [
         {
-            "archetype" : "Ships/Viper.entity",
-            "components" :
-            {
-                "PlayerShipControl" :
+            "children": [
                 {
+                    "archetype": "Ships/Viper.Cockpit.entity"
+                }
+            ],
+            "components": {
+                "Transform": {
+                    "localPosition": [
+                        0.0,
+                        0.0,
+                        10.0
+                    ]
                 },
-                "Transform" :
-                {
-                    "localPosition" : [ 0.0, 0.0, 10.0 ]
+                "PlayerShipControl": {}
+            },
+            "archetype": "Ships/Viper.entity"
+        },
+        {
+            "components": {
+                "Transform": {
+                    "localPosition": [
+                        0.0,
+                        0.0,
+                        100.0
+                    ]
                 }
             },
-            "children" :
-            [
-                {
-                    "archetype" : "Ships/Viper.Cockpit.entity"
-                }
-            ]
+            "archetype": "Ships/Viper.entity"
         },
         {
-            "archetype" : "Ships/Viper.entity",
-            "components" :
-            {
-                "Transform" :
-                {
-                    "localPosition" : [ 0.0, 0.0, 100.0 ]
-                }
-            }
-        },
-        {
-            "components" :
-            {
-                "DirectionalLight" :
-                {
-                    "color" : [ 5.5, 5.5, 5.5 ],
-                    "direction" : [ 1.0, -1.0, -1.0 ]
+            "components": {
+                "LightProbe": {
+                    "texture": "Space.texture"
                 },
-                "LightProbe" :
-                {
-                    "texture" : "Space.texture"
+                "DirectionalLight": {
+                    "direction": [
+                        1.0,
+                        -1.0,
+                        -1.0
+                    ],
+                    "color": [
+                        5.5,
+                        5.5,
+                        5.5
+                    ]
                 },
-                "SkyBox" :
-                {
-                    "texture" : "Space.texture"
+                "SkyBox": {
+                    "texture": "Space.texture"
                 }
             }
         }

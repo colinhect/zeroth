@@ -1,7 +1,6 @@
 {
-    "type" : "CubeMap",
-    "images" : 
-    [
+    "type": "CubeMap",
+    "images": [
         "TropicalSunnyDayLeft2048.png",
         "TropicalSunnyDayRight2048.png",
         "TropicalSunnyDayDown2048.png",

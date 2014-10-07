@@ -1,22 +1,25 @@
 {
-    "components" :
-    [
+    "components": [
         {
-            "type" : "Transform",
-            "localPosition" : [ 0.0, 1.0, 3.0 ]
+            "localPosition": [
+                0.0,
+                1.0,
+                3.0
+            ],
+            "type": "Transform"
         },
         {
-            "type" : "Camera",
-            "fieldOfView" : 80,
-            "nearClip" : 0.01,
-            "farClip" : 250000
+            "farClip": 250000,
+            "nearClip": 0.01,
+            "type": "Camera",
+            "fieldOfView": 80
         },
         {
-            "type" : "PlayerCamera"
+            "type": "PlayerCamera"
         },
         {
-            "type" : "SkyBox",
-            "texture" : "TropicalSunnyDay.texture"
+            "type": "SkyBox",
+            "texture": "TropicalSunnyDay.texture"
         }
     ]
 }

@@ -1,23 +1,23 @@
 {
-    "techniques" :
-    [
+    "techniques": [
         [
             {
-                "shader" : "Hect/PhysicallyBased/Triplanar.shader",
-                "uniformValues" :
-                [
+                "uniformValues": [
                     {
-                        "name" : "textureScale",
-                        "type" : "Vector2",
-                        "value" : [ 1.0, 1.0 ]
+                        "name": "textureScale",
+                        "value": [
+                            1.0,
+                            1.0
+                        ],
+                        "type": "Vector2"
                     }
                 ],
-                "textures" :
-                [
+                "textures": [
                     "Test_D.texture",
                     "Test_M.texture",
                     "Test_N.texture"
-                ]
+                ],
+                "shader": "Hect/PhysicallyBased/Triplanar.shader"
             }
         ]
     ]
