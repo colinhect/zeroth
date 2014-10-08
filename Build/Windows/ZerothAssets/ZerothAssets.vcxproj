@@ -94,8 +94,8 @@
       <Command>mkdir "$(TargetDir)Zeroth"
 xcopy "$(SolutionDir)..\..\Assets" "$(TargetDir)Zeroth" /s /y /d /I
 
-copy "$(SolutionDir)..\..\Client.config" "$(TargetDir)" /y
-copy "$(SolutionDir)..\..\InputAxes.XBox.config" "$(TargetDir)" /y</Command>
+copy "$(SolutionDir)..\..\Config\Zeroth.config" "$(TargetDir)" /y
+copy "$(SolutionDir)..\..\Config\Zeroth.InputAxes.XBox.config" "$(TargetDir)" /y</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -111,8 +111,8 @@ copy "$(SolutionDir)..\..\InputAxes.XBox.config" "$(TargetDir)" /y</Command>
       <Command>mkdir "$(TargetDir)Zeroth"
 xcopy "$(SolutionDir)..\..\Assets" "$(TargetDir)Zeroth" /s /y /d /I
 
-copy "$(SolutionDir)..\..\Client.config" "$(TargetDir)" /y
-copy "$(SolutionDir)..\..\InputAxes.XBox.config" "$(TargetDir)" /y</Command>
+copy "$(SolutionDir)..\..\Config\Zeroth.config" "$(TargetDir)" /y
+copy "$(SolutionDir)..\..\Config\Zeroth.InputAxes.XBox.config" "$(TargetDir)" /y</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -132,8 +132,8 @@ copy "$(SolutionDir)..\..\InputAxes.XBox.config" "$(TargetDir)" /y</Command>
       <Command>mkdir "$(TargetDir)Zeroth"
 xcopy "$(SolutionDir)..\..\Assets" "$(TargetDir)Zeroth" /s /y /d /I
 
-copy "$(SolutionDir)..\..\Client.config" "$(TargetDir)" /y
-copy "$(SolutionDir)..\..\InputAxes.XBox.config" "$(TargetDir)" /y</Command>
+copy "$(SolutionDir)..\..\Config\Zeroth.config" "$(TargetDir)" /y
+copy "$(SolutionDir)..\..\Config\Zeroth.InputAxes.XBox.config" "$(TargetDir)" /y</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -153,8 +153,8 @@ copy "$(SolutionDir)..\..\InputAxes.XBox.config" "$(TargetDir)" /y</Command>
       <Command>mkdir "$(TargetDir)Zeroth"
 xcopy "$(SolutionDir)..\..\Assets" "$(TargetDir)Zeroth" /s /y /d /I
 
-copy "$(SolutionDir)..\..\Client.config" "$(TargetDir)" /y
-copy "$(SolutionDir)..\..\InputAxes.XBox.config" "$(TargetDir)" /y</Command>
+copy "$(SolutionDir)..\..\Config\Zeroth.config" "$(TargetDir)" /y
+copy "$(SolutionDir)..\..\Config\Zeroth.InputAxes.XBox.config" "$(TargetDir)" /y</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
