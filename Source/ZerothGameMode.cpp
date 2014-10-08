@@ -6,25 +6,21 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ZerothGameMode.h"
 
-#include <Hect/IO/Data.h>
-#include <Hect/IO/JsonDecoder.h>
+#include <Hect/IO/AssetDecoder.h>
 #include <Hect/Logic/Systems/InputSystem.h>
 #include <Hect/Runtime/Engine.h>
 
 using namespace zeroth;
 
 ZerothGameMode::ZerothGameMode(Engine& engine) :
-    GameMode(engine, TimeSpan::fromSeconds((Real)1 / (Real)60)),
+    GameMode(engine, TimeSpan::fromSeconds(static_cast<Real>(1) / static_cast<Real>(60))),
     _world(engine)
 {
     RenderSystem& renderSystem = engine.renderSystem();
     renderSystem.addWorld(_world);
 
     AssetCache& assetCache = engine.assetCache();
-
-    AssetCache::SelectDirectoryScope scope(assetCache, "Test");
-    AssetHandle<JsonValue> worldJsonValue = assetCache.getHandle<JsonValue>("World.world");
-    JsonDecoder decoder(*worldJsonValue, assetCache);
+    AssetDecoder decoder(assetCache, "Test/World.world");
     decoder >> decodeValue(_world);
 }
 
