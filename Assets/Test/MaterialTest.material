@@ -1,24 +1,26 @@
 {
     "techniques": [
-        [
-            {
-                "uniformValues": [
-                    {
-                        "name": "textureScale",
-                        "value": [
-                            1.0,
-                            1.0
-                        ],
-                        "type": "Vector2"
-                    }
-                ],
-                "textures": [
-                    "Test_D.texture",
-                    "Test_M.texture",
-                    "Test_N.texture"
-                ],
-                "shader": "Hect/Triplanar.shader"
-            }
-        ]
+        {
+            "passes": [
+                {
+                    "uniformValues": [
+                        {
+                            "name": "textureScale",
+                            "value": [
+                                1.0,
+                                1.0
+                            ],
+                            "type": "Vector2"
+                        }
+                    ],
+                    "textures": [
+                        "Test_D.texture",
+                        "Test_M.texture",
+                        "Test_N.texture"
+                    ],
+                    "shader": "Hect/Triplanar.shader"
+                }
+            ]
+        }
     ]
 }
