@@ -19,9 +19,9 @@ class ZerothGameMode :
 {
 public:
     ZerothGameMode(Engine& engine);
-    ~ZerothGameMode();
 
-    void tick();
+    void tick() override;
+    void render(RenderTarget& target) override;
 
 private:
     World _world;

@@ -16,21 +16,19 @@ ZerothGameMode::ZerothGameMode(Engine& engine) :
     GameMode(engine, TimeSpan::fromSeconds(static_cast<Real>(1) / static_cast<Real>(60))),
     _world(engine)
 {
-    RenderSystem& renderSystem = engine.renderSystem();
-    renderSystem.addWorld(_world);
-
     AssetCache& assetCache = engine.assetCache();
     AssetDecoder decoder(assetCache, "Test/World.world");
     decoder >> decodeValue(_world);
 }
 
-ZerothGameMode::~ZerothGameMode()
-{
-    RenderSystem& renderSystem = engine().renderSystem();
-    renderSystem.removeWorld(_world);
-}
-
 void ZerothGameMode::tick()
 {
     _world.tick(timeStep());
+}
+
+void ZerothGameMode::render(RenderTarget& target)
+{
+    Renderer& renderer = engine().renderer();
+    renderer.renderWorld(_world, target);
+
 }
