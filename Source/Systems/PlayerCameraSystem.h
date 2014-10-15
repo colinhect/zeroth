@@ -14,6 +14,7 @@ using namespace hect;
 namespace zeroth
 {
 
+/// \system
 class PlayerCameraSystem :
     public System
 {

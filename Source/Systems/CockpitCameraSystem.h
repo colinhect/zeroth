@@ -13,6 +13,7 @@ using namespace hect;
 namespace zeroth
 {
 
+/// \system
 class CockpitCameraSystem :
     public System
 {

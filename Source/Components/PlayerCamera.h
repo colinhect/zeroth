@@ -13,6 +13,7 @@ using namespace hect;
 namespace zeroth
 {
 
+/// \component
 class PlayerCamera :
     public Component<PlayerCamera>
 {

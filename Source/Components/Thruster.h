@@ -14,6 +14,7 @@ using namespace hect;
 namespace zeroth
 {
 
+/// \component
 class Thruster :
     public Component<Thruster>
 {

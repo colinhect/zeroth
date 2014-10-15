@@ -14,6 +14,7 @@ using namespace hect;
 namespace zeroth
 {
 
+/// \gamemode
 class ZerothGameMode :
     public GameMode
 {

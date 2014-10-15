@@ -13,6 +13,7 @@ using namespace hect;
 namespace zeroth
 {
 
+/// \component
 class Ship :
     public Component<Ship>
 {
