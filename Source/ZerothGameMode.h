@@ -7,7 +7,7 @@
 #pragma once
 
 #include <Hect/Logic/GameMode.h>
-#include <Hect/Logic/World.h>
+#include <Hect/Logic/Scene.h>
 
 using namespace hect;
 
@@ -25,7 +25,7 @@ public:
     void render(RenderTarget& target) override;
 
 private:
-    World _world;
+    Scene _scene;
 };
 
 }

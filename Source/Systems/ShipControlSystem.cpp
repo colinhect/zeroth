@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ShipControlSystem.h"
 
-#include <Hect/Logic/World.h>
+#include <Hect/Logic/Scene.h>
 #include <Hect/Logic/Components/RigidBody.h>
 #include <Hect/Logic/Systems/PhysicsSystem.h>
 #include <Hect/Logic/Components/Transform.h>
@@ -15,14 +15,14 @@
 
 using namespace zeroth;
 
-ShipControlSystem::ShipControlSystem(World& world) :
-    System(world)
+ShipControlSystem::ShipControlSystem(Scene& scene) :
+    System(scene)
 {
 }
 
 void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, Real thrustAmount, Real timeStep)
 {
-    PhysicsSystem& physicsSystem = world().system<PhysicsSystem>();
+    PhysicsSystem& physicsSystem = scene().system<PhysicsSystem>();
 
     auto transform = ship.component<Transform>();
     if (transform)

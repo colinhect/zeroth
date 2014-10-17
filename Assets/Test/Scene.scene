@@ -3,7 +3,7 @@
         {
             "children": [
                 {
-                    "archetype": "Ships/Viper.Cockpit.entity"
+                    "base": "Ships/Viper.Cockpit.entity"
                 }
             ],
             "components": {
@@ -16,7 +16,7 @@
                 },
                 "PlayerShipControl": {}
             },
-            "archetype": "Ships/Viper.entity"
+            "base": "Ships/Viper.entity"
         },
         {
             "components": {
@@ -28,7 +28,7 @@
                     ]
                 }
             },
-            "archetype": "Ships/Viper.entity"
+            "base": "Ships/Viper.entity"
         },
         {
             "components": {

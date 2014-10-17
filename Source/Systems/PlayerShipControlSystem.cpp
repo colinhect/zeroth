@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "PlayerShipControlSystem.h"
 
-#include <Hect/Logic/World.h>
+#include <Hect/Logic/Scene.h>
 #include <Hect/Logic/Systems/BoundingBoxSystem.h>
 #include <Hect/Logic/Systems/InputSystem.h>
 
@@ -15,17 +15,17 @@
 
 using namespace zeroth;
 
-PlayerShipControlSystem::PlayerShipControlSystem(World& world) :
-    ShipControlSystem(world)
+PlayerShipControlSystem::PlayerShipControlSystem(Scene& scene) :
+    ShipControlSystem(scene)
 {
     tickAfter<BoundingBoxSystem>();
 }
 
 void PlayerShipControlSystem::tick(Real timeStep)
 {
-    InputSystem& inputSystem = world().system<InputSystem>();
+    InputSystem& inputSystem = scene().system<InputSystem>();
 
-    for (PlayerShipControl& playerShipControl : world().components<PlayerShipControl>())
+    for (PlayerShipControl& playerShipControl : scene().components<PlayerShipControl>())
     {
         Entity& entity = playerShipControl.entity();
 

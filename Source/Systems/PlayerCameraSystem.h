@@ -19,7 +19,7 @@ class PlayerCameraSystem :
     public System
 {
 public:
-    PlayerCameraSystem(World& world);
+    PlayerCameraSystem(Scene& scene);
 
     void tick(Real timeStep) override;
 

@@ -14,21 +14,21 @@ using namespace zeroth;
 
 ZerothGameMode::ZerothGameMode(Engine& engine) :
     GameMode(engine, TimeSpan::fromSeconds(static_cast<Real>(1) / static_cast<Real>(60))),
-    _world(engine)
+    _scene(engine)
 {
     AssetCache& assetCache = engine.assetCache();
-    AssetDecoder decoder(assetCache, "Test/World.world");
-    decoder >> decodeValue(_world);
+    AssetDecoder decoder(assetCache, "Test/Scene.scene");
+    decoder >> decodeValue(_scene);
 }
 
 void ZerothGameMode::tick()
 {
-    _world.tick(timeStep());
+    _scene.tick(timeStep());
 }
 
 void ZerothGameMode::render(RenderTarget& target)
 {
     Renderer& renderer = engine().renderer();
-    renderer.renderWorld(_world, target);
+    renderer.renderScene(_scene, target);
 
 }

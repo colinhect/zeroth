@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "PlayerCameraSystem.h"
 
-#include <Hect/Logic/World.h>
+#include <Hect/Logic/Scene.h>
 #include <Hect/Logic/Components/Camera.h>
 #include <Hect/Logic/Components/Transform.h>
 #include <Hect/Logic/Systems/InputSystem.h>
@@ -16,8 +16,8 @@
 
 using namespace zeroth;
 
-PlayerCameraSystem::PlayerCameraSystem(World& world) :
-    System(world),
+PlayerCameraSystem::PlayerCameraSystem(Scene& scene) :
+    System(scene),
     _speed(16)
 {
     tickAfter<CockpitCameraSystem>();
@@ -26,7 +26,7 @@ PlayerCameraSystem::PlayerCameraSystem(World& world) :
 void PlayerCameraSystem::tick(Real timeStep)
 {
 
-    for (PlayerCamera& playerCamera : world().components<PlayerCamera>())
+    for (PlayerCamera& playerCamera : scene().components<PlayerCamera>())
     {
         Entity& entity = playerCamera.entity();
 

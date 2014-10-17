@@ -19,7 +19,7 @@ class ShipControlSystem :
     public System
 {
 public:
-    ShipControlSystem(World& world);
+    ShipControlSystem(Scene& scene);
 
     void controlShip(Entity& ship, const Vector3& angularAmount, Real thrustAmount, Real timeStep);
 };

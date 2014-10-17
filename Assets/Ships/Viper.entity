@@ -1,4 +1,22 @@
 {
+    "components": {
+        "RigidBody": {
+            "mass": 100.0,
+            "mesh": "Viper.Collision.mesh"
+        },
+        "Ship": {
+            "name": "Viper"
+        },
+        "BoundingBox": {},
+        "Model": {
+            "surfaces": [
+                {
+                    "mesh": "Viper.Hull.mesh",
+                    "material": "Viper.Hull.material"
+                }
+            ]
+        }
+    },
     "children": [
         {
             "components": {
@@ -19,23 +37,5 @@
                 }
             }
         }
-    ],
-    "components": {
-        "RigidBody": {
-            "mass": 100.0,
-            "mesh": "Viper.Collision.mesh"
-        },
-        "Ship": {
-            "name": "Viper"
-        },
-        "BoundingBox": {},
-        "Model": {
-            "surfaces": [
-                {
-                    "mesh": "Viper.Hull.mesh",
-                    "material": "Viper.Hull.material"
-                }
-            ]
-        }
-    }
+    ]
 }

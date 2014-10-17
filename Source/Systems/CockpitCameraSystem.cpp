@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "CockpitCameraSystem.h"
 
-#include <Hect/Logic/World.h>
+#include <Hect/Logic/Scene.h>
 #include <Hect/Logic/Components/Camera.h>
 #include <Hect/Logic/Components/Transform.h>
 #include <Hect/Logic/Systems/InputSystem.h>
@@ -16,15 +16,15 @@
 
 using namespace zeroth;
 
-CockpitCameraSystem::CockpitCameraSystem(World& world) :
-    System(world)
+CockpitCameraSystem::CockpitCameraSystem(Scene& scene) :
+    System(scene)
 {
     tickAfter<PhysicsSystem>();
 }
 
 void CockpitCameraSystem::tick(Real timeStep)
 {
-    for (CockpitCamera& cockpitCamera : world().components<CockpitCamera>())
+    for (CockpitCamera& cockpitCamera : scene().components<CockpitCamera>())
     {
         Entity& entity = cockpitCamera.entity();
 

@@ -1,4 +1,5 @@
 {
+    "base": "CockpitCamera.entity",
     "components": {
         "Transform": {
             "localPosition": [
@@ -7,6 +8,5 @@
                 2.3
             ]
         }
-    },
-    "archetype": "CockpitCamera.entity"
+    }
 }
