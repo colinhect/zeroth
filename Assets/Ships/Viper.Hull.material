@@ -3,28 +3,30 @@
         {
             "passes": [
                 {
-                    "uniformValues": [
-                        {
-                            "name": "diffuse",
-                            "value": [
-                                0.8,
-                                0.8,
-                                0.8
-                            ],
-                            "type": "Vector3"
-                        },
-                        {
-                            "name": "roughness",
-                            "value": 0.3,
-                            "type": "Float"
-                        },
-                        {
-                            "name": "metallic",
-                            "value": 1.0,
-                            "type": "Float"
-                        }
-                    ],
-                    "shader": "Hect/Solid.shader"
+                    "shader": {
+                        "path": "Hect/Solid.shader",
+                        "arguments": [
+                            {
+                                "name": "diffuse",
+                                "value": [
+                                    0.8,
+                                    0.8,
+                                    0.8
+                                ],
+                                "type": "Vector3"
+                            },
+                            {
+                                "name": "roughness",
+                                "value": 0.3,
+                                "type": "Float"
+                            },
+                            {
+                                "name": "metallic",
+                                "value": 1.0,
+                                "type": "Float"
+                            }
+                        ]
+                    }
                 }
             ]
         }
