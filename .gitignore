@@ -1,9 +1,2 @@
-Build/Windows/Bin/*
-Build/Windows/Zeroth/Intermediate/*
-Build/Windows/ZerothAssets/Intermediate/*
+Build/*
 Source/Generated/*
-*.opensdf
-*.sdf
-*.suo
-*.sublime-workspace
-*.data
