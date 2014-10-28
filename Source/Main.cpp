@@ -8,7 +8,7 @@
 #include <Hect/Platform/Platform.h>
 #include <Hect/Runtime/Engine.h>
 
-#include "Generated/_reflect_zeroth.h"
+#include "Generated/RegisterTypes.h"
 
 #ifdef HECT_WINDOWS_BUILD
 #ifdef HECT_DEBUG_BUILD

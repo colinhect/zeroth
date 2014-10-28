@@ -1,16 +1,15 @@
 include_directories(
-    "${PROJECT_SOURCE_DIR}/Projects/Zeroth/Source"
-    "${PROJECT_SOURCE_DIR}/Hect/Source"
-    "${PROJECT_SOURCE_DIR}/Dependencies/Catch"
+    "${PROJECT_SOURCE_DIR}/Projects/zeroth/Source"
+    "${PROJECT_SOURCE_DIR}/Engine/Source"
     )
     
-FILE(GLOB component_files Source/Components/*)
+file(GLOB component_files Source/Components/*)
 source_group(Source\\Components FILES ${component_files})
 
-FILE(GLOB systems_files Source/Systems/*)
+file(GLOB systems_files Source/Systems/*)
 source_group(Source\\Systems FILES ${systems_files})
 
-FILE(GLOB files Source/*)
+file(GLOB files Source/*)
 source_group(Source FILES ${files})
     
 add_executable(Zeroth
@@ -39,21 +38,20 @@ target_link_libraries(Zeroth Hect)
 set_target_properties(Zeroth PROPERTIES
     PROJECT_LABEL Zeroth
     LINKER_LANGUAGE CXX
-    FOLDER "/Zeroth"
+    FOLDER "/Projects/Zeroth"
     )
-
 
 add_custom_command(TARGET Zeroth
     PRE_BUILD
-    COMMAND python ${PROJECT_SOURCE_DIR}/Hect/Tools/reflect.py ${PROJECT_SOURCE_DIR}/Projects/Zeroth/Source/ ${PROJECT_SOURCE_DIR}/Projects/Zeroth/Source/Generated/ zeroth
+    COMMAND python ${PROJECT_SOURCE_DIR}/Engine/Tools/reflect.py ${PROJECT_SOURCE_DIR}/Projects/zeroth/Source/ ${PROJECT_SOURCE_DIR}/Projects/zeroth/Source/Generated/ zeroth
     )
 
 add_custom_command(TARGET Zeroth
     POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/Projects/Zeroth/Assets ${HECT_OUTPUT_DIR}/Zeroth.data/
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/Projects/zeroth/Assets ${OUTPUT_DIR}/Zeroth.data/
     )
 
 add_custom_command(TARGET Zeroth
     POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/Projects/Zeroth/Config ${HECT_OUTPUT_DIR}/
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/Projects/Zeroth/Config ${OUTPUT_DIR}/
     )
