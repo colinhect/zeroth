@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect/Logic/ComponentRegistry.h>
+#include <Hect/Logic/Scene.h>
 #include <Hect/Math/Vector3.h>
 
 using namespace hect;

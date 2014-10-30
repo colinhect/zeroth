@@ -6,7 +6,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "PlayerShipControlSystem.h"
 
-#include <Hect/Logic/Scene.h>
 #include <Hect/Logic/Systems/BoundingBoxSystem.h>
 #include <Hect/Logic/Systems/InputSystem.h>
 

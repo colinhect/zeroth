@@ -1,6 +1,8 @@
+project(Zeroth CXX)
+
 include_directories(
-    "${PROJECT_SOURCE_DIR}/Projects/zeroth/Source"
-    "${PROJECT_SOURCE_DIR}/Engine/Source"
+    "${PROJECT_SOURCE_DIR}/Source"
+    "${PROJECT_SOURCE_DIR}/../../Engine/Source"
     )
     
 file(GLOB component_files Source/Components/*)
@@ -43,15 +45,15 @@ set_target_properties(Zeroth PROPERTIES
 
 add_custom_command(TARGET Zeroth
     PRE_BUILD
-    COMMAND python ${PROJECT_SOURCE_DIR}/Engine/Tools/reflect.py ${PROJECT_SOURCE_DIR}/Projects/zeroth/Source/ ${PROJECT_SOURCE_DIR}/Projects/zeroth/Source/Generated/ zeroth
+    COMMAND python ${PROJECT_SOURCE_DIR}/../../Engine/Tools/reflect.py ${PROJECT_SOURCE_DIR}/Source/ ${PROJECT_SOURCE_DIR}/Source/Generated/ zeroth
     )
 
 add_custom_command(TARGET Zeroth
     POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/Projects/zeroth/Assets ${OUTPUT_DIR}/Zeroth.data/
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/Assets ${OUTPUT_DIR}/Zeroth.data/
     )
 
 add_custom_command(TARGET Zeroth
     POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/Projects/Zeroth/Config ${OUTPUT_DIR}/
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/Config ${OUTPUT_DIR}/
     )

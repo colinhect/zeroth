@@ -6,7 +6,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "CockpitCameraSystem.h"
 
-#include <Hect/Logic/Scene.h>
 #include <Hect/Logic/Components/Camera.h>
 #include <Hect/Logic/Components/Transform.h>
 #include <Hect/Logic/Systems/InputSystem.h>

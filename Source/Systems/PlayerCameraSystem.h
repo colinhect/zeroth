@@ -7,7 +7,7 @@
 #pragma once
 
 #include <Hect/Core/Real.h>
-#include <Hect/Logic/SystemRegistry.h>
+#include <Hect/Logic/Scene.h>
 
 using namespace hect;
 
