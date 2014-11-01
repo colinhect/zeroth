@@ -34,6 +34,9 @@ add_executable(Zeroth
     "Source/ZerothGameMode.cpp"
     "Source/ZerothGameMode.h"
     )
+
+add_subdirectory(${PROJECT_SOURCE_DIR}/Source/Generated)
+add_dependencies(Zeroth ZerothTypes)
     
 target_link_libraries(Zeroth Hect)
     
