@@ -6,6 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <Hect/Graphics/SceneRenderer.h>
 #include <Hect/Logic/GameMode.h>
 #include <Hect/Logic/Scene.h>
 
@@ -26,6 +27,7 @@ public:
 
 private:
     Scene _scene;
+    SceneRenderer _sceneRenderer;
 };
 
 }

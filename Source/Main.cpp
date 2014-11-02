@@ -5,7 +5,6 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/Core/Configuration.h>
-#include <Hect/Runtime/Platform.h>
 #include <Hect/Runtime/Engine.h>
 
 #include "Generated/RegisterTypes.h"

@@ -14,7 +14,8 @@ using namespace zeroth;
 
 ZerothGameMode::ZerothGameMode(Engine& engine) :
     GameMode(engine, TimeSpan::fromSeconds(static_cast<Real>(1) / static_cast<Real>(60))),
-    _scene(engine)
+    _scene(engine),
+    _sceneRenderer(engine.renderer(), engine.assetCache())
 {
     AssetCache& assetCache = engine.assetCache();
     AssetDecoder decoder(assetCache, "Test/Scene.scene");
@@ -28,7 +29,5 @@ void ZerothGameMode::tick()
 
 void ZerothGameMode::render(RenderTarget& target)
 {
-    Renderer& renderer = engine().renderer();
-    renderer.renderScene(_scene, target);
-
+    _sceneRenderer.renderScene(_scene, target);
 }
