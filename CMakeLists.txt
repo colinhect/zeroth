@@ -8,36 +8,9 @@ include_directories(
     "${PROJECT_SOURCE_DIR}/Source"
     "${PROJECT_SOURCE_DIR}/../../Engine/Source"
     )
-    
-file(GLOB component_files Source/Components/*)
-source_group(Source\\Components FILES ${component_files})
 
-file(GLOB systems_files Source/Systems/*)
-source_group(Source\\Systems FILES ${systems_files})
-
-file(GLOB files Source/*)
-source_group(Source FILES ${files})
-    
-add_executable(Zeroth
-    "Source/Components/CockpitCamera.h"
-    "Source/Components/PlayerCamera.h"
-    "Source/Components/PlayerShipControl.h"
-    "Source/Components/Ship.cpp"
-    "Source/Components/Ship.h"
-    "Source/Components/Thruster.cpp"
-    "Source/Components/Thruster.h"
-    "Source/Systems/CockpitCameraSystem.cpp"
-    "Source/Systems/CockpitCameraSystem.h"
-    "Source/Systems/PlayerCameraSystem.cpp"
-    "Source/Systems/PlayerCameraSystem.h"
-    "Source/Systems/PlayerShipControlSystem.cpp"
-    "Source/Systems/PlayerShipControlSystem.h"
-    "Source/Systems/ShipControlSystem.cpp"
-    "Source/Systems/ShipControlSystem.h"
-    "Source/Main.cpp"
-    "Source/ZerothGameMode.cpp"
-    "Source/ZerothGameMode.h"
-    )
+grouped_source_files(SOURCE_FILES ${PROJECT_SOURCE_DIR}/Source)
+add_executable(Zeroth ${SOURCE_FILES})
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/Source/Generated)
 add_dependencies(Zeroth ZerothTypes)
