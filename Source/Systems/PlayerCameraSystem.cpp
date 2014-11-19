@@ -8,10 +8,8 @@
 
 #include <Hect/Logic/Components/Camera.h>
 #include <Hect/Logic/Components/Transform.h>
-#include <Hect/Logic/Systems/InputSystem.h>
 
 #include "Components/PlayerCamera.h"
-#include "Systems/CockpitCameraSystem.h"
 
 using namespace zeroth;
 
@@ -19,12 +17,10 @@ PlayerCameraSystem::PlayerCameraSystem(Scene& scene) :
     System(scene),
     _speed(16)
 {
-    tickAfter<CockpitCameraSystem>();
 }
 
 void PlayerCameraSystem::tick(Real timeStep)
 {
-
     for (PlayerCamera& playerCamera : scene().components<PlayerCamera>())
     {
         Entity& entity = playerCamera.entity();

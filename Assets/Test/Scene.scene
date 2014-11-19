@@ -1,4 +1,5 @@
 {
+    "base": "Base.scene",
     "entities": [
         {
             "children": [

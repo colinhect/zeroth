@@ -1,0 +1,29 @@
+{
+    "systems": [
+        {
+            "type": "InputSystem"
+        },
+        {
+            "type": "PhysicsSystem",
+            "gravity": [ 0, 0, 0 ]
+        },
+        {
+            "type": "CockpitCameraSystem"
+        },
+        {
+            "type": "PlayerCameraSystem"
+        },
+        {
+            "type": "TransformSystem"
+        },
+        {
+            "type": "BoundingBoxSystem"
+        },
+        {
+            "type": "PlayerShipControlSystem"
+        },
+        {
+            "type": "CameraSystem"
+        }
+    ]
+}

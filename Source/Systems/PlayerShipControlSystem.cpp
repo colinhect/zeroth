@@ -6,7 +6,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "PlayerShipControlSystem.h"
 
-#include <Hect/Logic/Systems/BoundingBoxSystem.h>
 #include <Hect/Logic/Systems/InputSystem.h>
 
 #include "Components/PlayerShipControl.h"
@@ -17,7 +16,6 @@ using namespace zeroth;
 PlayerShipControlSystem::PlayerShipControlSystem(Scene& scene) :
     ShipControlSystem(scene)
 {
-    tickAfter<BoundingBoxSystem>();
 }
 
 void PlayerShipControlSystem::tick(Real timeStep)

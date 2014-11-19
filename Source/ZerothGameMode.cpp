@@ -7,7 +7,6 @@
 #include "ZerothGameMode.h"
 
 #include <Hect/IO/AssetDecoder.h>
-#include <Hect/Logic/Systems/InputSystem.h>
 #include <Hect/Runtime/Engine.h>
 
 using namespace zeroth;

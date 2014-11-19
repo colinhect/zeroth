@@ -8,8 +8,6 @@
 
 #include <Hect/Logic/Components/Camera.h>
 #include <Hect/Logic/Components/Transform.h>
-#include <Hect/Logic/Systems/InputSystem.h>
-#include <Hect/Logic/Systems/PhysicsSystem.h>
 
 #include "Components/CockpitCamera.h"
 
@@ -18,7 +16,6 @@ using namespace zeroth;
 CockpitCameraSystem::CockpitCameraSystem(Scene& scene) :
     System(scene)
 {
-    tickAfter<PhysicsSystem>();
 }
 
 void CockpitCameraSystem::tick(Real timeStep)
