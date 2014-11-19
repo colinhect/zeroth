@@ -1,14 +1,19 @@
 {
-    "components": {
-        "RigidBody": {
+    "components": [
+        {
+            "type": "RigidBody",
             "mass": 100.0,
             "mesh": "Viper.Collision.mesh"
         },
-        "Ship": {
+        {
+            "type": "Ship",
             "name": "Viper"
         },
-        "BoundingBox": {},
-        "Model": {
+        {
+            "type": "BoundingBox"
+        },
+        {
+            "type": "Model",
             "surfaces": [
                 {
                     "mesh": "Viper.Hull.mesh",
@@ -16,26 +21,20 @@
                 }
             ]
         }
-    },
+    ],
     "children": [
         {
-            "components": {
-                "Transform": {
-                    "localPosition": [
-                        0.0,
-                        0.0,
-                        -7.0
-                    ]
+            "components": [
+                {
+                    "type": "Transform",
+                    "localPosition": [ 0.0, 0.0, -7.0 ]
                 },
-                "Thruster": {
-                    "direction": [
-                        0.0,
-                        0.0,
-                        1.0
-                    ],
+                {
+                    "type": "Thruster",
+                    "direction": [ 0.0, 0.0, 1.0 ],
                     "power": 4000.0
                 }
-            }
+            ]
         }
     ]
 }

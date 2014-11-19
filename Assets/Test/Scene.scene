@@ -2,56 +2,47 @@
     "base": "Base.scene",
     "entities": [
         {
+            "base": "Ships/Viper.entity",
             "children": [
                 {
                     "base": "Ships/Viper.Cockpit.entity"
                 }
             ],
-            "components": {
-                "Transform": {
-                    "localPosition": [
-                        0.0,
-                        0.0,
-                        10.0
-                    ]
+            "components": [
+                {
+                    "type": "Transform",
+                    "localPosition": [ 0.0, 0.0, 10.0 ]
                 },
-                "PlayerShipControl": {}
-            },
+                {
+                    "type": "PlayerShipControl"
+                }
+            ]
+        },
+        {
+            "components": [
+                {
+                    "type": "Transform",
+                    "localPosition": [ 0.0, 0.0, 100.0 ]
+                }
+            ],
             "base": "Ships/Viper.entity"
         },
         {
-            "components": {
-                "Transform": {
-                    "localPosition": [
-                        0.0,
-                        0.0,
-                        100.0
-                    ]
-                }
-            },
-            "base": "Ships/Viper.entity"
-        },
-        {
-            "components": {
-                "LightProbe": {
+            "components": [
+                {
+                    "type": "LightProbe",
                     "texture": "Space.texture"
                 },
-                "DirectionalLight": {
-                    "direction": [
-                        1.0,
-                        -1.0,
-                        -1.0
-                    ],
-                    "color": [
-                        5.5,
-                        5.5,
-                        5.5
-                    ]
+                {
+                    "type": "DirectionalLight",
+                    "direction": [ 1.0, -1.0, -1.0 ],
+                    "color": [ 5.5, 5.5, 5.5 ]
                 },
-                "SkyBox": {
+                {
+                    "type": "SkyBox",
                     "texture": "Space.texture"
                 }
-            }
+            ]
         }
     ]
 }

@@ -1,17 +1,13 @@
 {
     "components": [
         {
-            "localPosition": [
-                0.0,
-                1.0,
-                3.0
-            ],
-            "type": "Transform"
+            "type": "Transform",
+            "localPosition": [ 0.0, 1.0, 3.0 ]
         },
         {
+            "type": "Camera",
             "farClip": 250000,
             "nearClip": 0.01,
-            "type": "Camera",
             "fieldOfView": 80
         },
         {

@@ -9,23 +9,19 @@
 using namespace zeroth;
 
 Thruster::Thruster() :
-    power(1.0),
+    power(Real(1)),
     direction(Vector3::unitZ())
 {
 }
 
 void Thruster::encode(Encoder& encoder) const
 {
-    encoder << beginObject()
-            << encodeValue("power", power)
-            << encodeValue("direction", direction)
-            << endObject();
+    encoder << encodeValue("power", power)
+            << encodeValue("direction", direction);
 }
 
 void Thruster::decode(Decoder& decoder)
 {
-    decoder >> beginObject()
-            >> decodeValue("power", power)
-            >> decodeValue("direction", direction)
-            >> endObject();
+    decoder >> decodeValue("power", power)
+            >> decodeValue("direction", direction);
 }

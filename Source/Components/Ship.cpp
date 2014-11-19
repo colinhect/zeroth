@@ -9,20 +9,16 @@
 using namespace zeroth;
 
 Ship::Ship() :
-    name("Unknown")
+    name("<unnamed>")
 {
 }
 
 void Ship::encode(Encoder& encoder) const
 {
-    encoder << beginObject()
-            << encodeValue("name", name)
-            << endObject();
+    encoder << encodeValue("name", name);
 }
 
 void Ship::decode(Decoder& decoder)
 {
-    decoder >> beginObject()
-            >> decodeValue("name", name)
-            >> endObject();
+    decoder >> decodeValue("name", name);
 }

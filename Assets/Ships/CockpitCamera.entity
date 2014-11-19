@@ -1,17 +1,20 @@
 {
-    "components": {
-        "CockpitCamera": {},
-        "Camera": {
+    "components": [
+        {
+            "type": "CockpitCamera"
+        },
+        {
+            "type": "Camera",
             "farClip": 250000,
             "nearClip": 0.01,
             "fieldOfView": 80
         }
-    },
+    ],
     "children": [
         {
             "children": [
                 {
-                    "components": {}
+                    "components": []
                 }
             ]
         }
