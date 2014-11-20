@@ -1,29 +1,27 @@
 {
-    "systems": [
-        {
-            "type": "InputSystem"
-        },
-        {
-            "type": "PhysicsSystem",
-            "gravity": [ 0, 0, 0 ]
-        },
-        {
-            "type": "CockpitCameraSystem"
-        },
-        {
-            "type": "PlayerCameraSystem"
-        },
-        {
-            "type": "TransformSystem"
-        },
-        {
-            "type": "BoundingBoxSystem"
-        },
-        {
-            "type": "PlayerShipControlSystem"
-        },
-        {
-            "type": "CameraSystem"
-        }
+    "componentTypes": [
+        "BoundingBox",
+        "Camera",
+        "DirectionalLight",
+        "LightProbe",
+        "Model",
+        "RigidBody",
+        "SkyBox",
+        "Transform",
+        "CockpitCamera",
+        "PlayerCamera",
+        "PlayerShipControl",
+        "Ship",
+        "Thruster"
+    ],
+    "systemTypes": [
+        "InputSystem",
+        "PhysicsSystem",
+        "CockpitCameraSystem",
+        "PlayerCameraSystem",
+        "TransformSystem",
+        "BoundingBoxSystem",
+        "PlayerShipControlSystem",
+        "CameraSystem"
     ]
 }
