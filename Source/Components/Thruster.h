@@ -19,13 +19,12 @@ class Thruster :
     public Component<Thruster>
 {
 public:
-    Thruster();
 
-    void encode(Encoder& encoder) const;
-    void decode(Decoder& decoder);
+    /// \property
+    Real power { 1 };
 
-    Real power;
-    Vector3 direction;
+    /// \property
+    Vector3 direction { Vector3::unitZ() };
 };
 
 }

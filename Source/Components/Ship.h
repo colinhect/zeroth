@@ -18,11 +18,8 @@ class Ship :
     public Component<Ship>
 {
 public:
-    Ship();
 
-    void encode(Encoder& encoder) const;
-    void decode(Decoder& decoder);
-
+    /// \property
     std::string name;
 };
 
