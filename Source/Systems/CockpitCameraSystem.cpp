@@ -20,6 +20,7 @@ CockpitCameraSystem::CockpitCameraSystem(Scene& scene) :
 
 void CockpitCameraSystem::tick(Real timeStep)
 {
+    /*
     for (CockpitCamera& cockpitCamera : scene().components<CockpitCamera>())
     {
         Entity& entity = cockpitCamera.entity();
@@ -35,14 +36,13 @@ void CockpitCameraSystem::tick(Real timeStep)
 
                 Real rotateSpeed = timeStep * 1;
 
-                /*
                 if (->mouse().mode() == MouseMode_Relative && _viewX && _viewY)
                 {
                     transform->rotate(Vector3::unitY(), _viewX->value() * rotateSpeed);
                     transform->rotate(right, _viewY->value() * -rotateSpeed);
                 }
-                */
             }
         }
     }
+    */
 }

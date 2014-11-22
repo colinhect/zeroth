@@ -8,6 +8,7 @@
         "RigidBody",
         "SkyBox",
         "Transform",
+        
         "CockpitCamera",
         "PlayerCamera",
         "PlayerShipControl",
@@ -17,11 +18,13 @@
     "systemTypes": [
         "InputSystem",
         "PhysicsSystem",
+
         "CockpitCameraSystem",
         "PlayerCameraSystem",
+        "PlayerShipControlSystem",
+
         "TransformSystem",
         "BoundingBoxSystem",
-        "PlayerShipControlSystem",
         "CameraSystem"
     ]
 }

@@ -21,6 +21,7 @@ PlayerCameraSystem::PlayerCameraSystem(Scene& scene) :
 
 void PlayerCameraSystem::tick(Real timeStep)
 {
+    /*
     for (PlayerCamera& playerCamera : scene().components<PlayerCamera>())
     {
         Entity& entity = playerCamera.entity();
@@ -39,7 +40,6 @@ void PlayerCameraSystem::tick(Real timeStep)
                 Real rollSpeed = timeStep * 2;
                 Real moveSpeed = timeStep * _speed;
 
-                /*
                 if (->mouse().mode() == MouseMode_Relative)
                 {
                     if (_viewX)
@@ -67,8 +67,8 @@ void PlayerCameraSystem::tick(Real timeStep)
                 {
                     transform->translate(front * _moveY->value() * moveSpeed);
                 }
-                */
             }
         }
     }
+    */
 }
