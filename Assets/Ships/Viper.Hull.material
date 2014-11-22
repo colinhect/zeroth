@@ -1,10 +1,10 @@
 {
+    "base": "Hect/Solid.material",
     "techniques": [
         {
             "passes": [
                 {
                     "shader": {
-                        "path": "Hect/Solid.shader",
                         "arguments": [
                             {
                                 "name": "diffuse",
