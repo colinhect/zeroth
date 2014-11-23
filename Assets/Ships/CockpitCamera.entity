@@ -5,9 +5,9 @@
         },
         {
             "type": "Camera",
-            "farClip": 250000,
-            "nearClip": 0.01,
-            "fieldOfView": 80
+            "farClip": 200,
+            "nearClip": 0.1,
+            "fieldOfView": 75
         }
     ],
     "children": [
