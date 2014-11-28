@@ -26,7 +26,7 @@ public:
     void render(RenderTarget& target) override;
 
 private:
-    Scene _scene;
+    AssetHandle<Scene> _scene;
     SceneRenderer _sceneRenderer;
 };
 

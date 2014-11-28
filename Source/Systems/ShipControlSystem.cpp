@@ -30,43 +30,43 @@ void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, 
         auto rigidBody = ship.component<RigidBody>();
         if (rigidBody)
         {
+            Vector3 angularVelocity = rigidBody->angularVelocity;
+            Vector3 linearVelocity = rigidBody->linearVelocity;
+
+            // Apply friction to angular velocity
+            angularVelocity = angularVelocity - angularVelocity * timeStep * 1.0;
+
+            // Compute angular velocity delta based on control amount
+            Vector3 angularDelta = transform->globalRotation * angularAmount;
+            angularDelta *= timeStep * 2.0;
+
+            // Apply fiction to linear velocity
+            linearVelocity = linearVelocity - linearVelocity * timeStep * 0.5;
+
+            // Update the rigidy body based on new linear and angular velocities
+            rigidBody->angularVelocity = angularVelocity + angularDelta;
+            rigidBody->linearVelocity = linearVelocity;
+            physicsSystem.updateRigidBody(*rigidBody);
+
+            // Find all child entities that are thrusters
+            auto thrusterEntities = ship.findDescendants([](const Entity& entity)
             {
-                Vector3 angularVelocity = rigidBody->angularVelocity;
-                angularVelocity = angularVelocity - angularVelocity * timeStep * 1.0;
+                return entity.component<Thruster>();
+            });
 
-                Vector3 angularDelta = transform->globalRotation * angularAmount;
-                angularDelta *= timeStep * 2.0;
-
-                rigidBody->angularVelocity = angularVelocity + angularDelta;
-            }
+            // Apply force from all thrusters
+            for (auto thrusterEntity : thrusterEntities)
             {
-                Vector3 linearVelocity = rigidBody->linearVelocity;
-                linearVelocity = linearVelocity - linearVelocity * timeStep * 0.5;
-                rigidBody->linearVelocity = linearVelocity;
-
-                auto thrusterEntities = ship.findDescendants([](const Entity& entity)
+                Thruster& thruster = *thrusterEntity->component<Thruster>();
+                auto thrusterTransform = thrusterEntity->component<Transform>();
+                if (thrusterTransform)
                 {
-                    return entity.component<Thruster>();
-                });
+                    Vector3 thrustVector = transform->globalRotation * thruster.direction;
+                    thrustVector = thrustVector.normalized() * thruster.power * thrustAmount;
 
-                for (auto thrusterEntity : thrusterEntities)
-                {
-                    auto thruster = thrusterEntity->component<Thruster>();
-                    if (thruster)
-                    {
-                        auto thrusterTransform = thrusterEntity->component<Transform>();
-                        if (thrusterTransform)
-                        {
-                            Vector3 thrustVector = transform->globalRotation * thruster->direction;
-                            thrustVector = thrustVector.normalized() * thruster->power * thrustAmount;
-
-                            physicsSystem.applyForce(*rigidBody, thrustVector, Vector3::zero());
-                        }
-                    }
+                    physicsSystem.applyForce(*rigidBody, thrustVector, Vector3::zero());
                 }
             }
-
-            physicsSystem.updateRigidBody(*rigidBody);
         }
     }
 }

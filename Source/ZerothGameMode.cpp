@@ -6,27 +6,24 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ZerothGameMode.h"
 
-#include <Hect/IO/AssetDecoder.h>
 #include <Hect/Runtime/Engine.h>
 
 using namespace zeroth;
 
 ZerothGameMode::ZerothGameMode(Engine& engine) :
     GameMode(engine, TimeSpan::fromSeconds(static_cast<Real>(1) / static_cast<Real>(60))),
-    _scene(engine),
     _sceneRenderer(engine.renderer(), engine.assetCache())
 {
     AssetCache& assetCache = engine.assetCache();
-    AssetDecoder decoder(assetCache, "Test/Scene.scene");
-    decoder >> decodeValue(_scene);
+    _scene = assetCache.getHandle<Scene>("Test/Scene.scene", engine);
 }
 
 void ZerothGameMode::tick()
 {
-    _scene.tick(timeStep());
+    _scene->tick(timeStep());
 }
 
 void ZerothGameMode::render(RenderTarget& target)
 {
-    _sceneRenderer.renderScene(_scene, target);
+    _sceneRenderer.renderScene(*_scene, target);
 }

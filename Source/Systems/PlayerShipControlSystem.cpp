@@ -31,14 +31,6 @@ void PlayerShipControlSystem::tick(Real timeStep)
         Real roll = inputSystem.axisValue("roll");
         Real thrust = inputSystem.axisValue("thrust");
 
-        Real totalThrust = std::abs(thrust);
-        if (totalThrust > 0.1)
-        {
-            //size_t joystickIndex = _thrust->joystickIndex();
-            //Joystick& joystick = ->joystick(joystickIndex);
-            //joystick.hapticRumble(totalThrust, TimeSpan::fromSeconds(timeStep));
-        }
-
         Vector3 angularAxis(pitch, yaw, roll);
         controlShip(entity, angularAxis, thrust, timeStep);
     }
