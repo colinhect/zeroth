@@ -8,6 +8,9 @@
 
 #include <Hect/Logic/Components/Camera.h>
 #include <Hect/Logic/Components/Transform.h>
+#include <Hect/Logic/Systems/CameraSystem.h>
+#include <Hect/Logic/Systems/InputSystem.h>
+#include <Hect/Math/Utilities.h>
 
 #include "Components/CockpitCamera.h"
 
@@ -20,6 +23,16 @@ CockpitCameraSystem::CockpitCameraSystem(Scene& scene) :
 
 void CockpitCameraSystem::tick(Real timeStep)
 {
+    CameraSystem& cameraSystem = scene().system<CameraSystem>();
+    auto camera = cameraSystem.activeCamera();
+    if (camera)
+    {
+        InputSystem& inputSystem = scene().system<InputSystem>();
+
+        Real exposure = inputSystem.axisValue("exposure");
+        camera->exposure = interpolate(Real(0.2), Real(10), exposure);
+    }
+
     /*
     for (CockpitCamera& cockpitCamera : scene().components<CockpitCamera>())
     {
