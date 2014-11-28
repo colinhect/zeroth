@@ -1,3 +1,8 @@
 Build/*
 Source/Generated/*.h
 Source/Generated/xml/*
+
+*.sublime-project
+*.sublime-workspace
+*.pyc
+*~
