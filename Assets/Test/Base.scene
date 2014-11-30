@@ -25,6 +25,8 @@
 
         "TransformSystem",
         "BoundingBoxSystem",
-        "CameraSystem"
+        "CameraSystem",
+
+        "DebugRenderSystem"
     ]
 }

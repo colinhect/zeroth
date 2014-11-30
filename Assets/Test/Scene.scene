@@ -17,7 +17,7 @@
             "components": [
                 {
                     "type": "Transform",
-                    "localPosition": [ 0.0, 0.0, 10.0 ]
+                    "localPosition": [ 0, 0, 10 ]
                 },
                 {
                     "type": "PlayerShipControl"
@@ -29,7 +29,7 @@
             "components": [
                 {
                     "type": "Transform",
-                    "localPosition": [ 0.0, 0.0, 100.0 ]
+                    "localPosition": [ 0, 0, 100 ]
                 }
             ]
         },
@@ -41,8 +41,8 @@
                 },
                 {
                     "type": "DirectionalLight",
-                    "direction": [ 1.0, -1.0, -1.0 ],
-                    "color": [ 5.5, 5.5, 5.5 ]
+                    "direction": [ 1, -1, -1 ],
+                    "color": [ 20, 20, 20 ]
                 },
                 {
                     "type": "SkyBox",

@@ -7,6 +7,7 @@
 #include "ZerothGameMode.h"
 
 #include <Hect/Runtime/Engine.h>
+#include <Hect/Logic/Systems/DebugRenderSystem.h>
 
 using namespace zeroth;
 
@@ -16,6 +17,15 @@ ZerothGameMode::ZerothGameMode(Engine& engine) :
 {
     AssetCache& assetCache = engine.assetCache();
     _scene = assetCache.getHandle<Scene>("Test/Scene.scene", engine);
+
+    Keyboard& keyboard = engine.platform().keyboard();
+    keyboard.addListener(*this);
+}
+
+ZerothGameMode::~ZerothGameMode()
+{
+    Keyboard& keyboard = engine().platform().keyboard();
+    keyboard.removeListener(*this);
 }
 
 void ZerothGameMode::tick()
@@ -26,4 +36,16 @@ void ZerothGameMode::tick()
 void ZerothGameMode::render(RenderTarget& target)
 {
     _sceneRenderer.renderScene(*_scene, target);
+}
+
+void ZerothGameMode::receiveEvent(const KeyboardEvent& event)
+{
+    if (event.type == KeyboardEventType_KeyDown && event.key == Key_F1)
+    {
+        if (_scene->hasSystemType<DebugRenderSystem>())
+        {
+            DebugRenderSystem& debugRenderSystem = _scene->system<DebugRenderSystem>();
+            debugRenderSystem.setEnabled(!debugRenderSystem.isEnabled());
+        }
+    }
 }
