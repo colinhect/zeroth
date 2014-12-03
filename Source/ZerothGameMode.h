@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect/Event/Listener.h>
+#include <Hect/Core/Event.h>
 #include <Hect/Graphics/SceneRenderer.h>
 #include <Hect/Input/Keyboard.h>
 #include <Hect/Logic/GameMode.h>
@@ -24,7 +24,6 @@ class ZerothGameMode :
 {
 public:
     ZerothGameMode(Engine& engine);
-    ~ZerothGameMode();
 
     void tick() override;
     void render(RenderTarget& target) override;
