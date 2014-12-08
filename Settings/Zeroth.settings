@@ -18,5 +18,5 @@
         "concurrent": true
     },
     "gameMode": "ZerothGameMode",
-    "include": [ "Zeroth.InputAxes.SaitekX52.config" ]
+    "include": [ "Zeroth.InputAxes.SaitekX52.settings" ]
 }
