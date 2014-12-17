@@ -1,40 +1,19 @@
-{
-    "components": [
-        {
-            "type": "RigidBody",
-            "mass": 100.0,
-            "mesh": "Viper.Collision.mesh"
-        },
-        {
-            "type": "Ship",
-            "name": "Viper"
-        },
-        {
-            "type": "BoundingBox"
-        },
-        {
-            "type": "Model",
-            "surfaces": [
-                {
-                    "mesh": "Viper.Hull.mesh",
-                    "material": "Viper.Hull.material"
-                }
-            ]
-        }
-    ],
-    "children": [
-        {
-            "components": [
-                {
-                    "type": "Transform",
-                    "localPosition": [ 0.0, 0.0, -7.0 ]
-                },
-                {
-                    "type": "Thruster",
-                    "direction": [ 0.0, 0.0, 1.0 ],
-                    "power": 4000.0
-                }
-            ]
-        }
-    ]
-}
+---
+components:
+  - type: RigidBody
+    mass: 100
+    mesh: Viper.Collision.mesh
+  - type: Ship
+    name: Viper
+  - type: BoundingBox
+  - type: Model
+    surfaces:
+      - mesh: Viper.Hull.mesh
+        material: Viper.Hull.material
+children:
+  - components:
+      - type: Transform
+        localPosition: [ 0, 0, -7 ]
+      - type: Thruster
+        direction: [ 0, 0, 1 ]
+        power: 4000

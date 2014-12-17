@@ -1,11 +1,9 @@
-{
-    "type": "CubeMap",
-    "images": [
-        "Space_right1.png",
-        "Space_left2.png",
-        "Space_bottom4.png",
-        "Space_top3.png",
-        "Space_front5.png",
-        "Space_back6.png"
-    ]
-}
+---
+type: CubeMap
+images:
+  - Space_right1.png
+  - Space_left2.png
+  - Space_bottom4.png
+  - Space_top3.png
+  - Space_front5.png
+  - Space_back6.png

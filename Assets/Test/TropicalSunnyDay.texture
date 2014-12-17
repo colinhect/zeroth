@@ -1,11 +1,9 @@
-{
-    "type": "CubeMap",
-    "images": [
-        "TropicalSunnyDayLeft2048.png",
-        "TropicalSunnyDayRight2048.png",
-        "TropicalSunnyDayDown2048.png",
-        "TropicalSunnyDayUp2048.png",
-        "TropicalSunnyDayFront2048.png",
-        "TropicalSunnyDayBack2048.png"
-    ]
-}
+---
+type: CubeMap
+images:
+  - TropicalSunnyDayLeft2048.png
+  - TropicalSunnyDayRight2048.png
+  - TropicalSunnyDayDown2048.png
+  - TropicalSunnyDayUp2048.png
+  - TropicalSunnyDayFront2048.png
+  - TropicalSunnyDayBack2048.png

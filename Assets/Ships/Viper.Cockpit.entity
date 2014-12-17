@@ -1,9 +1,5 @@
-{
-    "base": "CockpitCamera.entity",
-    "components": [
-        {
-            "type": "Transform",
-            "localPosition": [ 0.0, 1.6, 2.3 ]
-        }
-    ]
-}
+---
+base: CockpitCamera.entity
+components:
+  - type: Transform
+    localPosition: [ 0, 1.6, 2.3 ]
