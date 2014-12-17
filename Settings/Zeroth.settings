@@ -1,22 +1,15 @@
-{
-    "videoMode": {
-        "width": 1440,
-        "height": 900,
-        "bitsPerPixel": 32,
-        "fullscreen": false
-    },
-    "archives": [
-        {
-            "path": "Hect.data",
-            "mountPoint": "Hect"
-        },
-        {
-            "path": "Zeroth.data"
-        }
-    ],
-    "assetCache": {
-        "concurrent": true
-    },
-    "gameMode": "ZerothGameMode",
-    "include": [ "Zeroth.InputAxes.SaitekX52.settings" ]
-}
+---
+videoMode: 
+    width: 1440
+    height: 900
+    bitsPerPixel: 32
+    fullscreen: false
+archives: 
+  - path: Hect.data
+    mountPoint: Hect
+  - path: Zeroth.data
+assetCache: 
+    concurrent: true
+gameMode: ZerothGameMode
+include:
+  - Zeroth.InputAxes.SaitekX52.settings
