@@ -8,12 +8,6 @@
 
 #include "Generated/RegisterTypes.h"
 
-#ifdef HECT_WINDOWS_BUILD
-#ifdef HECT_DEBUG_BUILD
-#include <vld.h>
-#endif
-#endif
-
 int main(int argc, char* const argv[])
 {
     try
