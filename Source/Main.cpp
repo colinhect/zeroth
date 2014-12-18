@@ -4,7 +4,7 @@
 // Copyright (c) 2014 Colin Hill
 //
 ///////////////////////////////////////////////////////////////////////////////
-#include <Hect/Runtime/Engine.h>
+#include <Hect.h>
 
 #include "Generated/RegisterTypes.h"
 

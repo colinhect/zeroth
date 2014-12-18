@@ -6,11 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect/Core/Event.h>
-#include <Hect/Graphics/SceneRenderer.h>
-#include <Hect/Input/Keyboard.h>
-#include <Hect/Logic/GameMode.h>
-#include <Hect/Logic/Scene.h>
+#include <Hect.h>
 
 using namespace hect;
 

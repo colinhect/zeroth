@@ -6,9 +6,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ZerothGameMode.h"
 
-#include <Hect/Runtime/Engine.h>
-#include <Hect/Logic/Systems/DebugSystem.h>
-
 using namespace zeroth;
 
 ZerothGameMode::ZerothGameMode(Engine& engine) :

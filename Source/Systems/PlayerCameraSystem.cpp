@@ -6,9 +6,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "PlayerCameraSystem.h"
 
-#include <Hect/Logic/Components/Camera.h>
-#include <Hect/Logic/Components/Transform.h>
-
 #include "Components/PlayerCamera.h"
 
 using namespace zeroth;

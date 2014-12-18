@@ -6,12 +6,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "CockpitCameraSystem.h"
 
-#include <Hect/Logic/Components/Camera.h>
-#include <Hect/Logic/Components/Transform.h>
-#include <Hect/Logic/Systems/CameraSystem.h>
-#include <Hect/Logic/Systems/InputSystem.h>
-#include <Hect/Math/Utilities.h>
-
 #include "Components/CockpitCamera.h"
 
 using namespace zeroth;

@@ -6,11 +6,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ShipControlSystem.h"
 
-#include <Hect/Logic/Scene.h>
-#include <Hect/Logic/Components/RigidBody.h>
-#include <Hect/Logic/Systems/PhysicsSystem.h>
-#include <Hect/Logic/Components/Transform.h>
-
 #include "Components/Thruster.h"
 
 using namespace zeroth;
