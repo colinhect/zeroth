@@ -1,9 +1,2 @@
 ---
-base: Hect/Solid.material
-arguments:
-  - name: diffuse
-    value: [ 0.8, 0.8, 0.8 ]
-  - name: roughness
-    value: 0.3
-  - name: metallic
-    value: 1
+shader: Hect/Solid.shader
