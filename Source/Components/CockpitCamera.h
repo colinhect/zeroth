@@ -7,7 +7,6 @@
 #pragma once
 
 #include <Hect.h>
-
 using namespace hect;
 
 namespace zeroth

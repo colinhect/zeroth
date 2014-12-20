@@ -6,9 +6,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Systems/ShipControlSystem.h"
-
+#include <Hect.h>
 using namespace hect;
+
+#include "Systems/ShipControlSystem.h"
 
 namespace zeroth
 {
