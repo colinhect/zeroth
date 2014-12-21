@@ -6,6 +6,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ZerothGameMode.h"
 
+#include "Components/CockpitCamera.h"
+
 using namespace zeroth;
 
 ZerothGameMode::ZerothGameMode(Engine& engine) :
@@ -13,8 +15,14 @@ ZerothGameMode::ZerothGameMode(Engine& engine) :
     _sceneRenderer(engine.renderer(), engine.assetCache())
 {
     AssetCache& assetCache = engine.assetCache();
-    _scene = assetCache.getHandle<Scene>("Test/Scene.scene", engine);
+    _scene = assetCache.getHandle<Scene>("Test/Test.scene", engine);
 
+    _observerEntity = _scene->createEntity();
+    {
+        AssetDecoder decoder(engine.assetCache(), "Test/Observer.entity");
+        decoder >> decodeValue(*_observerEntity);
+    }
+    
     Keyboard& keyboard = engine.platform().keyboard();
     keyboard.addListener(*this);
 }
@@ -40,6 +48,27 @@ void ZerothGameMode::receiveEvent(const KeyboardEvent& event)
         else
         {
             _scene->addSystemType<DebugSystem>();
+        }
+    }
+    
+    if (event.type == KeyboardEventType_KeyDown && event.key == Key_Q)
+    {
+        if (_activeObserver)
+        {
+            Entity::Iterator cockpitEntity = _scene->entities().findFirst([] (const Entity& entity)
+            {
+                return entity.component<CockpitCamera>();
+            });
+
+            _scene->system<CameraSystem>().setActiveCamera(*cockpitEntity->component<Camera>());
+
+            _activeObserver = Entity::Handle();
+        }
+        else
+        {
+            _activeObserver = _observerEntity->clone()->createHandle();
+            _activeObserver->activate();
+            _scene->system<CameraSystem>().setActiveCamera(*_activeObserver->component<Camera>());
         }
     }
 }

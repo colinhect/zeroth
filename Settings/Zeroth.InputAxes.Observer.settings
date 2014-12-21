@@ -1,0 +1,10 @@
+---
+inputAxes:
+  - name: observerYaw
+    bindings:
+      - type: MouseMoveX
+        range: [ -1, 1 ]
+  - name: observerPitch
+    bindings:
+      - type: MouseMoveY
+        range: [ 1, -1 ]

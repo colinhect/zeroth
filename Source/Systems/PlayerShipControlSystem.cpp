@@ -7,7 +7,7 @@
 #include "PlayerShipControlSystem.h"
 
 #include "Components/PlayerShipControl.h"
-#include "Systems/PlayerCameraSystem.h"
+#include "Systems/ObserverCameraSystem.h"
 
 using namespace zeroth;
 

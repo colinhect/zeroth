@@ -12,4 +12,5 @@ assetCache:
     concurrent: true
 gameMode: ZerothGameMode
 include:
-  - Zeroth.InputAxes.SaitekX52.settings
+  - Zeroth.InputAxes.Observer.settings
+  - Zeroth.InputAxes.Ship.SaitekX52.settings

@@ -1,0 +1,15 @@
+---
+base: Hect/Default.scene
+componentTypes:
+  - CockpitCamera
+  - ObserverCamera
+  - PlayerShipControl
+  - Ship
+  - Thruster
+systemTypes:
+  - CockpitCameraSystem
+  - ObserverCameraSystem
+  - PlayerShipControlSystem
+systems:
+  - type: PhysicsSystem
+    gravity: [ 0, 0, 0 ]
