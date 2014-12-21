@@ -6,8 +6,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ZerothGameMode.h"
 
-#include "Components/CockpitCamera.h"
-
 using namespace zeroth;
 
 ZerothGameMode::ZerothGameMode(Engine& engine) :
@@ -55,20 +53,43 @@ void ZerothGameMode::receiveEvent(const KeyboardEvent& event)
     {
         if (_activeObserver)
         {
-            Entity::Iterator cockpitEntity = _scene->entities().findFirst([] (const Entity& entity)
+            // Restore the last active camera
+            if (_lastActiveCamera)
             {
-                return entity.component<CockpitCamera>();
-            });
+                auto camera = _lastActiveCamera->component<Camera>();
+                if (camera)
+                {
+                    _scene->system<CameraSystem>().setActiveCamera(*camera);
+                }
 
-            _scene->system<CameraSystem>().setActiveCamera(*cockpitEntity->component<Camera>());
+                _lastActiveCamera = Entity::Handle();
+            }
 
+            // Issue #149
             _activeObserver = Entity::Handle();
         }
         else
         {
-            _activeObserver = _observerEntity->clone()->createHandle();
-            _activeObserver->activate();
-            _scene->system<CameraSystem>().setActiveCamera(*_activeObserver->component<Camera>());
+            // Remember the active camera
+            auto camera = _scene->system<CameraSystem>().activeCamera();
+            if (camera)
+            {
+                _lastActiveCamera = camera->entity().createHandle();
+            }
+
+            // Instantiate an observer
+            auto observer = _observerEntity->clone();
+            observer->activate();
+
+            // Set as active observer
+            _activeObserver = observer->createHandle();
+
+            // Set active camera
+            auto observerCamera = _activeObserver->component<Camera>();
+            if (observerCamera)
+            {
+                _scene->system<CameraSystem>().setActiveCamera(*observerCamera);
+            }
         }
     }
 }
