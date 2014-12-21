@@ -14,12 +14,20 @@ namespace zeroth
 
 /// \system
 class ObserverCameraSystem :
-    public System
+    public System,
+    public Listener<KeyboardEvent>
 {
 public:
     ObserverCameraSystem(Scene& scene);
 
     void tick(Real timeStep) override;
+
+    void receiveEvent(const KeyboardEvent& event) override;
+
+private:
+    Entity::Iterator _observerEntity;
+    Entity::Handle _activeObserver;
+    Entity::Handle _lastActiveCamera;
 };
 
 }

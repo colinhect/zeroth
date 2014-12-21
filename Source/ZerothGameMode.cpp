@@ -15,12 +15,6 @@ ZerothGameMode::ZerothGameMode(Engine& engine) :
     AssetCache& assetCache = engine.assetCache();
     _scene = assetCache.getHandle<Scene>("Test/Test.scene", engine);
 
-    _observerEntity = _scene->createEntity();
-    {
-        AssetDecoder decoder(engine.assetCache(), "Test/Observer.entity");
-        decoder >> decodeValue(*_observerEntity);
-    }
-    
     Keyboard& keyboard = engine.platform().keyboard();
     keyboard.addListener(*this);
 }
@@ -46,50 +40,6 @@ void ZerothGameMode::receiveEvent(const KeyboardEvent& event)
         else
         {
             _scene->addSystemType<DebugSystem>();
-        }
-    }
-    
-    if (event.type == KeyboardEventType_KeyDown && event.key == Key_Q)
-    {
-        if (_activeObserver)
-        {
-            // Restore the last active camera
-            if (_lastActiveCamera)
-            {
-                auto camera = _lastActiveCamera->component<Camera>();
-                if (camera)
-                {
-                    _scene->system<CameraSystem>().setActiveCamera(*camera);
-                }
-
-                _lastActiveCamera = Entity::Handle();
-            }
-
-            // Issue #149
-            _activeObserver = Entity::Handle();
-        }
-        else
-        {
-            // Remember the active camera
-            auto camera = _scene->system<CameraSystem>().activeCamera();
-            if (camera)
-            {
-                _lastActiveCamera = camera->entity().createHandle();
-            }
-
-            // Instantiate an observer
-            auto observer = _observerEntity->clone();
-            observer->activate();
-
-            // Set as active observer
-            _activeObserver = observer->createHandle();
-
-            // Set active camera
-            auto observerCamera = _activeObserver->component<Camera>();
-            if (observerCamera)
-            {
-                _scene->system<CameraSystem>().setActiveCamera(*observerCamera);
-            }
         }
     }
 }

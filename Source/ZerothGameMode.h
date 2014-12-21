@@ -27,10 +27,6 @@ public:
 
 private:
     AssetHandle<Scene> _scene;
-    Entity::Iterator _observerEntity;
-    Entity::Handle _activeObserver;
-    Entity::Handle _lastActiveCamera;
-
     SceneRenderer _sceneRenderer;
 };
 

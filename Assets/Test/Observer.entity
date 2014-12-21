@@ -6,3 +6,4 @@ components:
     rotateSpeed: 1
     moveSpeed: 100
   - type: Camera
+    fieldOfView: 75
