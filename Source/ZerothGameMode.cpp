@@ -33,6 +33,7 @@ void ZerothGameMode::receiveEvent(const KeyboardEvent& event)
 {
     if (event.type == KeyboardEventType_KeyDown && event.key == Key_F1)
     {
+        // Toggle debug system
         if (_scene->hasSystemType<DebugSystem>())
         {
             _scene->removeSystemType<DebugSystem>();
@@ -40,6 +41,19 @@ void ZerothGameMode::receiveEvent(const KeyboardEvent& event)
         else
         {
             _scene->addSystemType<DebugSystem>();
+        }
+    }
+    else if (event.type == KeyboardEventType_KeyDown && event.key == Key_Tab)
+    {
+        // Toggle mouse cursor mode
+        Mouse& mouse = engine().platform().mouse();
+        if (mouse.mode() == MouseMode_Cursor)
+        {
+            mouse.setMode(MouseMode_Relative);
+        }
+        else
+        {
+            mouse.setMode(MouseMode_Cursor);
         }
     }
 }
