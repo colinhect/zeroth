@@ -13,14 +13,9 @@ using namespace zeroth;
 ObserverCameraSystem::ObserverCameraSystem(Scene& scene) :
     System(scene)
 {
-    Engine& engine = scene.engine();
+    _observerEntity = scene.createEntity("Test/Observer.entity");
 
-    _observerEntity = scene.createEntity();
-
-    AssetDecoder decoder(engine.assetCache(), "Test/Observer.entity");
-    decoder >> decodeValue(*_observerEntity);
-
-    Keyboard& keyboard = engine.platform().keyboard();
+    Keyboard& keyboard = scene.engine().platform().keyboard();
     keyboard.addListener(*this);
 }
 
@@ -41,11 +36,8 @@ void ObserverCameraSystem::tick(Real timeStep)
         if (transform && camera)
         {
             transform->localRotation *= Quaternion::fromAxisAngle(camera->up, inputSystem.axisValue("yaw") * -rotateSpeed);
-            transform->localRotation.normalize();
             transform->localRotation *= Quaternion::fromAxisAngle(camera->right, inputSystem.axisValue("pitch") * rotateSpeed);
-            transform->localRotation.normalize();
             transform->localRotation *= Quaternion::fromAxisAngle(camera->front, inputSystem.axisValue("roll") * -rotateSpeed);
-            transform->localRotation.normalize();
 
             transform->localPosition += camera->front * inputSystem.axisValue("thrust") * moveSpeed;
 
