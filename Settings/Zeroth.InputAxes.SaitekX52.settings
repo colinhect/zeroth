@@ -1,0 +1,61 @@
+---
+inputAxes:
+  - name: yaw
+    bindings:
+      - type: JoystickAxis
+        joystickAxis: Axis5
+        joystickAxisDeadZone: [ -0.2, 0.2 ]
+        invert: true
+      - type: MouseMoveX
+        mouseSensitivity: 0.002
+        gravity: 2
+        invert: true
+  - name: pitch
+    bindings:
+      - type: JoystickAxis
+        joystickAxis: Axis1
+        joystickAxisDeadZone: [ -0.1, 0.1 ]
+        invert: true
+      - type: MouseMoveY
+        mouseSensitivity: 0.002
+        gravity: 2
+        invert: true
+  - name: roll
+    bindings:
+      - type: JoystickAxis
+        joystickAxis: Axis0
+        joystickAxisDeadZone: [ -0.1, 0.1 ]
+      - type: Key
+        key: E
+        range: [ 0, 1 ]
+        acceleration: 5
+        gravity: 1
+      - type: Key
+        key: Q
+        range: [ -1, 0 ]
+        acceleration: 5
+        gravity: 1
+        invert: true
+  - name: thrust
+    bindings:
+      - type: JoystickAxis
+        joystickAxis: Axis2
+        range: [ 0, 1 ]
+        invert: true
+      - type: Key
+        key: W
+        range: [ 0, 1 ]
+        acceleration: 5
+        gravity: 1
+      - type: Key
+        key: S
+        range: [ -1, 0 ]
+        acceleration: 5
+        gravity: 1
+        invert: true
+  - name: exposure
+    bindings:
+      - type: JoystickAxis
+        joystickAxis: Axis4
+        range: [ 0, 1 ]
+        affinity: 0.7

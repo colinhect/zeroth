@@ -22,7 +22,10 @@ public:
     Real speed;
 
     /// \property
-    Real rotateSpeed;
+    Real lookSpeed;
+
+    /// \property
+    Real rollSpeed;
 
     /// \property
     Real moveSpeed;

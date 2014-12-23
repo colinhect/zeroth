@@ -29,6 +29,8 @@ void PlayerShipControlSystem::tick(Real timeStep)
         Real roll = inputSystem.axisValue("roll");
         Real thrust = inputSystem.axisValue("thrust");
 
+        HECT_TRACE(format("%f", roll));
+
         Vector3 angularAxis(pitch, yaw, roll);
         controlShip(entity, angularAxis, thrust, timeStep);
     }

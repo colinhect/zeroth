@@ -28,16 +28,17 @@ void ObserverCameraSystem::tick(Real timeStep)
     {
         Entity& entity = observerCamera.entity();
 
-        Real rotateSpeed = timeStep * observerCamera.rotateSpeed;
+        Real lookSpeed = timeStep * observerCamera.lookSpeed;
+        Real rollSpeed = timeStep * observerCamera.rollSpeed;
         Real moveSpeed = timeStep * observerCamera.moveSpeed;
 
         auto transform = entity.component<Transform>();
         auto camera = entity.component<Camera>();
         if (transform && camera)
         {
-            transform->localRotation *= Quaternion::fromAxisAngle(camera->up, inputSystem.axisValue("yaw") * -rotateSpeed);
-            transform->localRotation *= Quaternion::fromAxisAngle(camera->right, inputSystem.axisValue("pitch") * rotateSpeed);
-            transform->localRotation *= Quaternion::fromAxisAngle(camera->front, inputSystem.axisValue("roll") * -rotateSpeed);
+            transform->localRotation *= Quaternion::fromAxisAngle(camera->up, inputSystem.axisValue("yaw") * -lookSpeed);
+            transform->localRotation *= Quaternion::fromAxisAngle(camera->right, inputSystem.axisValue("pitch") * lookSpeed);
+            transform->localRotation *= Quaternion::fromAxisAngle(camera->front, inputSystem.axisValue("roll") * -rollSpeed);
 
             transform->localPosition += camera->front * inputSystem.axisValue("thrust") * moveSpeed;
 
@@ -51,7 +52,7 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
     CameraSystem& cameraSystem = scene().system<CameraSystem>();
     TransformSystem& transformSystem = scene().system<TransformSystem>();
 
-    if (event.type == KeyboardEventType_KeyDown && event.key == Key_Q)
+    if (event.type == KeyboardEventType_KeyDown && event.key == Key_F)
     {
         if (_activeObserver)
         {
