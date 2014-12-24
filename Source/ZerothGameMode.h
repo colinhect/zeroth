@@ -26,10 +26,10 @@ public:
     void receiveEvent(const KeyboardEvent& event) override;
 
 private:
-    AssetHandle<Scene> _scene;
-    SceneRenderer _sceneRenderer;
     Mouse& _mouse;
     Keyboard& _keyboard;
+    SceneRenderer _sceneRenderer;
+    AssetHandle<Scene> _scene;
 };
 
 }

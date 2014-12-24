@@ -10,13 +10,14 @@ using namespace zeroth;
 
 ZerothGameMode::ZerothGameMode(Engine& engine) :
     GameMode(TimeSpan::fromSeconds(Real(1) / Real(60))),
-    _sceneRenderer(engine.assetCache()),
     _mouse(engine.platform().mouse()),
-    _keyboard(engine.platform().keyboard())
+    _keyboard(engine.platform().keyboard()),
+    _sceneRenderer(engine.assetCache())
 {
+    // Load the scene
     AssetCache& assetCache = engine.assetCache();
-    const DataValue& settings = engine.settings();
-    _scene = assetCache.getHandle<Scene>(settings["scene"].asString(), engine);
+    Path scenePath = engine.settings()["scene"].asString();
+    _scene = assetCache.getHandle<Scene>(scenePath, engine);
 
     _keyboard.addListener(*this);
 }

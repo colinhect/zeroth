@@ -17,9 +17,9 @@ int main(int argc, char* const argv[])
         hect::Engine engine(argc, argv);
         return engine.main();
     }
-    catch (hect::Error& error)
+    catch (hect::Exception& exception)
     {
-        HECT_ERROR(error.what());
+        HECT_ERROR(exception.what());
     }
 
     return 0;
