@@ -20,7 +20,7 @@ class ZerothGameMode :
 public:
     ZerothGameMode(Engine& engine);
 
-    void tick() override;
+    void tick(Real timeStep) override;
     void render(RenderTarget& target) override;
 
     void receiveEvent(const KeyboardEvent& event) override;
