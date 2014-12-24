@@ -11,8 +11,8 @@
 
 using namespace zeroth;
 
-PlayerShipControlSystem::PlayerShipControlSystem(Scene& scene) :
-    ShipControlSystem(scene)
+PlayerShipControlSystem::PlayerShipControlSystem(Engine& engine, Scene& scene) :
+    ShipControlSystem(engine, scene)
 {
 }
 

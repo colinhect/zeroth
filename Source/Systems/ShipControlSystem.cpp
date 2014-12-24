@@ -10,9 +10,10 @@
 
 using namespace zeroth;
 
-ShipControlSystem::ShipControlSystem(Scene& scene) :
+ShipControlSystem::ShipControlSystem(Engine& engine, Scene& scene) :
     System(scene)
 {
+    (void)engine;
 }
 
 void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, Real thrustAmount, Real timeStep)

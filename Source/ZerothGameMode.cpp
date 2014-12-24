@@ -21,7 +21,7 @@ ZerothGameMode::ZerothGameMode(Engine& engine) :
     _keyboard.addListener(*this);
 }
 
-void ZerothGameMode::tick(Engine& engine, Real timeStep)
+void ZerothGameMode::tick(Real timeStep)
 {
     _scene->tick(timeStep);
 }

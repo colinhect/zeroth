@@ -10,12 +10,12 @@
 
 using namespace zeroth;
 
-ObserverCameraSystem::ObserverCameraSystem(Scene& scene) :
+ObserverCameraSystem::ObserverCameraSystem(Engine& engine, Scene& scene) :
     System(scene)
 {
     _observerEntity = scene.createEntity("Test/Observer.entity");
 
-    Keyboard& keyboard = scene.engine().platform().keyboard();
+    Keyboard& keyboard = engine.platform().keyboard();
     keyboard.addListener(*this);
 }
 
@@ -41,8 +41,6 @@ void ObserverCameraSystem::tick(Real timeStep)
             transform->localRotation *= Quaternion::fromAxisAngle(camera->front, inputSystem.axisValue("roll") * -rollSpeed);
 
             transform->localPosition += camera->front * inputSystem.axisValue("thrust") * moveSpeed;
-
-            transformSystem.update(*transform);
         }
     }
 }
@@ -93,7 +91,6 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
                     {
                         observerTransform->localPosition = transform->globalPosition;
                         observerTransform->localRotation = transform->globalRotation;
-                        transformSystem.update(*observerTransform);
                     }
                 }
             }

@@ -19,7 +19,7 @@ class PlayerShipControlSystem :
     public ShipControlSystem
 {
 public:
-    PlayerShipControlSystem(Scene& scene);
+    PlayerShipControlSystem(Engine& engine, Scene& scene);
 
     void tick(Real timeStep) override;
 };

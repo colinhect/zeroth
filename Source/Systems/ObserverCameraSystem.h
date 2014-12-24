@@ -18,7 +18,7 @@ class ObserverCameraSystem :
     public Listener<KeyboardEvent>
 {
 public:
-    ObserverCameraSystem(Scene& scene);
+    ObserverCameraSystem(Engine& engine, Scene& scene);
 
     void tick(Real timeStep) override;
 

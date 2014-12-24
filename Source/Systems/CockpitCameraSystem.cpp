@@ -10,9 +10,10 @@
 
 using namespace zeroth;
 
-CockpitCameraSystem::CockpitCameraSystem(Scene& scene) :
+CockpitCameraSystem::CockpitCameraSystem(Engine& engine, Scene& scene) :
     System(scene)
 {
+    (void)engine;
 }
 
 void CockpitCameraSystem::tick(Real timeStep)
