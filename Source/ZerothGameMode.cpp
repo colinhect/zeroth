@@ -9,24 +9,26 @@
 using namespace zeroth;
 
 ZerothGameMode::ZerothGameMode(Engine& engine) :
-    GameMode(engine, TimeSpan::fromSeconds(Real(1) / Real(60))),
-    _sceneRenderer(engine.renderer(), engine.assetCache())
+    GameMode(TimeSpan::fromSeconds(Real(1) / Real(60))),
+    _sceneRenderer(engine.assetCache()),
+    _mouse(engine.platform().mouse()),
+    _keyboard(engine.platform().keyboard())
 {
     AssetCache& assetCache = engine.assetCache();
-    _scene = assetCache.getHandle<Scene>("Test/Test.scene", engine);
+    const DataValue& settings = engine.settings();
+    _scene = assetCache.getHandle<Scene>(settings["scene"].asString(), engine);
 
-    Keyboard& keyboard = engine.platform().keyboard();
-    keyboard.addListener(*this);
+    _keyboard.addListener(*this);
 }
 
-void ZerothGameMode::tick(Real timeStep)
+void ZerothGameMode::tick(Engine& engine, Real timeStep)
 {
     _scene->tick(timeStep);
 }
 
-void ZerothGameMode::render(RenderTarget& target)
+void ZerothGameMode::render(Renderer& renderer, RenderTarget& target)
 {
-    _sceneRenderer.renderScene(*_scene, target);
+    _sceneRenderer.renderScene(renderer, *_scene, target);
 }
 
 void ZerothGameMode::receiveEvent(const KeyboardEvent& event)
@@ -46,14 +48,13 @@ void ZerothGameMode::receiveEvent(const KeyboardEvent& event)
     else if (event.type == KeyboardEventType_KeyDown && event.key == Key_Tab)
     {
         // Toggle mouse cursor mode
-        Mouse& mouse = engine().platform().mouse();
-        if (mouse.mode() == MouseMode_Cursor)
+        if (_mouse.mode() == MouseMode_Cursor)
         {
-            mouse.setMode(MouseMode_Relative);
+            _mouse.setMode(MouseMode_Relative);
         }
         else
         {
-            mouse.setMode(MouseMode_Cursor);
+            _mouse.setMode(MouseMode_Cursor);
         }
     }
 }

@@ -57,4 +57,4 @@ inputAxes:
       - type: JoystickAxis
         joystickAxis: Axis4
         range: [ 0, 1 ]
-        affinity: 0.7
+        deadValue: 0.7

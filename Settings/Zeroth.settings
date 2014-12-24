@@ -11,5 +11,6 @@ archives:
 assetCache:
     concurrent: true
 gameMode: ZerothGameMode
+scene: Test/Test.scene
 include:
   - Zeroth.InputAxes.SaitekX52.settings
