@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // This source file is part of Zeroth.
 //
-// Copyright (c) 2014 Colin Hill
+// Copyright (c) 2015 Colin Hill
 //
 ///////////////////////////////////////////////////////////////////////////////
 #include "ObserverCameraSystem.h"
@@ -41,6 +41,8 @@ void ObserverCameraSystem::tick(Real timeStep)
             transform->localRotation *= Quaternion::fromAxisAngle(camera->front, inputSystem.axisValue("roll") * -rollSpeed);
 
             transform->localPosition += camera->front * inputSystem.axisValue("thrust") * moveSpeed;
+
+            transformSystem.commit(*transform);
         }
     }
 }
@@ -91,6 +93,7 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
                     {
                         observerTransform->localPosition = transform->globalPosition;
                         observerTransform->localRotation = transform->globalRotation;
+                        transformSystem.update(*observerTransform);
                     }
                 }
             }

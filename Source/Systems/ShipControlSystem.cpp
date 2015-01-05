@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // This source file is part of Zeroth.
 //
-// Copyright (c) 2014 Colin Hill
+// Copyright (c) 2015 Colin Hill
 //
 ///////////////////////////////////////////////////////////////////////////////
 #include "ShipControlSystem.h"
@@ -19,6 +19,7 @@ ShipControlSystem::ShipControlSystem(Engine& engine, Scene& scene) :
 void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, Real thrustAmount, Real timeStep)
 {
     PhysicsSystem& physicsSystem = scene().system<PhysicsSystem>();
+    TransformSystem& transformSystem = scene().system<TransformSystem>();
 
     auto transform = ship.component<Transform>();
     if (transform)
@@ -42,7 +43,7 @@ void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, 
             // Update the rigidy body based on new linear and angular velocities
             rigidBody->angularVelocity = angularVelocity + angularDelta;
             rigidBody->linearVelocity = linearVelocity;
-            physicsSystem.updateRigidBody(*rigidBody);
+            physicsSystem.commit(*rigidBody);
 
             // Find all child entities that are thrusters
             auto thrusterEntities = ship.findDescendants([](const Entity& entity)

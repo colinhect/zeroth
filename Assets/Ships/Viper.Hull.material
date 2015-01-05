@@ -1,5 +1,5 @@
 ---
-shader: Hect/Solid.shader
+base: Hect/Solid.material
 uniformValues:
   - name: diffuse
     type: Vector3

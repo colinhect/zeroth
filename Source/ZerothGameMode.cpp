@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // This source file is part of Zeroth.
 //
-// Copyright (c) 2014 Colin Hill
+// Copyright (c) 2015 Colin Hill
 //
 ///////////////////////////////////////////////////////////////////////////////
 #include "ZerothGameMode.h"
@@ -12,7 +12,7 @@ ZerothGameMode::ZerothGameMode(Engine& engine) :
     GameMode(TimeSpan::fromSeconds(Real(1) / Real(60))),
     _mouse(engine.platform().mouse()),
     _keyboard(engine.platform().keyboard()),
-    _sceneRenderer(engine.assetCache())
+    _sceneRenderer(engine.taskPool(), engine.assetCache())
 {
     // Load the scene
     AssetCache& assetCache = engine.assetCache();

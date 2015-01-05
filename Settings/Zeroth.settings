@@ -8,6 +8,8 @@ archives:
   - path: Hect.data
     mountPoint: Hect
   - path: Zeroth.data
+taskPool:
+    threadCount: 6
 assetCache:
     concurrent: true
 gameMode: ZerothGameMode
