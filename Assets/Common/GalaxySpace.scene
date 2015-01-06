@@ -1,0 +1,9 @@
+---
+base: Hect/Default.scene
+componentTypes:
+  - Galaxy
+  - GalaxyNode
+  - ObserverCamera
+systemTypes:
+  - GalaxySystem
+  - ObserverCameraSystem

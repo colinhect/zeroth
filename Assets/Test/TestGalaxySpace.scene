@@ -1,0 +1,14 @@
+---
+base: Common/GalaxySpace.scene
+entities:
+  - base: Galaxy/Zeroth.entity
+  - base: Skybox.entity
+  - base: Observer.entity
+  - components:
+    - type: Transform
+      localPosition: [ 0, 0, 0 ]
+    - type: BoundingBox
+    - type: Model
+      surfaces:
+        - mesh: Ships/Viper.Hull.mesh
+          material: Ships/Viper.Hull.material

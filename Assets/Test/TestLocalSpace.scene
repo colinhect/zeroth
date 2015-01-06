@@ -1,6 +1,7 @@
 ---
 base: Common/LocalSpace.scene
 entities:
+  - base: Skybox.entity
   - base: Ships/Viper.entity
     components:
       - type: Transform
@@ -12,11 +13,3 @@ entities:
     components:
       - type: Transform
         localPosition: [ 0, 0, 100 ]
-  - components:
-      - type: LightProbe
-        texture: Space.texture
-      - type: DirectionalLight
-        direction: [ 1, -1, -1 ]
-        color: [ 20, 20, 20 ]
-      - type: SkyBox
-        texture: Space.texture
