@@ -26,14 +26,14 @@ void GalaxySystem::receiveEvent(const ComponentEvent<Galaxy>& event)
     // If a galaxy component was added to an entity
     if (event.type == ComponentEventType_Add)
     {
-        Entity::Iterator entity = event.entity().iterator();
-        Galaxy::Iterator galaxy = entity->component<Galaxy>();
+        Entity::Iterator galaxyEntity = event.entity;
+        Galaxy::Iterator galaxy = galaxyEntity->component<Galaxy>();
 
         // Create the root galaxy node
         Entity::Iterator rootNode = createGalaxyNode(galaxy, galaxy->extents);
         splitGalaxyNode(*rootNode);
 
-        entity->addChild(*rootNode);
+        galaxyEntity->addChild(*rootNode);
     }
 }
 
@@ -72,7 +72,7 @@ void GalaxySystem::splitGalaxyNode(Entity& entity)
         Vector3 center = boundingBox->extents.center();
         const Vector3& minimum = boundingBox->extents.minimum();
         const Vector3& maximum = boundingBox->extents.maximum();
-        
+
         Vector3 half = (maximum - minimum) * Real(0.5);
         Vector3 halfX = half * Vector3::unitX();
         Vector3 halfY = half * Vector3::unitY();

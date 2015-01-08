@@ -26,7 +26,7 @@ void ObserverCameraSystem::tick(Real timeStep)
 
     for (ObserverCamera& observerCamera : scene().components<ObserverCamera>())
     {
-        Entity& entity = observerCamera.entity();
+        Entity& entity = *observerCamera.entity();
 
         Real lookSpeed = timeStep * observerCamera.lookSpeed;
         Real rollSpeed = timeStep * observerCamera.rollSpeed;
@@ -76,7 +76,7 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
             auto camera = cameraSystem.activeCamera();
             if (camera)
             {
-                _lastActiveCamera = camera->entity().createHandle();
+                _lastActiveCamera = camera->entity()->createHandle();
             }
 
             // Instantiate an observer

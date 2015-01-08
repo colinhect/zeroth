@@ -22,7 +22,7 @@ void PlayerShipControlSystem::tick(Real timeStep)
 
     for (PlayerShipControl& playerShipControl : scene().components<PlayerShipControl>())
     {
-        Entity& entity = playerShipControl.entity();
+        Entity& entity = *playerShipControl.entity();
 
         Real pitch = inputSystem.axisValue("pitch");
         Real yaw = inputSystem.axisValue("yaw");
