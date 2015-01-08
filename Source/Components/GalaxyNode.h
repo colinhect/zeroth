@@ -9,6 +9,8 @@
 #include <Hect.h>
 using namespace hect;
 
+#include "Components/Galaxy.h"
+
 namespace zeroth
 {
 
@@ -17,6 +19,8 @@ class GalaxyNode :
     public Component<GalaxyNode>
 {
 public:
+    Galaxy::Iterator galaxy;
+    bool split { false };
 };
 
 }

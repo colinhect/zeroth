@@ -25,6 +25,11 @@ public:
 
     void tick(Real timeStep) override;
     void receiveEvent(const ComponentEvent<Galaxy>& event) override;
+
+private:
+    Entity::Iterator createGalaxyNode(const Galaxy::Iterator& galaxy, const AxisAlignedBox& extents);
+    void splitGalaxyNode(Entity& entity);
+    void joinGalaxyNode(Entity& entity);
 };
 
 }
