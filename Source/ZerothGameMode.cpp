@@ -18,7 +18,8 @@ ZerothGameMode::ZerothGameMode(Engine& engine) :
     AssetCache& assetCache = engine.assetCache();
     Path scenePath = engine.settings()["scene"].asString();
     _scene = assetCache.getHandle<Scene>(scenePath, engine);
-
+    
+    _mouse.setMode(MouseMode_Relative);
     _keyboard.addListener(*this);
 }
 
