@@ -15,12 +15,14 @@ ZerothGameMode::ZerothGameMode(Engine& engine) :
 {
     drawLoadingScreen(engine);
 
-    // Load the scene
+    // Load assets
     AssetCache& assetCache = engine.assetCache();
     Path scenePath = engine.settings()["scene"].asString();
     _scene = assetCache.getHandle<Scene>(scenePath, engine);
-
     _font = assetCache.getHandle<Font>("Hect/Default.ttf");
+
+    // Wait until all assets are loaded
+    assetCache.taskPool().wait();
 
     _mouse.setMode(MouseMode_Relative);
     _keyboard.addListener(*this);
@@ -36,12 +38,6 @@ void ZerothGameMode::render(Engine& engine, RenderTarget& target)
 {
     SceneRenderer& sceneRenderer = engine.sceneRenderer();
     sceneRenderer.render(*_scene, target);
-
-    InterfaceRenderer& interfaceRenderer = engine.interfaceRenderer();
-    interfaceRenderer.beginFrame(target);
-    interfaceRenderer.selectFont(*_font, 30);
-    interfaceRenderer.drawText(Vector2(500, 500), "Testing... 1 2 3");
-    interfaceRenderer.endFrame();
 }
 
 void ZerothGameMode::receiveEvent(const KeyboardEvent& event)
@@ -78,11 +74,11 @@ void ZerothGameMode::drawLoadingScreen(Engine& engine)
 
     Font& font = assetCache.get<Font>("Hect/Default.ttf");
 
-    InterfaceRenderer& interfaceRenderer = engine.interfaceRenderer();
-    interfaceRenderer.beginFrame(engine.window());
-    interfaceRenderer.selectFont(font, 30);
-    interfaceRenderer.drawText(Vector2(100, 100), "Loading...");
-    interfaceRenderer.endFrame();
+    VectorRenderer& vectorRenderer = engine.vectorRenderer();
+    vectorRenderer.beginFrame(engine.window());
+    vectorRenderer.selectFont(font, 120);
+    vectorRenderer.drawText(Vector2(400, 400), "Loading...");
+    vectorRenderer.endFrame();
 
     engine.window().swapBuffers();
 }
