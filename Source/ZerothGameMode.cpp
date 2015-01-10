@@ -13,6 +13,7 @@ ZerothGameMode::ZerothGameMode(Engine& engine) :
     _mouse(engine.platform().mouse()),
     _keyboard(engine.platform().keyboard())
 {
+    // Draw the loading screen
     drawLoadingScreen(engine);
 
     // Load assets
@@ -21,6 +22,10 @@ ZerothGameMode::ZerothGameMode(Engine& engine) :
     _scene = assetCache.getHandle<Scene>(scenePath, engine);
     _font = assetCache.getHandle<Font>("Hect/Default.ttf");
 
+    // Pre-upload all render objects in the scene
+    SceneRenderer& sceneRenderer = engine.sceneRenderer();
+    sceneRenderer.uploadRendererObjects(*_scene);
+
     // Wait until all assets are loaded
     assetCache.taskPool().wait();
 
@@ -28,42 +33,69 @@ ZerothGameMode::ZerothGameMode(Engine& engine) :
     _keyboard.addListener(*this);
 }
 
-void ZerothGameMode::tick(Engine& engine, Real timeStep)
+bool ZerothGameMode::tick(Engine& engine, Real timeStep)
 {
     (void)engine;
     _scene->tick(timeStep);
+    return _active;
 }
 
 void ZerothGameMode::render(Engine& engine, RenderTarget& target)
 {
     SceneRenderer& sceneRenderer = engine.sceneRenderer();
     sceneRenderer.render(*_scene, target);
+
+    if (_scene->hasSystemType<DebugSystem>())
+    {
+        VectorRenderer& vectorRenderer = engine.vectorRenderer();
+        vectorRenderer.beginFrame(target);
+
+        Rectangle bounds(5, 5, 60, 25);
+
+        vectorRenderer.beginPath();
+        vectorRenderer.selectFillColor(Vector4(0, 0, 0, 0.5));
+        vectorRenderer.rectangle(bounds);
+        vectorRenderer.fill();
+
+        vectorRenderer.selectFont(*_font, 18);
+        vectorRenderer.selectFillColor(Vector4(1, 1, 1, 1));
+        vectorRenderer.text("Debug", bounds, HorizontalAlign_Center, VerticalAlign_Center);
+
+        vectorRenderer.endFrame();
+    }
 }
 
 void ZerothGameMode::receiveEvent(const KeyboardEvent& event)
 {
-    if (event.type == KeyboardEventType_KeyDown && event.key == Key_F1)
+    if (event.type == KeyboardEventType_KeyDown)
     {
-        // Toggle debug system
-        if (_scene->hasSystemType<DebugSystem>())
+        if (event.key == Key_F1)
         {
-            _scene->removeSystemType<DebugSystem>();
+            // Toggle debug system
+            if (_scene->hasSystemType<DebugSystem>())
+            {
+                _scene->removeSystemType<DebugSystem>();
+            }
+            else
+            {
+                _scene->addSystemType<DebugSystem>();
+            }
         }
-        else
+        else if (event.key == Key_Tab)
         {
-            _scene->addSystemType<DebugSystem>();
+            // Toggle mouse cursor mode
+            if (_mouse.mode() == MouseMode_Cursor)
+            {
+                _mouse.setMode(MouseMode_Relative);
+            }
+            else
+            {
+                _mouse.setMode(MouseMode_Cursor);
+            }
         }
-    }
-    else if (event.type == KeyboardEventType_KeyDown && event.key == Key_Tab)
-    {
-        // Toggle mouse cursor mode
-        if (_mouse.mode() == MouseMode_Cursor)
+        else if (event.key == Key_Esc)
         {
-            _mouse.setMode(MouseMode_Relative);
-        }
-        else
-        {
-            _mouse.setMode(MouseMode_Cursor);
+            _active = false;
         }
     }
 }
@@ -74,11 +106,13 @@ void ZerothGameMode::drawLoadingScreen(Engine& engine)
 
     Font& font = assetCache.get<Font>("Hect/Default.ttf");
 
+    Window& window = engine.window();
+
     VectorRenderer& vectorRenderer = engine.vectorRenderer();
-    vectorRenderer.beginFrame(engine.window());
-    vectorRenderer.selectFont(font, 120);
-    vectorRenderer.drawText(Vector2(400, 400), "Loading...");
+    vectorRenderer.beginFrame(window);
+    vectorRenderer.selectFont(font, 25);
+    vectorRenderer.text("Loading...", Rectangle(0, 0, window.width(), window.height()));
     vectorRenderer.endFrame();
 
-    engine.window().swapBuffers();
+    window.swapBuffers();
 }

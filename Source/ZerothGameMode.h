@@ -20,13 +20,15 @@ class ZerothGameMode :
 public:
     ZerothGameMode(Engine& engine);
 
-    void tick(Engine& engine, Real timeStep) override;
+    bool tick(Engine& engine, Real timeStep) override;
     void render(Engine& engine, RenderTarget& target) override;
 
     void receiveEvent(const KeyboardEvent& event) override;
 
 private:
     void drawLoadingScreen(Engine& engine);
+
+    bool _active { true };
 
     Mouse& _mouse;
     Keyboard& _keyboard;
