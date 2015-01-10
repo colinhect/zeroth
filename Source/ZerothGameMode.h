@@ -20,16 +20,19 @@ class ZerothGameMode :
 public:
     ZerothGameMode(Engine& engine);
 
-    void tick(Real timeStep) override;
-    void render(Renderer& renderer, RenderTarget& target) override;
+    void tick(Engine& engine, Real timeStep) override;
+    void render(Engine& engine, RenderTarget& target) override;
 
     void receiveEvent(const KeyboardEvent& event) override;
 
 private:
+    void drawLoadingScreen(Engine& engine);
+
     Mouse& _mouse;
     Keyboard& _keyboard;
-    SceneRenderer _sceneRenderer;
+
     AssetHandle<Scene> _scene;
+    AssetHandle<Font> _font;
 };
 
 }
