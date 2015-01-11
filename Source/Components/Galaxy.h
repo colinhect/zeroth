@@ -20,6 +20,15 @@ public:
 
     /// \property
     AxisAlignedBox extents;
+
+    /// \property
+    IntVector3 rootNodes;
+
+    /// \property
+    unsigned initialLevel;
+
+    /// \property
+    unsigned maxLevel;
 };
 
 }

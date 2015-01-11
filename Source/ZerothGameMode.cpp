@@ -37,6 +37,7 @@ ZerothGameMode::ZerothGameMode(Engine& engine) :
 bool ZerothGameMode::tick(Engine& engine, Real timeStep)
 {
     (void)engine;
+
     _scene->tick(timeStep);
     return _active;
 }
@@ -45,25 +46,6 @@ void ZerothGameMode::render(Engine& engine, RenderTarget& target)
 {
     SceneRenderer& sceneRenderer = engine.sceneRenderer();
     sceneRenderer.render(*_scene, target);
-
-    if (_scene->hasSystemType<DebugSystem>())
-    {
-        VectorRenderer& vectorRenderer = engine.vectorRenderer();
-        vectorRenderer.beginFrame(target);
-
-        Rectangle bounds(5, 5, 60, 25);
-
-        vectorRenderer.beginPath();
-        vectorRenderer.setFillColor(Color(0, 0, 0, 0.5));
-        vectorRenderer.rectangle(bounds);
-        vectorRenderer.fill();
-
-        vectorRenderer.setFont(*_font, 18);
-        vectorRenderer.setFillColor(Color(1, 1, 1));
-        vectorRenderer.text("Debug", bounds, HorizontalAlign_Center, VerticalAlign_Center);
-
-        vectorRenderer.endFrame();
-    }
 }
 
 void ZerothGameMode::receiveEvent(const KeyboardEvent& event)

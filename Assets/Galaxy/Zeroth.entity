@@ -2,5 +2,8 @@
 components:
   - type: Galaxy
     extents:
-        minimum: [ -10, -10, -10 ]
-        maximum: [  10,  10,  10 ]
+        minimum: [ -64, -16, -64 ]
+        maximum: [  64,  16,  64 ]
+    rootNodes: [ 4, 1, 4 ]
+    initialLevel: 1
+    maxLevel: 4

@@ -27,9 +27,11 @@ public:
     void receiveEvent(const ComponentEvent<Galaxy>& event) override;
 
 private:
-    Entity::Iterator createGalaxyNode(const Galaxy::Iterator& galaxy, const AxisAlignedBox& extents);
-    void splitGalaxyNode(Entity& entity);
-    void joinGalaxyNode(Entity& entity);
+    void initializeGalaxy(const Galaxy::Iterator& galaxy);
+    Entity::Iterator createGalaxyNode(unsigned level, const Galaxy::Iterator& galaxy, const AxisAlignedBox& extents);
+    void adaptGalaxyNode(const Vector3& observerPosition, const Entity::Iterator& entity);
+    void splitGalaxyNode(const Entity::Iterator& entity);
+    void joinGalaxyNode(const Entity::Iterator& entity);
 };
 
 }

@@ -19,6 +19,22 @@ GalaxySystem::GalaxySystem(Engine& engine, Scene& scene) :
 void GalaxySystem::tick(Real timeStep)
 {
     (void)timeStep;
+
+    CameraSystem& cameraSystem = scene().system<CameraSystem>();
+    Camera::Iterator activeCamera = cameraSystem.activeCamera();
+    if (activeCamera)
+    {
+        Vector3 observerPosition = activeCamera->position;
+        for (Galaxy& galaxy : scene().components<Galaxy>())
+        {
+            Entity::Iterator galaxyEntity = galaxy.entity();
+            for (Entity& child : galaxyEntity->children())
+            {
+                Entity::Iterator rootGalaxyNode = child.iterator();
+                adaptGalaxyNode(observerPosition, rootGalaxyNode);
+            }
+        }
+    }
 }
 
 void GalaxySystem::receiveEvent(const ComponentEvent<Galaxy>& event)
@@ -26,20 +42,50 @@ void GalaxySystem::receiveEvent(const ComponentEvent<Galaxy>& event)
     // If a galaxy component was added to an entity
     if (event.type == ComponentEventType_Add)
     {
-        Entity::Iterator galaxyEntity = event.entity;
-        Galaxy::Iterator galaxy = galaxyEntity->component<Galaxy>();
-
-        // Create the root galaxy node
-        Entity::Iterator rootNode = createGalaxyNode(galaxy, galaxy->extents);
-        splitGalaxyNode(*rootNode);
-
-        galaxyEntity->addChild(*rootNode);
+        // Initialize the galaxy
+        Galaxy::Iterator galaxy = event.entity->component<Galaxy>();
+        initializeGalaxy(galaxy);
     }
 }
 
-Entity::Iterator GalaxySystem::createGalaxyNode(const Galaxy::Iterator& galaxy, const AxisAlignedBox& extents)
+void GalaxySystem::initializeGalaxy(const Galaxy::Iterator& galaxy)
 {
-    // Create the root galaxy node as a child
+    // The number of root nodes along each axis
+    IntVector3 rootNodes = galaxy->rootNodes;
+
+    // The size of a root node
+    Vector3 rootNodeSize = galaxy->extents.size() / rootNodes;
+
+    // Create the root nodes of the galaxy
+    for (int x = 0; x < rootNodes.x; ++x)
+    {
+        for (int y = 0; y < rootNodes.y; ++y)
+        {
+            for (int z = 0; z < rootNodes.z; ++z)
+            {
+                Vector3 delta(x, y, z);
+                Vector3 minimum = galaxy->extents.minimum() + rootNodeSize * delta;
+                AxisAlignedBox extents(minimum, minimum + rootNodeSize);
+                galaxy->entity()->addChild(*createGalaxyNode(0, galaxy, extents));
+            }
+        }
+    }
+
+    // Split all root nodes to the initial level
+    Entity::Iterator galaxyEntity = galaxy->entity();
+    for (Entity& child : galaxyEntity->children())
+    {
+        Entity::Iterator rootGalaxyNode = child.iterator();
+        for (unsigned i = 0; i < galaxy->initialLevel; ++i)
+        {
+            splitGalaxyNode(rootGalaxyNode);
+        }
+    }
+}
+
+Entity::Iterator GalaxySystem::createGalaxyNode(unsigned level, const Galaxy::Iterator& galaxy, const AxisAlignedBox& extents)
+{
+    // Create the galaxy node entity
     Entity::Iterator entity = scene().createEntity();
 
     // Add transform component
@@ -54,49 +100,94 @@ Entity::Iterator GalaxySystem::createGalaxyNode(const Galaxy::Iterator& galaxy, 
     // Add galaxy node component
     GalaxyNode::Iterator galaxyNode = entity->addComponent<GalaxyNode>();
     galaxyNode->galaxy = galaxy;
+    galaxyNode->radius = extents.size().length() / 2;
+    galaxyNode->level = level;
 
+    // Activate and return the entity
     entity->activate();
     return entity;
 }
 
-void GalaxySystem::splitGalaxyNode(Entity& entity)
+void GalaxySystem::splitGalaxyNode(const Entity::Iterator& entity)
 {
-    Entity::Iterator parent = entity.iterator();
-
-    GalaxyNode::Iterator galaxyNode = entity.component<GalaxyNode>();
-    BoundingBox::Iterator boundingBox = entity.component<BoundingBox>();
-    if (galaxyNode && boundingBox && !galaxyNode->split)
+    GalaxyNode::Iterator galaxyNode = entity->component<GalaxyNode>();
+    if (galaxyNode->split)
     {
-        Galaxy::Iterator galaxy = galaxyNode->galaxy;
+        for (Entity& child : entity->children())
+        {
+            splitGalaxyNode(child.iterator());
+        }
+    }
+    else if (galaxyNode->level < galaxyNode->galaxy->maxLevel)
+    {
+        Entity::Iterator parent = entity->iterator();
+        BoundingBox::Iterator boundingBox = entity->component<BoundingBox>();
+        if (galaxyNode && boundingBox && !galaxyNode->split)
+        {
+            unsigned level = galaxyNode->level + 1;
+            Galaxy::Iterator galaxy = galaxyNode->galaxy;
 
-        Vector3 center = boundingBox->extents.center();
-        const Vector3& minimum = boundingBox->extents.minimum();
-        const Vector3& maximum = boundingBox->extents.maximum();
+            const Vector3 center = boundingBox->extents.center();
+            const Vector3& minimum = boundingBox->extents.minimum();
+            const Vector3& maximum = boundingBox->extents.maximum();
 
-        Vector3 half = (maximum - minimum) * Real(0.5);
-        Vector3 halfX = half * Vector3::unitX();
-        Vector3 halfY = half * Vector3::unitY();
-        Vector3 halfZ = half * Vector3::unitZ();
+            const Vector3 half = (maximum - minimum) * Real(0.5);
+            const Vector3 halfX = half * Vector3(1, 0, 0);
+            const Vector3 halfY = half * Vector3(0, 1, 0);
+            const Vector3 halfZ = half * Vector3(0, 0, 1);
+            const Vector3 halfXy = half * Vector3(1, 1, 0);
+            const Vector3 halfXz = half * Vector3(1, 0, 1);
+            const Vector3 halfZy = half * Vector3(0, 1, 1);
 
-        // Create the child nodes
-        parent->addChild(*createGalaxyNode(galaxy, AxisAlignedBox(minimum, center)));
-        parent->addChild(*createGalaxyNode(galaxy, AxisAlignedBox(minimum + half * Vector3(1, 0, 0), center + half * Vector3(1, 0, 0))));
-        parent->addChild(*createGalaxyNode(galaxy, AxisAlignedBox(minimum + half * Vector3(0, 1, 0), center + half * Vector3(0, 1, 0))));
-        parent->addChild(*createGalaxyNode(galaxy, AxisAlignedBox(minimum + half * Vector3(0, 0, 1), center + half * Vector3(0, 0, 1))));
-        parent->addChild(*createGalaxyNode(galaxy, AxisAlignedBox(minimum + half * Vector3(1, 1, 0), center + half * Vector3(1, 1, 0))));
-        parent->addChild(*createGalaxyNode(galaxy, AxisAlignedBox(minimum + half * Vector3(1, 0, 1), center + half * Vector3(1, 0, 1))));
-        parent->addChild(*createGalaxyNode(galaxy, AxisAlignedBox(minimum + half * Vector3(1, 1, 1), center + half * Vector3(1, 1, 1))));
-        parent->addChild(*createGalaxyNode(galaxy, AxisAlignedBox(center, maximum)));
+            // Create the child nodes
+            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(minimum, center)));
+            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(minimum + halfX, center + halfX)));
+            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(minimum + halfY, center + halfY)));
+            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(minimum + halfZ, center + halfZ)));
+            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(minimum + halfXy, center + halfXy)));
+            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(minimum + halfXz, center + halfXz)));
+            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(minimum + halfZy, center + halfZy)));
+            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(center, maximum)));
 
-        galaxyNode->split = true;
+            galaxyNode->split = true;
+        }
     }
 }
 
-void GalaxySystem::joinGalaxyNode(Entity& entity)
+void GalaxySystem::joinGalaxyNode(const Entity::Iterator& entity)
 {
-    GalaxyNode::Iterator galaxyNode = entity.component<GalaxyNode>();
+    GalaxyNode::Iterator galaxyNode = entity->component<GalaxyNode>();
     if (galaxyNode && galaxyNode->split)
     {
-        entity.destroyAllChildren();
+        entity->destroyAllChildren();
+        galaxyNode->split = false;
+    }
+}
+
+void GalaxySystem::adaptGalaxyNode(const Vector3& observerPosition, const Entity::Iterator& entity)
+{
+    GalaxyNode::Iterator galaxyNode = entity->component<GalaxyNode>();
+    if (galaxyNode)
+    {
+        Transform::Iterator transform = entity->component<Transform>();
+        if (transform)
+        {
+            Real distance = (observerPosition - transform->globalPosition).length();
+            if (galaxyNode->split && distance > galaxyNode->radius * 2)
+            {
+                joinGalaxyNode(entity);
+            }
+            else if (!galaxyNode->split && distance < galaxyNode->radius * Real(1.9))
+            {
+                splitGalaxyNode(entity);
+            }
+            else
+            {
+                for (Entity& child : entity->children())
+                {
+                    adaptGalaxyNode(observerPosition, child.iterator());
+                }
+            }
+        }
     }
 }

@@ -1,7 +1,7 @@
 ---
 components:
   - type: Transform
-    localPosition: [ 0, 0, 0 ]
+    localPosition: [ 0, 0, -250 ]
   - type: ObserverCamera
     lookSpeed: 20
     rollSpeed: 2
