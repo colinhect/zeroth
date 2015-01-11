@@ -19,6 +19,9 @@ class Galaxy :
 public:
 
     /// \property
+    std::string name;
+
+    /// \property
     AxisAlignedBox extents;
 
     /// \property
