@@ -25,9 +25,6 @@ public:
     IntVector3 rootNodes;
 
     /// \property
-    unsigned initialLevel;
-
-    /// \property
     unsigned maxLevel;
 };
 
