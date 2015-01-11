@@ -2,7 +2,7 @@
 base: Hect/Solid.material
 uniformValues:
   - name: diffuse
-    type: Vector3
+    type: Color
     value: [ 0.8, 0.8, 0.8 ]
   - name: roughness
     type: Float

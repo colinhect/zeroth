@@ -9,16 +9,17 @@
 using namespace zeroth;
 
 ZerothGameMode::ZerothGameMode(Engine& engine) :
-    GameMode(TimeSpan::fromSeconds(Real(1) / Real(60))),
     _mouse(engine.platform().mouse()),
     _keyboard(engine.platform().keyboard())
 {
-    // Draw the loading screen
-    drawLoadingScreen(engine);
+    AssetCache& assetCache = engine.assetCache();
+    const DataValue& settings = engine.settings();
+
+    // Render the loading screen
+    renderLoadingScreen(engine);
 
     // Load assets
-    AssetCache& assetCache = engine.assetCache();
-    Path scenePath = engine.settings()["scene"].asString();
+    Path scenePath = settings["scene"].asString();
     _scene = assetCache.getHandle<Scene>(scenePath, engine);
     _font = assetCache.getHandle<Font>("Hect/Default.ttf");
 
@@ -53,12 +54,12 @@ void ZerothGameMode::render(Engine& engine, RenderTarget& target)
         Rectangle bounds(5, 5, 60, 25);
 
         vectorRenderer.beginPath();
-        vectorRenderer.selectFillColor(Vector4(0, 0, 0, 0.5));
+        vectorRenderer.setFillColor(Color(0, 0, 0, 0.5));
         vectorRenderer.rectangle(bounds);
         vectorRenderer.fill();
 
-        vectorRenderer.selectFont(*_font, 18);
-        vectorRenderer.selectFillColor(Vector4(1, 1, 1, 1));
+        vectorRenderer.setFont(*_font, 18);
+        vectorRenderer.setFillColor(Color(1, 1, 1));
         vectorRenderer.text("Debug", bounds, HorizontalAlign_Center, VerticalAlign_Center);
 
         vectorRenderer.endFrame();
@@ -100,7 +101,7 @@ void ZerothGameMode::receiveEvent(const KeyboardEvent& event)
     }
 }
 
-void ZerothGameMode::drawLoadingScreen(Engine& engine)
+void ZerothGameMode::renderLoadingScreen(Engine& engine)
 {
     AssetCache& assetCache = engine.assetCache();
 
@@ -110,7 +111,8 @@ void ZerothGameMode::drawLoadingScreen(Engine& engine)
 
     VectorRenderer& vectorRenderer = engine.vectorRenderer();
     vectorRenderer.beginFrame(window);
-    vectorRenderer.selectFont(font, 25);
+    vectorRenderer.setFillColor(Color(0.7, 0.7, 0.7));
+    vectorRenderer.setFont(font, 15);
     vectorRenderer.text("Loading...", Rectangle(0, 0, window.width(), window.height()));
     vectorRenderer.endFrame();
 

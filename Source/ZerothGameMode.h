@@ -26,7 +26,7 @@ public:
     void receiveEvent(const KeyboardEvent& event) override;
 
 private:
-    void drawLoadingScreen(Engine& engine);
+    void renderLoadingScreen(Engine& engine);
 
     bool _active { true };
 
