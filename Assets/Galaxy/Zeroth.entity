@@ -5,5 +5,5 @@ components:
         minimum: [ -64, -16, -64 ]
         maximum: [  64,  16,  64 ]
     rootNodes: [ 4, 1, 4 ]
-    initialLevel: 1
-    maxLevel: 4
+    initialLevel: 0
+    maxLevel: 5

@@ -28,7 +28,7 @@ public:
 
 private:
     void initializeGalaxy(const Galaxy::Iterator& galaxy);
-    Entity::Iterator createGalaxyNode(unsigned level, const Galaxy::Iterator& galaxy, const AxisAlignedBox& extents);
+    Entity::Iterator createGalaxyNode(unsigned level, const Galaxy::Iterator& galaxy, const AxisAlignedBox& extents, const Vector3& globalPosition);
     void adaptGalaxyNode(const Vector3& observerPosition, const Entity::Iterator& entity);
     void splitGalaxyNode(const Entity::Iterator& entity);
     void joinGalaxyNode(const Entity::Iterator& entity);

@@ -56,6 +56,8 @@ void GalaxySystem::initializeGalaxy(const Galaxy::Iterator& galaxy)
     // The size of a root node
     Vector3 rootNodeSize = galaxy->extents.size() / rootNodes;
 
+    Vector3 center = galaxy->extents.center();
+
     // Create the root nodes of the galaxy
     for (int x = 0; x < rootNodes.x; ++x)
     {
@@ -66,7 +68,7 @@ void GalaxySystem::initializeGalaxy(const Galaxy::Iterator& galaxy)
                 Vector3 delta(x, y, z);
                 Vector3 minimum = galaxy->extents.minimum() + rootNodeSize * delta;
                 AxisAlignedBox extents(minimum, minimum + rootNodeSize);
-                galaxy->entity()->addChild(*createGalaxyNode(0, galaxy, extents));
+                galaxy->entity()->addChild(*createGalaxyNode(0, galaxy, extents, center));
             }
         }
     }
@@ -83,14 +85,14 @@ void GalaxySystem::initializeGalaxy(const Galaxy::Iterator& galaxy)
     }
 }
 
-Entity::Iterator GalaxySystem::createGalaxyNode(unsigned level, const Galaxy::Iterator& galaxy, const AxisAlignedBox& extents)
+Entity::Iterator GalaxySystem::createGalaxyNode(unsigned level, const Galaxy::Iterator& galaxy, const AxisAlignedBox& extents, const Vector3& globalPosition)
 {
     // Create the galaxy node entity
     Entity::Iterator entity = scene().createEntity();
 
     // Add transform component
     Transform::Iterator transform = entity->addComponent<Transform>();
-    transform->localPosition = extents.center();
+    transform->localPosition = extents.center() - globalPosition;
 
     // Add bounding box component
     BoundingBox::Iterator boundingBox = entity->addComponent<BoundingBox>();
@@ -140,14 +142,14 @@ void GalaxySystem::splitGalaxyNode(const Entity::Iterator& entity)
             const Vector3 halfZy = half * Vector3(0, 1, 1);
 
             // Create the child nodes
-            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(minimum, center)));
-            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(minimum + halfX, center + halfX)));
-            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(minimum + halfY, center + halfY)));
-            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(minimum + halfZ, center + halfZ)));
-            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(minimum + halfXy, center + halfXy)));
-            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(minimum + halfXz, center + halfXz)));
-            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(minimum + halfZy, center + halfZy)));
-            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(center, maximum)));
+            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(minimum, center), center));
+            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(minimum + halfX, center + halfX), center));
+            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(minimum + halfY, center + halfY), center));
+            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(minimum + halfZ, center + halfZ), center));
+            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(minimum + halfXy, center + halfXy), center));
+            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(minimum + halfXz, center + halfXz), center));
+            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(minimum + halfZy, center + halfZy), center));
+            parent->addChild(*createGalaxyNode(level, galaxy, AxisAlignedBox(center, maximum), center));
 
             galaxyNode->split = true;
         }
