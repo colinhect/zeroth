@@ -4,11 +4,11 @@
 // Copyright (c) 2015 Colin Hill
 //
 ///////////////////////////////////////////////////////////////////////////////
-#include "ZerothGameMode.h"
+#include "TestMode.h"
 
 using namespace zeroth;
 
-ZerothGameMode::ZerothGameMode(Engine& engine) :
+TestMode::TestMode(Engine& engine) :
     _mouse(engine.platform().mouse()),
     _keyboard(engine.platform().keyboard())
 {
@@ -34,7 +34,7 @@ ZerothGameMode::ZerothGameMode(Engine& engine) :
     _keyboard.addListener(*this);
 }
 
-bool ZerothGameMode::tick(Engine& engine, Real timeStep)
+bool TestMode::tick(Engine& engine, Real timeStep)
 {
     (void)engine;
 
@@ -42,13 +42,13 @@ bool ZerothGameMode::tick(Engine& engine, Real timeStep)
     return _active;
 }
 
-void ZerothGameMode::render(Engine& engine, RenderTarget& target)
+void TestMode::render(Engine& engine, RenderTarget& target)
 {
     SceneRenderer& sceneRenderer = engine.sceneRenderer();
     sceneRenderer.render(*_scene, target);
 }
 
-void ZerothGameMode::receiveEvent(const KeyboardEvent& event)
+void TestMode::receiveEvent(const KeyboardEvent& event)
 {
     if (event.type == KeyboardEventType_KeyDown)
     {
@@ -83,7 +83,7 @@ void ZerothGameMode::receiveEvent(const KeyboardEvent& event)
     }
 }
 
-void ZerothGameMode::renderLoadingScreen(Engine& engine)
+void TestMode::renderLoadingScreen(Engine& engine)
 {
     AssetCache& assetCache = engine.assetCache();
 

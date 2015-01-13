@@ -12,13 +12,13 @@ using namespace hect;
 namespace zeroth
 {
 
-/// \gamemode
-class ZerothGameMode :
-    public GameMode,
+/// \mode
+class TestMode :
+    public Mode,
     public Listener<KeyboardEvent>
 {
 public:
-    ZerothGameMode(Engine& engine);
+    TestMode(Engine& engine);
 
     bool tick(Engine& engine, Real timeStep) override;
     void render(Engine& engine, RenderTarget& target) override;

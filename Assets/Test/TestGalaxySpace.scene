@@ -4,6 +4,9 @@ entities:
   - base: Galaxy/Zeroth.entity
   - base: Skybox.entity
   - base: Observer.entity
+    components:
+      - type: Transform
+        localPosition: [ 0, 0, -250 ]
   - components:
     - type: Transform
       localPosition: [ 0, 0, 150 ]

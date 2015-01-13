@@ -79,6 +79,7 @@ Entity::Iterator GalaxySystem::createGalaxyNode(const Galaxy::Iterator& galaxy, 
 {
     // Create the galaxy node entity
     Entity::Iterator entity = scene().createEntity();
+    entity->setTransient(true);
 
     // Add transform component
     Transform::Iterator transform = entity->addComponent<Transform>();
@@ -92,7 +93,7 @@ Entity::Iterator GalaxySystem::createGalaxyNode(const Galaxy::Iterator& galaxy, 
 
     // Add model component
     Model::Iterator model = entity->addComponent<Model>();
-    
+
     // Add galaxy node component
     GalaxyNode::Iterator galaxyNode = entity->addComponent<GalaxyNode>();
     galaxyNode->galaxy = galaxy;
@@ -121,11 +122,12 @@ void GalaxySystem::splitGalaxyNode(const Entity::Iterator& entity)
             Vector3 parentGlobalPosition = boundingBox->extents.center();
 
             // Create the child nodes
-            for (int x : { -1, 1 })
+            std::vector<int> values{ -1, 1 };
+            for (int x : values)
             {
-                for (int y : { -1, 1 })
+                for (int y : values)
                 {
-                    for (int z : { -1, 1 })
+                    for (int z : values)
                     {
                         const Vector3 localPosition = halfSize * Vector3(x, y, z);
                         Entity::Iterator child = createGalaxyNode(galaxy, level, size, localPosition, parentGlobalPosition);
