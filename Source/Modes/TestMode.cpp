@@ -87,13 +87,14 @@ void TestMode::renderLoadingScreen(Engine& engine)
     Font& font = assetCache.get<Font>("Hect/Default.ttf");
 
     Window& window = engine.window();
+    Renderer& renderer = engine.renderer();
 
-    VectorRenderer& vectorRenderer = engine.vectorRenderer();
-    vectorRenderer.beginFrame(window);
-    vectorRenderer.setFillColor(Color(0.7, 0.7, 0.7));
-    vectorRenderer.setFont(font, 15);
-    vectorRenderer.text("Loading...", Rectangle(0, 0, window.width(), window.height()));
-    vectorRenderer.endFrame();
+    {
+        Renderer::VectorFrame frame = renderer.beginVectorFrame(window);
+        frame.setFillColor(Color(0.7, 0.7, 0.7));
+        frame.setFont(font, 15);
+        frame.renderText("Loading...", Rectangle(0, 0, window.width(), window.height()));
+    }
 
     window.swapBuffers();
 }
