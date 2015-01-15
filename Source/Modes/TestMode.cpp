@@ -24,8 +24,8 @@ TestMode::TestMode(Engine& engine) :
     _font = assetCache.getHandle<Font>("Hect/Default.ttf");
 
     // Pre-upload all render objects in the scene
-    SceneRenderer& sceneRenderer = engine.sceneRenderer();
-    sceneRenderer.uploadRendererObjects(*_scene);
+    RenderSystem& renderSystem = _scene->system<RenderSystem>();
+    renderSystem.uploadRendererObjects();
 
     // Wait until all assets are loaded
     assetCache.taskPool().wait();
@@ -36,16 +36,13 @@ TestMode::TestMode(Engine& engine) :
 
 bool TestMode::tick(Engine& engine, Real timeStep)
 {
-    (void)engine;
-
-    _scene->tick(timeStep);
+    _scene->tick(engine, timeStep);
     return _active;
 }
 
 void TestMode::render(Engine& engine, RenderTarget& target)
 {
-    SceneRenderer& sceneRenderer = engine.sceneRenderer();
-    sceneRenderer.render(*_scene, target);
+    _scene->render(engine, target);
 }
 
 void TestMode::receiveEvent(const KeyboardEvent& event)

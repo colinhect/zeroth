@@ -16,8 +16,11 @@ CockpitCameraSystem::CockpitCameraSystem(Engine& engine, Scene& scene) :
     (void)engine;
 }
 
-void CockpitCameraSystem::tick(Real timeStep)
+void CockpitCameraSystem::tick(Engine& engine, Real timeStep)
 {
+    (void)engine;
+    (void)timeStep;
+
     CameraSystem& cameraSystem = scene().system<CameraSystem>();
     auto camera = cameraSystem.activeCamera();
     if (camera)

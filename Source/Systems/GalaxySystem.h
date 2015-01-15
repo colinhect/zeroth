@@ -23,7 +23,7 @@ class GalaxySystem :
 public:
     GalaxySystem(Engine& engine, Scene& scene);
 
-    void tick(Real timeStep) override;
+    void tick(Engine& engine, Real timeStep) override;
     void receiveEvent(const ComponentEvent<Galaxy>& event) override;
 
 private:

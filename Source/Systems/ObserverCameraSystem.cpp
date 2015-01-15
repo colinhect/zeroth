@@ -19,8 +19,10 @@ ObserverCameraSystem::ObserverCameraSystem(Engine& engine, Scene& scene) :
     keyboard.addListener(*this);
 }
 
-void ObserverCameraSystem::tick(Real timeStep)
+void ObserverCameraSystem::tick(Engine& engine, Real timeStep)
 {
+    (void)engine;
+
     InputSystem& inputSystem = scene().system<InputSystem>();
     TransformSystem& transformSystem = scene().system<TransformSystem>();
 

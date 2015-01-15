@@ -16,8 +16,9 @@ GalaxySystem::GalaxySystem(Engine& engine, Scene& scene) :
     scene.components<Galaxy>().addListener(*this);
 }
 
-void GalaxySystem::tick(Real timeStep)
+void GalaxySystem::tick(Engine& engine, Real timeStep)
 {
+    (void)engine;
     (void)timeStep;
 
     // If there is an active camera
@@ -122,7 +123,7 @@ void GalaxySystem::splitGalaxyNode(const Entity::Iterator& entity)
             Vector3 parentGlobalPosition = boundingBox->extents.center();
 
             // Create the child nodes
-            std::vector<int> values{ -1, 1 };
+            std::vector<int> values { -1, 1 };
             for (int x : values)
             {
                 for (int y : values)
