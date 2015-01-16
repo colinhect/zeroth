@@ -15,13 +15,9 @@ TestMode::TestMode(Engine& engine) :
     AssetCache& assetCache = engine.assetCache();
     const DataValue& settings = engine.settings();
 
-    // Render the loading screen
-    renderLoadingScreen(engine);
-
     // Load assets
     Path scenePath = settings["scene"].asString();
     _scene = assetCache.getHandle<Scene>(scenePath, engine);
-    _font = assetCache.getHandle<Font>("Hect/Default.ttf");
 
     // Pre-upload all render objects in the scene
     RenderSystem& renderSystem = _scene->system<RenderSystem>();
@@ -78,23 +74,4 @@ void TestMode::receiveEvent(const KeyboardEvent& event)
             _active = false;
         }
     }
-}
-
-void TestMode::renderLoadingScreen(Engine& engine)
-{
-    AssetCache& assetCache = engine.assetCache();
-
-    Font& font = assetCache.get<Font>("Hect/Default.ttf");
-
-    Window& window = engine.window();
-    Renderer& renderer = engine.renderer();
-
-    {
-        Renderer::VectorFrame frame = renderer.beginVectorFrame(window);
-        frame.setFillColor(Color(0.7, 0.7, 0.7));
-        frame.setFont(font, 15);
-        frame.renderText("Loading...", Rectangle(0, 0, window.width(), window.height()));
-    }
-
-    window.swapBuffers();
 }

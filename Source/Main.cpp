@@ -8,19 +8,4 @@
 
 #include "Generated/RegisterTypes.h"
 
-int main(int argc, char* const argv[])
-{
-    try
-    {
-        zeroth::registerTypes();
-
-        hect::Engine engine(argc, argv);
-        return engine.main();
-    }
-    catch (hect::Exception& exception)
-    {
-        HECT_ERROR(exception.what());
-    }
-
-    return 0;
-}
+HECT_MAIN(zeroth)

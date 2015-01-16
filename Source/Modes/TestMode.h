@@ -26,15 +26,12 @@ public:
     void receiveEvent(const KeyboardEvent& event) override;
 
 private:
-    void renderLoadingScreen(Engine& engine);
-
     bool _active { true };
 
     Mouse& _mouse;
     Keyboard& _keyboard;
 
     AssetHandle<Scene> _scene;
-    AssetHandle<Font> _font;
 };
 
 }
