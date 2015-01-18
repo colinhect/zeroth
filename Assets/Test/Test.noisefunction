@@ -1,0 +1,13 @@
+---
+type: ScalePosition
+factor: [ 0.005, 0.005, 0.005 ]
+input:
+    type: Add
+    input:
+      - type: Coherent
+        seed: 1
+      - type: ScalePosition
+        factor: [ 4, 4, 4 ]
+        input:
+            type: Coherent
+            seed: 2

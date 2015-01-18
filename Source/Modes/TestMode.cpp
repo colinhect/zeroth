@@ -28,6 +28,34 @@ TestMode::TestMode(Engine& engine) :
 
     _mouse.setMode(MouseMode_Relative);
     _keyboard.addListener(*this);
+
+    // Noise test
+    {
+        NoiseFunction& noiseFunction = assetCache.get<NoiseFunction>("Test/Test.noisefunction");
+
+        unsigned size = 1024;
+
+        Image image(size, size, PixelType_Byte, PixelFormat_Rgba);
+        for (unsigned y = 0; y < size; ++y)
+        {
+            for (unsigned x = 0; x < size; ++x)
+            {
+                Vector2 position(x, y);
+                Real value = noiseFunction.sample(position);
+                value = value * Real(0.5) + Real(0.5);
+
+                Color color(value, value, value, 1);
+                image.setPixel(x, y, color);
+            }
+        }
+
+        FileSystem& fileSystem = engine.fileSystem();
+        fileSystem.setWriteDirectory("D:/Desktop");
+
+        std::unique_ptr<WriteStream> stream = fileSystem.openFileForWrite("Output1.png");
+        BinaryEncoder encoder(*stream);
+        encoder << encodeValue(image);
+    }
 }
 
 bool TestMode::tick(Engine& engine, Real timeStep)
@@ -59,6 +87,8 @@ void TestMode::receiveEvent(const KeyboardEvent& event)
         }
         else if (event.key == Key_Tab)
         {
+            HECT_INFO("What");
+
             // Toggle mouse cursor mode
             if (_mouse.mode() == MouseMode_Cursor)
             {
