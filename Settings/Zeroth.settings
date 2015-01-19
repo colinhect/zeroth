@@ -1,7 +1,7 @@
 ---
 videoMode:
-    width: 1440
-    height: 900
+    width: 1024
+    height: 1024
     bitsPerPixel: 32
     fullscreen: false
 archives:
@@ -12,7 +12,7 @@ taskPool:
     threadCount: 6
 assetCache:
     concurrent: true
-mode: TestMode
+mode: TestNoiseMode
 scene: Test/TestGalaxySpace.scene
 include:
   - Zeroth.InputAxes.SaitekX52.settings
