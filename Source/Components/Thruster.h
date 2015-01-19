@@ -19,7 +19,7 @@ class Thruster :
 public:
 
     /// \property
-    Real power { 1 };
+    double power { 1 };
 
     /// \property
     Vector3 direction { Vector3::unitZ() };

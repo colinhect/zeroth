@@ -16,7 +16,7 @@ CockpitCameraSystem::CockpitCameraSystem(Engine& engine, Scene& scene) :
     (void)engine;
 }
 
-void CockpitCameraSystem::tick(Engine& engine, Real timeStep)
+void CockpitCameraSystem::tick(Engine& engine, double timeStep)
 {
     (void)engine;
     (void)timeStep;
@@ -27,8 +27,8 @@ void CockpitCameraSystem::tick(Engine& engine, Real timeStep)
     {
         InputSystem& inputSystem = scene().system<InputSystem>();
 
-        Real exposure = inputSystem.axisValue("exposure");
-        camera->exposure = interpolate(Real(0.2), Real(10), exposure);
+        double exposure = inputSystem.axisValue("exposure");
+        camera->exposure = (1 - exposure) * 0.2 + exposure * 10.0;
     }
 
     /*
@@ -45,7 +45,7 @@ void CockpitCameraSystem::tick(Engine& engine, Real timeStep)
                 const Vector3& up = camera->up;
                 const Vector3& right = camera->right;
 
-                Real rotateSpeed = timeStep * 1;
+                double rotateSpeed = timeStep * 1;
 
                 if (->mouse().mode() == MouseMode_Relative && _viewX && _viewY)
                 {

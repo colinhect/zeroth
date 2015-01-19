@@ -20,7 +20,7 @@ class TestMode :
 public:
     TestMode(Engine& engine);
 
-    bool tick(Engine& engine, Real timeStep) override;
+    bool tick(Engine& engine, double timeStep) override;
     void render(Engine& engine, RenderTarget& target) override;
 
     void receiveEvent(const KeyboardEvent& event) override;

@@ -21,7 +21,7 @@ class PlayerShipControlSystem :
 public:
     PlayerShipControlSystem(Engine& engine, Scene& scene);
 
-    void tick(Engine& engine, Real timeStep) override;
+    void tick(Engine& engine, double timeStep) override;
 };
 
 }

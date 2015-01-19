@@ -18,7 +18,7 @@ class ShipControlSystem :
 public:
     ShipControlSystem(Engine& engine, Scene& scene);
 
-    void controlShip(Entity& ship, const Vector3& angularAmount, Real thrustAmount, Real timeStep);
+    void controlShip(Entity& ship, const Vector3& angularAmount, double thrustAmount, double timeStep);
 };
 
 }

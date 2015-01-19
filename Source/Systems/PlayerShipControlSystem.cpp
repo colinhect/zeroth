@@ -16,7 +16,7 @@ PlayerShipControlSystem::PlayerShipControlSystem(Engine& engine, Scene& scene) :
 {
 }
 
-void PlayerShipControlSystem::tick(Engine& engine, Real timeStep)
+void PlayerShipControlSystem::tick(Engine& engine, double timeStep)
 {
     (void)engine;
 
@@ -26,10 +26,10 @@ void PlayerShipControlSystem::tick(Engine& engine, Real timeStep)
     {
         Entity& entity = *playerShipControl.entity();
 
-        Real pitch = inputSystem.axisValue("pitch");
-        Real yaw = inputSystem.axisValue("yaw");
-        Real roll = inputSystem.axisValue("roll");
-        Real thrust = inputSystem.axisValue("thrust");
+        double pitch = inputSystem.axisValue("pitch");
+        double yaw = inputSystem.axisValue("yaw");
+        double roll = inputSystem.axisValue("roll");
+        double thrust = inputSystem.axisValue("thrust");
 
         Vector3 angularAxis(pitch, yaw, roll);
         controlShip(entity, angularAxis, thrust, timeStep);

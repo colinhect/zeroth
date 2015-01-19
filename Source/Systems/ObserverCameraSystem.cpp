@@ -19,7 +19,7 @@ ObserverCameraSystem::ObserverCameraSystem(Engine& engine, Scene& scene) :
     keyboard.addListener(*this);
 }
 
-void ObserverCameraSystem::tick(Engine& engine, Real timeStep)
+void ObserverCameraSystem::tick(Engine& engine, double timeStep)
 {
     (void)engine;
 
@@ -30,9 +30,9 @@ void ObserverCameraSystem::tick(Engine& engine, Real timeStep)
     {
         Entity& entity = *observerCamera.entity();
 
-        Real lookSpeed = timeStep * observerCamera.lookSpeed;
-        Real rollSpeed = timeStep * observerCamera.rollSpeed;
-        Real moveSpeed = timeStep * observerCamera.moveSpeed;
+        double lookSpeed = timeStep * observerCamera.lookSpeed;
+        double rollSpeed = timeStep * observerCamera.rollSpeed;
+        double moveSpeed = timeStep * observerCamera.moveSpeed;
 
         auto transform = entity.component<Transform>();
         auto camera = entity.component<Camera>();

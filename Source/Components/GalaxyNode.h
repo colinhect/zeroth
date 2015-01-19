@@ -20,7 +20,7 @@ class GalaxyNode :
 {
 public:
     Galaxy::Iterator galaxy;
-    Real radius { 0 };
+    double radius { 0 };
     unsigned level { 0 };
     bool split { false };
 };

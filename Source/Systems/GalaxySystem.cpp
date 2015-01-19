@@ -16,7 +16,7 @@ GalaxySystem::GalaxySystem(Engine& engine, Scene& scene) :
     scene.components<Galaxy>().addListener(*this);
 }
 
-void GalaxySystem::tick(Engine& engine, Real timeStep)
+void GalaxySystem::tick(Engine& engine, double timeStep)
 {
     (void)engine;
     (void)timeStep;
@@ -82,20 +82,20 @@ Entity::Iterator GalaxySystem::createGalaxyNode(const Galaxy::Iterator& galaxy, 
     Entity::Iterator entity = scene().createEntity();
     entity->setTransient(true);
 
-    // Add transform component
+    // AddNoise transform component
     Transform::Iterator transform = entity->addComponent<Transform>();
     transform->localPosition = localPosition;
 
-    // Add bounding box component
+    // AddNoise bounding box component
     BoundingBox::Iterator boundingBox = entity->addComponent<BoundingBox>();
     boundingBox->adaptive = false;
     Vector3 minimum = parentGlobalPosition + localPosition;
     boundingBox->extents = AxisAlignedBox(minimum - size / 2, minimum + size / 2);
 
-    // Add model component
+    // AddNoise model component
     Model::Iterator model = entity->addComponent<Model>();
 
-    // Add galaxy node component
+    // AddNoise galaxy node component
     GalaxyNode::Iterator galaxyNode = entity->addComponent<GalaxyNode>();
     galaxyNode->galaxy = galaxy;
     galaxyNode->radius = size.length() / 2;
@@ -162,12 +162,12 @@ void GalaxySystem::adaptGalaxyNode(const Vector3& cameraPosition, const Entity::
         {
             Galaxy::Iterator galaxy = galaxyNode->galaxy;
 
-            Real distance = (cameraPosition - transform->globalPosition).length();
-            if (galaxyNode->split && distance > galaxyNode->radius * 2)
+            double distance = (cameraPosition - transform->globalPosition).length();
+            if (galaxyNode->split && distance > galaxyNode->radius * 2.0)
             {
                 joinGalaxyNode(entity);
             }
-            else if (!galaxyNode->split && distance < galaxyNode->radius * Real(1.9))
+            else if (!galaxyNode->split && distance < galaxyNode->radius * 1.9)
             {
                 splitGalaxyNode(entity);
             }

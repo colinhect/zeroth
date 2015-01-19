@@ -19,16 +19,16 @@ class ObserverCamera :
 public:
 
     /// \property
-    Real speed;
+    double speed;
 
     /// \property
-    Real lookSpeed;
+    double lookSpeed;
 
     /// \property
-    Real rollSpeed;
+    double rollSpeed;
 
     /// \property
-    Real moveSpeed;
+    double moveSpeed;
 };
 
 }

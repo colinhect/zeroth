@@ -31,23 +31,43 @@ TestMode::TestMode(Engine& engine) :
 
     // Noise test
     {
-        NoiseFunction& noiseFunction = assetCache.get<NoiseFunction>("Test/Test.noisefunction");
+        NoiseTree tree;
+
+        RidgedNoise& ridgedNoise = tree.createNode<RidgedNoise>();
+        ridgedNoise.setSeed(321);
+
+        ScaleBiasNoise& ridgedNoiseScaled = tree.createNode<ScaleBiasNoise>();
+        ridgedNoiseScaled.setSourceNode(ridgedNoise);
+        ridgedNoiseScaled.setFactor(0.5);
+        ridgedNoiseScaled.setBias(0.2);
+
+        ScalePointNoise& finalScale = tree.createNode<ScalePointNoise>();
+        finalScale.setSourceNode(ridgedNoiseScaled);
+        finalScale.setFactor(1.0 / 1024.0 * 2.0);
+
+        tree.setRoot(finalScale);
+
+        NoiseTree test = std::move(tree);
 
         unsigned size = 1024;
+
+        Timer timer;
 
         Image image(size, size, PixelType_Byte, PixelFormat_Rgba);
         for (unsigned y = 0; y < size; ++y)
         {
             for (unsigned x = 0; x < size; ++x)
             {
-                Vector2 position(x, y);
-                Real value = noiseFunction.sample(position);
-                value = value * Real(0.5) + Real(0.5);
+                Vector2 point(x, y);
+                double value = test.root().compute(point);
+                value = std::max(0.0, std::min(value, 1.0));
 
-                Color color(value, value, value, 1);
+                Color color(value, value, value, 1.0);
                 image.setPixel(x, y, color);
             }
         }
+
+        HECT_DEBUG(format("Generated noise in %ims", timer.elapsed().milliseconds()));
 
         FileSystem& fileSystem = engine.fileSystem();
         fileSystem.setWriteDirectory("D:/Desktop");
@@ -58,7 +78,7 @@ TestMode::TestMode(Engine& engine) :
     }
 }
 
-bool TestMode::tick(Engine& engine, Real timeStep)
+bool TestMode::tick(Engine& engine, double timeStep)
 {
     _scene->tick(engine, timeStep);
     return _active;
