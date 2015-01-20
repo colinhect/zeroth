@@ -9,6 +9,8 @@
 #include <Hect.h>
 using namespace hect;
 
+#include "GalaxyGenerator.h"
+
 namespace zeroth
 {
 
@@ -26,20 +28,17 @@ public:
     void receiveEvent(const KeyboardEvent& event) override;
 
 private:
-    void renderNoise();
-
     bool _active { true };
 
-    AssetCache& _assetCache;
-    Renderer& _renderer;
     Mouse& _mouse;
     Keyboard& _keyboard;
 
-    AssetHandle<Mesh> _screenMesh;
-    AssetHandle<Shader> _noiseShader;
-    AssetHandle<Shader> _showNoiseShader;
+    GalaxyGenerator _galaxyGenerator;
 
-    Texture _noiseTexture;
+    AssetHandle<Mesh> _screenMesh;
+    AssetHandle<Shader> _showGalaxyShader;
+
+    Texture _density;
 };
 
 }

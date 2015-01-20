@@ -9,16 +9,24 @@
 using namespace zeroth;
 
 TestNoiseMode::TestNoiseMode(Engine& engine) :
-    _assetCache(engine.assetCache()),
-    _renderer(engine.renderer()),
+    _galaxyGenerator(engine),
     _mouse(engine.platform().mouse()),
     _keyboard(engine.platform().keyboard())
 {
-    _screenMesh = _assetCache.getHandle<Mesh>("Hect/Screen.mesh");
-    _noiseShader = _assetCache.getHandle<Shader>("Noise/NoiseTest.shader");
-    _showNoiseShader = _assetCache.getHandle<Shader>("Noise/ShowNoise.shader");
+    AssetCache& assetCache = engine.assetCache();
+    _screenMesh = assetCache.getHandle<Mesh>("Hect/Screen.mesh");
+    _showGalaxyShader = assetCache.getHandle<Shader>("Galaxy/Noise/Show.shader");
 
-    renderNoise();
+    _galaxyGenerator.generateDensity(GalaxyType_Spiral, 123, _density);
+
+    Image image = engine.renderer().downloadTextureImage(_density);
+
+    FileSystem& fileSystem = engine.fileSystem();
+    fileSystem.setWriteDirectory("D:/Desktop");
+
+    auto stream = fileSystem.openFileForWrite("Density.png");
+    BinaryEncoder encoder(*stream);
+    encoder << encodeValue(image);
 
     _keyboard.addListener(*this);
 }
@@ -30,14 +38,14 @@ bool TestNoiseMode::tick(Engine& engine, double timeStep)
 
 void TestNoiseMode::render(Engine& engine, RenderTarget& target)
 {
-    Renderer& renderer = engine.renderer();
-    {
-        Renderer::Frame frame = renderer.beginFrame(target);
-        frame.clear();
-        frame.setShader(*_showNoiseShader);
-        frame.setUniform(_showNoiseShader->uniform("noiseTexture"), _noiseTexture);
-        frame.renderMesh(*_screenMesh);
-    }
+    Renderer::Frame frame = engine.renderer().beginFrame(target);
+    frame.clear();
+    frame.setShader(*_showGalaxyShader);
+
+    Uniform& uniform = _showGalaxyShader->uniform("densityMap");
+    frame.setUniform(uniform, _density);
+
+    frame.renderMesh(*_screenMesh);
 }
 
 void TestNoiseMode::receiveEvent(const KeyboardEvent& event)
@@ -49,25 +57,4 @@ void TestNoiseMode::receiveEvent(const KeyboardEvent& event)
             _active = false;
         }
     }
-}
-
-void TestNoiseMode::renderNoise()
-{
-    unsigned size = 1024;
-
-    Timer timer;
-
-    _noiseTexture = Texture("Noise", size, size, PixelType_Byte, PixelFormat_Rgba, TextureFilter_Linear, TextureFilter_Linear, false, false);
-
-    FrameBuffer frameBuffer(size, size);
-    frameBuffer.attachTexture(FrameBufferSlot_Color0, _noiseTexture);
-
-    {
-        Renderer::Frame frame = _renderer.beginFrame(frameBuffer);
-        frame.clear();
-        frame.setShader(*_noiseShader);
-        frame.renderMesh(*_screenMesh);
-    }
-
-    HECT_INFO(format("Generated noise in %ims", timer.elapsed().milliseconds()));
 }

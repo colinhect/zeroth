@@ -3,8 +3,8 @@ modules:
   - type: Vertex
     path: Hect/Screen.glsl
   - type: Fragment
-    path: ShowNoise.glsl
+    path: Show.glsl
 uniforms:
-  - name: noiseTexture
+  - name: densityMap
     type: Texture
 depthTested: false
