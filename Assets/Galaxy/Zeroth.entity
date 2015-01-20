@@ -2,8 +2,7 @@
 components:
   - type: Galaxy
     name: Zeroth
-    extents:
-        minimum: [ -64, -16, -64 ]
-        maximum: [  64,  16,  64 ]
-    rootNodes: [ 4, 1, 4 ]
-    maxLevel: 5
+    seed: 123
+    horizontalRadius: 50000
+    verticalRadius: 10000
+    maxLevel: 4

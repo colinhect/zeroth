@@ -7,3 +7,4 @@ components:
     moveSpeed: 100
   - type: Camera
     fieldOfView: 75
+    farClip: 1000000

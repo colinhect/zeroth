@@ -6,4 +6,4 @@ components:
     direction: [ 1, -1, -1 ]
     color: [ 20, 20, 20 ]
   - type: SkyBox
-    texture: Space.texture
+    texture: Black.texture

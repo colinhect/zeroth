@@ -11,7 +11,8 @@ using namespace zeroth;
 GalaxySystem::GalaxySystem(Engine& engine, Scene& scene) :
     System(scene)
 {
-    (void)engine;
+    AssetCache& assetCache = engine.assetCache();
+    _coloredLineShader = assetCache.getHandle<Shader>("Hect/ColoredLine.shader");
 
     scene.components<Galaxy>().addListener(*this);
 }
@@ -55,23 +56,27 @@ void GalaxySystem::receiveEvent(const ComponentEvent<Galaxy>& event)
 
 void GalaxySystem::initializeGalaxy(const Galaxy::Iterator& galaxy)
 {
-    IntVector3 rootNodes = galaxy->rootNodes;
-    const Vector3& minimum = galaxy->extents.minimum();
-    Vector3 size = galaxy->extents.size() / rootNodes;
-    Vector3 halfSize = size / 2;
-    Vector3 parentGlobalPosition = galaxy->extents.center();
+    double horizontalRadius = galaxy->horizontalRadius;
+    double verticalRadius = galaxy->verticalRadius;
+    const Vector3 minimum(-horizontalRadius, -verticalRadius, -horizontalRadius);
+
+    // Compute the radio of horizontal to vertical nodes
+    double ratio = horizontalRadius / verticalRadius;
+    int rootNodeCount = static_cast<int>(ratio);
+
+    // The size of each root node
+    Vector3 size(horizontalRadius * 2.0 / rootNodeCount);
+    size.y = verticalRadius * 2.0;
+    Vector3 halfSize = size / 2.0;
 
     // Create the root nodes of the galaxy
-    for (int x = 0; x < rootNodes.x; ++x)
+    for (int x = 0; x < rootNodeCount; ++x)
     {
-        for (int y = 0; y < rootNodes.y; ++y)
+        for (int z = 0; z < rootNodeCount; ++z)
         {
-            for (int z = 0; z < rootNodes.z; ++z)
-            {
-                Vector3 localPosition = minimum + size * Vector3(x, y, z) + halfSize;
-                Entity::Iterator rootGalaxyNode = createGalaxyNode(galaxy, 0, size, localPosition, parentGlobalPosition);
-                galaxy->entity()->addChild(*rootGalaxyNode);
-            }
+            Vector3 localPosition = minimum + size * Vector3(x, 0, z) + halfSize;
+            Entity::Iterator rootGalaxyNode = createGalaxyNode(galaxy, 0, size, localPosition, Vector3::zero());
+            galaxy->entity()->addChild(*rootGalaxyNode);
         }
     }
 }
@@ -82,24 +87,45 @@ Entity::Iterator GalaxySystem::createGalaxyNode(const Galaxy::Iterator& galaxy, 
     Entity::Iterator entity = scene().createEntity();
     entity->setTransient(true);
 
-    // AddNoise transform component
+    // Add transform component
     Transform::Iterator transform = entity->addComponent<Transform>();
     transform->localPosition = localPosition;
 
-    // AddNoise bounding box component
+    // Add bounding box component
     BoundingBox::Iterator boundingBox = entity->addComponent<BoundingBox>();
     boundingBox->adaptive = false;
     Vector3 minimum = parentGlobalPosition + localPosition;
     boundingBox->extents = AxisAlignedBox(minimum - size / 2, minimum + size / 2);
 
-    // AddNoise model component
-    Model::Iterator model = entity->addComponent<Model>();
-
-    // AddNoise galaxy node component
+    // Add galaxy node component
     GalaxyNode::Iterator galaxyNode = entity->addComponent<GalaxyNode>();
     galaxyNode->galaxy = galaxy;
     galaxyNode->radius = size.length() / 2;
     galaxyNode->level = level;
+
+    // Add tempory dust particles
+    AssetHandle<Mesh> mesh(new Mesh("Marker" + std::to_string(level)));
+
+    VertexLayout layout;
+    layout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
+    mesh->setVertexLayout(layout);
+
+    mesh->setPrimitiveType(PrimitiveType_Lines);
+
+    MeshWriter writer(*mesh);
+    writer.addVertex();
+    writer.writeAttributeData(VertexAttributeSemantic_Position, Vector3::zero());
+    writer.addVertex();
+    writer.writeAttributeData(VertexAttributeSemantic_Position, Vector3(0, 0, 100));
+    writer.addIndex(0);
+    writer.addIndex(1);
+
+    AssetHandle<Material> material(new Material());
+    material->setShader(_coloredLineShader);
+    material->setUniformValue("color", Color(0, 100, 0));
+
+    Model::Iterator model = entity->addComponent<Model>();
+    model->surfaces.push_back(ModelSurface(mesh, material));
 
     // Activate and return the entity
     entity->activate();

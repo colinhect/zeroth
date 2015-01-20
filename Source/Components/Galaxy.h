@@ -22,10 +22,13 @@ public:
     std::string name;
 
     /// \property
-    AxisAlignedBox extents;
+    unsigned seed;
 
     /// \property
-    IntVector3 rootNodes;
+    double horizontalRadius;
+
+    /// \property
+    double verticalRadius;
 
     /// \property
     unsigned maxLevel;

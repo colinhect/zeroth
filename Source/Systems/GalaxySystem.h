@@ -32,6 +32,8 @@ private:
     void adaptGalaxyNode(const Vector3& cameraPosition, const Entity::Iterator& entity);
     void splitGalaxyNode(const Entity::Iterator& entity);
     void joinGalaxyNode(const Entity::Iterator& entity);
+
+    AssetHandle<Shader> _coloredLineShader;
 };
 
 }

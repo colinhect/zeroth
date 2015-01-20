@@ -5,8 +5,10 @@ entities:
   - base: Skybox.entity
   - base: Observer.entity
     components:
+      - type: ObserverCamera
+        moveSpeed: 100000
       - type: Transform
-        localPosition: [ 0, 0, -250 ]
+        localPosition: [ 0, 0, 0 ]
   - components:
     - type: Transform
       localPosition: [ 0, 0, 150 ]
