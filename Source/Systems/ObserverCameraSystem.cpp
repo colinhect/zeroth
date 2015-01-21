@@ -11,7 +11,7 @@
 using namespace zeroth;
 
 ObserverCameraSystem::ObserverCameraSystem(Engine& engine, Scene& scene) :
-    System(scene)
+    System(engine, scene)
 {
     _observerEntity = scene.createEntity("Test/Observer.entity");
 
@@ -19,10 +19,8 @@ ObserverCameraSystem::ObserverCameraSystem(Engine& engine, Scene& scene) :
     keyboard.addListener(*this);
 }
 
-void ObserverCameraSystem::tick(Engine& engine, double timeStep)
+void ObserverCameraSystem::tick(double timeStep)
 {
-    (void)engine;
-
     InputSystem& inputSystem = scene().system<InputSystem>();
     TransformSystem& transformSystem = scene().system<TransformSystem>();
 

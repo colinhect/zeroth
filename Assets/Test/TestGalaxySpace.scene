@@ -1,5 +1,7 @@
 ---
 base: Common/GalaxySpace.scene
+systemTypes:
+  - DebugSystem
 entities:
   - base: Galaxy/Zeroth.entity
   - base: Skybox.entity

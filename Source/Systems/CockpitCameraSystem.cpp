@@ -11,14 +11,12 @@
 using namespace zeroth;
 
 CockpitCameraSystem::CockpitCameraSystem(Engine& engine, Scene& scene) :
-    System(scene)
+    System(engine, scene)
 {
-    (void)engine;
 }
 
-void CockpitCameraSystem::tick(Engine& engine, double timeStep)
+void CockpitCameraSystem::tick(double timeStep)
 {
-    (void)engine;
     (void)timeStep;
 
     CameraSystem& cameraSystem = scene().system<CameraSystem>();

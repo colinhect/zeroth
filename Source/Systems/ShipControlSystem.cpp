@@ -11,9 +11,8 @@
 using namespace zeroth;
 
 ShipControlSystem::ShipControlSystem(Engine& engine, Scene& scene) :
-    System(scene)
+    System(engine, scene)
 {
-    (void)engine;
 }
 
 void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, double thrustAmount, double timeStep)

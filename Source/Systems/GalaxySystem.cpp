@@ -9,17 +9,14 @@
 using namespace zeroth;
 
 GalaxySystem::GalaxySystem(Engine& engine, Scene& scene) :
-    System(scene)
+    System(engine, scene)
 {
     AssetCache& assetCache = engine.assetCache();
     _coloredLineShader = assetCache.getHandle<Shader>("Hect/ColoredLine.shader");
-
-    scene.components<Galaxy>().addListener(*this);
 }
 
-void GalaxySystem::tick(Engine& engine, double timeStep)
+void GalaxySystem::tick(double timeStep)
 {
-    (void)engine;
     (void)timeStep;
 
     // If there is an active camera

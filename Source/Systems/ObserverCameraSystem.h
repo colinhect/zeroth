@@ -20,7 +20,7 @@ class ObserverCameraSystem :
 public:
     ObserverCameraSystem(Engine& engine, Scene& scene);
 
-    void tick(Engine& engine, double timeStep) override;
+    void tick(double timeStep) override;
 
     void receiveEvent(const KeyboardEvent& event) override;
 

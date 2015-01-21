@@ -16,10 +16,8 @@ PlayerShipControlSystem::PlayerShipControlSystem(Engine& engine, Scene& scene) :
 {
 }
 
-void PlayerShipControlSystem::tick(Engine& engine, double timeStep)
+void PlayerShipControlSystem::tick(double timeStep)
 {
-    (void)engine;
-
     InputSystem& inputSystem = scene().system<InputSystem>();
 
     for (PlayerShipControl& playerShipControl : scene().components<PlayerShipControl>())
