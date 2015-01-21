@@ -17,23 +17,21 @@ namespace zeroth
 
 /// \system
 class GalaxySystem :
-    public System,
-    public Listener<ComponentEvent<Galaxy>>
+    public System<Galaxy>
 {
 public:
     GalaxySystem(Engine& engine, Scene& scene);
 
     void tick(Engine& engine, double timeStep) override;
-    void receiveEvent(const ComponentEvent<Galaxy>& event) override;
+    void onComponentAdded(Galaxy::Iterator galaxy) override;
 
 private:
-    void initializeGalaxy(const Galaxy::Iterator& galaxy);
-    Entity::Iterator createGalaxyNode(const Galaxy::Iterator& galaxy, unsigned level, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition);
-    void adaptGalaxyNode(const Vector3& cameraPosition, const Entity::Iterator& entity);
-    void splitGalaxyNode(const Entity::Iterator& entity);
-    void joinGalaxyNode(const Entity::Iterator& entity);
+    Entity::Iterator createGalaxyNode(Galaxy::Iterator galaxy, unsigned level, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition);
+    void adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterator entity);
+    void splitGalaxyNode(Entity::Iterator entity);
+    void joinGalaxyNode(Entity::Iterator entity);
 
-    AssetHandle<Shader> _coloredLineShader;
+    Shader::Handle _coloredLineShader;
 };
 
 }

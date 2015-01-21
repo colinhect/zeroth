@@ -31,7 +31,7 @@ private:
     Mouse& _mouse;
     Keyboard& _keyboard;
 
-    AssetHandle<Scene> _scene;
+    Scene::Handle _scene;
 };
 
 }

@@ -35,8 +35,8 @@ private:
 
     GalaxyGenerator _galaxyGenerator;
 
-    AssetHandle<Mesh> _screenMesh;
-    AssetHandle<Shader> _showGalaxyShader;
+    Mesh::Handle _screenMesh;
+    Shader::Handle _showGalaxyShader;
 
     Texture _density;
 };

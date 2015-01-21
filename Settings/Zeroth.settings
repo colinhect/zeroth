@@ -13,6 +13,6 @@ taskPool:
 assetCache:
     concurrent: true
 mode: TestMode
-scene: Test/TestGalaxySpace.scene
+scene: Test/TestLocalSpace.scene
 include:
   - Zeroth.InputAxes.SaitekX52.settings

@@ -43,18 +43,7 @@ void GalaxySystem::tick(Engine& engine, double timeStep)
     }
 }
 
-void GalaxySystem::receiveEvent(const ComponentEvent<Galaxy>& event)
-{
-    // If a galaxy component was added to an entity
-    if (event.type == ComponentEventType_Add)
-    {
-        // Initialize the galaxy
-        Galaxy::Iterator galaxy = event.entity->component<Galaxy>();
-        initializeGalaxy(galaxy);
-    }
-}
-
-void GalaxySystem::initializeGalaxy(const Galaxy::Iterator& galaxy)
+void GalaxySystem::onComponentAdded(Galaxy::Iterator galaxy)
 {
     double horizontalRadius = galaxy->horizontalRadius;
     double verticalRadius = galaxy->verticalRadius;
@@ -81,7 +70,7 @@ void GalaxySystem::initializeGalaxy(const Galaxy::Iterator& galaxy)
     }
 }
 
-Entity::Iterator GalaxySystem::createGalaxyNode(const Galaxy::Iterator& galaxy, unsigned level, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition)
+Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, unsigned level, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition)
 {
     // Create the galaxy node entity
     Entity::Iterator entity = scene().createEntity();
@@ -104,7 +93,7 @@ Entity::Iterator GalaxySystem::createGalaxyNode(const Galaxy::Iterator& galaxy, 
     galaxyNode->level = level;
 
     // Add tempory dust particles
-    AssetHandle<Mesh> mesh(new Mesh("Marker" + std::to_string(level)));
+    Mesh::Handle mesh(new Mesh("Marker" + std::to_string(level)));
 
     VertexLayout layout;
     layout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
@@ -120,7 +109,7 @@ Entity::Iterator GalaxySystem::createGalaxyNode(const Galaxy::Iterator& galaxy, 
     writer.addIndex(0);
     writer.addIndex(1);
 
-    AssetHandle<Material> material(new Material());
+    Material::Handle material(new Material());
     material->setShader(_coloredLineShader);
     material->setUniformValue("color", Color(0, 100, 0));
 
@@ -132,7 +121,7 @@ Entity::Iterator GalaxySystem::createGalaxyNode(const Galaxy::Iterator& galaxy, 
     return entity;
 }
 
-void GalaxySystem::splitGalaxyNode(const Entity::Iterator& entity)
+void GalaxySystem::splitGalaxyNode(Entity::Iterator entity)
 {
     GalaxyNode::Iterator galaxyNode = entity->component<GalaxyNode>();
     if (galaxyNode && !galaxyNode->split && galaxyNode->level < galaxyNode->galaxy->maxLevel)
@@ -168,7 +157,7 @@ void GalaxySystem::splitGalaxyNode(const Entity::Iterator& entity)
     }
 }
 
-void GalaxySystem::joinGalaxyNode(const Entity::Iterator& entity)
+void GalaxySystem::joinGalaxyNode(Entity::Iterator entity)
 {
     GalaxyNode::Iterator galaxyNode = entity->component<GalaxyNode>();
     if (galaxyNode && galaxyNode->split)
@@ -178,7 +167,7 @@ void GalaxySystem::joinGalaxyNode(const Entity::Iterator& entity)
     }
 }
 
-void GalaxySystem::adaptGalaxyNode(const Vector3& cameraPosition, const Entity::Iterator& entity)
+void GalaxySystem::adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterator entity)
 {
     GalaxyNode::Iterator galaxyNode = entity->component<GalaxyNode>();
     if (galaxyNode)

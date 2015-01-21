@@ -14,7 +14,7 @@ namespace zeroth
 
 /// \system
 class CockpitCameraSystem :
-    public System
+    public System<>
 {
 public:
     CockpitCameraSystem(Engine& engine, Scene& scene);

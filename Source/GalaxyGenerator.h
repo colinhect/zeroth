@@ -29,8 +29,8 @@ private:
     AssetCache& _assetCache;
     Renderer& _renderer;
 
-    AssetHandle<Mesh> _screenMesh;
-    AssetHandle<Shader> _spiralGalaxyShader;
+    Mesh::Handle _screenMesh;
+    Shader::Handle _spiralGalaxyShader;
 };
 
 }
