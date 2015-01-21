@@ -12,7 +12,6 @@ taskPool:
     threadCount: 6
 assetCache:
     concurrent: true
-mode: TestMode
 scene: Test/TestLocalSpace.scene
 include:
   - Zeroth.InputAxes.SaitekX52.settings
