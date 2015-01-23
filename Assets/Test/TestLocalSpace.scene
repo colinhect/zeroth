@@ -5,11 +5,11 @@ entities:
   - base: Ships/Viper.entity
     components:
       - type: Transform
-        localPosition: [ 0, 0, 10]
+        localPosition: [ 0, 0, 0 ]
       - type: PlayerShipControl
     children:
       - base: Ships/Viper.Cockpit.entity
   - base: Ships/Viper.entity
     components:
       - type: Transform
-        localPosition: [ 0, 0, 100 ]
+        localPosition: [ 0, 100, 0 ]

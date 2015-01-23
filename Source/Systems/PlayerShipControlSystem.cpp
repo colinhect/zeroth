@@ -29,7 +29,7 @@ void PlayerShipControlSystem::tick(double timeStep)
         double roll = inputSystem.axisValue("roll");
         double thrust = inputSystem.axisValue("thrust");
 
-        Vector3 angularAxis(pitch, yaw, roll);
+        Vector3 angularAxis(pitch, roll, yaw);
         controlShip(entity, angularAxis, thrust, timeStep);
     }
 }

@@ -52,15 +52,15 @@ void GalaxySystem::onComponentAdded(Galaxy::Iterator galaxy)
 
     // The size of each root node
     Vector3 size(horizontalRadius * 2.0 / rootNodeCount);
-    size.y = verticalRadius * 2.0;
+    size.z = verticalRadius * 2.0;
     Vector3 halfSize = size / 2.0;
 
     // Create the root nodes of the galaxy
     for (int x = 0; x < rootNodeCount; ++x)
     {
-        for (int z = 0; z < rootNodeCount; ++z)
+        for (int y = 0; y < rootNodeCount; ++y)
         {
-            Vector3 localPosition = minimum + size * Vector3(x, 0, z) + halfSize;
+            Vector3 localPosition = minimum + size * Vector3(x, y, 0) + halfSize;
             Entity::Iterator rootGalaxyNode = createGalaxyNode(galaxy, 0, size, localPosition, Vector3::zero());
             galaxy->entity()->addChild(*rootGalaxyNode);
         }
