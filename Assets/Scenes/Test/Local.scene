@@ -1,7 +1,7 @@
 ---
-base: Common/LocalSpace.scene
+base: Scenes/Common/LocalSpace.scene
 entities:
-  - base: Skybox.entity
+  - base: Test/Skybox.entity
   - base: Ships/Viper.entity
     components:
       - type: Transform

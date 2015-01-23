@@ -1,0 +1,18 @@
+---
+base: Scenes/Common/GalaxySpace.scene
+systemTypes:
+  - DebugSystem
+entities:
+  - base: Galaxy/Zeroth.entity
+  - base: Test/Skybox.entity
+  - base: Test/Observer.entity
+    components:
+      - type: ObserverCamera
+        moveSpeed: 100000
+      - type: Transform
+        localPosition: [ 0, 0, 0 ]
+  - base: Ships/Viper.entity
+    components:
+      - type: Transform
+        localPosition: [ 0, 0, 0 ]
+        localScale: [ 100, 100, 100 ]

@@ -43,5 +43,9 @@ void GameplaySystem::receiveEvent(const KeyboardEvent& event)
                 scene().addSystemType<DebugSystem>();
             }
         }
+        else if (event.key == Key_Esc)
+        {
+            scene().setActivate(false);
+        }
     }
 }

@@ -44,7 +44,7 @@ void GalaxySystem::onComponentAdded(Galaxy::Iterator galaxy)
 {
     double horizontalRadius = galaxy->horizontalRadius;
     double verticalRadius = galaxy->verticalRadius;
-    const Vector3 minimum(-horizontalRadius, -verticalRadius, -horizontalRadius);
+    const Vector3 minimum(-horizontalRadius, -horizontalRadius, -verticalRadius);
 
     // Compute the radio of horizontal to vertical nodes
     double ratio = horizontalRadius / verticalRadius;
@@ -89,6 +89,7 @@ Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, unsigne
     galaxyNode->radius = size.length() / 2;
     galaxyNode->level = level;
 
+    /*
     // Add tempory dust particles
     Mesh::Handle mesh(new Mesh("Marker" + std::to_string(level)));
 
@@ -112,6 +113,7 @@ Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, unsigne
 
     Model::Iterator model = entity->addComponent<Model>();
     model->surfaces.push_back(ModelSurface(mesh, material));
+    */
 
     // Activate and return the entity
     entity->activate();

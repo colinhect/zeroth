@@ -3,7 +3,7 @@ modules:
   - type: Vertex
     path: Hect/Screen.glsl
   - type: Fragment
-    path: Common/Noise.glsl
+    path: Noise.glsl
   - type: Fragment
     path: Spiral.glsl
 uniforms:
