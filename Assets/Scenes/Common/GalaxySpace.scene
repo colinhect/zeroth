@@ -4,6 +4,8 @@ componentTypes:
   - Galaxy
   - GalaxyNode
   - ObserverCamera
+  - Ship
+  - Thruster
 systemTypes:
   - GameplaySystem
   - GalaxySystem

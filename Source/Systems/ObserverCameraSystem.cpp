@@ -17,6 +17,9 @@ ObserverCameraSystem::ObserverCameraSystem(Engine& engine, Scene& scene) :
 
     Keyboard& keyboard = engine.platform().keyboard();
     keyboard.addListener(*this);
+
+    Mouse& mouse = engine.platform().mouse();
+    mouse.addListener(*this);
 }
 
 void ObserverCameraSystem::tick(double timeStep)
@@ -107,6 +110,26 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
             {
                 cameraSystem.setActiveCamera(*observerCamera);
             }
+        }
+    }
+}
+
+void ObserverCameraSystem::receiveEvent(const MouseEvent& event)
+{
+    if (event.type == MouseEventType_ScrollUp)
+    {
+        for (ObserverCamera& observerCamera : scene().components<ObserverCamera>())
+        {
+            observerCamera.moveSpeed *= 2;
+            HECT_DEBUG(format("moveSpeed = %f", observerCamera.moveSpeed));
+        }
+    }
+    else if (event.type == MouseEventType_ScrollDown)
+    {
+        for (ObserverCamera& observerCamera : scene().components<ObserverCamera>())
+        {
+            observerCamera.moveSpeed /= 2;
+            HECT_DEBUG(format("moveSpeed = %f", observerCamera.moveSpeed));
         }
     }
 }

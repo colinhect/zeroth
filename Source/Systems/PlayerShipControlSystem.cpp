@@ -7,6 +7,7 @@
 #include "PlayerShipControlSystem.h"
 
 #include "Components/PlayerShipControl.h"
+#include "Components/ObserverCamera.h"
 #include "Systems/ObserverCameraSystem.h"
 
 using namespace zeroth;
@@ -18,18 +19,22 @@ PlayerShipControlSystem::PlayerShipControlSystem(Engine& engine, Scene& scene) :
 
 void PlayerShipControlSystem::tick(double timeStep)
 {
-    InputSystem& inputSystem = scene().system<InputSystem>();
-
-    for (PlayerShipControl& playerShipControl : scene().components<PlayerShipControl>())
+    ObserverCamera::Iterator observerCamera = scene().components<ObserverCamera>().begin();
+    if (!observerCamera)
     {
-        Entity& entity = *playerShipControl.entity();
+        InputSystem& inputSystem = scene().system<InputSystem>();
 
-        double pitch = inputSystem.axisValue("pitch");
-        double yaw = inputSystem.axisValue("yaw");
-        double roll = inputSystem.axisValue("roll");
-        double thrust = inputSystem.axisValue("thrust");
+        for (PlayerShipControl& playerShipControl : scene().components<PlayerShipControl>())
+        {
+            Entity& entity = *playerShipControl.entity();
 
-        Vector3 angularAxis(pitch, roll, yaw);
-        controlShip(entity, angularAxis, thrust, timeStep);
+            double pitch = inputSystem.axisValue("pitch");
+            double yaw = inputSystem.axisValue("yaw");
+            double roll = inputSystem.axisValue("roll");
+            double thrust = inputSystem.axisValue("thrust");
+
+            Vector3 angularAxis(pitch, roll, yaw);
+            controlShip(entity, angularAxis, thrust, timeStep);
+        }
     }
 }

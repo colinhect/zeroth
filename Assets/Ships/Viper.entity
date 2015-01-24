@@ -10,6 +10,7 @@ components:
     surfaces:
       - mesh: Viper.Hull.mesh
         material: Viper.Hull.material
+  - type: Transform
 children:
   - components:
       - type: Transform

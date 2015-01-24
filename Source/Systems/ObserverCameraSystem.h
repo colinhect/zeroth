@@ -15,7 +15,8 @@ namespace zeroth
 /// \system
 class ObserverCameraSystem :
     public System<>,
-    public Listener<KeyboardEvent>
+    public Listener<KeyboardEvent>,
+    public Listener<MouseEvent>
 {
 public:
     ObserverCameraSystem(Engine& engine, Scene& scene);
@@ -23,6 +24,7 @@ public:
     void tick(double timeStep) override;
 
     void receiveEvent(const KeyboardEvent& event) override;
+    void receiveEvent(const MouseEvent& event) override;
 
 private:
     Entity::Iterator _observerEntity;
