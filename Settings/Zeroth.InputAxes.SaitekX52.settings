@@ -34,7 +34,7 @@ inputAxes:
         acceleration: 5
         gravity: 2
         invert: true
-  - name: thrust
+  - name: thrustFront
     bindings:
       - type: JoystickAxis
         joystickAxis: Axis2
@@ -48,6 +48,19 @@ inputAxes:
         gravity: 2
       - type: Key
         key: S
+        range: [ -1, 0 ]
+        acceleration: 5
+        gravity: 2
+        invert: true
+  - name: thrustRight
+    bindings:
+      - type: Key
+        key: D
+        range: [ 0, 1 ]
+        acceleration: 5
+        gravity: 2
+      - type: Key
+        key: A
         range: [ -1, 0 ]
         acceleration: 5
         gravity: 2

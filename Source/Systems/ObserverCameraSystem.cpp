@@ -16,10 +16,10 @@ ObserverCameraSystem::ObserverCameraSystem(Engine& engine, Scene& scene) :
     _observerEntity = scene.createEntity("Test/Observer.entity");
 
     Keyboard& keyboard = engine.platform().keyboard();
-    keyboard.addListener(*this);
+    keyboard.registerListener(*this);
 
     Mouse& mouse = engine.platform().mouse();
-    mouse.addListener(*this);
+    mouse.registerListener(*this);
 }
 
 void ObserverCameraSystem::tick(double timeStep)
@@ -43,7 +43,8 @@ void ObserverCameraSystem::tick(double timeStep)
             transform->localRotation *= Quaternion::fromAxisAngle(camera->right, inputSystem.axisValue("pitch") * lookSpeed);
             transform->localRotation *= Quaternion::fromAxisAngle(camera->front, inputSystem.axisValue("roll") * -rollSpeed);
 
-            transform->localPosition += camera->front * inputSystem.axisValue("thrust") * moveSpeed;
+            transform->localPosition += camera->front * inputSystem.axisValue("thrustFront") * moveSpeed;
+            transform->localPosition += camera->right * inputSystem.axisValue("thrustRight") * moveSpeed;
 
             transformSystem.commit(*transform);
         }

@@ -13,7 +13,9 @@ GameplaySystem::GameplaySystem(Engine& engine, Scene& scene) :
     _mouse(engine.platform().mouse())
 {
     Keyboard& keyboard = engine.platform().keyboard();
-    keyboard.addListener(*this);
+    keyboard.registerListener(*this);
+
+    _mouse.setMode(MouseMode_Relative);
 }
 
 void GameplaySystem::receiveEvent(const KeyboardEvent& event)
