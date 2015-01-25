@@ -22,17 +22,27 @@ class GalaxySystem :
 public:
     GalaxySystem(Engine& engine, Scene& scene);
 
+    void initialize() override;
     void tick(double timeStep) override;
     void onComponentAdded(Galaxy::Iterator galaxy) override;
+
+    /// \property
+    Shader::Handle testShader;
 
 private:
     Entity::Iterator createGalaxyNode(Galaxy::Iterator galaxy, unsigned level, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition);
     void adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterator entity);
     void splitGalaxyNode(Entity::Iterator entity);
     void joinGalaxyNode(Entity::Iterator entity);
+    void generateNoise(RandomSeed seed, unsigned width, unsigned height, Shader& shader, Texture& texture);
 
     AssetCache& _assetCache;
-    Shader::Handle _coloredLineShader;
+    Renderer& _renderer;
+
+    Mesh::Handle _screenMesh;
+
+    Texture::Handle _particleTexture;
+    Material::Handle _particleMaterial;
 };
 
 }

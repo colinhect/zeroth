@@ -10,10 +10,36 @@ using namespace zeroth;
 
 GalaxySystem::GalaxySystem(Engine& engine, Scene& scene) :
     System(engine, scene),
-    _assetCache(engine.assetCache())
+    _assetCache(engine.assetCache()),
+    _renderer(engine.renderer())
 {
-    AssetCache& assetCache = engine.assetCache();
-    _coloredLineShader = assetCache.getHandle<Shader>("Hect/ColoredLine.shader");
+}
+
+void GalaxySystem::initialize()
+{
+    _screenMesh = _assetCache.getHandle<Mesh>("Hect/Screen.mesh");
+
+    // Generate a particle texture
+    _particleTexture = Texture::Handle(new Texture());
+    generateNoise(123, 512, 512, *testShader, *_particleTexture);
+
+    // Create the particle material
+    _particleMaterial = Material::Handle(new Material());
+    Shader::Handle particleShader = _assetCache.getHandle<Shader>("Hect/Particle.shader");
+    _particleMaterial->setShader(particleShader);
+    _particleMaterial->setUniformValue("particleTexture", _particleTexture);
+    _particleMaterial->setUniformValue("particleSize", 1000.0);
+
+    /*
+    FileSystem& fileSystem = _assetCache.fileSystem();
+    fileSystem.setWriteDirectory("D:/Desktop");
+
+    Image image = _renderer.downloadTextureImage(texture);
+
+    auto stream = fileSystem.openFileForWrite("Output.png");
+    BinaryEncoder encoder(*stream);
+    encoder << encodeValue(image);
+    */
 }
 
 void GalaxySystem::tick(double timeStep)
@@ -94,26 +120,34 @@ Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, unsigne
     galaxyNode->radius = size.length() / 2;
     galaxyNode->level = level;
 
-    // Add tempory dust particles
-    Mesh::Handle mesh(new Mesh());
-
+    // Add tempory dust particle
+    Mesh::Handle mesh(new Mesh("Marker"));
     VertexLayout layout;
     layout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
+    layout.addAttribute(VertexAttribute(VertexAttributeSemantic_TextureCoords0, VertexAttributeType_Float32, 2));
     mesh->setVertexLayout(layout);
-
-    mesh->setPrimitiveType(PrimitiveType_Points);
-
+    mesh->setPrimitiveType(PrimitiveType_Triangles);
     MeshWriter writer(*mesh);
     writer.addVertex();
     writer.writeAttributeData(VertexAttributeSemantic_Position, Vector3::zero());
+    writer.writeAttributeData(VertexAttributeSemantic_TextureCoords0, Vector2::zero());
+    writer.addVertex();
+    writer.writeAttributeData(VertexAttributeSemantic_Position, Vector3(100.0, 0.0, 0.0));
+    writer.writeAttributeData(VertexAttributeSemantic_TextureCoords0, Vector2(1.0, 0.0));
+    writer.addVertex();
+    writer.writeAttributeData(VertexAttributeSemantic_Position, Vector3(100.0, 0.0, 100.0));
+    writer.writeAttributeData(VertexAttributeSemantic_TextureCoords0, Vector2(1.0, 1.0));
+    writer.addVertex();
+    writer.writeAttributeData(VertexAttributeSemantic_Position, Vector3(0.0, 0.0, 100.0));
+    writer.writeAttributeData(VertexAttributeSemantic_TextureCoords0, Vector2(0.0, 1.0));
     writer.addIndex(0);
-
-    Material::Handle material(new Material());
-    material->setShader(_coloredLineShader);
-    material->setUniformValue("color", Color(0, 100, 0));
-
+    writer.addIndex(1);
+    writer.addIndex(2);
+    writer.addIndex(2);
+    writer.addIndex(3);
+    writer.addIndex(0);
     Model::Iterator model = entity->addComponent<Model>();
-    model->surfaces.push_back(ModelSurface(mesh, material));
+    model->surfaces.push_back(ModelSurface(mesh, _particleMaterial));
 
     // Activate and return the entity
     entity->activate();
@@ -193,5 +227,30 @@ void GalaxySystem::adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterat
                 }
             }
         }
+    }
+}
+
+void GalaxySystem::generateNoise(RandomSeed seed, unsigned width, unsigned height, Shader& shader, Texture& texture)
+{
+    texture = Texture("Noise", width, height, PixelType_Byte, PixelFormat_Rgba, TextureFilter_Linear, TextureFilter_Linear, false, false);
+
+    FrameBuffer frameBuffer(width, height);
+    frameBuffer.attachTexture(FrameBufferSlot_Color0, texture);
+
+    {
+        Renderer::Frame frame = _renderer.beginFrame(frameBuffer);
+        frame.clear();
+        frame.setShader(shader);
+
+        Random random(seed);
+        for (int i = 0; i < 12; ++i)
+        {
+            random.next();
+        }
+
+        Uniform& uniform = shader.uniform("seed");
+        frame.setUniform(uniform, static_cast<double>(random.next() % 100000) / 6.34);
+
+        frame.renderMesh(*_screenMesh);
     }
 }
