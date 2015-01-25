@@ -31,6 +31,7 @@ private:
     void splitGalaxyNode(Entity::Iterator entity);
     void joinGalaxyNode(Entity::Iterator entity);
 
+    AssetCache& _assetCache;
     Shader::Handle _coloredLineShader;
 };
 

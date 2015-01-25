@@ -9,7 +9,8 @@
 using namespace zeroth;
 
 GalaxySystem::GalaxySystem(Engine& engine, Scene& scene) :
-    System(engine, scene)
+    System(engine, scene),
+    _assetCache(engine.assetCache())
 {
     AssetCache& assetCache = engine.assetCache();
     _coloredLineShader = assetCache.getHandle<Shader>("Hect/ColoredLine.shader");
@@ -65,6 +66,10 @@ void GalaxySystem::onComponentAdded(Galaxy::Iterator galaxy)
             galaxy->entity()->addChild(*rootGalaxyNode);
         }
     }
+    
+    // Add the bounding box for the whole galaxy
+    Entity::Iterator entity = galaxy->entity();
+    entity->addComponent<BoundingBox>();
 }
 
 Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, unsigned level, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition)
@@ -89,23 +94,19 @@ Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, unsigne
     galaxyNode->radius = size.length() / 2;
     galaxyNode->level = level;
 
-    /*
     // Add tempory dust particles
-    Mesh::Handle mesh(new Mesh("Marker" + std::to_string(level)));
+    Mesh::Handle mesh(new Mesh());
 
     VertexLayout layout;
     layout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
     mesh->setVertexLayout(layout);
 
-    mesh->setPrimitiveType(PrimitiveType_Lines);
+    mesh->setPrimitiveType(PrimitiveType_Points);
 
     MeshWriter writer(*mesh);
     writer.addVertex();
     writer.writeAttributeData(VertexAttributeSemantic_Position, Vector3::zero());
-    writer.addVertex();
-    writer.writeAttributeData(VertexAttributeSemantic_Position, Vector3(0, 0, 100));
     writer.addIndex(0);
-    writer.addIndex(1);
 
     Material::Handle material(new Material());
     material->setShader(_coloredLineShader);
@@ -113,7 +114,6 @@ Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, unsigne
 
     Model::Iterator model = entity->addComponent<Model>();
     model->surfaces.push_back(ModelSurface(mesh, material));
-    */
 
     // Activate and return the entity
     entity->activate();
