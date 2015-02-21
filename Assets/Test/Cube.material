@@ -1,0 +1,12 @@
+---
+base: Hect/Solid.material
+uniformValues:
+  - name: diffuse
+    type: Color
+    value: [ 0.8, 0.8, 0.8 ]
+  - name: roughness
+    type: Float
+    value: 0.2
+  - name: metallic
+    type: Float
+    value: 1

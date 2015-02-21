@@ -13,3 +13,14 @@ entities:
     components:
       - type: Transform
         localPosition: [ 0, 100, 0 ]
+  - components:
+      - type: Transform
+        localPosition: [ 0, 150, 0 ]
+      - type: BoundingBox
+      - type: Model
+        surfaces:
+          - mesh: Test/Cube.mesh
+            material: Test/Cube.material
+      - type: RigidBody
+        mass: 1
+        mesh: Test/Cube.mesh
