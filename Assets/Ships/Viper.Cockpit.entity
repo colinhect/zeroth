@@ -1,5 +1,0 @@
----
-base: CockpitCamera.entity
-components:
-  - type: Transform
-    localPosition: [ 0, 2.3, 1.6 ]

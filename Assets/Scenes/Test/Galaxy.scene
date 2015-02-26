@@ -4,4 +4,4 @@ entities:
   - base: Galaxy/Zeroth.entity
   - base: Test/Skybox.entity
   - base: Test/Observer.entity
-  - base: Ships/Viper.entity
+  - base: Ships/Indor.entity

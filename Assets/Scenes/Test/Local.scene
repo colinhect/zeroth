@@ -2,14 +2,14 @@
 base: Scenes/Common/LocalSpace.scene
 entities:
   - base: Test/Skybox.entity
-  - base: Ships/Viper.entity
+  - base: Ships/Indor.entity
     components:
       - type: Transform
         localPosition: [ 0, 0, 0 ]
       - type: PlayerShipControl
     children:
-      - base: Ships/Viper.Cockpit.entity
-  - base: Ships/Viper.entity
+      - base: Ships/Indor.Cockpit.entity
+  - base: Ships/Indor.entity
     components:
       - type: Transform
         localPosition: [ 0, 100, 0 ]
@@ -19,8 +19,8 @@ entities:
       - type: BoundingBox
       - type: Model
         surfaces:
-          - mesh: Test/Cube.mesh
+          - mesh: Test/Cube.Main.mesh
             material: Test/Cube.material
       - type: RigidBody
         mass: 1
-        mesh: Test/Cube.mesh
+        mesh: Test/Cube.Main.mesh

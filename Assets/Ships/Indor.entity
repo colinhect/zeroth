@@ -1,0 +1,20 @@
+---
+components:
+  - type: RigidBody
+    mass: 100
+    mesh: Indor.Hull.mesh
+  - type: Ship
+    name: Indor
+  - type: BoundingBox
+  - type: Model
+    surfaces:
+      - mesh: Indor.Hull.mesh
+        material: Indor.Hull.material
+  - type: Transform
+children:
+  - components:
+      - type: Transform
+        localPosition: [ 0, 7, 0 ]
+      - type: Thruster
+        direction: [ 0, 1, 0 ]
+        power: 4000

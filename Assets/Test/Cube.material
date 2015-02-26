@@ -1,12 +1,9 @@
 ---
-base: Hect/Solid.material
+shader: Hect/Opaque.shader
 uniformValues:
-  - name: diffuse
-    type: Color
-    value: [ 0.8, 0.8, 0.8 ]
-  - name: roughness
-    type: Float
-    value: 0.2
-  - name: metallic
-    type: Float
-    value: 1
+  - name: diffuseTexture
+    type: Texture
+    value: Cube.Diffuse.texture
+  - name: materialTexture
+    type: Texture
+    value: Cube.Diffuse.texture
