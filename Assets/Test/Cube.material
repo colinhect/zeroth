@@ -3,7 +3,10 @@ shader: Hect/Opaque.shader
 uniformValues:
   - name: diffuseTexture
     type: Texture
-    value: Cube.Diffuse.texture
+    value: Cube.Material.texture
   - name: materialTexture
     type: Texture
-    value: Cube.Diffuse.texture
+    value: Cube.Material.texture
+  - name: normalTexture
+    type: Texture
+    value: Cube.Normal.texture
