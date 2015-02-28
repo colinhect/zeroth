@@ -1,5 +1,5 @@
 ---
-base: Hect/Solid.material
+shader: Hect/Shaders/Solid.shader
 uniformValues:
   - name: diffuse
     type: Color

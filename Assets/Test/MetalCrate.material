@@ -1,5 +1,5 @@
 ---
-shader: Hect/Opaque.shader
+shader: Hect/Shaders/Opaque.shader
 uniformValues:
   - name: diffuseTexture
     type: Texture

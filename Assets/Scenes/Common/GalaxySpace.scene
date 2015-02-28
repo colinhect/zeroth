@@ -1,5 +1,5 @@
 ---
-base: Hect/Default.scene
+base: Hect/Scenes/Default.scene
 componentTypes:
   - Galaxy
   - GalaxyNode

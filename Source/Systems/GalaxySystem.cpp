@@ -17,7 +17,7 @@ GalaxySystem::GalaxySystem(Engine& engine, Scene& scene) :
 
 void GalaxySystem::initialize()
 {
-    _screenMesh = _assetCache.getHandle<Mesh>("Hect/Screen.mesh");
+    _screenMesh = _assetCache.getHandle<Mesh>("Hect/Rendering/Screen.mesh");
 
     // Generate a particle texture
     _particleTexture = Texture::Handle(new Texture());
@@ -25,7 +25,7 @@ void GalaxySystem::initialize()
 
     // Create the particle material
     _particleMaterial = Material::Handle(new Material());
-    Shader::Handle particleShader = _assetCache.getHandle<Shader>("Hect/Particle.shader");
+    Shader::Handle particleShader = _assetCache.getHandle<Shader>("Hect/Rendering/Particle.shader");
     _particleMaterial->setShader(particleShader);
     _particleMaterial->setUniformValue("particleTexture", _particleTexture);
     _particleMaterial->setUniformValue("particleSize", 1000.0);
@@ -92,7 +92,7 @@ void GalaxySystem::onComponentAdded(Galaxy::Iterator galaxy)
             galaxy->entity()->addChild(*rootGalaxyNode);
         }
     }
-    
+
     // Add the bounding box for the whole galaxy
     Entity::Iterator entity = galaxy->entity();
     entity->addComponent<BoundingBox>();

@@ -38,11 +38,9 @@ void GameplaySystem::receiveEvent(const KeyboardEvent& event)
         {
             if (scene().hasSystemType<DebugSystem>())
             {
-                scene().removeSystemType<DebugSystem>();
-            }
-            else
-            {
-                scene().addSystemType<DebugSystem>();
+                DebugSystem& debugSystem = scene().system<DebugSystem>();
+                bool enabled = debugSystem.isEnabled();
+                debugSystem.setEnabled(!enabled);
             }
         }
         else if (event.key == Key_Esc)
