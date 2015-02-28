@@ -15,12 +15,12 @@ entities:
         localPosition: [ 0, 100, 0 ]
   - components:
       - type: Transform
-        localPosition: [ 0, 150, 0 ]
+        localPosition: [ 0, 50, 0 ]
       - type: BoundingBox
       - type: Model
         surfaces:
           - mesh: Test/Cube.Main.mesh
-            material: Test/Cube.material
+            material: Test/MetalCrate.material
       - type: RigidBody
         mass: 1
         mesh: Test/Cube.Main.mesh
