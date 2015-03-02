@@ -1,0 +1,6 @@
+---
+shader: Hect/Shaders/Translucent.shader
+uniformValues:
+  - name: diffuseTexture
+    type: Texture
+    value: MetalCrate.Diffuse.texture
