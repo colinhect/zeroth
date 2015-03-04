@@ -9,6 +9,8 @@ components:
   - type: Model
     surfaces:
       - mesh: Indor.Hull.mesh
+        material: Test/MetalCrate.material
+      - mesh: Indor.Seat.mesh
         material: Indor.Hull.material
   - type: Transform
 children:

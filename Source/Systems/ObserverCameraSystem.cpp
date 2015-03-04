@@ -66,6 +66,13 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
                 auto camera = _lastActiveCamera->component<Camera>();
                 if (camera)
                 {
+                    // Preserve the expose of the last observer camera
+                    auto observerCamera = _activeObserver->component<Camera>();
+                    if (observerCamera)
+                    {
+                        camera->exposure = observerCamera->exposure;
+                    }
+
                     cameraSystem.setActiveCamera(*camera);
                 }
 
@@ -89,6 +96,18 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
 
             if (_lastActiveCamera)
             {
+                // Preserve the exposure of the last active camera
+                auto camera = _lastActiveCamera->component<Camera>();
+                if (camera)
+                {
+                    auto observerCamera = observer->component<Camera>();
+                    if (observerCamera)
+                    {
+                        observerCamera->exposure = camera->exposure;
+                    }
+                }
+
+                // Preserve the transform of the last active camera
                 auto transform = _lastActiveCamera->component<Transform>();
                 if (transform)
                 {
