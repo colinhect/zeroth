@@ -67,7 +67,14 @@ inputAxes:
         invert: true
   - name: exposure
     bindings:
-      - type: JoystickAxis
-        joystickAxis: Axis4
+      - type: Key
+        key: X
         range: [ 0, 1 ]
-        deadValue: 0.7
+        acceleration: 5
+        gravity: 2
+      - type: Key
+        key: Z
+        range: [ -1, 0 ]
+        acceleration: 5
+        gravity: 2
+        invert: true

@@ -19,16 +19,6 @@ void CockpitCameraSystem::tick(double timeStep)
 {
     (void)timeStep;
 
-    CameraSystem& cameraSystem = scene().system<CameraSystem>();
-    auto camera = cameraSystem.activeCamera();
-    if (camera)
-    {
-        InputSystem& inputSystem = scene().system<InputSystem>();
-
-        double exposure = inputSystem.axisValue("exposure");
-        camera->exposure = (1 - exposure) * 0.2 + exposure * 10.0;
-    }
-
     /*
     for (CockpitCamera& cockpitCamera : scene().components<CockpitCamera>())
     {

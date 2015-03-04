@@ -25,16 +25,17 @@ void GalaxySystem::initialize()
 
     // Create the particle material
     _particleMaterial = Material::Handle(new Material());
-    Shader::Handle particleShader = _assetCache.getHandle<Shader>("Hect/Rendering/Particle.shader");
+    Shader::Handle particleShader = _assetCache.getHandle<Shader>("Hect/Shaders/Additive.shader");
     _particleMaterial->setShader(particleShader);
-    _particleMaterial->setUniformValue("particleTexture", _particleTexture);
-    _particleMaterial->setUniformValue("particleSize", 1000.0);
+    _particleMaterial->setUniformValue("diffuseTexture", _particleTexture);
+    _particleMaterial->setCullMode(CullMode_None);
+    //_particleMaterial->setUniformValue("particleSize", 1000.0);
 
     /*
     FileSystem& fileSystem = _assetCache.fileSystem();
     fileSystem.setWriteDirectory("D:/Desktop");
 
-    Image image = _renderer.downloadTextureImage(texture);
+    Image image = _renderer.downloadTextureImage(*_particleTexture);
 
     auto stream = fileSystem.openFileForWrite("Output.png");
     BinaryEncoder encoder(*stream);
@@ -122,9 +123,7 @@ Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, unsigne
 
     // Add tempory dust particle
     Mesh::Handle mesh(new Mesh("Marker"));
-    VertexLayout layout;
-    layout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
-    layout.addAttribute(VertexAttribute(VertexAttributeSemantic_TextureCoords0, VertexAttributeType_Float32, 2));
+    VertexLayout layout = VertexLayout::createDefault();
     mesh->setVertexLayout(layout);
     mesh->setPrimitiveType(PrimitiveType_Triangles);
     MeshWriter writer(*mesh);

@@ -8,10 +8,10 @@ systemTypes:
 entities:
   - base: Test/Observer.entity
   - components:
-    #- type: LightProbe
-    #  texture: Test/Space.texture
-    #- type: SkyBox
-    #  texture: Test/Space.texture
+    - type: LightProbe
+      texture: Test/Space.texture
+    - type: SkyBox
+      texture: Test/Space.texture
     - type: DirectionalLight
       direction: [ 1, 0.2, 0.2 ]
       color: [ 0.5, 0.5, 0.5 ]

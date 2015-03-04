@@ -18,6 +18,19 @@ GameplaySystem::GameplaySystem(Engine& engine, Scene& scene) :
     _mouse.setMode(MouseMode_Relative);
 }
 
+void GameplaySystem::tick(double timeStep)
+{
+    CameraSystem& cameraSystem = scene().system<CameraSystem>();
+    auto camera = cameraSystem.activeCamera();
+    if (camera)
+    {
+        InputSystem& inputSystem = scene().system<InputSystem>();
+
+        double exposure = inputSystem.axisValue("exposure");
+        camera->exposure += exposure * 5.0 * timeStep;
+    }
+}
+
 void GameplaySystem::receiveEvent(const KeyboardEvent& event)
 {
     if (event.type == KeyboardEventType_KeyDown)
