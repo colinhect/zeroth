@@ -5,7 +5,7 @@ modules:
   - type: Fragment
     path: Noise.glsl
   - type: Fragment
-    path: Particle.glsl
+    path: GenerateDustParticle.glsl
 uniforms:
   - name: seed
     type: Float

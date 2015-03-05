@@ -1,4 +1,4 @@
-#version 410
+#version 440
 
 uniform float seed;
 
@@ -22,7 +22,7 @@ vec3 spiral(
     in  vec3    point,
     in  float   factor)
 {
-    float d = length(point.xy);    
+    float d = length(point.xy);
     float angle = d * factor;
     return vec3(point.x * cos(angle) - point.y * sin(angle), point.x * sin(angle) + point.y * cos(angle), point.z);
 }

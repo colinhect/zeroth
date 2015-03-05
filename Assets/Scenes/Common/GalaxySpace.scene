@@ -14,4 +14,4 @@ systems:
   - type: PhysicsSystem
     gravity: [ 0, 0, 0 ]
   - type: GalaxySystem
-    testShader: Galaxy/Noise/Particle.shader
+    screenMesh: Hect/Rendering/Screen.mesh

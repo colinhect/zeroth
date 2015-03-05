@@ -6,3 +6,7 @@ components:
     horizontalRadius: 50000
     verticalRadius: 10000
     maxLevel: 4
+    particleShader: Galaxy/Shaders/Particle.shader
+    generateDustParticleShader: Galaxy/Shaders/GenerateDustParticle.shader
+    particleSize: [3000.0, 25000.0]
+    particleDensity: 100

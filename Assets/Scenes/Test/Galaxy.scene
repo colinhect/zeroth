@@ -3,4 +3,3 @@ base: Scenes/Common/GalaxySpace.scene
 entities:
   - base: Galaxy/Zeroth.entity
   - base: Test/Observer.entity
-  - base: Ships/Indor.entity

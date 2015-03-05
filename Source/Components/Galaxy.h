@@ -32,6 +32,21 @@ public:
 
     /// \property
     unsigned maxLevel;
+
+    /// \property
+    Shader::Handle particleShader;
+
+    /// \property
+    Shader::Handle generateDustParticleShader;
+
+    /// \property
+    Vector2 particleSize;
+
+    /// \property
+    unsigned particleDensity;
+
+    Texture::Handle particleTexture;
+    Material::Handle particleMaterial;
 };
 
 }

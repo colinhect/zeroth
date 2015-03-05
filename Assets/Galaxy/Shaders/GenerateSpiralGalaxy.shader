@@ -5,7 +5,7 @@ modules:
   - type: Fragment
     path: Noise.glsl
   - type: Fragment
-    path: Spiral.glsl
+    path: GenerateSpiralGalaxy.glsl
 uniforms:
   - name: seed
     type: Float

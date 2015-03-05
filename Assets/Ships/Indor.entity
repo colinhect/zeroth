@@ -11,7 +11,7 @@ components:
       - mesh: Indor.Hull.mesh
         material: Test/MetalCrate.material
       - mesh: Indor.Seat.mesh
-        material: Indor.Hull.material
+        material: Test/MetalCrate.material
   - type: Transform
 children:
   - components:
