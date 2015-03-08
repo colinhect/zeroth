@@ -12,18 +12,28 @@ using namespace hect;
 namespace zeroth
 {
 
-struct ParticleLayer
+class ParticleLayer :
+    public Encodable
 {
+public:
+
+    /// \property
     std::string name;
+
+    /// \property
     Shader::Handle renderShader;
+
+    /// \property
     Shader::Handle generateShader;
+
+    /// \property
     Vector2 size;
+
+    /// \property
     unsigned density;
+
     Texture::Handle texture;
     Material::Handle material;
-
-    friend Encoder& operator<<(Encoder& encoder, const ParticleLayer& particleLayer);
-    friend Decoder& operator>>(Decoder& decoder, ParticleLayer& particleLayer);
 };
 
 /// \component

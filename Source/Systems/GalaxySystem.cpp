@@ -9,9 +9,9 @@
 using namespace zeroth;
 
 GalaxySystem::GalaxySystem(Engine& engine, Scene& scene) :
-System(engine, scene),
-_assetCache(engine.assetCache()),
-_renderer(engine.renderer())
+    System(engine, scene),
+    _assetCache(engine.assetCache()),
+    _renderer(engine.renderer())
 {
     VertexAttribute position(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3);
     _particleVertexLayout.addAttribute(position);
@@ -144,7 +144,7 @@ void GalaxySystem::splitGalaxyNode(Entity::Iterator entity)
             Vector3 parentGlobalPosition = boundingBox->extents.center();
 
             // Create the child nodes
-            std::vector<int> values{ -1, 1 };
+            std::vector<int> values { -1, 1 };
             for (int x : values)
             {
                 for (int y : values)
