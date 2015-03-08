@@ -12,6 +12,7 @@ using namespace hect;
 namespace zeroth
 {
 
+/// \encodable
 class ParticleLayer :
     public Encodable
 {
