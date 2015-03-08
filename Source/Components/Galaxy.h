@@ -12,6 +12,20 @@ using namespace hect;
 namespace zeroth
 {
 
+struct ParticleLayer
+{
+    std::string name;
+    Shader::Handle renderShader;
+    Shader::Handle generateShader;
+    Vector2 size;
+    unsigned density;
+    Texture::Handle texture;
+    Material::Handle material;
+
+    friend Encoder& operator<<(Encoder& encoder, const ParticleLayer& particleLayer);
+    friend Decoder& operator>>(Decoder& decoder, ParticleLayer& particleLayer);
+};
+
 /// \component
 class Galaxy :
     public Component<Galaxy>
@@ -34,19 +48,7 @@ public:
     unsigned maxLevel;
 
     /// \property
-    Shader::Handle particleShader;
-
-    /// \property
-    Shader::Handle generateDustParticleShader;
-
-    /// \property
-    Vector2 particleSize;
-
-    /// \property
-    unsigned particleDensity;
-
-    Texture::Handle particleTexture;
-    Material::Handle particleMaterial;
+    std::vector<ParticleLayer> particleLayers;
 };
 
 }

@@ -54,15 +54,18 @@ void GalaxySystem::tick(double timeStep)
 
 void GalaxySystem::onComponentAdded(Galaxy::Iterator galaxy)
 {
-    // Generate a particle texture
-    galaxy->particleTexture = Texture::Handle(new Texture());
-    generateNoise(galaxy->seed, 512, 512, *galaxy->generateDustParticleShader, *galaxy->particleTexture);
+    for (ParticleLayer& particleLayer : galaxy->particleLayers)
+    {
+        // Generate a particle texture
+        particleLayer.texture = Texture::Handle(new Texture());
+        generateNoise(galaxy->seed, 512, 512, *particleLayer.generateShader, *particleLayer.texture);
 
-    // Create the particle material
-    galaxy->particleMaterial = Material::Handle(new Material());
-    galaxy->particleMaterial->setShader(galaxy->particleShader);
-    galaxy->particleMaterial->setUniformValue("particleTexture", galaxy->particleTexture);
-    galaxy->particleMaterial->setCullMode(CullMode_None);
+        // Create the particle material
+        particleLayer.material = Material::Handle(new Material());
+        particleLayer.material->setShader(particleLayer.renderShader);
+        particleLayer.material->setUniformValue("particleTexture", particleLayer.texture);
+        particleLayer.material->setCullMode(CullMode_None);
+    }
 
     // Compute minimum
     double horizontalRadius = galaxy->horizontalRadius;
@@ -202,31 +205,35 @@ void GalaxySystem::adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterat
 
 void GalaxySystem::generateDustParticles(Random& random, Galaxy::Iterator galaxy, GalaxyNode::Iterator galaxyNode, const Vector3& size)
 {
-    Mesh::Handle mesh(new Mesh("Dust"));
-    mesh->setVertexLayout(_particleVertexLayout);
-    mesh->setPrimitiveType(PrimitiveType_Points);
-
-    MeshWriter writer(*mesh);
-
-    Vector3 halfSize = size / 2;
-    for (unsigned i = 0; i < galaxy->particleDensity; ++i)
-    {
-        Vector3 position = random.next(-halfSize, halfSize);
-        double size = random.next(galaxy->particleSize.x, galaxy->particleSize.y);
-        double rotation = random.next(0.0, 2.0 * pi);
-        double brightness = random.next(0.25, 1.75);
-
-        writer.addVertex();
-        writer.writeAttributeData(VertexAttributeSemantic_Position, position);
-        writer.writeAttributeData(VertexAttributeSemantic_Weight0, size);
-        writer.writeAttributeData(VertexAttributeSemantic_Weight1, rotation);
-        writer.writeAttributeData(VertexAttributeSemantic_Weight2, brightness);
-        writer.addIndex(i);
-    }
-
     Entity::Iterator entity = galaxyNode->entity();
     Model::Iterator model = entity->addComponent<Model>();
-    model->surfaces.push_back(ModelSurface(mesh, galaxy->particleMaterial));
+
+    for (ParticleLayer& particleLayer : galaxy->particleLayers)
+    {
+        Mesh::Handle mesh(new Mesh(particleLayer.name));
+        mesh->setVertexLayout(_particleVertexLayout);
+        mesh->setPrimitiveType(PrimitiveType_Points);
+
+        MeshWriter writer(*mesh);
+
+        Vector3 halfSize = size / 2;
+        for (unsigned i = 0; i < particleLayer.density; ++i)
+        {
+            Vector3 position = random.next(-halfSize, halfSize);
+            double size = random.next(particleLayer.size.x, particleLayer.size.y);
+            double rotation = random.next(0.0, 2.0 * pi);
+            double brightness = random.next(0.25, 1.75);
+
+            writer.addVertex();
+            writer.writeAttributeData(VertexAttributeSemantic_Position, position);
+            writer.writeAttributeData(VertexAttributeSemantic_Weight0, size);
+            writer.writeAttributeData(VertexAttributeSemantic_Weight1, rotation);
+            writer.writeAttributeData(VertexAttributeSemantic_Weight2, brightness);
+            writer.addIndex(i);
+        }
+
+        model->surfaces.push_back(ModelSurface(mesh, particleLayer.material));
+    }
 }
 
 void GalaxySystem::generateNoise(RandomSeed seed, unsigned width, unsigned height, Shader& shader, Texture& texture)
