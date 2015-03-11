@@ -14,7 +14,7 @@ namespace zeroth
 
 /// \system
 class GameplaySystem :
-    public System<>,
+    public System<GameplaySystem>,
     public Listener<KeyboardEvent>
 {
 public:

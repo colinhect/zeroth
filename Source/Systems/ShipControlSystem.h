@@ -13,7 +13,7 @@ namespace zeroth
 {
 
 class ShipControlSystem :
-    public System<>
+    public System<ShipControlSystem>
 {
 public:
     ShipControlSystem(Engine& engine, Scene& scene);

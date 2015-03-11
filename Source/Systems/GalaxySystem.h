@@ -17,7 +17,7 @@ namespace zeroth
 
 /// \system
 class GalaxySystem :
-    public System<Galaxy>
+    public System<GalaxySystem, Galaxy>
 {
 public:
     GalaxySystem(Engine& engine, Scene& scene);

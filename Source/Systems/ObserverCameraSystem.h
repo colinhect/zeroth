@@ -14,7 +14,7 @@ namespace zeroth
 
 /// \system
 class ObserverCameraSystem :
-    public System<>,
+    public System<ObserverCameraSystem>,
     public Listener<KeyboardEvent>,
     public Listener<MouseEvent>
 {
