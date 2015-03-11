@@ -9,17 +9,15 @@
 #include <Hect.h>
 using namespace hect;
 
-#include "Systems/ShipControlSystem.h"
-
 namespace zeroth
 {
 
 /// \system
-class PlayerShipControlSystem :
-    public ShipControlSystem
+class PlayerInputSystem :
+    public System<PlayerInputSystem>
 {
 public:
-    PlayerShipControlSystem(Engine& engine, Scene& scene);
+    PlayerInputSystem(Engine& engine, Scene& scene);
 
     void tick(double timeStep) override;
 };

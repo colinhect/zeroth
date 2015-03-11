@@ -12,6 +12,7 @@ using namespace hect;
 namespace zeroth
 {
 
+/// \system
 class ShipControlSystem :
     public System<ShipControlSystem>
 {

@@ -4,25 +4,29 @@
 // Copyright (c) 2015 Colin Hill
 //
 ///////////////////////////////////////////////////////////////////////////////
-#include "PlayerShipControlSystem.h"
+#include "PlayerInputSystem.h"
 
 #include "Components/PlayerShipControl.h"
 #include "Components/ObserverCamera.h"
 #include "Systems/ObserverCameraSystem.h"
+#include "Systems/ShipControlSystem.h"
 
 using namespace zeroth;
 
-PlayerShipControlSystem::PlayerShipControlSystem(Engine& engine, Scene& scene) :
-    ShipControlSystem(engine, scene)
+PlayerInputSystem::PlayerInputSystem(Engine& engine, Scene& scene) :
+    System(engine, scene)
 {
 }
 
-void PlayerShipControlSystem::tick(double timeStep)
+void PlayerInputSystem::tick(double timeStep)
 {
     // If there is no observer camera
     auto observerCamera = scene().components<ObserverCamera>().begin();
     if (!observerCamera)
     {
+        auto shipControlSystem = scene().system<ShipControlSystem>();
+        assert(shipControlSystem);
+
         auto inputSystem = scene().system<InputSystem>();
         assert(inputSystem);
 
@@ -36,7 +40,7 @@ void PlayerShipControlSystem::tick(double timeStep)
             auto entity = playerShipControl.entity();
 
             Vector3 angularAxis(pitch, roll, yaw);
-            controlShip(*entity, angularAxis, thrust, timeStep);
+            shipControlSystem->controlShip(*entity, angularAxis, thrust, timeStep);
         }
     }
 }

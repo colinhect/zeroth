@@ -10,7 +10,8 @@ systemTypes:
   - GameplaySystem
   - CockpitCameraSystem
   - ObserverCameraSystem
-  - PlayerShipControlSystem
+  - ShipControlSystem
+  - PlayerInputSystem
 systems:
   - type: PhysicsSystem
     gravity: [ 0, 0, 0 ]
