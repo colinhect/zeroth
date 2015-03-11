@@ -1,5 +1,5 @@
 ---
-schema: PostPhysicalGeometry
+renderStage: PostPhysicalGeometry
 modules:
   - type: Vertex
     path: Particle.Vertex.glsl

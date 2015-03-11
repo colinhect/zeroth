@@ -31,21 +31,23 @@ void GalaxySystem::tick(double timeStep)
 {
     (void)timeStep;
 
+    auto cameraSystem = scene().system<CameraSystem>();
+    assert(cameraSystem);
+
     // If there is an active camera
-    CameraSystem& cameraSystem = scene().system<CameraSystem>();
-    Camera::Iterator activeCamera = cameraSystem.activeCamera();
+    Camera::Iterator activeCamera = cameraSystem->activeCamera();
     if (activeCamera)
     {
         Vector3 cameraPosition = activeCamera->position;
 
         // For each galaxy
-        for (Galaxy& galaxy : scene().components<Galaxy>())
+        for (auto& galaxy : scene().components<Galaxy>())
         {
             // Adapt each root galaxy node to the camera position
-            Entity::Iterator galaxyEntity = galaxy.entity();
-            for (Entity& child : galaxyEntity->children())
+            auto galaxyEntity = galaxy.entity();
+            for (auto& child : galaxyEntity->children())
             {
-                Entity::Iterator rootGalaxyNode = child.iterator();
+                auto rootGalaxyNode = child.iterator();
                 adaptGalaxyNode(cameraPosition, rootGalaxyNode);
             }
         }
@@ -95,29 +97,29 @@ void GalaxySystem::onComponentAdded(Galaxy::Iterator galaxy)
     }
 
     // Add the bounding box for the whole galaxy
-    Entity::Iterator entity = galaxy->entity();
+    auto entity = galaxy->entity();
     entity->addComponent<BoundingBox>();
 }
 
 Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, unsigned level, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition)
 {
     // Create the galaxy node entity
-    Entity::Iterator entity = scene().createEntity();
+    auto entity = scene().createEntity();
     entity->setTransient(true);
 
     // Add transform component
-    Transform::Iterator transform = entity->addComponent<Transform>();
+    auto transform = entity->addComponent<Transform>();
     transform->localPosition = localPosition;
 
     // Add bounding box component
-    BoundingBox::Iterator boundingBox = entity->addComponent<BoundingBox>();
+    auto boundingBox = entity->addComponent<BoundingBox>();
     boundingBox->adaptive = false;
     Vector3 minimum = parentGlobalPosition + localPosition;
     Vector3 halfSize = size / 2;
     boundingBox->extents = AxisAlignedBox(minimum - size / 2, minimum + size / 2);
 
     // Add galaxy node component
-    GalaxyNode::Iterator galaxyNode = entity->addComponent<GalaxyNode>();
+    auto galaxyNode = entity->addComponent<GalaxyNode>();
     galaxyNode->galaxy = galaxy;
     galaxyNode->radius = size.length() / 2;
     galaxyNode->level = level;
@@ -129,11 +131,11 @@ Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, unsigne
 
 void GalaxySystem::splitGalaxyNode(Entity::Iterator entity)
 {
-    GalaxyNode::Iterator galaxyNode = entity->component<GalaxyNode>();
+    auto galaxyNode = entity->component<GalaxyNode>();
     if (galaxyNode && !galaxyNode->split && galaxyNode->level < galaxyNode->galaxy->maxLevel)
     {
-        Entity::Iterator parent = entity->iterator();
-        BoundingBox::Iterator boundingBox = entity->component<BoundingBox>();
+        auto parent = entity->iterator();
+        auto boundingBox = entity->component<BoundingBox>();
         if (galaxyNode && boundingBox && !galaxyNode->split)
         {
             unsigned level = galaxyNode->level + 1;
@@ -165,7 +167,7 @@ void GalaxySystem::splitGalaxyNode(Entity::Iterator entity)
 
 void GalaxySystem::joinGalaxyNode(Entity::Iterator entity)
 {
-    GalaxyNode::Iterator galaxyNode = entity->component<GalaxyNode>();
+    auto galaxyNode = entity->component<GalaxyNode>();
     if (galaxyNode && galaxyNode->split)
     {
         entity->destroyAllChildren();
@@ -175,10 +177,10 @@ void GalaxySystem::joinGalaxyNode(Entity::Iterator entity)
 
 void GalaxySystem::adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterator entity)
 {
-    GalaxyNode::Iterator galaxyNode = entity->component<GalaxyNode>();
+    auto galaxyNode = entity->component<GalaxyNode>();
     if (galaxyNode)
     {
-        Transform::Iterator transform = entity->component<Transform>();
+        auto transform = entity->component<Transform>();
         if (transform)
         {
             Galaxy::Iterator galaxy = galaxyNode->galaxy;
@@ -194,7 +196,7 @@ void GalaxySystem::adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterat
             }
             else
             {
-                for (Entity& child : entity->children())
+                for (auto& child : entity->children())
                 {
                     adaptGalaxyNode(cameraPosition, child.iterator());
                 }
@@ -205,8 +207,8 @@ void GalaxySystem::adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterat
 
 void GalaxySystem::generateDustParticles(Random& random, Galaxy::Iterator galaxy, GalaxyNode::Iterator galaxyNode, const Vector3& size)
 {
-    Entity::Iterator entity = galaxyNode->entity();
-    Model::Iterator model = entity->addComponent<Model>();
+    auto entity = galaxyNode->entity();
+    auto model = entity->addComponent<Model>();
 
     for (ParticleLayer& particleLayer : galaxy->particleLayers)
     {

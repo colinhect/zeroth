@@ -24,37 +24,43 @@ ObserverCameraSystem::ObserverCameraSystem(Engine& engine, Scene& scene) :
 
 void ObserverCameraSystem::tick(double timeStep)
 {
-    InputSystem& inputSystem = scene().system<InputSystem>();
-    TransformSystem& transformSystem = scene().system<TransformSystem>();
+    auto inputSystem = scene().system<InputSystem>();
+    assert(inputSystem);
 
-    for (ObserverCamera& observerCamera : scene().components<ObserverCamera>())
+    auto transformSystem = scene().system<TransformSystem>();
+    assert(transformSystem);
+
+    for (auto& observerCamera : scene().components<ObserverCamera>())
     {
-        Entity& entity = *observerCamera.entity();
+        auto entity = observerCamera.entity();
 
         double lookSpeed = timeStep * observerCamera.lookSpeed;
         double rollSpeed = timeStep * observerCamera.rollSpeed;
         double moveSpeed = timeStep * observerCamera.moveSpeed;
 
-        auto transform = entity.component<Transform>();
-        auto camera = entity.component<Camera>();
+        auto transform = entity->component<Transform>();
+        auto camera = entity->component<Camera>();
         if (transform && camera)
         {
-            transform->localRotation *= Quaternion::fromAxisAngle(camera->up, inputSystem.axisValue("yaw") * -lookSpeed);
-            transform->localRotation *= Quaternion::fromAxisAngle(camera->right, inputSystem.axisValue("pitch") * lookSpeed);
-            transform->localRotation *= Quaternion::fromAxisAngle(camera->front, inputSystem.axisValue("roll") * -rollSpeed);
+            transform->localRotation *= Quaternion::fromAxisAngle(camera->up, inputSystem->axisValue("yaw") * -lookSpeed);
+            transform->localRotation *= Quaternion::fromAxisAngle(camera->right, inputSystem->axisValue("pitch") * lookSpeed);
+            transform->localRotation *= Quaternion::fromAxisAngle(camera->front, inputSystem->axisValue("roll") * -rollSpeed);
 
-            transform->localPosition += camera->front * inputSystem.axisValue("thrustFront") * moveSpeed;
-            transform->localPosition += camera->right * inputSystem.axisValue("thrustRight") * moveSpeed;
+            transform->localPosition += camera->front * inputSystem->axisValue("thrustFront") * moveSpeed;
+            transform->localPosition += camera->right * inputSystem->axisValue("thrustRight") * moveSpeed;
 
-            transformSystem.commit(*transform);
+            transformSystem->commit(*transform);
         }
     }
 }
 
 void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
 {
-    CameraSystem& cameraSystem = scene().system<CameraSystem>();
-    TransformSystem& transformSystem = scene().system<TransformSystem>();
+    auto cameraSystem = scene().system<CameraSystem>();
+    assert(cameraSystem);
+
+    auto transformSystem = scene().system<TransformSystem>();
+    assert(transformSystem);
 
     if (event.type == KeyboardEventType_KeyDown && event.key == Key_F)
     {
@@ -73,7 +79,7 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
                         camera->exposure = observerCamera->exposure;
                     }
 
-                    cameraSystem.setActiveCamera(*camera);
+                    cameraSystem->setActiveCamera(*camera);
                 }
 
                 _lastActiveCamera = Entity::Handle();
@@ -84,7 +90,7 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
         else
         {
             // Remember the active camera
-            auto camera = cameraSystem.activeCamera();
+            auto camera = cameraSystem->activeCamera();
             if (camera)
             {
                 _lastActiveCamera = camera->entity()->createHandle();
@@ -116,7 +122,7 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
                     {
                         observerTransform->localPosition = transform->globalPosition;
                         observerTransform->localRotation = transform->globalRotation;
-                        transformSystem.update(*observerTransform);
+                        transformSystem->update(*observerTransform);
                     }
                 }
             }
@@ -128,7 +134,7 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
             auto observerCamera = _activeObserver->component<Camera>();
             if (observerCamera)
             {
-                cameraSystem.setActiveCamera(*observerCamera);
+                cameraSystem->setActiveCamera(*observerCamera);
             }
         }
     }

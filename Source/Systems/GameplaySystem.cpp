@@ -20,13 +20,16 @@ GameplaySystem::GameplaySystem(Engine& engine, Scene& scene) :
 
 void GameplaySystem::tick(double timeStep)
 {
-    CameraSystem& cameraSystem = scene().system<CameraSystem>();
-    auto camera = cameraSystem.activeCamera();
+    auto cameraSystem = scene().system<CameraSystem>();
+    assert(cameraSystem);
+
+    auto camera = cameraSystem->activeCamera();
     if (camera)
     {
-        InputSystem& inputSystem = scene().system<InputSystem>();
+        auto inputSystem = scene().system<InputSystem>();
+        assert(inputSystem);
 
-        double exposure = inputSystem.axisValue("exposure");
+        double exposure = inputSystem->axisValue("exposure");
         camera->exposure += exposure * 5.0 * timeStep;
     }
 }
@@ -49,11 +52,11 @@ void GameplaySystem::receiveEvent(const KeyboardEvent& event)
         }
         else if (event.key == Key_F1)
         {
-            if (scene().hasSystemType<DebugSystem>())
+            auto debugSystem = scene().system<DebugSystem>();
+            if (debugSystem)
             {
-                DebugSystem& debugSystem = scene().system<DebugSystem>();
-                bool enabled = debugSystem.isEnabled();
-                debugSystem.setEnabled(!enabled);
+                bool enabled = debugSystem->isEnabled();
+                debugSystem->setEnabled(!enabled);
             }
         }
         else if (event.key == Key_Esc)

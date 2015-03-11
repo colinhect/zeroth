@@ -19,22 +19,24 @@ PlayerShipControlSystem::PlayerShipControlSystem(Engine& engine, Scene& scene) :
 
 void PlayerShipControlSystem::tick(double timeStep)
 {
-    ObserverCamera::Iterator observerCamera = scene().components<ObserverCamera>().begin();
+    // If there is no observer camera
+    auto observerCamera = scene().components<ObserverCamera>().begin();
     if (!observerCamera)
     {
-        InputSystem& inputSystem = scene().system<InputSystem>();
+        auto inputSystem = scene().system<InputSystem>();
+        assert(inputSystem);
 
-        for (PlayerShipControl& playerShipControl : scene().components<PlayerShipControl>())
+        double pitch = inputSystem->axisValue("pitch");
+        double yaw = inputSystem->axisValue("yaw");
+        double roll = inputSystem->axisValue("roll");
+        double thrust = inputSystem->axisValue("thrustFront");
+
+        for (auto& playerShipControl : scene().components<PlayerShipControl>())
         {
-            Entity& entity = *playerShipControl.entity();
-
-            double pitch = inputSystem.axisValue("pitch");
-            double yaw = inputSystem.axisValue("yaw");
-            double roll = inputSystem.axisValue("roll");
-            double thrust = inputSystem.axisValue("thrustFront");
+            auto entity = playerShipControl.entity();
 
             Vector3 angularAxis(pitch, roll, yaw);
-            controlShip(entity, angularAxis, thrust, timeStep);
+            controlShip(*entity, angularAxis, thrust, timeStep);
         }
     }
 }

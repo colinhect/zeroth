@@ -17,8 +17,11 @@ ShipControlSystem::ShipControlSystem(Engine& engine, Scene& scene) :
 
 void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, double thrustAmount, double timeStep)
 {
-    PhysicsSystem& physicsSystem = scene().system<PhysicsSystem>();
-    TransformSystem& transformSystem = scene().system<TransformSystem>();
+    auto physicsSystem = scene().system<PhysicsSystem>();
+    assert(physicsSystem);
+
+    auto transformSystem = scene().system<TransformSystem>();
+    assert(physicsSystem);
 
     auto transform = ship.component<Transform>();
     if (transform)
@@ -42,7 +45,7 @@ void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, 
             // Update the rigidy body based on new linear and angular velocities
             rigidBody->angularVelocity = angularVelocity + angularDelta;
             rigidBody->linearVelocity = linearVelocity;
-            physicsSystem.commit(*rigidBody);
+            physicsSystem->commit(*rigidBody);
 
             // Find all child entities that are thrusters
             auto thrusterEntities = ship.findDescendants([](const Entity& entity)
@@ -53,14 +56,14 @@ void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, 
             // Apply force from all thrusters
             for (auto thrusterEntity : thrusterEntities)
             {
-                Thruster& thruster = *thrusterEntity->component<Thruster>();
+                auto thruster = thrusterEntity->component<Thruster>();
                 auto thrusterTransform = thrusterEntity->component<Transform>();
                 if (thrusterTransform)
                 {
-                    Vector3 thrustVector = transform->globalRotation * thruster.direction;
-                    thrustVector = thrustVector.normalized() * thruster.power * thrustAmount;
+                    Vector3 thrustVector = transform->globalRotation * thruster->direction;
+                    thrustVector = thrustVector.normalized() * thruster->power * thrustAmount;
 
-                    physicsSystem.applyForce(*rigidBody, thrustVector, Vector3::zero());
+                    physicsSystem->applyForce(*rigidBody, thrustVector, Vector3::zero());
                 }
             }
         }
