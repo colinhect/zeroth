@@ -10,7 +10,10 @@ using namespace zeroth;
 
 GameplaySystem::GameplaySystem(Engine& engine, Scene& scene) :
     System(engine, scene),
-    _mouse(engine.platform().mouse())
+    _mouse(engine.platform().mouse()),
+    _cameraSystem(scene.system<CameraSystem>()),
+    _inputSystem(scene.system<InputSystem>()),
+    _debugSystem(scene.system<DebugSystem>())
 {
     Keyboard& keyboard = engine.platform().keyboard();
     keyboard.registerListener(*this);
@@ -20,17 +23,17 @@ GameplaySystem::GameplaySystem(Engine& engine, Scene& scene) :
 
 void GameplaySystem::tick(double timeStep)
 {
-    auto cameraSystem = scene().system<CameraSystem>();
-    assert(cameraSystem);
-
-    auto camera = cameraSystem->activeCamera();
-    if (camera)
+    if (_cameraSystem)
     {
-        auto inputSystem = scene().system<InputSystem>();
-        assert(inputSystem);
-
-        double exposure = inputSystem->axisValue("exposure");
-        camera->exposure += exposure * 5.0 * timeStep;
+        Camera::Iterator camera = _cameraSystem->activeCamera();
+        if (camera)
+        {
+            if (_inputSystem)
+            {
+                double exposure = _inputSystem->axisValue("exposure");
+                camera->exposure += exposure * 5.0 * timeStep;
+            }
+        }
     }
 }
 
@@ -52,11 +55,10 @@ void GameplaySystem::receiveEvent(const KeyboardEvent& event)
         }
         else if (event.key == Key_F1)
         {
-            auto debugSystem = scene().system<DebugSystem>();
-            if (debugSystem)
+            if (_debugSystem)
             {
-                bool enabled = debugSystem->isEnabled();
-                debugSystem->setEnabled(!enabled);
+                bool enabled = _debugSystem->isEnabled();
+                _debugSystem->setEnabled(!enabled);
             }
         }
         else if (event.key == Key_Esc)

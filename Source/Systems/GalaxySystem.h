@@ -40,6 +40,8 @@ private:
     AssetCache& _assetCache;
     Renderer& _renderer;
 
+    CameraSystem::Handle _cameraSystem;
+
     VertexLayout _particleVertexLayout;
 };
 

@@ -11,7 +11,10 @@
 using namespace zeroth;
 
 ObserverCameraSystem::ObserverCameraSystem(Engine& engine, Scene& scene) :
-    System(engine, scene)
+    System(engine, scene),
+    _cameraSystem(scene.system<CameraSystem>()),
+    _transformSystem(scene.system<TransformSystem>()),
+    _inputSystem(scene.system<InputSystem>())
 {
     _observerEntity = scene.createEntity("Test/Observer.entity");
 
@@ -24,117 +27,111 @@ ObserverCameraSystem::ObserverCameraSystem(Engine& engine, Scene& scene) :
 
 void ObserverCameraSystem::tick(double timeStep)
 {
-    auto inputSystem = scene().system<InputSystem>();
-    assert(inputSystem);
-
-    auto transformSystem = scene().system<TransformSystem>();
-    assert(transformSystem);
-
-    for (auto& observerCamera : scene().components<ObserverCamera>())
+    if (_inputSystem && _transformSystem)
     {
-        auto entity = observerCamera.entity();
-
-        double lookSpeed = timeStep * observerCamera.lookSpeed;
-        double rollSpeed = timeStep * observerCamera.rollSpeed;
-        double moveSpeed = timeStep * observerCamera.moveSpeed;
-
-        auto transform = entity->component<Transform>();
-        auto camera = entity->component<Camera>();
-        if (transform && camera)
+        for (ObserverCamera& observerCamera : scene().components<ObserverCamera>())
         {
-            transform->localRotation *= Quaternion::fromAxisAngle(camera->up, inputSystem->axisValue("yaw") * -lookSpeed);
-            transform->localRotation *= Quaternion::fromAxisAngle(camera->right, inputSystem->axisValue("pitch") * lookSpeed);
-            transform->localRotation *= Quaternion::fromAxisAngle(camera->front, inputSystem->axisValue("roll") * -rollSpeed);
+            Entity::Iterator entity = observerCamera.entity();
 
-            transform->localPosition += camera->front * inputSystem->axisValue("thrustFront") * moveSpeed;
-            transform->localPosition += camera->right * inputSystem->axisValue("thrustRight") * moveSpeed;
+            double lookSpeed = timeStep * observerCamera.lookSpeed;
+            double rollSpeed = timeStep * observerCamera.rollSpeed;
+            double moveSpeed = timeStep * observerCamera.moveSpeed;
 
-            transformSystem->commit(*transform);
+            Transform::Iterator transform = entity->component<Transform>();
+            Camera::Iterator camera = entity->component<Camera>();
+            if (transform && camera)
+            {
+                transform->localRotation *= Quaternion::fromAxisAngle(camera->up, _inputSystem->axisValue("yaw") * -lookSpeed);
+                transform->localRotation *= Quaternion::fromAxisAngle(camera->right, _inputSystem->axisValue("pitch") * lookSpeed);
+                transform->localRotation *= Quaternion::fromAxisAngle(camera->front, _inputSystem->axisValue("roll") * -rollSpeed);
+
+                transform->localPosition += camera->front * _inputSystem->axisValue("thrustFront") * moveSpeed;
+                transform->localPosition += camera->right * _inputSystem->axisValue("thrustRight") * moveSpeed;
+
+                _transformSystem->commit(*transform);
+            }
         }
     }
 }
 
 void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
 {
-    auto cameraSystem = scene().system<CameraSystem>();
-    assert(cameraSystem);
-
-    auto transformSystem = scene().system<TransformSystem>();
-    assert(transformSystem);
-
-    if (event.type == KeyboardEventType_KeyDown && event.key == Key_F)
+    if (_cameraSystem && _transformSystem)
     {
-        if (_activeObserver)
+        if (event.type == KeyboardEventType_KeyDown && event.key == Key_F)
         {
-            // Restore the last active camera
-            if (_lastActiveCamera)
+            if (_activeObserver)
             {
-                auto camera = _lastActiveCamera->component<Camera>();
+                // Restore the last active camera
+                if (_lastActiveCamera)
+                {
+                    Camera::Iterator camera = _lastActiveCamera->component<Camera>();
+                    if (camera)
+                    {
+                        // Preserve the exposure of the last observer camera
+                        Camera::Iterator observerCamera = _activeObserver->component<Camera>();
+                        if (observerCamera)
+                        {
+                            camera->exposure = observerCamera->exposure;
+                        }
+
+                        _cameraSystem->setActiveCamera(*camera);
+                    }
+
+                    _lastActiveCamera = Entity::Handle();
+                }
+
+                _activeObserver->destroy();
+            }
+            else
+            {
+                // Remember the active camera
+                Camera::Iterator camera = _cameraSystem->activeCamera();
                 if (camera)
                 {
-                    // Preserve the expose of the last observer camera
-                    auto observerCamera = _activeObserver->component<Camera>();
-                    if (observerCamera)
-                    {
-                        camera->exposure = observerCamera->exposure;
-                    }
-
-                    cameraSystem->setActiveCamera(*camera);
+                    _lastActiveCamera = camera->entity()->createHandle();
                 }
 
-                _lastActiveCamera = Entity::Handle();
-            }
+                // Instantiate an observer
+                Entity::Iterator observer = _observerEntity->clone();
+                observer->activate();
 
-            _activeObserver->destroy();
-        }
-        else
-        {
-            // Remember the active camera
-            auto camera = cameraSystem->activeCamera();
-            if (camera)
-            {
-                _lastActiveCamera = camera->entity()->createHandle();
-            }
-
-            // Instantiate an observer
-            auto observer = _observerEntity->clone();
-            observer->activate();
-
-            if (_lastActiveCamera)
-            {
-                // Preserve the exposure of the last active camera
-                auto camera = _lastActiveCamera->component<Camera>();
-                if (camera)
+                if (_lastActiveCamera)
                 {
-                    auto observerCamera = observer->component<Camera>();
-                    if (observerCamera)
+                    // Preserve the exposure of the last active camera
+                    Camera::Iterator camera = _lastActiveCamera->component<Camera>();
+                    if (camera)
                     {
-                        observerCamera->exposure = camera->exposure;
+                        Camera::Iterator observerCamera = observer->component<Camera>();
+                        if (observerCamera)
+                        {
+                            observerCamera->exposure = camera->exposure;
+                        }
+                    }
+
+                    // Preserve the transform of the last active camera
+                    Transform::Iterator transform = _lastActiveCamera->component<Transform>();
+                    if (transform)
+                    {
+                        Transform::Iterator observerTransform = observer->component<Transform>();
+                        if (observerTransform)
+                        {
+                            observerTransform->localPosition = transform->globalPosition;
+                            observerTransform->localRotation = transform->globalRotation;
+                            _transformSystem->update(*observerTransform);
+                        }
                     }
                 }
 
-                // Preserve the transform of the last active camera
-                auto transform = _lastActiveCamera->component<Transform>();
-                if (transform)
+                // Set as active observer
+                _activeObserver = observer->createHandle();
+
+                // Set active camera
+                Camera::Iterator observerCamera = _activeObserver->component<Camera>();
+                if (observerCamera)
                 {
-                    auto observerTransform = observer->component<Transform>();
-                    if (observerTransform)
-                    {
-                        observerTransform->localPosition = transform->globalPosition;
-                        observerTransform->localRotation = transform->globalRotation;
-                        transformSystem->update(*observerTransform);
-                    }
+                    _cameraSystem->setActiveCamera(*observerCamera);
                 }
-            }
-
-            // Set as active observer
-            _activeObserver = observer->createHandle();
-
-            // Set active camera
-            auto observerCamera = _activeObserver->component<Camera>();
-            if (observerCamera)
-            {
-                cameraSystem->setActiveCamera(*observerCamera);
             }
         }
     }

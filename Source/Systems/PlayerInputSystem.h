@@ -9,6 +9,8 @@
 #include <Hect.h>
 using namespace hect;
 
+#include "Systems/ShipControlSystem.h"
+
 namespace zeroth
 {
 
@@ -20,6 +22,10 @@ public:
     PlayerInputSystem(Engine& engine, Scene& scene);
 
     void tick(double timeStep) override;
+
+private:
+    InputSystem::Handle _inputSystem;
+    ShipControlSystem::Handle _shipControlSystem;
 };
 
 }

@@ -8,39 +8,36 @@
 
 #include "Components/PlayerShipControl.h"
 #include "Components/ObserverCamera.h"
-#include "Systems/ObserverCameraSystem.h"
-#include "Systems/ShipControlSystem.h"
 
 using namespace zeroth;
 
 PlayerInputSystem::PlayerInputSystem(Engine& engine, Scene& scene) :
-    System(engine, scene)
+    System(engine, scene),
+    _inputSystem(scene.system<InputSystem>()),
+    _shipControlSystem(scene.system<ShipControlSystem>())
 {
 }
 
 void PlayerInputSystem::tick(double timeStep)
 {
-    // If there is no observer camera
-    auto observerCamera = scene().components<ObserverCamera>().begin();
-    if (!observerCamera)
+    if (_inputSystem && _shipControlSystem)
     {
-        auto shipControlSystem = scene().system<ShipControlSystem>();
-        assert(shipControlSystem);
-
-        auto inputSystem = scene().system<InputSystem>();
-        assert(inputSystem);
-
-        double pitch = inputSystem->axisValue("pitch");
-        double yaw = inputSystem->axisValue("yaw");
-        double roll = inputSystem->axisValue("roll");
-        double thrust = inputSystem->axisValue("thrustFront");
-
-        for (auto& playerShipControl : scene().components<PlayerShipControl>())
+        // If there is no observer camera
+        ObserverCamera::Iterator observerCamera = scene().components<ObserverCamera>().begin();
+        if (!observerCamera)
         {
-            auto entity = playerShipControl.entity();
+            double pitch = _inputSystem->axisValue("pitch");
+            double yaw = _inputSystem->axisValue("yaw");
+            double roll = _inputSystem->axisValue("roll");
+            double thrust = _inputSystem->axisValue("thrustFront");
 
-            Vector3 angularAxis(pitch, roll, yaw);
-            shipControlSystem->controlShip(*entity, angularAxis, thrust, timeStep);
+            for (PlayerShipControl& playerShipControl : scene().components<PlayerShipControl>())
+            {
+                Entity::Iterator entity = playerShipControl.entity();
+
+                Vector3 angularAxis(pitch, roll, yaw);
+                _shipControlSystem->controlShip(*entity, angularAxis, thrust, timeStep);
+            }
         }
     }
 }

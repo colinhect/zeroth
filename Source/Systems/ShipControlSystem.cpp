@@ -11,59 +11,58 @@
 using namespace zeroth;
 
 ShipControlSystem::ShipControlSystem(Engine& engine, Scene& scene) :
-    System(engine, scene)
+    System(engine, scene),
+    _transformSystem(scene.system<TransformSystem>()),
+    _physicsSystem(scene.system<PhysicsSystem>())
 {
 }
 
 void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, double thrustAmount, double timeStep)
 {
-    auto physicsSystem = scene().system<PhysicsSystem>();
-    assert(physicsSystem);
-
-    auto transformSystem = scene().system<TransformSystem>();
-    assert(physicsSystem);
-
-    auto transform = ship.component<Transform>();
-    if (transform)
+    if (_transformSystem && _physicsSystem)
     {
-        auto rigidBody = ship.component<RigidBody>();
-        if (rigidBody)
+        Transform::Iterator transform = ship.component<Transform>();
+        if (transform)
         {
-            Vector3 angularVelocity = rigidBody->angularVelocity;
-            Vector3 linearVelocity = rigidBody->linearVelocity;
-
-            // Apply friction to angular velocity
-            angularVelocity = angularVelocity - angularVelocity * timeStep * 1.0;
-
-            // Compute angular velocity delta based on control amount
-            Vector3 angularDelta = transform->globalRotation * angularAmount;
-            angularDelta *= timeStep * 2.0;
-
-            // Apply fiction to linear velocity
-            linearVelocity = linearVelocity - linearVelocity * timeStep * 0.5;
-
-            // Update the rigidy body based on new linear and angular velocities
-            rigidBody->angularVelocity = angularVelocity + angularDelta;
-            rigidBody->linearVelocity = linearVelocity;
-            physicsSystem->commit(*rigidBody);
-
-            // Find all child entities that are thrusters
-            auto thrusterEntities = ship.findDescendants([](const Entity& entity)
+            RigidBody::Iterator rigidBody = ship.component<RigidBody>();
+            if (rigidBody)
             {
-                return entity.component<Thruster>();
-            });
+                Vector3 angularVelocity = rigidBody->angularVelocity;
+                Vector3 linearVelocity = rigidBody->linearVelocity;
 
-            // Apply force from all thrusters
-            for (auto thrusterEntity : thrusterEntities)
-            {
-                auto thruster = thrusterEntity->component<Thruster>();
-                auto thrusterTransform = thrusterEntity->component<Transform>();
-                if (thrusterTransform)
+                // Apply friction to angular velocity
+                angularVelocity = angularVelocity - angularVelocity * timeStep * 1.0;
+
+                // Compute angular velocity delta based on control amount
+                Vector3 angularDelta = transform->globalRotation * angularAmount;
+                angularDelta *= timeStep * 2.0;
+
+                // Apply fiction to linear velocity
+                linearVelocity = linearVelocity - linearVelocity * timeStep * 0.5;
+
+                // Update the rigidy body based on new linear and angular velocities
+                rigidBody->angularVelocity = angularVelocity + angularDelta;
+                rigidBody->linearVelocity = linearVelocity;
+                _physicsSystem->commit(*rigidBody);
+
+                // Find all child entities that are thrusters
+                auto thrusterEntities = ship.findDescendants([](const Entity& entity)
                 {
-                    Vector3 thrustVector = transform->globalRotation * thruster->direction;
-                    thrustVector = thrustVector.normalized() * thruster->power * thrustAmount;
+                    return entity.component<Thruster>();
+                });
 
-                    physicsSystem->applyForce(*rigidBody, thrustVector, Vector3::zero());
+                // Apply force from all thrusters
+                for (Entity::Iterator thrusterEntity : thrusterEntities)
+                {
+                    Thruster::Iterator thruster = thrusterEntity->component<Thruster>();
+                    Transform::Iterator thrusterTransform = thrusterEntity->component<Transform>();
+                    if (thrusterTransform)
+                    {
+                        Vector3 thrustVector = transform->globalRotation * thruster->direction;
+                        thrustVector = thrustVector.normalized() * thruster->power * thrustAmount;
+
+                        _physicsSystem->applyForce(*rigidBody, thrustVector, Vector3::zero());
+                    }
                 }
             }
         }

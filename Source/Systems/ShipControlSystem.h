@@ -20,6 +20,10 @@ public:
     ShipControlSystem(Engine& engine, Scene& scene);
 
     void controlShip(Entity& ship, const Vector3& angularAmount, double thrustAmount, double timeStep);
+
+private:
+    TransformSystem::Handle _transformSystem;
+    PhysicsSystem::Handle _physicsSystem;
 };
 
 }

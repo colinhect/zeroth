@@ -27,6 +27,10 @@ public:
     void receiveEvent(const MouseEvent& event) override;
 
 private:
+    CameraSystem::Handle _cameraSystem;
+    TransformSystem::Handle _transformSystem;
+    InputSystem::Handle _inputSystem;
+
     Entity::Iterator _observerEntity;
     Entity::Handle _activeObserver;
     Entity::Handle _lastActiveCamera;

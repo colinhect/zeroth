@@ -25,6 +25,10 @@ public:
 
 private:
     Mouse& _mouse;
+
+    CameraSystem::Handle _cameraSystem;
+    InputSystem::Handle _inputSystem;
+    DebugSystem::Handle _debugSystem;
 };
 
 }

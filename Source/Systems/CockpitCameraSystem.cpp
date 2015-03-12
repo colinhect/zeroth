@@ -24,10 +24,10 @@ void CockpitCameraSystem::tick(double timeStep)
     {
         Entity& entity = cockpitCamera.entity();
 
-        auto transform = entity.component<Transform>();
+        Transform::Iterator transform = entity.component<Transform>();
         if (transform)
         {
-            auto camera = entity.component<Camera>();
+            Camera::Iterator camera = entity.component<Camera>();
             if (camera)
             {
                 const Vector3& up = camera->up;
