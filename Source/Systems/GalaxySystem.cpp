@@ -9,10 +9,10 @@
 using namespace zeroth;
 
 GalaxySystem::GalaxySystem(Engine& engine, Scene& scene) :
-    System(engine, scene),
-    _assetCache(engine.assetCache()),
-    _renderer(engine.renderer()),
-    _cameraSystem(scene.system<CameraSystem>())
+System(engine, scene),
+_assetCache(engine.assetCache()),
+_renderer(engine.renderer()),
+_cameraSystem(scene.system<CameraSystem>())
 {
     VertexAttribute position(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3);
     _particleVertexLayout.addAttribute(position);
@@ -57,17 +57,21 @@ void GalaxySystem::tick(double timeStep)
 
 void GalaxySystem::onComponentAdded(Galaxy::Iterator galaxy)
 {
-    for (ParticleLayer& particleLayer : galaxy->particleLayers)
+    for (ParticleLayer& layer : galaxy->particleLayers)
     {
-        // Generate a particle texture
-        particleLayer.texture = Texture::Handle(new Texture());
-        generateNoise(galaxy->seed, 512, 512, *particleLayer.generateShader, *particleLayer.texture);
+        // Generate density texture
+        layer.densityTexture = Texture::Handle(new Texture());
+        renderNoiseTexture(512, 512, galaxy->seed, *layer.generateDensityShader, *layer.densityTexture);
+
+        // Generate particle texture
+        layer.particleTexture = Texture::Handle(new Texture());
+        renderNoiseTexture(512, 512, galaxy->seed, *layer.generateParticleShader, *layer.particleTexture);
 
         // Create the particle material
-        particleLayer.material = Material::Handle(new Material());
-        particleLayer.material->setShader(particleLayer.renderShader);
-        particleLayer.material->setUniformValue("particleTexture", particleLayer.texture);
-        particleLayer.material->setCullMode(CullMode_None);
+        layer.particleMaterial = Material::Handle(new Material());
+        layer.particleMaterial->setShader(particleShader);
+        layer.particleMaterial->setUniformValue("particleTexture", layer.particleTexture);
+        layer.particleMaterial->setCullMode(CullMode_None);
     }
 
     // Compute minimum
@@ -147,7 +151,7 @@ void GalaxySystem::splitGalaxyNode(Entity::Iterator entity)
             Vector3 parentGlobalPosition = boundingBox->extents.center();
 
             // Create the child nodes
-            std::vector<int> values { -1, 1 };
+            std::vector<int> values{ -1, 1 };
             for (int x : values)
             {
                 for (int y : values)
@@ -211,21 +215,21 @@ void GalaxySystem::generateDustParticles(Random& random, Galaxy::Iterator galaxy
     Entity::Iterator entity = galaxyNode->entity();
     Model::Iterator model = entity->addComponent<Model>();
 
-    for (ParticleLayer& particleLayer : galaxy->particleLayers)
+    for (ParticleLayer& layer : galaxy->particleLayers)
     {
-        Mesh::Handle mesh(new Mesh(particleLayer.name));
+        Mesh::Handle mesh(new Mesh(layer.name));
         mesh->setVertexLayout(_particleVertexLayout);
         mesh->setPrimitiveType(PrimitiveType_Points);
 
         MeshWriter writer(*mesh);
 
         Vector3 halfSize = size / 2;
-        for (unsigned i = 0; i < particleLayer.density; ++i)
+        for (unsigned i = 0; i < layer.density; ++i)
         {
             Vector3 position = random.next(-halfSize, halfSize);
-            double size = random.next(particleLayer.size.x, particleLayer.size.y);
+            double size = random.next(layer.sizeRange.x, layer.sizeRange.y);
             double rotation = random.next(0.0, 2.0 * pi);
-            double brightness = random.next(0.25, 1.75);
+            double brightness = random.next(layer.brightnessRange.x, layer.brightnessRange.y);
 
             writer.addVertex();
             writer.writeAttributeData(VertexAttributeSemantic_Position, position);
@@ -235,11 +239,11 @@ void GalaxySystem::generateDustParticles(Random& random, Galaxy::Iterator galaxy
             writer.addIndex(i);
         }
 
-        model->surfaces.push_back(ModelSurface(mesh, particleLayer.material));
+        model->surfaces.push_back(ModelSurface(mesh, layer.particleMaterial));
     }
 }
 
-void GalaxySystem::generateNoise(RandomSeed seed, unsigned width, unsigned height, Shader& shader, Texture& texture)
+void GalaxySystem::renderNoiseTexture(unsigned width, unsigned height, RandomSeed seed, Shader& shader, Texture& texture)
 {
     texture = Texture("Noise", width, height, PixelType_Float16, PixelFormat_Rgb, TextureFilter_Linear, TextureFilter_Linear, false, false);
 
@@ -248,12 +252,9 @@ void GalaxySystem::generateNoise(RandomSeed seed, unsigned width, unsigned heigh
 
     Renderer::Frame frame = _renderer.beginFrame(frameBuffer);
     frame.clear();
+
     frame.setShader(shader);
-
-    Random random(seed + 12);
-
-    Uniform& uniform = shader.uniform("seed");
-    frame.setUniform(uniform, random.next(0.0, 10000.0));
+    frame.setUniform(shader.uniform("seed"), Random(seed + 12).next(0.0, 10000.0));
 
     frame.renderMesh(*screenMesh);
 }

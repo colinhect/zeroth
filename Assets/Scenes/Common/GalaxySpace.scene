@@ -15,3 +15,4 @@ systems:
     gravity: [ 0, 0, 0 ]
   - type: GalaxySystem
     screenMesh: Hect/Rendering/Screen.mesh
+    particleShader: Galaxy/Shaders/Particle.shader

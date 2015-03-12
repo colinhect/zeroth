@@ -22,19 +22,23 @@ public:
     std::string name;
 
     /// \property
-    Shader::Handle renderShader;
+    Shader::Handle generateParticleShader;
 
     /// \property
-    Shader::Handle generateShader;
+    Shader::Handle generateDensityShader;
 
     /// \property
-    Vector2 size;
+    Vector2 sizeRange;
+
+    /// \property
+    Vector2 brightnessRange;
 
     /// \property
     unsigned density;
 
-    Texture::Handle texture;
-    Material::Handle material;
+    Texture::Handle densityTexture;
+    Texture::Handle particleTexture;
+    Material::Handle particleMaterial;
 };
 
 /// \component

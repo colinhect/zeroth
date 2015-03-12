@@ -29,13 +29,16 @@ public:
     /// \property
     Mesh::Handle screenMesh;
 
+    /// \property
+    Shader::Handle particleShader;
+
 private:
     Entity::Iterator createGalaxyNode(Galaxy::Iterator galaxy, unsigned level, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition);
     void adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterator entity);
     void splitGalaxyNode(Entity::Iterator entity);
     void joinGalaxyNode(Entity::Iterator entity);
     void generateDustParticles(Random& random, Galaxy::Iterator galaxy, GalaxyNode::Iterator galaxyNode, const Vector3& size);
-    void generateNoise(RandomSeed seed, unsigned width, unsigned height, Shader& shader, Texture& texture);
+    void renderNoiseTexture(unsigned width, unsigned height, RandomSeed seed, Shader& shader, Texture& texture);
 
     AssetCache& _assetCache;
     Renderer& _renderer;
