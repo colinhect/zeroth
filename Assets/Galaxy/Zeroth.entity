@@ -2,14 +2,32 @@
 components:
   - type: Galaxy
     name: Zeroth
-    seed: 112233
-    horizontalRadius: 50000
-    verticalRadius: 10000
+    seed: 42
+    horizontalRadius: 60000
+    verticalRadius: 20000
     maxLevel: 4
     particleLayers:
+      - name: Glow
+        generateParticleShader: Zeroth/GlowParticle.shader
+        generateDensityShader: Zeroth/GlowDensity.shader
+        sizeRange: [ 40000.0, 50000.0 ]
+        brightnessRange: [ 0.0005, 0.0006 ]
+        density: 100
+        verticleRadius: 1300
+        verticleRadiusFalloff: 1000
+      - name: MedianLarge
+        generateParticleShader: Zeroth/MedianParticle.shader
+        generateDensityShader: Zeroth/MedianDensity.shader
+        sizeRange: [ 16000.0, 17000.0 ]
+        brightnessRange: [ 0.0005, 0.0006 ]
+        density: 2000
+        verticleRadius: 1300
+        verticleRadiusFalloff: 1000
       - name: Median
-        generateParticleShader: Zeroth/GenerateParticle.shader
-        generateDensityShader: Zeroth/GenerateSpiralGalaxy.shader
-        sizeRange: [ 3000.0, 25000.0 ]
-        brightnessRange: [ -0.002, 0.08 ]
-        density: 50
+        generateParticleShader: Zeroth/MedianParticle.shader
+        generateDensityShader: Zeroth/MedianDensity.shader
+        sizeRange: [ 8000.0, 9000.0 ]
+        brightnessRange: [ 0.001, 0.002 ]
+        density: 1000
+        verticleRadius: 1300
+        verticleRadiusFalloff: 1000

@@ -18,23 +18,29 @@ class ParticleLayer :
 {
 public:
 
-    /// \property
+    /// \property{required}
     std::string name;
 
-    /// \property
+    /// \property{required}
     Shader::Handle generateParticleShader;
 
-    /// \property
+    /// \property{required}
     Shader::Handle generateDensityShader;
 
-    /// \property
+    /// \property{required}
     Vector2 sizeRange;
 
-    /// \property
+    /// \property{required}
     Vector2 brightnessRange;
 
-    /// \property
+    /// \property{required}
     unsigned density;
+
+    /// \property{required}
+    double verticleRadius;
+
+    /// \property{required}
+    double verticleRadiusFalloff;
 
     Texture::Handle densityTexture;
     Texture::Handle particleTexture;
