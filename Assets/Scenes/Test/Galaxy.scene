@@ -3,3 +3,6 @@ base: Scenes/Common/GalaxySpace.scene
 entities:
   - base: Galaxy/Zeroth.entity
   - base: Test/Observer.entity
+    components:
+      - type: Transform
+        localPosition: [ 0, -70000, 0 ]

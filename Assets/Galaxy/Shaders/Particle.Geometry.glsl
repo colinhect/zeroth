@@ -37,18 +37,23 @@ vec2 rotate(
 
 void main()
 {
-    vec2 aspectRatio = vec2(renderTargetSize.y / renderTargetSize.x, 1.0);
+    vec4 position = gl_in[0].gl_Position;
 
-    for (int i = 0; i < 4; ++i)
+    if (position.z > 5000.0)
     {
-        vec4 eyePosition = gl_in[0].gl_Position;
-        
-        eyePosition.xy += rotate(vertexSize[0] * corners[i], vertexRotation[0]) * aspectRatio;
-        gl_Position = eyePosition;
-        vertexTextureCoords = textureCoords[i];
-        vertexFinalBrightness = vertexBrightness[0];
-        EmitVertex();
-    }
+        float falloff = clamp((position.z - 5000.0) * 0.0001, 0.0, 1.0);
+        vec2 aspectRatio = vec2(renderTargetSize.y / renderTargetSize.x, 1.0);
 
-    EndPrimitive();
+        for (int i = 0; i < 4; ++i)
+        {
+            vec4 eyePosition = position;        
+            eyePosition.xy += rotate(vertexSize[0] * corners[i], vertexRotation[0]) * aspectRatio;
+            gl_Position = eyePosition;
+            vertexTextureCoords = textureCoords[i];
+            vertexFinalBrightness = vertexBrightness[0] * falloff;
+            EmitVertex();
+        }
+
+        EndPrimitive();
+    }
 }

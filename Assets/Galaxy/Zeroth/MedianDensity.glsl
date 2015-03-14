@@ -34,7 +34,7 @@ vec3 spiral(
 void main()
 {
     vec3 point = vec3(vertexTextureCoords.xy - vec2(0.5), seed);
-    point = spiral(point * vec3(1.0, 1.2, 1.0), 14.0);
+    point = spiral(point * vec3(1.0, 1.2, 1.0), 24.0);
 
     float value = galaxyBars(point);
     value *= 2.0; // Thicken the bars

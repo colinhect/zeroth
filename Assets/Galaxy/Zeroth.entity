@@ -2,7 +2,7 @@
 components:
   - type: Galaxy
     name: Zeroth
-    seed: 99
+    seed: 42
     horizontalRadius: 60000
     verticalRadius: 20000
     maxLevel: 4
@@ -18,8 +18,8 @@ components:
       - name: Center
         generateParticleShader: Zeroth/CenterParticle.shader
         generateDensityShader: Zeroth/CenterDensity.shader
-        sizeRange: [ 30000.0, 35000.0 ]
-        brightnessRange: [ 0.06, 0.08 ]
+        sizeRange: [ 20000.0, 25000.0 ]
+        brightnessRange: [ 0.001, 0.03 ]
         density: 20
         verticleRadius: 2000
         verticleRadiusFalloff: 100
@@ -27,7 +27,7 @@ components:
         generateParticleShader: Zeroth/CenterParticle.shader
         generateDensityShader: Zeroth/CenterDensity.shader
         sizeRange: [ 9000.0, 10000.0 ]
-        brightnessRange: [ 0.2, 0.5 ]
+        brightnessRange: [ 0.00001, 0.4 ]
         density: 10
         verticleRadius: 2000
         verticleRadiusFalloff: 100
@@ -35,7 +35,7 @@ components:
         generateParticleShader: Zeroth/MedianParticle.shader
         generateDensityShader: Zeroth/MedianDensity.shader
         sizeRange: [ 9000.0, 15000.0 ]
-        brightnessRange: [ 0.001, 0.003 ]
+        brightnessRange: [ 0.0001, 0.005 ]
         density: 300
         verticleRadius: 1300
         verticleRadiusFalloff: 1000
@@ -43,15 +43,15 @@ components:
         generateParticleShader: Zeroth/MedianParticle.shader
         generateDensityShader: Zeroth/MedianDensity.shader
         sizeRange: [ 9000.0, 15000.0 ]
-        brightnessRange: [ 0.009, 0.02 ]
+        brightnessRange: [ 0.001, 0.03 ]
         density: 20
         verticleRadius: 1300
         verticleRadiusFalloff: 1000
       - name: MedianSmall
         generateParticleShader: Zeroth/MedianParticle.shader
         generateDensityShader: Zeroth/MedianDensity.shader
-        sizeRange: [ 1000.0, 3000.0 ]
-        brightnessRange: [ 0.01, 0.015 ]
+        sizeRange: [ 1000.0, 6000.0 ]
+        brightnessRange: [ 0.001, 0.02 ]
         density: 200
         verticleRadius: 1300
         verticleRadiusFalloff: 1000
