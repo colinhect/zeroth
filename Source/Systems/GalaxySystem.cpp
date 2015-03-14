@@ -61,11 +61,11 @@ void GalaxySystem::onComponentAdded(Galaxy::Iterator galaxy)
     {
         // Generate density image
         layer.densityTexture = Texture::Handle(new Texture());
-        renderNoiseTexture(1024, 1024, galaxy->seed, *layer.generateDensityShader, *layer.densityTexture);
+        renderNoiseTexture(layer.name + ".Density", 256, 256, galaxy->seed, *layer.generateDensityShader, *layer.densityTexture);
 
         // Generate particle texture
         layer.particleTexture = Texture::Handle(new Texture());
-        renderNoiseTexture(512, 512, galaxy->seed, *layer.generateParticleShader, *layer.particleTexture);
+        renderNoiseTexture(layer.name + ".Particle", 512, 512, galaxy->seed, *layer.generateParticleShader, *layer.particleTexture);
 
         // Create the particle material
         layer.particleMaterial = Material::Handle(new Material());
@@ -102,14 +102,10 @@ void GalaxySystem::onComponentAdded(Galaxy::Iterator galaxy)
 
     // Add the bounding box for the whole galaxy
     Entity::Iterator entity = galaxy->entity();
-    entity->addComponent<BoundingBox>();
+    BoundingBox::Iterator boundingBox = entity->addComponent<BoundingBox>();
 
-    // Generate particle layers of each root node
-    for (Entity& child : entity->children())
-    {
-        Entity::Iterator rootGalaxyNode = child.iterator();
-        generateParticleLayers(random, galaxy, rootGalaxyNode->component<GalaxyNode>(), size);
-    }
+    // Generate particle layers
+    generateParticleLayers(random, galaxy, boundingBox);
 }
 
 Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, unsigned level, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition)
@@ -216,13 +212,17 @@ void GalaxySystem::adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterat
     }
 }
 
-void GalaxySystem::generateParticleLayers(Random& random, Galaxy::Iterator galaxy, GalaxyNode::Iterator galaxyNode, const Vector3& size)
+void GalaxySystem::generateParticleLayers(Random& random, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox)
 {
-    Entity::Iterator entity = galaxyNode->entity();
+    Entity::Iterator entity = galaxy->entity();
     Model::Iterator model = entity->addComponent<Model>();
+
+    Vector3 halfSize = boundingBox->extents.size() / 2;
 
     for (ParticleLayer& layer : galaxy->particleLayers)
     {
+        halfSize.z = layer.verticleRadius + layer.verticleRadiusFalloff;
+
         Image densityImage = _renderer.downloadTextureImage(*layer.densityTexture);
 
         Mesh::Handle mesh(new Mesh(layer.name));
@@ -230,14 +230,13 @@ void GalaxySystem::generateParticleLayers(Random& random, Galaxy::Iterator galax
         mesh->setPrimitiveType(PrimitiveType_Points);
 
         MeshWriter writer(*mesh);
-        
-        Vector3 halfSize = size / 2;
-        halfSize.z = layer.verticleRadius + layer.verticleRadiusFalloff;
-        for (unsigned i = 0; i < layer.density; ++i)
+
+        unsigned particleCount = 0;        
+        while (particleCount < layer.density)
         {
             Vector3 position = random.next(-halfSize, halfSize);
 
-            Vector2 densityCoords = computeDensityCoords(galaxy, galaxyNode, position);
+            Vector2 densityCoords = computeDensityCoords(boundingBox, position);
             double densityValue = densityImage.readPixel(densityCoords).r;
 
             double thicknessValue = 1.0;
@@ -263,7 +262,9 @@ void GalaxySystem::generateParticleLayers(Random& random, Galaxy::Iterator galax
                 writer.writeAttributeData(VertexAttributeSemantic_Weight0, size);
                 writer.writeAttributeData(VertexAttributeSemantic_Weight1, rotation);
                 writer.writeAttributeData(VertexAttributeSemantic_Weight2, brightness);
-                writer.addIndex(i);
+                writer.addIndex(particleCount);
+
+                ++particleCount;
             }
         }
 
@@ -271,39 +272,44 @@ void GalaxySystem::generateParticleLayers(Random& random, Galaxy::Iterator galax
     }
 }
 
-Vector2 GalaxySystem::computeDensityCoords(Galaxy::Iterator galaxy, GalaxyNode::Iterator galaxyNode, const Vector3& localPosition)
+Vector2 GalaxySystem::computeDensityCoords(BoundingBox::Iterator boundingBox, const Vector3& position)
 {
     Vector3 coords;
 
-    BoundingBox::Iterator boundingBox = galaxy->entity()->component<BoundingBox>();
-    if (boundingBox)
-    {
-        AxisAlignedBox& extents = boundingBox->extents;
-        Vector3 totalSize = extents.size();
-
-        Transform::Iterator transform = galaxyNode->entity()->component<Transform>();
-        if (transform)
-        {
-            Vector3 globalPosition = transform->globalPosition + localPosition;
-            coords = (globalPosition - extents.minimum()) / totalSize;
-        }
-    }
+    AxisAlignedBox& extents = boundingBox->extents;
+    Vector3 totalSize = extents.size();
+    coords = (position - extents.minimum()) / totalSize;
 
     return Vector2(coords.x, coords.y);
 }
 
-void GalaxySystem::renderNoiseTexture(unsigned width, unsigned height, RandomSeed seed, Shader& shader, Texture& texture)
+void GalaxySystem::renderNoiseTexture(const std::string& name, unsigned width, unsigned height, RandomSeed seed, Shader& shader, Texture& texture)
 {
-    texture = Texture("Noise", width, height, PixelType_Float32, PixelFormat_Rgb, TextureFilter_Linear, TextureFilter_Linear, false, false);
+    texture = Texture(name, width, height, PixelType_Byte, PixelFormat_Rgb, TextureFilter_Linear, TextureFilter_Linear, false, false);
 
     FrameBuffer frameBuffer(width, height);
     frameBuffer.attachTexture(FrameBufferSlot_Color0, texture);
 
-    Renderer::Frame frame = _renderer.beginFrame(frameBuffer);
-    frame.clear();
+    {
+        Renderer::Frame frame = _renderer.beginFrame(frameBuffer);
+        frame.clear();
 
-    frame.setShader(shader);
-    frame.setUniform(shader.uniform("seed"), Random(seed + 12).next(0.0, 10000.0));
+        frame.setShader(shader);
+        frame.setUniform(shader.uniform("seed"), Random(seed + 12).next(0.0, 10000.0));
 
-    frame.renderMesh(*screenMesh);
+        frame.renderMesh(*screenMesh);
+    }
+
+    /*
+    {
+        Image image = _renderer.downloadTextureImage(texture);
+
+        FileSystem& fileSystem = _assetCache.fileSystem();
+        fileSystem.setWriteDirectory("D:/Desktop");
+
+        auto stream = fileSystem.openFileForWrite(name + ".png");
+        BinaryEncoder encoder(*stream);
+        encoder << encodeValue(image);
+    }
+    */
 }

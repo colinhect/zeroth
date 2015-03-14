@@ -3,7 +3,9 @@ modules:
   - type: Vertex
     path: Hect/Rendering/Screen.glsl
   - type: Fragment
-    path: GlowDensity.glsl
+    path: Galaxy/Shaders/Noise.glsl
+  - type: Fragment
+    path: CenterParticle.glsl
 uniforms:
   - name: seed
     type: Float

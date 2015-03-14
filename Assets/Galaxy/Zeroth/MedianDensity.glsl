@@ -15,7 +15,11 @@ float fractalNoise(
 float galaxyBars(
     in  vec3    point)
 {
-    return fractalNoise(point, 2.0, 0.5, 6) - sin(point.x * 2.0) * 2.5;
+    float value = 1.0;
+    value -= 1.0 - clamp(length(point.y) * 10.0, 0.0, 1.0);
+    value -= abs(point.x) * 9.5; // Thin towards middle
+    value += abs(point.y) * 4.0; // Thicken towards end
+    return clamp(value, 0.0, 1.0);
 }
 
 vec3 spiral(
@@ -30,10 +34,11 @@ vec3 spiral(
 void main()
 {
     vec3 point = vec3(vertexTextureCoords.xy - vec2(0.5), seed);
-    point = spiral(point * vec3(1.0, 1.2, 1.0), 15.0) ;
-    float value = galaxyBars(point * 10.0) * 0.5 + 0.5;
-    value *= 1.0 - clamp(length(point.xy) * 2.0, 0.0, 1.0);
-    value += 1.0 - clamp(length(point.xy) * 6.0, 0.0, 1.0);
+    point = spiral(point * vec3(1.0, 1.2, 1.0), 14.0);
+
+    float value = galaxyBars(point);
+    value *= 2.0; // Thicken the bars
+    value *= 1.0 - clamp(length(point.xy) * 2.0, 0.0, 1.0); // Falloff towards end
     value = clamp(value, 0.0, 1.0);
     outputColor = vec4(vec3(value), 1.0);
 }

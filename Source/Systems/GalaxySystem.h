@@ -37,10 +37,9 @@ private:
     void adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterator entity);
     void splitGalaxyNode(Entity::Iterator entity);
     void joinGalaxyNode(Entity::Iterator entity);
-    void generateParticleLayers(Random& random, Galaxy::Iterator galaxy, GalaxyNode::Iterator galaxyNode, const Vector3& size);
-    Vector2 computeDensityCoords(Galaxy::Iterator galaxy, GalaxyNode::Iterator galaxyNode, const Vector3& localPosition);
-    void renderNoiseTexture(unsigned width, unsigned height, RandomSeed seed, Shader& shader, Texture& texture);
-
+    void generateParticleLayers(Random& random, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox);
+    Vector2 computeDensityCoords(BoundingBox::Iterator boundingBox, const Vector3& position);
+    void renderNoiseTexture(const std::string& name, unsigned width, unsigned height, RandomSeed seed, Shader& shader, Texture& texture);
 
     AssetCache& _assetCache;
     Renderer& _renderer;
