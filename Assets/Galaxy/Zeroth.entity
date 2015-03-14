@@ -10,17 +10,17 @@ components:
       - name: Glow
         generateParticleShader: Zeroth/GlowParticle.shader
         generateDensityShader: Zeroth/MedianDensity.shader
-        sizeRange: [ 40000.0, 50000.0 ]
-        brightnessRange: [ 0.0004, 0.0005 ]
-        density: 100
+        sizeRange: [ 26000.0, 30000.0 ]
+        brightnessRange: [ 0.0001, 0.0005 ]
+        density: 250
         verticleRadius: 1300
         verticleRadiusFalloff: 1000
       - name: Center
         generateParticleShader: Zeroth/CenterParticle.shader
         generateDensityShader: Zeroth/CenterDensity.shader
-        sizeRange: [ 20000.0, 25000.0 ]
-        brightnessRange: [ 0.001, 0.03 ]
-        density: 20
+        sizeRange: [ 8000.0, 15000.0 ]
+        brightnessRange: [ 0.001, 0.02 ]
+        density: 50
         verticleRadius: 2000
         verticleRadiusFalloff: 100
       - name: CenterHightlights
@@ -34,24 +34,24 @@ components:
       - name: Median
         generateParticleShader: Zeroth/MedianParticle.shader
         generateDensityShader: Zeroth/MedianDensity.shader
-        sizeRange: [ 9000.0, 15000.0 ]
+        sizeRange: [ 3000.0, 8000.0 ]
         brightnessRange: [ 0.0001, 0.005 ]
-        density: 300
-        verticleRadius: 1300
-        verticleRadiusFalloff: 1000
+        density: 600
+        verticleRadius: 700
+        verticleRadiusFalloff: 300
       - name: MedianHighlights
         generateParticleShader: Zeroth/MedianParticle.shader
         generateDensityShader: Zeroth/MedianDensity.shader
-        sizeRange: [ 9000.0, 15000.0 ]
-        brightnessRange: [ 0.001, 0.03 ]
-        density: 20
-        verticleRadius: 1300
-        verticleRadiusFalloff: 1000
+        sizeRange: [ 3000.0, 8000.0 ]
+        brightnessRange: [ 0.001, 0.02 ]
+        density: 50
+        verticleRadius: 700
+        verticleRadiusFalloff: 200
       - name: MedianSmall
         generateParticleShader: Zeroth/MedianParticle.shader
         generateDensityShader: Zeroth/MedianDensity.shader
-        sizeRange: [ 1000.0, 6000.0 ]
-        brightnessRange: [ 0.001, 0.02 ]
-        density: 200
-        verticleRadius: 1300
-        verticleRadiusFalloff: 1000
+        sizeRange: [ 500.0, 3000.0 ]
+        brightnessRange: [ 0.001, 0.01 ]
+        density: 400
+        verticleRadius: 400
+        verticleRadiusFalloff: 300
