@@ -7,11 +7,10 @@ componentTypes:
   - Ship
   - Thruster
 systemTypes:
-  - GameplaySystem
+  - PlayerInputSystem
   - CockpitCameraSystem
   - ObserverCameraSystem
   - ShipControlSystem
-  - PlayerInputSystem
 systems:
   - type: PhysicsSystem
     gravity: [ 0, 0, 0 ]

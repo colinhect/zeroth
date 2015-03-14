@@ -16,14 +16,21 @@ namespace zeroth
 
 /// \system
 class PlayerInputSystem :
-    public System<PlayerInputSystem>
+    public System<PlayerInputSystem>,
+    public Listener<KeyboardEvent>
 {
 public:
     PlayerInputSystem(Engine& engine, Scene& scene);
 
     void tick(double timeStep) override;
+    void receiveEvent(const KeyboardEvent& event) override;
 
 private:
+    Keyboard& _keyboard;
+    Mouse& _mouse;
+
+    CameraSystem::Handle _cameraSystem;
+    DebugSystem::Handle _debugSystem;
     InputSystem::Handle _inputSystem;
     ShipControlSystem::Handle _shipControlSystem;
 };

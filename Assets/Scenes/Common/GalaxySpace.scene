@@ -7,7 +7,7 @@ componentTypes:
   - Ship
   - Thruster
 systemTypes:
-  - GameplaySystem
+  - PlayerInputSystem
   - GalaxySystem
   - ObserverCameraSystem
 systems:
