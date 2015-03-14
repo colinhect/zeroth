@@ -26,8 +26,8 @@ components:
       - name: CenterHightlights
         generateParticleShader: Zeroth/CenterParticle.shader
         generateDensityShader: Zeroth/CenterDensity.shader
-        sizeRange: [ 9000.0, 10000.0 ]
-        brightnessRange: [ 0.00001, 0.4 ]
+        sizeRange: [ 3000.0, 10000.0 ]
+        brightnessRange: [ 0.00001, 0.1 ]
         density: 10
         verticleRadius: 2000
         verticleRadiusFalloff: 100
