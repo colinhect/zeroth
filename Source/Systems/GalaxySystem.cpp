@@ -153,7 +153,7 @@ void GalaxySystem::splitGalaxyNode(Entity::Iterator entity)
             Vector3 parentGlobalPosition = boundingBox->extents.center();
 
             // Create the child nodes
-            std::vector<int> values{ -1, 1 };
+            std::vector<int> values { -1, 1 };
             for (int x : values)
             {
                 for (int y : values)
@@ -231,7 +231,7 @@ void GalaxySystem::generateParticleLayers(Random& random, Galaxy::Iterator galax
 
         MeshWriter writer(*mesh);
 
-        unsigned particleCount = 0;        
+        unsigned particleCount = 0;
         while (particleCount < layer.density)
         {
             Vector3 position = random.next(-halfSize, halfSize);
