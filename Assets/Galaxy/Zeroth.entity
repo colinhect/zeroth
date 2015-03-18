@@ -2,54 +2,54 @@
 components:
   - type: Galaxy
     name: Zeroth
-    seed: 42
+    seed: 54
     horizontalRadius: 60000
     verticalRadius: 20000
     maxLevel: 4
-    particleLayers:
+    starLayers:
       - name: Glow
-        generateParticleShader: Zeroth/GlowParticle.shader
-        generateDensityShader: Zeroth/MedianDensity.shader
+        proceduralParticleShader: Zeroth/GlowParticle.shader
+        proceduralDensityShader: Zeroth/MedianDensity.shader
         sizeRange: [ 26000.0, 30000.0 ]
         brightnessRange: [ 0.0001, 0.0005 ]
         density: 250
         verticleRadius: 1300
         verticleRadiusFalloff: 1000
       - name: Center
-        generateParticleShader: Zeroth/CenterParticle.shader
-        generateDensityShader: Zeroth/CenterDensity.shader
+        proceduralParticleShader: Zeroth/CenterParticle.shader
+        proceduralDensityShader: Zeroth/CenterDensity.shader
         sizeRange: [ 8000.0, 15000.0 ]
         brightnessRange: [ 0.001, 0.02 ]
         density: 50
         verticleRadius: 2000
         verticleRadiusFalloff: 100
       - name: CenterHightlights
-        generateParticleShader: Zeroth/CenterParticle.shader
-        generateDensityShader: Zeroth/CenterDensity.shader
+        proceduralParticleShader: Zeroth/CenterParticle.shader
+        proceduralDensityShader: Zeroth/CenterDensity.shader
         sizeRange: [ 3000.0, 10000.0 ]
         brightnessRange: [ 0.00001, 0.1 ]
         density: 10
         verticleRadius: 2000
         verticleRadiusFalloff: 100
       - name: Median
-        generateParticleShader: Zeroth/MedianParticle.shader
-        generateDensityShader: Zeroth/MedianDensity.shader
+        proceduralParticleShader: Zeroth/MedianParticle.shader
+        proceduralDensityShader: Zeroth/MedianDensity.shader
         sizeRange: [ 3000.0, 8000.0 ]
         brightnessRange: [ 0.0001, 0.005 ]
         density: 600
         verticleRadius: 700
         verticleRadiusFalloff: 300
       - name: MedianHighlights
-        generateParticleShader: Zeroth/MedianParticle.shader
-        generateDensityShader: Zeroth/MedianDensity.shader
+        proceduralParticleShader: Zeroth/MedianParticle.shader
+        proceduralDensityShader: Zeroth/MedianDensity.shader
         sizeRange: [ 3000.0, 8000.0 ]
         brightnessRange: [ 0.001, 0.02 ]
         density: 50
         verticleRadius: 700
         verticleRadiusFalloff: 200
       - name: MedianSmall
-        generateParticleShader: Zeroth/MedianParticle.shader
-        generateDensityShader: Zeroth/MedianDensity.shader
+        proceduralParticleShader: Zeroth/MedianParticle.shader
+        proceduralDensityShader: Zeroth/MedianDensity.shader
         sizeRange: [ 500.0, 3000.0 ]
         brightnessRange: [ 0.001, 0.01 ]
         density: 400

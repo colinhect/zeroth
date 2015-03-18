@@ -11,6 +11,7 @@ using namespace hect;
 
 #include "Components/Galaxy.h"
 #include "Components/GalaxyNode.h"
+#include "Systems/ProceduralTextureSystem.h"
 
 namespace zeroth
 {
@@ -22,12 +23,8 @@ class GalaxySystem :
 public:
     GalaxySystem(Engine& engine, Scene& scene);
 
-    void initialize() override;
     void tick(double timeStep) override;
     void onComponentAdded(Galaxy::Iterator galaxy) override;
-
-    /// \property
-    Mesh::Handle screenMesh;
 
     /// \property
     Shader::Handle particleShader;
@@ -37,14 +34,18 @@ private:
     void adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterator entity);
     void splitGalaxyNode(Entity::Iterator entity);
     void joinGalaxyNode(Entity::Iterator entity);
-    void generateParticleLayers(Random& random, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox);
-    Vector2 computeDensityCoords(BoundingBox::Iterator boundingBox, const Vector3& position);
-    void renderNoiseTexture(const std::string& name, unsigned width, unsigned height, RandomSeed seed, Shader& shader, Texture& texture);
+
+    void initializeStarLayer(StarLayer& layer, Galaxy::Iterator galaxy);
+    void generateStarLayer(StarLayer& layer, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model);
+
+    double computeDensity(StarLayer& layer, BoundingBox::Iterator boundingBox, const Vector3& position);
+    double computeThickness(StarLayer& layer, const Vector3& position);
 
     AssetCache& _assetCache;
     Renderer& _renderer;
 
     CameraSystem::Handle _cameraSystem;
+    ProceduralTextureSystem::Handle _proceduralTextureSystem;
 
     VertexLayout _particleVertexLayout;
 };

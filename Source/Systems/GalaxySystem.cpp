@@ -12,19 +12,8 @@ GalaxySystem::GalaxySystem(Engine& engine, Scene& scene) :
     System(engine, scene),
     _assetCache(engine.assetCache()),
     _renderer(engine.renderer()),
-    _cameraSystem(scene.system<CameraSystem>())
-{
-    VertexAttribute position(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3);
-    _particleVertexLayout.addAttribute(position);
-    VertexAttribute size(VertexAttributeSemantic_Weight0, VertexAttributeType_Float32, 1);
-    _particleVertexLayout.addAttribute(size);
-    VertexAttribute rotation(VertexAttributeSemantic_Weight1, VertexAttributeType_Float32, 1);
-    _particleVertexLayout.addAttribute(rotation);
-    VertexAttribute brightness(VertexAttributeSemantic_Weight2, VertexAttributeType_Float32, 1);
-    _particleVertexLayout.addAttribute(brightness);
-}
-
-void GalaxySystem::initialize()
+    _cameraSystem(scene.system<CameraSystem>()),
+    _proceduralTextureSystem(scene.system<ProceduralTextureSystem>())
 {
 }
 
@@ -57,29 +46,14 @@ void GalaxySystem::tick(double timeStep)
 
 void GalaxySystem::onComponentAdded(Galaxy::Iterator galaxy)
 {
-    for (ParticleLayer& layer : galaxy->particleLayers)
-    {
-        // Generate density image
-        layer.densityTexture = Texture::Handle(new Texture());
-        renderNoiseTexture(layer.name + ".Density", 256, 256, galaxy->seed, *layer.generateDensityShader, *layer.densityTexture);
-
-        // Generate particle texture
-        layer.particleTexture = Texture::Handle(new Texture());
-        renderNoiseTexture(layer.name + ".Particle", 512, 512, galaxy->seed, *layer.generateParticleShader, *layer.particleTexture);
-
-        // Create the particle material
-        layer.particleMaterial = Material::Handle(new Material());
-        layer.particleMaterial->setShader(particleShader);
-        layer.particleMaterial->setUniformValue("particleTexture", layer.particleTexture);
-        layer.particleMaterial->setCullMode(CullMode_None);
-    }
+    Entity::Iterator entity = galaxy->entity();
 
     // Compute minimum
     double horizontalRadius = galaxy->horizontalRadius;
     double verticalRadius = galaxy->verticalRadius;
     const Vector3 minimum(-horizontalRadius, -horizontalRadius, -verticalRadius);
 
-    // Compute the radio of horizontal to vertical nodes
+    // Compute the ratio of horizontal to vertical nodes
     double ratio = horizontalRadius / verticalRadius;
     int rootNodeCount = static_cast<int>(ratio);
 
@@ -89,7 +63,6 @@ void GalaxySystem::onComponentAdded(Galaxy::Iterator galaxy)
     Vector3 halfSize = size / 2.0;
 
     // Create the root nodes of the galaxy
-    Random random(galaxy->seed);
     for (int x = 0; x < rootNodeCount; ++x)
     {
         for (int y = 0; y < rootNodeCount; ++y)
@@ -101,11 +74,16 @@ void GalaxySystem::onComponentAdded(Galaxy::Iterator galaxy)
     }
 
     // Add the bounding box for the whole galaxy
-    Entity::Iterator entity = galaxy->entity();
     BoundingBox::Iterator boundingBox = entity->addComponent<BoundingBox>();
 
-    // Generate particle layers
-    generateParticleLayers(random, galaxy, boundingBox);
+    // Add the model for the particle meshes
+    Model::Iterator model = entity->addComponent<Model>();
+
+    // Generate star layers
+    for (StarLayer& layer : galaxy->starLayers)
+    {
+        generateStarLayer(layer, galaxy, boundingBox, model);
+    }
 }
 
 Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, unsigned level, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition)
@@ -134,6 +112,46 @@ Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, unsigne
     // Activate and return the entity
     entity->activate();
     return entity;
+}
+
+void GalaxySystem::adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterator entity)
+{
+    GalaxyNode::Iterator galaxyNode = entity->component<GalaxyNode>();
+    if (galaxyNode)
+    {
+        Transform::Iterator transform = entity->component<Transform>();
+        if (transform)
+        {
+            Galaxy::Iterator galaxy = galaxyNode->galaxy;
+
+            double distance = (cameraPosition - transform->globalPosition).length();
+            if (galaxyNode->split && distance > galaxyNode->radius * 2.0)
+            {
+                joinGalaxyNode(entity);
+            }
+            else if (!galaxyNode->split && distance < galaxyNode->radius * 1.9)
+            {
+                splitGalaxyNode(entity);
+            }
+            else
+            {
+                for (Entity& child : entity->children())
+                {
+                    adaptGalaxyNode(cameraPosition, child.iterator());
+                }
+            }
+        }
+    }
+}
+
+void GalaxySystem::joinGalaxyNode(Entity::Iterator entity)
+{
+    GalaxyNode::Iterator galaxyNode = entity->component<GalaxyNode>();
+    if (galaxyNode && galaxyNode->split)
+    {
+        entity->destroyAllChildren();
+        galaxyNode->split = false;
+    }
 }
 
 void GalaxySystem::splitGalaxyNode(Entity::Iterator entity)
@@ -172,107 +190,93 @@ void GalaxySystem::splitGalaxyNode(Entity::Iterator entity)
     }
 }
 
-void GalaxySystem::joinGalaxyNode(Entity::Iterator entity)
+void GalaxySystem::initializeStarLayer(StarLayer& layer, Galaxy::Iterator galaxy)
 {
-    GalaxyNode::Iterator galaxyNode = entity->component<GalaxyNode>();
-    if (galaxyNode && galaxyNode->split)
-    {
-        entity->destroyAllChildren();
-        galaxyNode->split = false;
-    }
+    // Generate density image
+    layer.densityTexture = Texture::Handle(new Texture());
+
+    ProceduralTexture densityTexure =
+        _proceduralTextureSystem->create(layer.name + ".Density", *layer.proceduralDensityShader, *layer.densityTexture);
+    densityTexure.setResolution(256, 256);
+    densityTexure.setPixelType(PixelType_Byte);
+    densityTexure.setPixelFormat(PixelFormat_Rgb);
+    densityTexure.setSeed(galaxy->seed);
+    densityTexure.render();
+
+    Image densityImage = _renderer.downloadTextureImage(*layer.densityTexture);
+    layer.densityImage = Image::Handle(new Image(densityImage));
+
+    // Generate particle texture
+    layer.particleTexture = Texture::Handle(new Texture());
+
+    ProceduralTexture particleTexture =
+        _proceduralTextureSystem->create(layer.name + ".Particle", *layer.proceduralParticleShader, *layer.particleTexture);
+    particleTexture.setResolution(512, 512);
+    particleTexture.setPixelType(PixelType_Byte);
+    particleTexture.setPixelFormat(PixelFormat_Rgb);
+    particleTexture.setSeed(galaxy->seed);
+    particleTexture.render();
+
+    // Create the particle material
+    layer.particleMaterial = Material::Handle(new Material());
+    layer.particleMaterial->setShader(particleShader);
+    layer.particleMaterial->setUniformValue("particleTexture", layer.particleTexture);
+    layer.particleMaterial->setCullMode(CullMode_None);
 }
 
-void GalaxySystem::adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterator entity)
+void GalaxySystem::generateStarLayer(StarLayer& layer, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model)
 {
-    GalaxyNode::Iterator galaxyNode = entity->component<GalaxyNode>();
-    if (galaxyNode)
-    {
-        Transform::Iterator transform = entity->component<Transform>();
-        if (transform)
-        {
-            Galaxy::Iterator galaxy = galaxyNode->galaxy;
+    initializeStarLayer(layer, galaxy);
 
-            double distance = (cameraPosition - transform->globalPosition).length();
-            if (galaxyNode->split && distance > galaxyNode->radius * 2.0)
-            {
-                joinGalaxyNode(entity);
-            }
-            else if (!galaxyNode->split && distance < galaxyNode->radius * 1.9)
-            {
-                splitGalaxyNode(entity);
-            }
-            else
-            {
-                for (Entity& child : entity->children())
-                {
-                    adaptGalaxyNode(cameraPosition, child.iterator());
-                }
-            }
-        }
-    }
-}
+    VertexLayout vertexLayout;
+    VertexAttribute position(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3);
+    vertexLayout.addAttribute(position);
+    VertexAttribute size(VertexAttributeSemantic_Weight0, VertexAttributeType_Float32, 1);
+    vertexLayout.addAttribute(size);
+    VertexAttribute rotation(VertexAttributeSemantic_Weight1, VertexAttributeType_Float32, 1);
+    vertexLayout.addAttribute(rotation);
+    VertexAttribute brightness(VertexAttributeSemantic_Weight2, VertexAttributeType_Float32, 1);
+    vertexLayout.addAttribute(brightness);
 
-void GalaxySystem::generateParticleLayers(Random& random, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox)
-{
-    Entity::Iterator entity = galaxy->entity();
-    Model::Iterator model = entity->addComponent<Model>();
+    Mesh::Handle mesh(new Mesh(layer.name));
+    mesh->setVertexLayout(vertexLayout);
+    mesh->setPrimitiveType(PrimitiveType_Points);
+
+    MeshWriter writer(*mesh);
+
+    Random random(galaxy->seed);
 
     Vector3 halfSize = boundingBox->extents.size() / 2;
-
-    for (ParticleLayer& layer : galaxy->particleLayers)
+    halfSize.z = layer.verticleRadius + layer.verticleRadiusFalloff;
+    
+    unsigned particleCount = 0;
+    while (particleCount < layer.density)
     {
-        halfSize.z = layer.verticleRadius + layer.verticleRadiusFalloff;
+        Vector3 position = random.next(-halfSize, halfSize);
+        double densityValue = computeDensity(layer, boundingBox, position);
+        double thicknessValue = computeThickness(layer, position);
 
-        Image densityImage = _renderer.downloadTextureImage(*layer.densityTexture);
-
-        Mesh::Handle mesh(new Mesh(layer.name));
-        mesh->setVertexLayout(_particleVertexLayout);
-        mesh->setPrimitiveType(PrimitiveType_Points);
-
-        MeshWriter writer(*mesh);
-
-        unsigned particleCount = 0;
-        while (particleCount < layer.density)
+        if (random.next(0.0, 1.0) < densityValue && random.next(0.0, 1.0) < thicknessValue)
         {
-            Vector3 position = random.next(-halfSize, halfSize);
+            double size = random.next(layer.sizeRange.x, layer.sizeRange.y);
+            double rotation = random.next(0.0, 2.0 * pi);
+            double brightness = layer.brightnessRange.x + (layer.brightnessRange.y - layer.brightnessRange.x) * std::min(densityValue, thicknessValue);
 
-            Vector2 densityCoords = computeDensityCoords(boundingBox, position);
-            double densityValue = densityImage.readPixel(densityCoords).r;
+            writer.addVertex();
+            writer.writeAttributeData(VertexAttributeSemantic_Position, position);
+            writer.writeAttributeData(VertexAttributeSemantic_Weight0, size);
+            writer.writeAttributeData(VertexAttributeSemantic_Weight1, rotation);
+            writer.writeAttributeData(VertexAttributeSemantic_Weight2, brightness);
+            writer.addIndex(particleCount);
 
-            double thicknessValue = 1.0;
-
-            double verticleDistance = std::abs(position.z);
-            if (verticleDistance > layer.verticleRadius)
-            {
-                thicknessValue = std::max(0.0, layer.verticleRadiusFalloff - (verticleDistance - layer.verticleRadius));
-                if (thicknessValue > 0.0)
-                {
-                    thicknessValue /= layer.verticleRadiusFalloff;
-                }
-            }
-
-            if (random.next(0.0, 1.0) < densityValue && random.next(0.0, 1.0) < thicknessValue)
-            {
-                double size = random.next(layer.sizeRange.x, layer.sizeRange.y);
-                double rotation = random.next(0.0, 2.0 * pi);
-                double brightness = layer.brightnessRange.x + (layer.brightnessRange.y - layer.brightnessRange.x) * std::min(densityValue, thicknessValue);
-
-                writer.addVertex();
-                writer.writeAttributeData(VertexAttributeSemantic_Position, position);
-                writer.writeAttributeData(VertexAttributeSemantic_Weight0, size);
-                writer.writeAttributeData(VertexAttributeSemantic_Weight1, rotation);
-                writer.writeAttributeData(VertexAttributeSemantic_Weight2, brightness);
-                writer.addIndex(particleCount);
-
-                ++particleCount;
-            }
+            ++particleCount;
         }
-
-        model->surfaces.push_back(ModelSurface(mesh, layer.particleMaterial));
     }
+
+    model->surfaces.push_back(ModelSurface(mesh, layer.particleMaterial));
 }
 
-Vector2 GalaxySystem::computeDensityCoords(BoundingBox::Iterator boundingBox, const Vector3& position)
+double GalaxySystem::computeDensity(StarLayer& layer, BoundingBox::Iterator boundingBox, const Vector3& position)
 {
     Vector3 coords;
 
@@ -280,36 +284,23 @@ Vector2 GalaxySystem::computeDensityCoords(BoundingBox::Iterator boundingBox, co
     Vector3 totalSize = extents.size();
     coords = (position - extents.minimum()) / totalSize;
 
-    return Vector2(coords.x, coords.y);
+    Vector2 densityCoords(coords.x, coords.y);
+    return layer.densityImage->readPixel(densityCoords).r;
 }
 
-void GalaxySystem::renderNoiseTexture(const std::string& name, unsigned width, unsigned height, RandomSeed seed, Shader& shader, Texture& texture)
+double GalaxySystem::computeThickness(StarLayer& layer, const Vector3& position)
 {
-    texture = Texture(name, width, height, PixelType_Byte, PixelFormat_Rgb, TextureFilter_Linear, TextureFilter_Linear, false, false);
+    double thicknessValue = 1.0;
 
-    FrameBuffer frameBuffer(width, height);
-    frameBuffer.attachTexture(FrameBufferSlot_Color0, texture);
-
+    double verticleDistance = std::abs(position.z);
+    if (verticleDistance > layer.verticleRadius)
     {
-        Renderer::Frame frame = _renderer.beginFrame(frameBuffer);
-        frame.clear();
-
-        frame.setShader(shader);
-        frame.setUniform(shader.uniform("seed"), Random(seed + 12).next(0.0, 10000.0));
-
-        frame.renderMesh(*screenMesh);
+        thicknessValue = std::max(0.0, layer.verticleRadiusFalloff - (verticleDistance - layer.verticleRadius));
+        if (thicknessValue > 0.0)
+        {
+            thicknessValue /= layer.verticleRadiusFalloff;
+        }
     }
 
-    /*
-    {
-        Image image = _renderer.downloadTextureImage(texture);
-
-        FileSystem& fileSystem = _assetCache.fileSystem();
-        fileSystem.setWriteDirectory("D:/Desktop");
-
-        auto stream = fileSystem.openFileForWrite(name + ".png");
-        BinaryEncoder encoder(*stream);
-        encoder << encodeValue(image);
-    }
-    */
+    return thicknessValue;
 }

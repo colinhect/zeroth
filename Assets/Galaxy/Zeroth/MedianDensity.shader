@@ -1,12 +1,9 @@
 ---
+base: Galaxy/Shaders/Procedural.shader
 modules:
-  - type: Vertex
-    path: Hect/Rendering/Screen.glsl
-  - type: Fragment
-    path: Galaxy/Shaders/Noise.glsl
   - type: Fragment
     path: MedianDensity.glsl
 uniforms:
-  - name: seed
+  - name: spiralFactor
     type: Float
-depthTested: true
+    value: 24.0

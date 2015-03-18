@@ -1,12 +1,11 @@
 ---
+base: Galaxy/Shaders/Procedural.shader
 modules:
-  - type: Vertex
-    path: Hect/Rendering/Screen.glsl
-  - type: Fragment
-    path: Galaxy/Shaders/Noise.glsl
   - type: Fragment
     path: CenterParticle.glsl
 uniforms:
   - name: seed
     type: Float
-depthTested: true
+  - name: color
+    type: Color
+    value: [ 0.874, 0.85, 0.77 ]

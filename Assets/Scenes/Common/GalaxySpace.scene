@@ -10,9 +10,11 @@ systemTypes:
   - PlayerInputSystem
   - GalaxySystem
   - ObserverCameraSystem
+  - ProceduralTextureSystem
 systems:
   - type: PhysicsSystem
     gravity: [ 0, 0, 0 ]
   - type: GalaxySystem
-    screenMesh: Hect/Rendering/Screen.mesh
     particleShader: Galaxy/Shaders/Particle.shader
+  - type: ProceduralTextureSystem
+    screenMesh: Hect/Rendering/Screen.mesh

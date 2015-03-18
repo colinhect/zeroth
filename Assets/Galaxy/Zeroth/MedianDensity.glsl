@@ -1,44 +1,48 @@
 #version 440
 
-uniform float seed;
+uniform float spiralFactor;
 
-in vec2 vertexTextureCoords;
-
-out vec4 outputColor;
-
-float fractalNoise(
-    in  vec3    point,
-    in  float   lacunarity,
-    in  float   persistence, 
-    in  int     octaveCount);
-
-float galaxyBars(
-    in  vec3    point)
+float galaxyBar(
+    in  vec2    point)
 {
     float value = 1.0;
     value -= 1.0 - clamp(length(point.y) * 10.0, 0.0, 1.0);
-    value -= abs(point.x) * 9.5; // Thin towards middle
-    value += abs(point.y) * 4.0; // Thicken towards end
+
+    // Thin towards middle
+    value -= abs(point.x) * 9.5;
+
+    // Thicken towards end
+    value += abs(point.y) * 4.0;
+
     return clamp(value, 0.0, 1.0);
 }
 
-vec3 spiral(
-    in  vec3    point,
+vec2 spiral(
+    in  vec2    point,
     in  float   factor)
 {
-    float d = length(point.xy);
-    float angle = d * factor;
-    return vec3(point.x * cos(angle) - point.y * sin(angle), point.x * sin(angle) + point.y * cos(angle), point.z);
+    float angle = length(point) * factor;
+
+    vec2 rotated;
+    rotated.x = point.x * cos(angle) - point.y * sin(angle);
+    rotated.y = point.x * sin(angle) + point.y * cos(angle);
+
+    return rotated;
 }
 
-void main()
+void proceduralTexture(
+    in  vec2    textureCoords,
+    out vec4    outputColor)
 {
-    vec3 point = vec3(vertexTextureCoords.xy - vec2(0.5), seed);
-    point = spiral(point * vec3(1.0, 1.2, 1.0), 24.0);
+    vec2 point = textureCoords - 0.5;
+    float value = galaxyBar(spiral(point, spiralFactor));
 
-    float value = galaxyBars(point);
-    value *= 2.0; // Thicken the bars
-    value *= 1.0 - clamp(length(point.xy) * 2.0, 0.0, 1.0); // Falloff towards end
+    // Thicken the bars
+    value *= 2.0;
+
+    // Falloff towards end
+    value *= 1.0 - clamp(length(point.xy) * 2.0, 0.0, 1.0);
     value = clamp(value, 0.0, 1.0);
+    
     outputColor = vec4(vec3(value), 1.0);
 }
