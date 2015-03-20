@@ -16,5 +16,3 @@ systems:
     gravity: [ 0, 0, 0 ]
   - type: GalaxySystem
     particleShader: Galaxy/Shaders/Particle.shader
-  - type: ProceduralTextureSystem
-    screenMesh: Hect/Rendering/Screen.mesh

@@ -1,5 +1,5 @@
 ---
-type: 2D
+type: TwoDimensional
 colorSpace: Linear
 images:
   - MetalCrate.Normal.png

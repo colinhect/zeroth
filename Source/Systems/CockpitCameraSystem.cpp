@@ -35,7 +35,7 @@ void CockpitCameraSystem::tick(double timeStep)
 
                 double rotateSpeed = timeStep * 1;
 
-                if (->mouse().mode() == MouseMode_Relative && _viewX && _viewY)
+                if (->mouse().mode() == MouseMode::Relative && _viewX && _viewY)
                 {
                     transform->rotate(Vector3::unitY(), _viewX->value() * rotateSpeed);
                     transform->rotate(right, _viewY->value() * -rotateSpeed);

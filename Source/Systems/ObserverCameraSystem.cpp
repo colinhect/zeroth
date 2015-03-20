@@ -58,7 +58,7 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
 {
     if (_cameraSystem && _transformSystem)
     {
-        if (event.type == KeyboardEventType_KeyDown && event.key == Key_F)
+        if (event.type == KeyboardEventType::KeyDown && event.key == Key::F)
         {
             if (_activeObserver)
             {
@@ -139,7 +139,7 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
 
 void ObserverCameraSystem::receiveEvent(const MouseEvent& event)
 {
-    if (event.type == MouseEventType_ScrollUp)
+    if (event.type == MouseEventType::ScrollUp)
     {
         for (ObserverCamera& observerCamera : scene().components<ObserverCamera>())
         {
@@ -147,7 +147,7 @@ void ObserverCameraSystem::receiveEvent(const MouseEvent& event)
             HECT_DEBUG(format("moveSpeed = %f", observerCamera.moveSpeed));
         }
     }
-    else if (event.type == MouseEventType_ScrollDown)
+    else if (event.type == MouseEventType::ScrollDown)
     {
         for (ObserverCamera& observerCamera : scene().components<ObserverCamera>())
         {

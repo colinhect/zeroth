@@ -21,7 +21,7 @@ PlayerInputSystem::PlayerInputSystem(Engine& engine, Scene& scene) :
     _shipControlSystem(scene.system<ShipControlSystem>())
 {
     _keyboard.registerListener(*this);
-    _mouse.setMode(MouseMode_Relative);
+    _mouse.setMode(MouseMode::Relative);
 }
 
 void PlayerInputSystem::tick(double timeStep)
@@ -63,21 +63,21 @@ void PlayerInputSystem::tick(double timeStep)
 
 void PlayerInputSystem::receiveEvent(const KeyboardEvent& event)
 {
-    if (event.type == KeyboardEventType_KeyDown)
+    if (event.type == KeyboardEventType::KeyDown)
     {
-        if (event.key == Key_Tab)
+        if (event.key == Key::Tab)
         {
             MouseMode mode = _mouse.mode();
-            if (mode == MouseMode_Cursor)
+            if (mode == MouseMode::Cursor)
             {
-                _mouse.setMode(MouseMode_Relative);
+                _mouse.setMode(MouseMode::Relative);
             }
             else
             {
-                _mouse.setMode(MouseMode_Cursor);
+                _mouse.setMode(MouseMode::Cursor);
             }
         }
-        else if (event.key == Key_F1)
+        else if (event.key == Key::F1)
         {
             if (_debugSystem)
             {
@@ -85,7 +85,7 @@ void PlayerInputSystem::receiveEvent(const KeyboardEvent& event)
                 _debugSystem->setEnabled(!enabled);
             }
         }
-        else if (event.key == Key_Esc)
+        else if (event.key == Key::Esc)
         {
             scene().setActivate(false);
         }

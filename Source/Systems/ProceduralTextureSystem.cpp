@@ -14,12 +14,7 @@ void ProceduralTexture::setResolution(unsigned width, unsigned height)
     _height = height;
 }
 
-void ProceduralTexture::setPixelType(PixelType pixelType)
-{
-    _pixelType = pixelType;
-}
-
-void ProceduralTexture::setPixelFormat(PixelFormat pixelFormat)
+void ProceduralTexture::setPixelFormat(const PixelFormat& pixelFormat)
 {
     _pixelFormat = pixelFormat;
 }
@@ -31,10 +26,10 @@ void ProceduralTexture::setSeed(RandomSeed seed)
 
 void ProceduralTexture::render()
 {
-    *_texture = Texture(_name, _width, _height, _pixelType, _pixelFormat, TextureFilter_Linear, TextureFilter_Linear, false, false);
+    *_texture = Texture(_name, _width, _height, _pixelFormat, TextureFilter::Linear, TextureFilter::Linear, false, false);
 
     FrameBuffer frameBuffer(_width, _height);
-    frameBuffer.attachTexture(FrameBufferSlot_Color0, *_texture);
+    frameBuffer.attachTexture(FrameBufferSlot::Color0, *_texture);
 
     Renderer::Frame frame = _renderer->beginFrame(frameBuffer);
     frame.clear();
@@ -47,12 +42,11 @@ void ProceduralTexture::render()
         frame.setUniform(_shader->uniform("seed"), seed);
     }
 
-    frame.renderMesh(*_screenMesh);
+    frame.renderViewport();
 }
 
-ProceduralTexture::ProceduralTexture(Renderer& renderer, Mesh& screenMesh, const std::string& name, Shader& shader, Texture& texture) :
+ProceduralTexture::ProceduralTexture(Renderer& renderer, const std::string& name, Shader& shader, Texture& texture) :
     _renderer(&renderer),
-    _screenMesh(&screenMesh),
     _name(name),
     _shader(&shader),
     _texture(&texture)
@@ -67,5 +61,5 @@ ProceduralTextureSystem::ProceduralTextureSystem(Engine& engine, Scene& scene) :
 
 ProceduralTexture ProceduralTextureSystem::create(const std::string& name, Shader& shader, Texture& texture)
 {
-    return ProceduralTexture(_renderer, *screenMesh, name, shader, texture);
+    return ProceduralTexture(_renderer, name, shader, texture);
 }

@@ -198,8 +198,7 @@ void GalaxySystem::initializeStarLayer(StarLayer& layer, Galaxy::Iterator galaxy
     ProceduralTexture densityTexure =
         _proceduralTextureSystem->create(layer.name + ".Density", *layer.proceduralDensityShader, *layer.densityTexture);
     densityTexure.setResolution(256, 256);
-    densityTexure.setPixelType(PixelType_Byte);
-    densityTexure.setPixelFormat(PixelFormat_Rgb);
+    densityTexure.setPixelFormat(PixelFormat(PixelType::Byte, 4));
     densityTexure.setSeed(galaxy->seed);
     densityTexure.render();
 
@@ -212,8 +211,7 @@ void GalaxySystem::initializeStarLayer(StarLayer& layer, Galaxy::Iterator galaxy
     ProceduralTexture particleTexture =
         _proceduralTextureSystem->create(layer.name + ".Particle", *layer.proceduralParticleShader, *layer.particleTexture);
     particleTexture.setResolution(512, 512);
-    particleTexture.setPixelType(PixelType_Byte);
-    particleTexture.setPixelFormat(PixelFormat_Rgb);
+    particleTexture.setPixelFormat(PixelFormat(PixelType::Byte, 4));
     particleTexture.setSeed(galaxy->seed);
     particleTexture.render();
 
@@ -221,7 +219,7 @@ void GalaxySystem::initializeStarLayer(StarLayer& layer, Galaxy::Iterator galaxy
     layer.particleMaterial = Material::Handle(new Material());
     layer.particleMaterial->setShader(particleShader);
     layer.particleMaterial->setUniformValue("particleTexture", layer.particleTexture);
-    layer.particleMaterial->setCullMode(CullMode_None);
+    layer.particleMaterial->setCullMode(CullMode::None);
 }
 
 void GalaxySystem::generateStarLayer(StarLayer& layer, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model)
@@ -229,18 +227,18 @@ void GalaxySystem::generateStarLayer(StarLayer& layer, Galaxy::Iterator galaxy, 
     initializeStarLayer(layer, galaxy);
 
     VertexLayout vertexLayout;
-    VertexAttribute position(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3);
+    VertexAttribute position(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3);
     vertexLayout.addAttribute(position);
-    VertexAttribute size(VertexAttributeSemantic_Weight0, VertexAttributeType_Float32, 1);
+    VertexAttribute size(VertexAttributeSemantic::Weight0, VertexAttributeType::Float32, 1);
     vertexLayout.addAttribute(size);
-    VertexAttribute rotation(VertexAttributeSemantic_Weight1, VertexAttributeType_Float32, 1);
+    VertexAttribute rotation(VertexAttributeSemantic::Weight1, VertexAttributeType::Float32, 1);
     vertexLayout.addAttribute(rotation);
-    VertexAttribute brightness(VertexAttributeSemantic_Weight2, VertexAttributeType_Float32, 1);
+    VertexAttribute brightness(VertexAttributeSemantic::Weight2, VertexAttributeType::Float32, 1);
     vertexLayout.addAttribute(brightness);
 
     Mesh::Handle mesh(new Mesh(layer.name));
     mesh->setVertexLayout(vertexLayout);
-    mesh->setPrimitiveType(PrimitiveType_Points);
+    mesh->setPrimitiveType(PrimitiveType::Points);
 
     MeshWriter writer(*mesh);
 
@@ -248,7 +246,7 @@ void GalaxySystem::generateStarLayer(StarLayer& layer, Galaxy::Iterator galaxy, 
 
     Vector3 halfSize = boundingBox->extents.size() / 2;
     halfSize.z = layer.verticleRadius + layer.verticleRadiusFalloff;
-    
+
     unsigned particleCount = 0;
     while (particleCount < layer.density)
     {
@@ -263,10 +261,10 @@ void GalaxySystem::generateStarLayer(StarLayer& layer, Galaxy::Iterator galaxy, 
             double brightness = layer.brightnessRange.x + (layer.brightnessRange.y - layer.brightnessRange.x) * std::min(densityValue, thicknessValue);
 
             writer.addVertex();
-            writer.writeAttributeData(VertexAttributeSemantic_Position, position);
-            writer.writeAttributeData(VertexAttributeSemantic_Weight0, size);
-            writer.writeAttributeData(VertexAttributeSemantic_Weight1, rotation);
-            writer.writeAttributeData(VertexAttributeSemantic_Weight2, brightness);
+            writer.writeAttributeData(VertexAttributeSemantic::Position, position);
+            writer.writeAttributeData(VertexAttributeSemantic::Weight0, size);
+            writer.writeAttributeData(VertexAttributeSemantic::Weight1, rotation);
+            writer.writeAttributeData(VertexAttributeSemantic::Weight2, brightness);
             writer.addIndex(particleCount);
 
             ++particleCount;

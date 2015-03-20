@@ -1,4 +1,4 @@
 ---
-type: 2D
+type: TwoDimensional
 images:
   - MetalCrate.Diffuse.png
