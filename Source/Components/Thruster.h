@@ -22,7 +22,7 @@ public:
     double power { 1 };
 
     /// \property
-    Vector3 direction { Vector3::unitZ() };
+    Vector3 direction { Vector3::UnitZ };
 };
 
 }

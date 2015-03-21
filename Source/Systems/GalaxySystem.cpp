@@ -68,7 +68,7 @@ void GalaxySystem::onComponentAdded(Galaxy::Iterator galaxy)
         for (int y = 0; y < rootNodeCount; ++y)
         {
             Vector3 localPosition = minimum + size * Vector3(x, y, 0) + halfSize;
-            Entity::Iterator rootGalaxyNode = createGalaxyNode(galaxy, 0, size, localPosition, Vector3::zero());
+            Entity::Iterator rootGalaxyNode = createGalaxyNode(galaxy, 0, size, localPosition, Vector3::Zero);
             galaxy->entity()->addChild(*rootGalaxyNode);
         }
     }
@@ -198,7 +198,7 @@ void GalaxySystem::initializeStarLayer(StarLayer& layer, Galaxy::Iterator galaxy
     ProceduralTexture densityTexure =
         _proceduralTextureSystem->create(layer.name + ".Density", *layer.proceduralDensityShader, *layer.densityTexture);
     densityTexure.setResolution(256, 256);
-    densityTexure.setPixelFormat(PixelFormat(PixelType::Byte, 4));
+    densityTexure.setPixelFormat(PixelFormat::Rgba8);
     densityTexure.setSeed(galaxy->seed);
     densityTexure.render();
 
@@ -211,7 +211,7 @@ void GalaxySystem::initializeStarLayer(StarLayer& layer, Galaxy::Iterator galaxy
     ProceduralTexture particleTexture =
         _proceduralTextureSystem->create(layer.name + ".Particle", *layer.proceduralParticleShader, *layer.particleTexture);
     particleTexture.setResolution(512, 512);
-    particleTexture.setPixelFormat(PixelFormat(PixelType::Byte, 4));
+    particleTexture.setPixelFormat(PixelFormat::Rgba8);
     particleTexture.setSeed(galaxy->seed);
     particleTexture.render();
 

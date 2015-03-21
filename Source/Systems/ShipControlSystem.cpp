@@ -61,7 +61,7 @@ void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, 
                         Vector3 thrustVector = transform->globalRotation * thruster->direction;
                         thrustVector = thrustVector.normalized() * thruster->power * thrustAmount;
 
-                        _physicsSystem->applyForce(*rigidBody, thrustVector, Vector3::zero());
+                        _physicsSystem->applyForce(*rigidBody, thrustVector, Vector3::Zero);
                     }
                 }
             }
