@@ -26,7 +26,7 @@ void ProceduralTexture::setSeed(RandomSeed seed)
 
 void ProceduralTexture::render()
 {
-    *_texture = Texture(_name, _width, _height, _pixelFormat, TextureFilter::Linear, TextureFilter::Linear, false, false);
+    *_texture = Texture2(_name, _width, _height, _pixelFormat, TextureFilter::Linear, TextureFilter::Linear, false, false);
 
     FrameBuffer frameBuffer(_width, _height);
     frameBuffer.attach(FrameBufferSlot::Color0, *_texture);
@@ -45,7 +45,7 @@ void ProceduralTexture::render()
     frame.renderViewport();
 }
 
-ProceduralTexture::ProceduralTexture(Renderer& renderer, const std::string& name, Shader& shader, Texture& texture) :
+ProceduralTexture::ProceduralTexture(Renderer& renderer, const std::string& name, Shader& shader, Texture2& texture) :
     _renderer(&renderer),
     _name(name),
     _shader(&shader),
@@ -59,7 +59,7 @@ ProceduralTextureSystem::ProceduralTextureSystem(Engine& engine, Scene& scene) :
 {
 }
 
-ProceduralTexture ProceduralTextureSystem::create(const std::string& name, Shader& shader, Texture& texture)
+ProceduralTexture ProceduralTextureSystem::create(const std::string& name, Shader& shader, Texture2& texture)
 {
     return ProceduralTexture(_renderer, name, shader, texture);
 }

@@ -23,12 +23,12 @@ public:
     void render();
 
 private:
-    ProceduralTexture(Renderer& renderer, const std::string& name, Shader& shader, Texture& texture);
+    ProceduralTexture(Renderer& renderer, const std::string& name, Shader& shader, Texture2& texture);
 
     Renderer* _renderer;
     std::string _name;
     Shader* _shader;
-    Texture* _texture;
+    Texture2* _texture;
     unsigned _width { 256 };
     unsigned _height { 256 };
     PixelFormat _pixelFormat;
@@ -42,7 +42,7 @@ class ProceduralTextureSystem :
 public:
     ProceduralTextureSystem(Engine& engine, Scene& scene);
 
-    ProceduralTexture create(const std::string& name, Shader& shader, Texture& texture);
+    ProceduralTexture create(const std::string& name, Shader& shader, Texture2& texture);
 
 private:
     Renderer& _renderer;

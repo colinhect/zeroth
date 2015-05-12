@@ -42,9 +42,9 @@ public:
     /// \property{required}
     double verticleRadiusFalloff;
 
-    Texture::Handle densityTexture;
+    Texture2::Handle densityTexture;
     Image::Handle densityImage;
-    Texture::Handle particleTexture;
+    Texture2::Handle particleTexture;
     Material::Handle particleMaterial;
 };
 

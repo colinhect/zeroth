@@ -3,4 +3,4 @@ shader: Hect/Shaders/Additive.shader
 uniformValues:
   - name: diffuseTexture
     type: Texture
-    value: MetalCrate.Diffuse.texture
+    value: MetalCrate.Diffuse.texture2

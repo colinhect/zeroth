@@ -13,7 +13,7 @@ uniforms:
   - name: renderTargetSize
     binding: RenderTargetSize
   - name: particleTexture
-    type: Texture
+    type: Texture2
 depthTested: false
 blendMode:
     sourceFactor: One

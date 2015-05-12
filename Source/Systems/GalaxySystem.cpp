@@ -193,7 +193,7 @@ void GalaxySystem::splitGalaxyNode(Entity::Iterator entity)
 void GalaxySystem::initializeStarLayer(StarLayer& layer, Galaxy::Iterator galaxy)
 {
     // Generate density image
-    layer.densityTexture = Texture::Handle(new Texture());
+    layer.densityTexture = Texture2::Handle(new Texture2());
 
     ProceduralTexture densityTexure =
         _proceduralTextureSystem->create(layer.name + ".Density", *layer.proceduralDensityShader, *layer.densityTexture);
@@ -206,7 +206,7 @@ void GalaxySystem::initializeStarLayer(StarLayer& layer, Galaxy::Iterator galaxy
     layer.densityImage = Image::Handle(new Image(densityImage));
 
     // Generate particle texture
-    layer.particleTexture = Texture::Handle(new Texture());
+    layer.particleTexture = Texture2::Handle(new Texture2());
 
     ProceduralTexture particleTexture =
         _proceduralTextureSystem->create(layer.name + ".Particle", *layer.proceduralParticleShader, *layer.particleTexture);
