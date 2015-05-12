@@ -3,7 +3,7 @@ base: Hect/Scenes/Default.scene
 componentTypes:
   - ObserverCamera
 systemTypes:
-  - GameplaySystem
+  - PlayerInputSystem
   - ObserverCameraSystem
 entities:
   - base: Test/Observer.entity

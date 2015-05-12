@@ -15,6 +15,9 @@ add_executable(Zeroth ${SOURCE_FILES})
 add_subdirectory(${PROJECT_SOURCE_DIR}/Assets)
 add_dependencies(Zeroth ZerothAssets)
 
+add_subdirectory(${PROJECT_SOURCE_DIR}/Settings)
+add_dependencies(Zeroth ZerothSettings)
+
 add_subdirectory(${PROJECT_SOURCE_DIR}/Source/Generated)
 add_dependencies(Zeroth ZerothTypes)
     
