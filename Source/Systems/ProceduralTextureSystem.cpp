@@ -29,7 +29,7 @@ void ProceduralTexture::render()
     *_texture = Texture(_name, _width, _height, _pixelFormat, TextureFilter::Linear, TextureFilter::Linear, false, false);
 
     FrameBuffer frameBuffer(_width, _height);
-    frameBuffer.attachTexture(FrameBufferSlot::Color0, *_texture);
+    frameBuffer.attach(FrameBufferSlot::Color0, *_texture);
 
     Renderer::Frame frame = _renderer->beginFrame(frameBuffer);
     frame.clear();
