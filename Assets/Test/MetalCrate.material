@@ -2,11 +2,11 @@
 shader: Hect/Shaders/Opaque.shader
 uniformValues:
   - name: diffuseTexture
-    type: Texture
+    type: Texture2
     value: MetalCrate.Diffuse.texture2
   - name: materialTexture
-    type: Texture
+    type: Texture2
     value: MetalCrate.Material.texture2
   - name: normalTexture
-    type: Texture
+    type: Texture2
     value: MetalCrate.Normal.texture2
