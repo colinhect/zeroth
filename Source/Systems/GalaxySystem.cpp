@@ -202,7 +202,7 @@ void GalaxySystem::initializeStarLayer(StarLayer& layer, Galaxy::Iterator galaxy
     densityTexure.setSeed(galaxy->seed);
     densityTexure.render();
 
-	_renderer.destroyTexture(*layer.densityTexture, true);
+    _renderer.destroyTexture(*layer.densityTexture, true);
 
     // Generate particle texture
     layer.particleTexture = Texture2::Handle(new Texture2());

@@ -18,7 +18,7 @@ ObserverCameraSystem::ObserverCameraSystem(Scene& scene) :
 {
     _observerEntity = scene.createEntity("Test/Observer.entity");
 
-	Engine& engine = Engine::instance();
+    Engine& engine = Engine::instance();
     Keyboard& keyboard = engine.keyboard();
     keyboard.registerListener(*this);
 
