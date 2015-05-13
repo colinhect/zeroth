@@ -43,7 +43,6 @@ public:
     double verticleRadiusFalloff;
 
     Texture2::Handle densityTexture;
-    Image::Handle densityImage;
     Texture2::Handle particleTexture;
     Material::Handle particleMaterial;
 };

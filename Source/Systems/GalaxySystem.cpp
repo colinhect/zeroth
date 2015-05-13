@@ -202,8 +202,7 @@ void GalaxySystem::initializeStarLayer(StarLayer& layer, Galaxy::Iterator galaxy
     densityTexure.setSeed(galaxy->seed);
     densityTexure.render();
 
-    Image densityImage = _renderer.downloadTextureImage(*layer.densityTexture);
-    layer.densityImage = Image::Handle(new Image(densityImage));
+	_renderer.destroyTexture(*layer.densityTexture, true);
 
     // Generate particle texture
     layer.particleTexture = Texture2::Handle(new Texture2());
@@ -283,7 +282,7 @@ double GalaxySystem::computeDensity(StarLayer& layer, BoundingBox::Iterator boun
     coords = (position - extents.minimum()) / totalSize;
 
     Vector2 densityCoords(coords.x, coords.y);
-    return layer.densityImage->readPixel(densityCoords).r;
+    return layer.densityTexture->readPixel(densityCoords).r;
 }
 
 double GalaxySystem::computeThickness(StarLayer& layer, const Vector3& position)

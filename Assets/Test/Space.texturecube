@@ -1,8 +1,8 @@
 ---
 images:
-  - Space_right1.png
-  - Space_left2.png
-  - Space_bottom4.png
-  - Space_top3.png
-  - Space_front5.png
-  - Space_back6.png
+  positiveX: Space_right1.png
+  negativeX: Space_left2.png
+  positiveY: Space_bottom4.png
+  negativeY: Space_top3.png
+  positiveZ: Space_front5.png
+  negativeZ: Space_back6.png
