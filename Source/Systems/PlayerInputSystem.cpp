@@ -11,10 +11,10 @@
 
 using namespace zeroth;
 
-PlayerInputSystem::PlayerInputSystem(Engine& engine, Scene& scene) :
-    System(engine, scene),
-    _keyboard(engine.platform().keyboard()),
-    _mouse(engine.platform().mouse()),
+PlayerInputSystem::PlayerInputSystem(Scene& scene) :
+    System(scene),
+    _keyboard(Engine::instance().platform().keyboard()),
+    _mouse(Engine::instance().platform().mouse()),
     _cameraSystem(scene.system<CameraSystem>()),
     _debugSystem(scene.system<DebugSystem>()),
     _inputSystem(scene.system<InputSystem>()),

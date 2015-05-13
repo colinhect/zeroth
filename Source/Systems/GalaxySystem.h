@@ -21,7 +21,7 @@ class GalaxySystem :
     public System<GalaxySystem, Components<Galaxy>>
 {
 public:
-    GalaxySystem(Engine& engine, Scene& scene);
+    GalaxySystem(Scene& scene);
 
     void tick(double timeStep) override;
     void onComponentAdded(Galaxy::Iterator galaxy) override;

@@ -17,7 +17,7 @@ class ShipControlSystem :
     public System<ShipControlSystem>
 {
 public:
-    ShipControlSystem(Engine& engine, Scene& scene);
+    ShipControlSystem(Scene& scene);
 
     void controlShip(Entity& ship, const Vector3& angularAmount, double thrustAmount, double timeStep);
 

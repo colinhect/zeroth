@@ -8,10 +8,10 @@
 
 using namespace zeroth;
 
-GalaxySystem::GalaxySystem(Engine& engine, Scene& scene) :
-    System(engine, scene),
-    _assetCache(engine.assetCache()),
-    _renderer(engine.renderer()),
+GalaxySystem::GalaxySystem(Scene& scene) :
+    System(scene),
+    _assetCache(Engine::instance().assetCache()),
+    _renderer(Engine::instance().renderer()),
     _cameraSystem(scene.system<CameraSystem>()),
     _proceduralTextureSystem(scene.system<ProceduralTextureSystem>())
 {

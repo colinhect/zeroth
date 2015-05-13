@@ -53,9 +53,9 @@ ProceduralTexture::ProceduralTexture(Renderer& renderer, const std::string& name
 {
 }
 
-ProceduralTextureSystem::ProceduralTextureSystem(Engine& engine, Scene& scene) :
-    System(engine, scene),
-    _renderer(engine.renderer())
+ProceduralTextureSystem::ProceduralTextureSystem(Scene& scene) :
+    System(scene),
+    _renderer(Engine::instance().renderer())
 {
 }
 

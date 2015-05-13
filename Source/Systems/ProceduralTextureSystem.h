@@ -40,7 +40,7 @@ class ProceduralTextureSystem :
     public System<ProceduralTextureSystem>
 {
 public:
-    ProceduralTextureSystem(Engine& engine, Scene& scene);
+    ProceduralTextureSystem(Scene& scene);
 
     ProceduralTexture create(const std::string& name, Shader& shader, Texture2& texture);
 
