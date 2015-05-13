@@ -19,10 +19,10 @@ ObserverCameraSystem::ObserverCameraSystem(Scene& scene) :
     _observerEntity = scene.createEntity("Test/Observer.entity");
 
 	Engine& engine = Engine::instance();
-    Keyboard& keyboard = engine.platform().keyboard();
+    Keyboard& keyboard = engine.keyboard();
     keyboard.registerListener(*this);
 
-    Mouse& mouse = engine.platform().mouse();
+    Mouse& mouse = engine.mouse();
     mouse.registerListener(*this);
 }
 

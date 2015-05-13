@@ -13,8 +13,8 @@ using namespace zeroth;
 
 PlayerInputSystem::PlayerInputSystem(Scene& scene) :
     System(scene),
-    _keyboard(Engine::instance().platform().keyboard()),
-    _mouse(Engine::instance().platform().mouse()),
+    _keyboard(Engine::instance().keyboard()),
+    _mouse(Engine::instance().mouse()),
     _cameraSystem(scene.system<CameraSystem>()),
     _debugSystem(scene.system<DebugSystem>()),
     _inputSystem(scene.system<InputSystem>()),
