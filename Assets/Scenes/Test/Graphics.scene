@@ -9,9 +9,9 @@ entities:
   - base: Test/Observer.entity
   - components:
     - type: LightProbe
-      texture: Test/Space.cubictexture
+      texture: Test/Space.texturecube
     - type: SkyBox
-      texture: Test/Space.cubictexture
+      texture: Test/Space.texturecube
     - type: DirectionalLight
       direction: [ 1, 0.2, 0.2 ]
       color: [ 0.5, 0.5, 0.5 ]
