@@ -41,6 +41,8 @@ private:
     double computeDensity(StarLayer& layer, BoundingBox::Iterator boundingBox, const Vector3& position);
     double computeThickness(StarLayer& layer, const Vector3& position);
 
+    void renderToTexture3(Shader& shader, Texture3& texture);
+
     AssetCache& _assetCache;
     Renderer& _renderer;
 

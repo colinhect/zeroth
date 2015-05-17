@@ -197,8 +197,8 @@ void GalaxySystem::initializeStarLayer(StarLayer& layer, Galaxy::Iterator galaxy
 
     ProceduralTexture densityTexure =
         _proceduralTextureSystem->create(layer.name + ".Density", *layer.proceduralDensityShader, *layer.densityTexture);
-    densityTexure.setResolution(256, 256);
-    densityTexure.setPixelFormat(PixelFormat::Rgba8);
+    densityTexure.setResolution(128, 128);
+    densityTexure.setPixelFormat(PixelFormat::Rg8);
     densityTexure.setSeed(galaxy->seed);
     densityTexure.render();
 
@@ -300,4 +300,38 @@ double GalaxySystem::computeThickness(StarLayer& layer, const Vector3& position)
     }
 
     return thicknessValue;
+}
+
+void GalaxySystem::renderToTexture3(Shader& shader, Texture3& texture)
+{
+    Mesh mesh;
+
+    VertexLayout vertexLayout;
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
+    mesh.setVertexLayout(vertexLayout);
+
+    mesh.setPrimitiveType(PrimitiveType::Points);
+
+    MeshWriter meshWriter(mesh);
+    for (unsigned z = 0; z < texture.depth(); ++z)
+    {
+        for (unsigned y = 0; y < texture.height(); ++y)
+        {
+            for (unsigned x = 0; x < texture.width(); ++x)
+            {
+                size_t index = meshWriter.addVertex();
+                meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(0, 0, 0));
+                meshWriter.addIndex(index);
+            }
+        }
+    }
+
+    FrameBuffer frameBuffer(texture.width(), texture.height());
+    frameBuffer.attach(FrameBufferSlot::Color0, texture);
+
+    Renderer& renderer = Engine::instance().renderer();
+
+    Renderer::Frame frame = renderer.beginFrame(frameBuffer);
+    frame.setShader(shader);
+    frame.renderMesh(mesh);
 }
