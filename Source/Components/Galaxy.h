@@ -36,13 +36,7 @@ public:
     /// \property{required}
     unsigned density;
 
-    /// \property{required}
-    double verticleRadius;
-
-    /// \property{required}
-    double verticleRadiusFalloff;
-
-    Texture2::Handle densityTexture;
+    Texture3::Handle densityTexture;
     Texture2::Handle particleTexture;
     Material::Handle particleMaterial;
 };

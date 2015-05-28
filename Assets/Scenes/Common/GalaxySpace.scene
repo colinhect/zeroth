@@ -10,9 +10,10 @@ systemTypes:
   - PlayerInputSystem
   - GalaxySystem
   - ObserverCameraSystem
-  - ProceduralTextureSystem
 systems:
   - type: PhysicsSystem
     gravity: [ 0, 0, 0 ]
   - type: GalaxySystem
     particleShader: Galaxy/Shaders/Particle.shader
+    particleResolution: 512
+    densityResolution: 32

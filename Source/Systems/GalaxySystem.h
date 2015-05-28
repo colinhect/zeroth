@@ -11,7 +11,6 @@ using namespace hect;
 
 #include "Components/Galaxy.h"
 #include "Components/GalaxyNode.h"
-#include "Systems/ProceduralTextureSystem.h"
 
 namespace zeroth
 {
@@ -29,6 +28,12 @@ public:
     /// \property
     Shader::Handle particleShader;
 
+    /// \property
+    unsigned particleResolution { 512 };
+
+    /// \property
+    unsigned densityResolution { 32 };
+
 private:
     Entity::Iterator createGalaxyNode(Galaxy::Iterator galaxy, unsigned level, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition);
     void adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterator entity);
@@ -39,17 +44,15 @@ private:
     void generateStarLayer(StarLayer& layer, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model);
 
     double computeDensity(StarLayer& layer, BoundingBox::Iterator boundingBox, const Vector3& position);
-    double computeThickness(StarLayer& layer, const Vector3& position);
 
-    void renderToTexture3(Shader& shader, Texture3& texture);
+    void renderDensityTexture(StarLayer& layer);
+    void renderParticleTexture(RandomSeed seed, StarLayer& layer);
 
-    AssetCache& _assetCache;
-    Renderer& _renderer;
+    void createDensityPointsMesh();
 
     CameraSystem::Handle _cameraSystem;
-    ProceduralTextureSystem::Handle _proceduralTextureSystem;
 
-    VertexLayout _particleVertexLayout;
+    Mesh _densityPointsMesh;
 };
 
 }

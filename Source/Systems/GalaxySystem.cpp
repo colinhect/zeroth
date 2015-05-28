@@ -10,11 +10,9 @@ using namespace zeroth;
 
 GalaxySystem::GalaxySystem(Scene& scene) :
     System(scene),
-    _assetCache(Engine::instance().assetCache()),
-    _renderer(Engine::instance().renderer()),
-    _cameraSystem(scene.system<CameraSystem>()),
-    _proceduralTextureSystem(scene.system<ProceduralTextureSystem>())
+    _cameraSystem(scene.system<CameraSystem>())
 {
+    createDensityPointsMesh();
 }
 
 void GalaxySystem::tick(double timeStep)
@@ -192,27 +190,8 @@ void GalaxySystem::splitGalaxyNode(Entity::Iterator entity)
 
 void GalaxySystem::initializeStarLayer(StarLayer& layer, Galaxy::Iterator galaxy)
 {
-    // Generate density image
-    layer.densityTexture = Texture2::Handle(new Texture2());
-
-    ProceduralTexture densityTexure =
-        _proceduralTextureSystem->create(layer.name + ".Density", *layer.proceduralDensityShader, *layer.densityTexture);
-    densityTexure.setResolution(128, 128);
-    densityTexure.setPixelFormat(PixelFormat::Rg8);
-    densityTexure.setSeed(galaxy->seed);
-    densityTexure.render();
-
-    _renderer.destroyTexture(*layer.densityTexture, true);
-
-    // Generate particle texture
-    layer.particleTexture = Texture2::Handle(new Texture2());
-
-    ProceduralTexture particleTexture =
-        _proceduralTextureSystem->create(layer.name + ".Particle", *layer.proceduralParticleShader, *layer.particleTexture);
-    particleTexture.setResolution(512, 512);
-    particleTexture.setPixelFormat(PixelFormat::Rgba8);
-    particleTexture.setSeed(galaxy->seed);
-    particleTexture.render();
+    renderDensityTexture(layer);
+    renderParticleTexture(galaxy->seed, layer);
 
     // Create the particle material
     layer.particleMaterial = Material::Handle(new Material());
@@ -244,20 +223,18 @@ void GalaxySystem::generateStarLayer(StarLayer& layer, Galaxy::Iterator galaxy, 
     Random random(galaxy->seed);
 
     Vector3 halfSize = boundingBox->extents.size() / 2;
-    halfSize.z = layer.verticleRadius + layer.verticleRadiusFalloff;
 
     unsigned particleCount = 0;
     while (particleCount < layer.density)
     {
         Vector3 position = random.next(-halfSize, halfSize);
         double densityValue = computeDensity(layer, boundingBox, position);
-        double thicknessValue = computeThickness(layer, position);
 
-        if (random.next(0.0, 1.0) < densityValue && random.next(0.0, 1.0) < thicknessValue)
+        if (random.next(0.0, 1.0) < densityValue)
         {
             double size = random.next(layer.sizeRange.x, layer.sizeRange.y);
             double rotation = random.next(0.0, 2.0 * pi);
-            double brightness = layer.brightnessRange.x + (layer.brightnessRange.y - layer.brightnessRange.x) * std::min(densityValue, thicknessValue);
+            double brightness = layer.brightnessRange.x + (layer.brightnessRange.y - layer.brightnessRange.x) * densityValue;
 
             writer.addVertex();
             writer.writeAttributeData(VertexAttributeSemantic::Position, position);
@@ -275,63 +252,85 @@ void GalaxySystem::generateStarLayer(StarLayer& layer, Galaxy::Iterator galaxy, 
 
 double GalaxySystem::computeDensity(StarLayer& layer, BoundingBox::Iterator boundingBox, const Vector3& position)
 {
-    Vector3 coords;
-
     AxisAlignedBox& extents = boundingBox->extents;
     Vector3 totalSize = extents.size();
-    coords = (position - extents.minimum()) / totalSize;
+    Vector3 coords = (position - extents.minimum()) / totalSize;
 
-    Vector2 densityCoords(coords.x, coords.y);
-    return layer.densityTexture->readPixel(densityCoords).r;
+    return layer.densityTexture->readPixel(coords).r;
 }
 
-double GalaxySystem::computeThickness(StarLayer& layer, const Vector3& position)
+void GalaxySystem::renderDensityTexture(StarLayer& layer)
 {
-    double thicknessValue = 1.0;
+    Texture3::Handle texture(new Texture3(layer.name + ".Density", densityResolution, densityResolution, densityResolution, PixelFormat::Rgb32, TextureFilter::Linear, TextureFilter::Linear, false, false));
 
-    double verticleDistance = std::abs(position.z);
-    if (verticleDistance > layer.verticleRadius)
-    {
-        thicknessValue = std::max(0.0, layer.verticleRadiusFalloff - (verticleDistance - layer.verticleRadius));
-        if (thicknessValue > 0.0)
-        {
-            thicknessValue /= layer.verticleRadiusFalloff;
-        }
-    }
-
-    return thicknessValue;
-}
-
-void GalaxySystem::renderToTexture3(Shader& shader, Texture3& texture)
-{
-    Mesh mesh;
-
-    VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
-    mesh.setVertexLayout(vertexLayout);
-
-    mesh.setPrimitiveType(PrimitiveType::Points);
-
-    MeshWriter meshWriter(mesh);
-    for (unsigned z = 0; z < texture.depth(); ++z)
-    {
-        for (unsigned y = 0; y < texture.height(); ++y)
-        {
-            for (unsigned x = 0; x < texture.width(); ++x)
-            {
-                size_t index = meshWriter.addVertex();
-                meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(0, 0, 0));
-                meshWriter.addIndex(index);
-            }
-        }
-    }
-
-    FrameBuffer frameBuffer(texture.width(), texture.height());
-    frameBuffer.attach(FrameBufferSlot::Color0, texture);
+    FrameBuffer frameBuffer(densityResolution, densityResolution);
+    frameBuffer.attach(FrameBufferSlot::Color0, *texture);
 
     Renderer& renderer = Engine::instance().renderer();
 
     Renderer::Frame frame = renderer.beginFrame(frameBuffer);
+    frame.setShader(*layer.proceduralDensityShader);
+    frame.renderMesh(_densityPointsMesh);
+
+    layer.densityTexture = texture;
+}
+
+void GalaxySystem::renderParticleTexture(RandomSeed seed, StarLayer& layer)
+{
+    Texture2::Handle texture(new Texture2(layer.name + ".Particle", particleResolution, particleResolution, PixelFormat::Rgba8, TextureFilter::Linear, TextureFilter::Linear, false, false));
+    
+    FrameBuffer frameBuffer(particleResolution, particleResolution);
+    frameBuffer.attach(FrameBufferSlot::Color0, *texture);
+
+    Renderer& renderer = Engine::instance().renderer();
+
+    Renderer::Frame frame = renderer.beginFrame(frameBuffer);
+
+    Shader& shader = *layer.proceduralParticleShader;
     frame.setShader(shader);
-    frame.renderMesh(mesh);
+    if (shader.hasUniform("seed"))
+    {
+        Random random(seed);
+        double seed = random.next(-10000.0, 10000.0);
+        frame.setUniform(shader.uniform("seed"), seed);
+    }
+
+    frame.renderViewport();
+
+    layer.particleTexture = texture;
+}
+
+void GalaxySystem::createDensityPointsMesh()
+{
+    _densityPointsMesh = Mesh("DensityPoints");
+
+    VertexLayout vertexLayout;
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Weight0, VertexAttributeType::Int32, 1));
+    _densityPointsMesh.setVertexLayout(vertexLayout);
+
+    _densityPointsMesh.setPrimitiveType(PrimitiveType::Points);
+
+    Vector3 dimensions(densityResolution, densityResolution, densityResolution);
+    dimensions -= Vector3::One;
+
+    MeshWriter meshWriter(_densityPointsMesh);
+    for (unsigned z = 0; z < densityResolution; ++z)
+    {
+        for (unsigned y = 0; y < densityResolution; ++y)
+        {
+            for (unsigned x = 0; x < densityResolution; ++x)
+            {
+                Vector3 position(x, y, z);
+                position /= dimensions;
+                position -= 0.5;
+                position *= 1.95;
+
+                size_t index = meshWriter.addVertex();
+                meshWriter.writeAttributeData(VertexAttributeSemantic::Position, position);
+                meshWriter.writeAttributeData(VertexAttributeSemantic::Weight0, z);
+                meshWriter.addIndex(index);
+            }
+        }
+    }
 }
