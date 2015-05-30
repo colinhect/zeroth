@@ -50,6 +50,12 @@ public:
     Shader::Handle densityShader;
 
     /// \property{required}
+    unsigned densityPerNode;
+
+    /// \property{required}
+    Material::Handle starMaterial;
+
+    /// \property{required}
     std::vector<ParticleLayer> particleLayers;
 
     Texture3::Handle densityTexture;

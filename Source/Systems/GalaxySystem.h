@@ -42,6 +42,7 @@ private:
     void joinGalaxyNode(Entity::Iterator entity);
 
     void initializeStarLayer(StarLayer& starLayer, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model);
+    void generateStarLayer(StarLayer& starLayer, GalaxyNode::Iterator galaxyNode, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model);
     void generateParticleLayer(StarLayer& starLayer, ParticleLayer& particleLayer, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model);
     void renderDensityTexture(StarLayer& starLayer);
     void renderParticleTexture(RandomSeed seed, ParticleLayer& particleLayer);

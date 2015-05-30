@@ -47,5 +47,5 @@ void proceduralTexture(
 
     value *= pow(1.0 - clamp(abs(point.z * 8.0), 0.0, 1.0), 2.0);
     
-    outputColor = vec4(vec3(value), 1.0);
+    outputColor = vec4(vec3(value) + (1.0 - clamp(length(point), 0.0, 1.0) * 1.0) * 0.01, 1.0);
 }

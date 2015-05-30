@@ -78,7 +78,7 @@ void GalaxySystem::onComponentAdded(Galaxy::Iterator galaxy)
     // Add the bounding box for the whole galaxy
     BoundingBox::Iterator boundingBox = entity->addComponent<BoundingBox>();
 
-    // Add the model for the particle meshes
+    // Add the model for the particle layer meshes
     Model::Iterator model = entity->addComponent<Model>();
 
     // Initialize star layers
@@ -97,6 +97,7 @@ Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, unsigne
     // Add transform component
     Transform::Iterator transform = entity->addComponent<Transform>();
     transform->localPosition = localPosition;
+    transform->globalPosition = parentGlobalPosition + localPosition;
 
     // Add bounding box component
     BoundingBox::Iterator boundingBox = entity->addComponent<BoundingBox>();
@@ -110,6 +111,17 @@ Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, unsigne
     galaxyNode->galaxy = galaxy;
     galaxyNode->radius = size.length() / 2;
     galaxyNode->level = level;
+
+    if (galaxyNode->level > 2)
+    {
+        // Add the model for the star layer meshes
+        Model::Iterator model = entity->addComponent<Model>();
+
+        for (StarLayer& starLayer : galaxy->starLayers)
+        {
+            generateStarLayer(starLayer, galaxyNode, galaxy, boundingBox, model);
+        }
+    }
 
     // Activate and return the entity
     entity->activate();
@@ -213,6 +225,48 @@ void GalaxySystem::initializeStarLayer(StarLayer& starLayer, Galaxy::Iterator ga
     }
 }
 
+void GalaxySystem::generateStarLayer(StarLayer& starLayer, GalaxyNode::Iterator galaxyNode, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model)
+{
+    Vector3 globalPosition = boundingBox->extents.center();
+    Random random(galaxy->seed + static_cast<RandomSeed>(globalPosition.x * globalPosition.y * globalPosition.z * galaxy->seed));
+    Vector3 halfSize = boundingBox->extents.size() / 2;
+
+    VertexAttributeType attributeType = VertexAttributeType::Float32;
+    VertexLayout vertexLayout;
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, attributeType, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Weight0, attributeType, 1));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Weight1, attributeType, 1));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Weight2, attributeType, 1));
+
+    // Create the mesh containing the points for the stars
+    Mesh::Handle mesh(new Mesh(starLayer.name));
+    mesh->setVertexLayout(vertexLayout);
+    mesh->setPrimitiveType(PrimitiveType::PointSprites);
+    MeshWriter writer(*mesh);
+
+    // Generate particles until we meet the density of this layer
+    for (unsigned i = 0; i < starLayer.densityPerNode; ++i)
+    {
+        // Pick a random point and check if it could be particle location
+        Vector3 position = random.next(-halfSize, halfSize);
+        double densityValue = computeDensity(starLayer, galaxy->entity()->component<BoundingBox>(), globalPosition + position);
+        if (random.next(0.0, 1.0) < densityValue)
+        {
+            double size = random.next(0.25, 2.0);
+            double brightness = random.next(1.0, 10.0);
+
+            size_t vertexIndex = writer.addVertex();
+            writer.writeAttributeData(VertexAttributeSemantic::Position, position);
+            writer.writeAttributeData(VertexAttributeSemantic::Weight0, size);
+            writer.writeAttributeData(VertexAttributeSemantic::Weight1, brightness);
+            writer.writeAttributeData(VertexAttributeSemantic::Weight2, galaxyNode->radius * 2.0);
+            writer.addIndex(vertexIndex);
+        }
+    }
+
+    model->surfaces.push_back(ModelSurface(mesh, starLayer.starMaterial));
+}
+
 void GalaxySystem::generateParticleLayer(StarLayer& starLayer, ParticleLayer& particleLayer, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model)
 {
     Random random(galaxy->seed);
@@ -244,12 +298,12 @@ void GalaxySystem::generateParticleLayer(StarLayer& starLayer, ParticleLayer& pa
             double rotation = random.next(0.0, 2.0 * pi);
             double brightness = particleLayer.brightnessRange.x + (particleLayer.brightnessRange.y - particleLayer.brightnessRange.x) * densityValue;
 
-            writer.addVertex();
+            size_t vertexIndex = writer.addVertex();
             writer.writeAttributeData(VertexAttributeSemantic::Position, position);
             writer.writeAttributeData(VertexAttributeSemantic::Weight0, size);
             writer.writeAttributeData(VertexAttributeSemantic::Weight1, rotation);
             writer.writeAttributeData(VertexAttributeSemantic::Weight2, brightness);
-            writer.addIndex(particleCount);
+            writer.addIndex(vertexIndex);
 
             ++particleCount;
         }
@@ -260,7 +314,7 @@ void GalaxySystem::generateParticleLayer(StarLayer& starLayer, ParticleLayer& pa
 
 void GalaxySystem::renderDensityTexture(StarLayer& starLayer)
 {
-    Texture3::Handle texture(new Texture3(starLayer.name + ".Density", densityResolution, densityResolution, densityResolution, PixelFormat::Rg32, TextureFilter::Linear, TextureFilter::Linear, false, false));
+    Texture3::Handle texture(new Texture3(starLayer.name + ".Density", densityResolution, densityResolution, densityResolution, PixelFormat::Rgb32, TextureFilter::Linear, TextureFilter::Linear, false, false));
 
     FrameBuffer frameBuffer(densityResolution, densityResolution);
     frameBuffer.attach(FrameBufferSlot::Color0, *texture);

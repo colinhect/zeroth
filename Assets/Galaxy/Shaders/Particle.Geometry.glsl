@@ -39,9 +39,9 @@ void main()
 {
     vec4 position = gl_in[0].gl_Position;
 
-    if (position.z > 5000.0)
+    if (position.z > 500.0)
     {
-        float falloff = clamp((position.z - 5000.0) * 0.0001, 0.0, 1.0);
+        float falloff = clamp((position.z - 500.0) * 0.0001, 0.0, 1.0);
         vec2 aspectRatio = vec2(renderTargetSize.y / renderTargetSize.x, 1.0);
 
         for (int i = 0; i < 4; ++i)
