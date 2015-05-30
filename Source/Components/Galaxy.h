@@ -13,7 +13,7 @@ namespace zeroth
 {
 
 /// \encodable
-class StarLayer :
+class ParticleLayer :
     public Encodable
 {
 public:
@@ -22,10 +22,7 @@ public:
     std::string name;
 
     /// \property{required}
-    Shader::Handle proceduralParticleShader;
-
-    /// \property{required}
-    Shader::Handle proceduralDensityShader;
+    Shader::Handle particleShader;
 
     /// \property{required}
     Vector2 sizeRange;
@@ -36,9 +33,26 @@ public:
     /// \property{required}
     unsigned density;
 
-    Texture3::Handle densityTexture;
     Texture2::Handle particleTexture;
     Material::Handle particleMaterial;
+};
+
+/// \encodable
+class StarLayer :
+    public Encodable
+{
+public:
+
+    /// \property{required}
+    std::string name;
+
+    /// \property{required}
+    Shader::Handle densityShader;
+
+    /// \property{required}
+    std::vector<ParticleLayer> particleLayers;
+
+    Texture3::Handle densityTexture;
 };
 
 /// \component

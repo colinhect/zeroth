@@ -7,39 +7,39 @@ components:
     verticalRadius: 20000
     maxLevel: 4
     starLayers:
-      - name: Glow
-        proceduralParticleShader: Zeroth/GlowParticle.shader
-        proceduralDensityShader: Zeroth/MedianDensity.shader
-        sizeRange: [ 26000.0, 30000.0 ]
-        brightnessRange: [ 0.0001, 0.0005 ]
-        density: 250
       - name: Center
-        proceduralParticleShader: Zeroth/CenterParticle.shader
-        proceduralDensityShader: Zeroth/CenterDensity.shader
-        sizeRange: [ 8000.0, 15000.0 ]
-        brightnessRange: [ 0.001, 0.02 ]
-        density: 50
-      - name: CenterHightlights
-        proceduralParticleShader: Zeroth/CenterParticle.shader
-        proceduralDensityShader: Zeroth/CenterDensity.shader
-        sizeRange: [ 3000.0, 10000.0 ]
-        brightnessRange: [ 0.00001, 0.1 ]
-        density: 10
+        densityShader: Zeroth/CenterDensity.shader
+        particleLayers:
+          - name: Center
+            particleShader: Zeroth/CenterParticle.shader
+            sizeRange: [ 8000.0, 17000.0 ]
+            brightnessRange: [ 0.001, 0.025 ]
+            density: 50
+          - name: CenterHightlights
+            particleShader: Zeroth/CenterParticle.shader
+            sizeRange: [ 3000.0, 10000.0 ]
+            brightnessRange: [ 0.0001, 0.05 ]
+            density: 10
       - name: Median
-        proceduralParticleShader: Zeroth/MedianParticle.shader
-        proceduralDensityShader: Zeroth/MedianDensity.shader
-        sizeRange: [ 3000.0, 8000.0 ]
-        brightnessRange: [ 0.0001, 0.005 ]
-        density: 600
-      - name: MedianHighlights
-        proceduralParticleShader: Zeroth/MedianParticle.shader
-        proceduralDensityShader: Zeroth/MedianDensity.shader
-        sizeRange: [ 3000.0, 8000.0 ]
-        brightnessRange: [ 0.001, 0.02 ]
-        density: 50
-      - name: MedianSmall
-        proceduralParticleShader: Zeroth/MedianParticle.shader
-        proceduralDensityShader: Zeroth/MedianDensity.shader
-        sizeRange: [ 500.0, 3000.0 ]
-        brightnessRange: [ 0.001, 0.01 ]
-        density: 400
+        densityShader: Zeroth/MedianDensity.shader
+        particleLayers:
+          - name: Median
+            particleShader: Zeroth/MedianParticle.shader
+            sizeRange: [ 3000.0, 8000.0 ]
+            brightnessRange: [ 0.001, 0.005 ]
+            density: 600
+          - name: Highlights
+            particleShader: Zeroth/MedianParticle.shader
+            sizeRange: [ 3000.0, 8000.0 ]
+            brightnessRange: [ 0.001, 0.01 ]
+            density: 50
+          - name: Small
+            particleShader: Zeroth/MedianParticle.shader
+            sizeRange: [ 500.0, 3000.0 ]
+            brightnessRange: [ 0.001, 0.01 ]
+            density: 400
+          - name: Glow
+            particleShader: Zeroth/GlowParticle.shader
+            sizeRange: [ 26000.0, 30000.0 ]
+            brightnessRange: [ 0.0004, 0.001 ]
+            density: 250

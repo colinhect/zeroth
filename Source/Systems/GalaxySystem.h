@@ -22,6 +22,7 @@ class GalaxySystem :
 public:
     GalaxySystem(Scene& scene);
 
+    void initialize() override;
     void tick(double timeStep) override;
     void onComponentAdded(Galaxy::Iterator galaxy) override;
 
@@ -40,15 +41,13 @@ private:
     void splitGalaxyNode(Entity::Iterator entity);
     void joinGalaxyNode(Entity::Iterator entity);
 
-    void initializeStarLayer(StarLayer& layer, Galaxy::Iterator galaxy);
-    void generateStarLayer(StarLayer& layer, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model);
+    void initializeStarLayer(StarLayer& starLayer, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model);
+    void generateParticleLayer(StarLayer& starLayer, ParticleLayer& particleLayer, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model);
+    void renderDensityTexture(StarLayer& starLayer);
+    void renderParticleTexture(RandomSeed seed, ParticleLayer& particleLayer);
+    double computeDensity(StarLayer& starLayer, BoundingBox::Iterator boundingBox, const Vector3& position);
 
-    double computeDensity(StarLayer& layer, BoundingBox::Iterator boundingBox, const Vector3& position);
-
-    void renderDensityTexture(StarLayer& layer);
-    void renderParticleTexture(RandomSeed seed, StarLayer& layer);
-
-    void createDensityPointsMesh();
+    Mesh createDensityPointsMesh() const;
 
     CameraSystem::Handle _cameraSystem;
 
