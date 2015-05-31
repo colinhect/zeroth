@@ -39,7 +39,7 @@ public:
     unsigned densityResolution { 32 };
 
 private:
-    Entity::Iterator createGalaxyNode(Galaxy::Iterator galaxy, unsigned level, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition);
+    Entity::Iterator createGalaxyNode(Galaxy::Iterator galaxy, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition);
     void adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterator entity);
     void splitGalaxyNode(Entity::Iterator entity);
     void joinGalaxyNode(Entity::Iterator entity);

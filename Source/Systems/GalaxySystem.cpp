@@ -70,7 +70,7 @@ void GalaxySystem::onComponentAdded(Galaxy::Iterator galaxy)
         for (int y = 0; y < rootNodeCount; ++y)
         {
             Vector3 localPosition = minimum + size * Vector3(x, y, 0) + halfSize;
-            Entity::Iterator rootGalaxyNode = createGalaxyNode(galaxy, 0, size, localPosition, Vector3::Zero);
+            Entity::Iterator rootGalaxyNode = createGalaxyNode(galaxy, size, localPosition, Vector3::Zero);
             galaxy->entity()->addChild(*rootGalaxyNode);
         }
     }
@@ -88,7 +88,7 @@ void GalaxySystem::onComponentAdded(Galaxy::Iterator galaxy)
     }
 }
 
-Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, unsigned level, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition)
+Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition)
 {
     // Create the galaxy node entity
     Entity::Iterator entity = scene().createEntity();
@@ -110,9 +110,8 @@ Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, unsigne
     GalaxyNode::Iterator galaxyNode = entity->addComponent<GalaxyNode>();
     galaxyNode->galaxy = galaxy;
     galaxyNode->radius = size.length() / 2;
-    galaxyNode->level = level;
 
-    if (galaxyNode->level > 2)
+    if (galaxyNode->radius < 6000)
     {
         // Add the model for the star field meshes
         Model::Iterator model = entity->addComponent<Model>();
@@ -122,7 +121,7 @@ Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, unsigne
             generateStarField(starField, galaxyNode, galaxy, boundingBox, model);
         }
     }
-
+    
     // Activate and return the entity
     entity->activate();
     return entity;
@@ -179,7 +178,7 @@ void GalaxySystem::splitGalaxyNode(Entity::Iterator entity)
 {
     // If the node is not split and is not at the maximum level
     GalaxyNode::Iterator galaxyNode = entity->component<GalaxyNode>();
-    if (galaxyNode && !galaxyNode->split && galaxyNode->level < galaxyNode->galaxy->maxLevel)
+    if (galaxyNode && !galaxyNode->split && galaxyNode->radius > 600.0)
     {
         Entity::Iterator parent = entity->iterator();
 
@@ -187,7 +186,6 @@ void GalaxySystem::splitGalaxyNode(Entity::Iterator entity)
         BoundingBox::Iterator boundingBox = entity->component<BoundingBox>();
         if (boundingBox)
         {
-            unsigned level = galaxyNode->level + 1;
             Galaxy::Iterator galaxy = galaxyNode->galaxy;
 
             Vector3 size = boundingBox->extents.size() / 2;
@@ -203,7 +201,7 @@ void GalaxySystem::splitGalaxyNode(Entity::Iterator entity)
                     for (int z : values)
                     {
                         const Vector3 localPosition = halfSize * Vector3(x, y, z);
-                        Entity::Iterator child = createGalaxyNode(galaxy, level, size, localPosition, parentGlobalPosition);
+                        Entity::Iterator child = createGalaxyNode(galaxy, size, localPosition, parentGlobalPosition);
                         parent->addChild(*child);
                     }
                 }

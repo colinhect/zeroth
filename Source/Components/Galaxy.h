@@ -77,9 +77,6 @@ public:
     double verticalRadius;
 
     /// \property
-    unsigned maxLevel;
-
-    /// \property
     std::vector<StarField> starFields;
 };
 

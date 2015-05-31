@@ -5,7 +5,6 @@ components:
     seed: 54
     horizontalRadius: 60000
     verticalRadius: 20000
-    maxLevel: 6
     starFields:
       - name: Center
         densityShader: Zeroth/CenterDensity.shader

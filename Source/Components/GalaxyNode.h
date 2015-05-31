@@ -21,7 +21,6 @@ class GalaxyNode :
 public:
     Galaxy::Iterator galaxy;
     double radius { 0 };
-    unsigned level { 0 };
     bool split { false };
 };
 
