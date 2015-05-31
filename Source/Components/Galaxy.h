@@ -38,7 +38,7 @@ public:
 };
 
 /// \encodable
-class StarLayer :
+class StarField :
     public Encodable
 {
 public:
@@ -50,13 +50,10 @@ public:
     Shader::Handle densityShader;
 
     /// \property{required}
-    unsigned densityPerNode;
-
-    /// \property{required}
-    Material::Handle starMaterial;
-
-    /// \property{required}
     std::vector<ParticleLayer> particleLayers;
+
+    /// \property{required}
+    unsigned density;
 
     Texture3::Handle densityTexture;
 };
@@ -83,7 +80,7 @@ public:
     unsigned maxLevel;
 
     /// \property
-    std::vector<StarLayer> starLayers;
+    std::vector<StarField> starFields;
 };
 
 }

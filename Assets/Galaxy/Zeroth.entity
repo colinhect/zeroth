@@ -6,11 +6,10 @@ components:
     horizontalRadius: 60000
     verticalRadius: 20000
     maxLevel: 6
-    starLayers:
+    starFields:
       - name: Center
         densityShader: Zeroth/CenterDensity.shader
-        densityPerNode: 1000
-        starMaterial: Galaxy/Materials/Star.material
+        density: 750
         particleLayers:
           - name: Center
             particleShader: Zeroth/CenterParticle.shader
@@ -24,8 +23,7 @@ components:
             density: 10
       - name: Median
         densityShader: Zeroth/MedianDensity.shader
-        densityPerNode: 750
-        starMaterial: Galaxy/Materials/Star.material
+        density: 750
         particleLayers:
           - name: Median
             particleShader: Zeroth/MedianParticle.shader

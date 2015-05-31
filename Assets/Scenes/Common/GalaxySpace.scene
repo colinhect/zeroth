@@ -15,5 +15,6 @@ systems:
     gravity: [ 0, 0, 0 ]
   - type: GalaxySystem
     particleShader: Galaxy/Shaders/Particle.shader
-    particleResolution: 512
+    starMaterial: Galaxy/Materials/Star.material
+    particleResolution: 256
     densityResolution: 32

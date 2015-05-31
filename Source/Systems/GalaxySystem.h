@@ -26,8 +26,11 @@ public:
     void tick(double timeStep) override;
     void onComponentAdded(Galaxy::Iterator galaxy) override;
 
-    /// \property
+    /// \property{required}
     Shader::Handle particleShader;
+
+    /// \property{required}
+    Material::Handle starMaterial;
 
     /// \property
     unsigned particleResolution { 512 };
@@ -41,12 +44,12 @@ private:
     void splitGalaxyNode(Entity::Iterator entity);
     void joinGalaxyNode(Entity::Iterator entity);
 
-    void initializeStarLayer(StarLayer& starLayer, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model);
-    void generateStarLayer(StarLayer& starLayer, GalaxyNode::Iterator galaxyNode, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model);
-    void generateParticleLayer(StarLayer& starLayer, ParticleLayer& particleLayer, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model);
-    void renderDensityTexture(StarLayer& starLayer);
+    void initializeStarField(StarField& starField, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model);
+    void generateStarField(StarField& starField, GalaxyNode::Iterator galaxyNode, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model);
+    void generateParticleLayer(StarField& starField, ParticleLayer& particleLayer, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model);
+    void renderDensityTexture(StarField& starField);
     void renderParticleTexture(RandomSeed seed, ParticleLayer& particleLayer);
-    double computeDensity(StarLayer& starLayer, BoundingBox::Iterator boundingBox, const Vector3& position);
+    double computeDensity(StarField& starField, BoundingBox::Iterator boundingBox, const Vector3& position);
 
     Mesh createDensityPointsMesh() const;
 
