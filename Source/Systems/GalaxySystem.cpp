@@ -16,7 +16,6 @@ GalaxySystem::GalaxySystem(Scene& scene) :
 
 void GalaxySystem::initialize()
 {
-    _densityPointsMesh = createDensityPointsMesh();
 }
 
 void GalaxySystem::tick(double timeStep)
@@ -49,10 +48,10 @@ void GalaxySystem::tick(double timeStep)
 void GalaxySystem::onComponentAdded(Galaxy::Iterator galaxy)
 {
     Entity::Iterator entity = galaxy->entity();
-
+    
     // Compute minimum
-    double horizontalRadius = galaxy->horizontalRadius;
-    double verticalRadius = galaxy->verticalRadius;
+    double horizontalRadius = 60000;
+    double verticalRadius = 10000;
     const Vector3 minimum(-horizontalRadius, -horizontalRadius, -verticalRadius);
 
     // Compute the ratio of horizontal to vertical nodes
@@ -80,12 +79,6 @@ void GalaxySystem::onComponentAdded(Galaxy::Iterator galaxy)
 
     // Add the model for the particle layer meshes
     Model::Iterator model = entity->addComponent<Model>();
-
-    // Initialize star fields
-    for (StarField& starField : galaxy->starFields)
-    {
-        initializeStarField(starField, galaxy, boundingBox, model);
-    }
 }
 
 Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition)
@@ -110,17 +103,6 @@ Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, const V
     GalaxyNode::Iterator galaxyNode = entity->addComponent<GalaxyNode>();
     galaxyNode->galaxy = galaxy;
     galaxyNode->radius = size.length() / 2;
-
-    if (galaxyNode->radius < 6000)
-    {
-        // Add the model for the star field meshes
-        Model::Iterator model = entity->addComponent<Model>();
-
-        for (StarField& starField : galaxy->starFields)
-        {
-            generateStarField(starField, galaxyNode, galaxy, boundingBox, model);
-        }
-    }
     
     // Activate and return the entity
     entity->activate();
@@ -210,195 +192,4 @@ void GalaxySystem::splitGalaxyNode(Entity::Iterator entity)
             galaxyNode->split = true;
         }
     }
-}
-
-void GalaxySystem::initializeStarField(StarField& starField, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model)
-{
-    renderDensityTexture(starField);
-
-    for (ParticleLayer& particleLayer : starField.particleLayers)
-    {
-        renderParticleTexture(galaxy->seed, particleLayer);
-        generateParticleLayer(starField, particleLayer, galaxy, boundingBox, model);
-    }
-}
-
-void GalaxySystem::generateStarField(StarField& starField, GalaxyNode::Iterator galaxyNode, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model)
-{
-    Vector3 globalPosition = boundingBox->extents.center();
-    Random random(galaxy->seed + static_cast<RandomSeed>(globalPosition.x * globalPosition.y * globalPosition.z * galaxy->seed));
-    Vector3 halfSize = boundingBox->extents.size() / 2;
-
-    VertexAttributeType attributeType = VertexAttributeType::Float32;
-    VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, attributeType, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Weight0, attributeType, 1));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Weight1, attributeType, 1));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Weight2, attributeType, 1));
-
-    // Create the mesh containing the points for the stars
-    Mesh::Handle mesh(new Mesh(starField.name));
-    mesh->setVertexLayout(vertexLayout);
-    mesh->setPrimitiveType(PrimitiveType::PointSprites);
-    MeshWriter writer(*mesh);
-
-    BoundingBox::Iterator galaxyBoundingBox = galaxy->entity()->component<BoundingBox>();
-
-    // Generate particles until we meet the density
-    for (unsigned i = 0; i < starField.density; ++i)
-    {
-        // Pick a random point and check if it could be particle location
-        Vector3 position = random.next(-halfSize, halfSize);
-        double densityValue = computeDensity(starField, galaxyBoundingBox, globalPosition + position);
-        if (random.next(0.0, 1.0) < densityValue)
-        {
-            double size = random.next(0.25, 2.0);
-            double brightness = random.next(0.001, 10.0);
-
-            size_t vertexIndex = writer.addVertex();
-            writer.writeAttributeData(VertexAttributeSemantic::Position, position);
-            writer.writeAttributeData(VertexAttributeSemantic::Weight0, size);
-            writer.writeAttributeData(VertexAttributeSemantic::Weight1, brightness);
-            writer.writeAttributeData(VertexAttributeSemantic::Weight2, galaxyNode->radius * 2.0);
-            writer.addIndex(vertexIndex);
-        }
-    }
-
-    model->surfaces.push_back(ModelSurface(mesh, starMaterial));
-}
-
-void GalaxySystem::generateParticleLayer(StarField& starField, ParticleLayer& particleLayer, Galaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model)
-{
-    Random random(galaxy->seed);
-    Vector3 halfSize = boundingBox->extents.size() / 2;
-
-    VertexAttributeType attributeType = VertexAttributeType::Float32;
-    VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, attributeType, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Weight0, attributeType, 1));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Weight1, attributeType, 1));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Weight2, attributeType, 1));
-
-    // Create the mesh containing the points for the particles
-    Mesh::Handle mesh(new Mesh(particleLayer.name));
-    mesh->setVertexLayout(vertexLayout);
-    mesh->setPrimitiveType(PrimitiveType::Points);
-    MeshWriter writer(*mesh);
-
-    // Generate particles until we meet the density of this layer
-    unsigned particleCount = 0;
-    while (particleCount < particleLayer.density)
-    {
-        // Pick a random point and check if it could be particle location
-        Vector3 position = random.next(-halfSize, halfSize);
-        double densityValue = computeDensity(starField, boundingBox, position);
-        if (random.next(0.0, 1.0) < densityValue)
-        {
-            double size = random.next(particleLayer.sizeRange.x, particleLayer.sizeRange.y);
-            double rotation = random.next(0.0, 2.0 * pi);
-            double brightness = particleLayer.brightnessRange.x + (particleLayer.brightnessRange.y - particleLayer.brightnessRange.x) * densityValue;
-
-            size_t vertexIndex = writer.addVertex();
-            writer.writeAttributeData(VertexAttributeSemantic::Position, position);
-            writer.writeAttributeData(VertexAttributeSemantic::Weight0, size);
-            writer.writeAttributeData(VertexAttributeSemantic::Weight1, rotation);
-            writer.writeAttributeData(VertexAttributeSemantic::Weight2, brightness);
-            writer.addIndex(vertexIndex);
-
-            ++particleCount;
-        }
-    }
-
-    model->surfaces.push_back(ModelSurface(mesh, particleLayer.particleMaterial));
-}
-
-void GalaxySystem::renderDensityTexture(StarField& starField)
-{
-    Texture3::Handle texture(new Texture3(starField.name + ".Density", densityResolution, densityResolution, densityResolution, PixelFormat::Rgb32, TextureFilter::Linear, TextureFilter::Linear, false, false));
-
-    FrameBuffer frameBuffer(densityResolution, densityResolution);
-    frameBuffer.attach(FrameBufferSlot::Color0, *texture);
-
-    Renderer& renderer = Engine::instance().renderer();
-
-    Renderer::Frame frame = renderer.beginFrame(frameBuffer);
-    frame.setShader(*starField.densityShader);
-    frame.renderMesh(_densityPointsMesh);
-
-    starField.densityTexture = texture;
-}
-
-void GalaxySystem::renderParticleTexture(RandomSeed seed, ParticleLayer& particleLayer)
-{
-    Texture2::Handle texture(new Texture2(particleLayer.name + ".Particle", particleResolution, particleResolution, PixelFormat::Rgba8, TextureFilter::Linear, TextureFilter::Linear, false, false));
-
-    FrameBuffer frameBuffer(particleResolution, particleResolution);
-    frameBuffer.attach(FrameBufferSlot::Color0, *texture);
-
-    Renderer& renderer = Engine::instance().renderer();
-
-    Renderer::Frame frame = renderer.beginFrame(frameBuffer);
-
-    Shader& shader = *particleLayer.particleShader;
-    frame.setShader(shader);
-    if (shader.hasUniform("seed"))
-    {
-        Random random(seed);
-        double seed = random.next(-10000.0, 10000.0);
-        frame.setUniform(shader.uniform("seed"), seed);
-    }
-
-    frame.renderViewport();
-
-    particleLayer.particleTexture = texture;
-    particleLayer.particleMaterial = Material::Handle(new Material());
-    particleLayer.particleMaterial->setShader(particleShader);
-    particleLayer.particleMaterial->setUniformValue("particleTexture", texture);
-    particleLayer.particleMaterial->setCullMode(CullMode::None);
-}
-
-double GalaxySystem::computeDensity(StarField& starField, BoundingBox::Iterator boundingBox, const Vector3& position)
-{
-    AxisAlignedBox& extents = boundingBox->extents;
-    Vector3 totalSize = extents.size();
-    Vector3 coords = (position - extents.minimum()) / totalSize;
-
-    return starField.densityTexture->readPixel(coords).r;
-}
-
-Mesh GalaxySystem::createDensityPointsMesh() const
-{
-    Mesh mesh("DensityPoints");
-
-    VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Weight0, VertexAttributeType::Int32, 1));
-    mesh.setVertexLayout(vertexLayout);
-
-    mesh.setPrimitiveType(PrimitiveType::Points);
-
-    Vector3 dimensions(densityResolution, densityResolution, densityResolution);
-    dimensions -= 1;
-
-    MeshWriter meshWriter(mesh);
-    for (unsigned z = 0; z < densityResolution; ++z)
-    {
-        for (unsigned y = 0; y < densityResolution; ++y)
-        {
-            for (unsigned x = 0; x < densityResolution; ++x)
-            {
-                Vector3 position(x, y, z);
-                position /= dimensions;
-                position -= 0.5;
-                position *= 1.95;
-
-                size_t index = meshWriter.addVertex();
-                meshWriter.writeAttributeData(VertexAttributeSemantic::Position, position);
-                meshWriter.writeAttributeData(VertexAttributeSemantic::Weight0, z);
-                meshWriter.addIndex(index);
-            }
-        }
-    }
-
-    return mesh;
 }

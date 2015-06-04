@@ -13,8 +13,3 @@ systemTypes:
 systems:
   - type: PhysicsSystem
     gravity: [ 0, 0, 0 ]
-  - type: GalaxySystem
-    particleShader: Galaxy/Shaders/Particle.shader
-    starMaterial: Galaxy/Materials/Star.material
-    particleResolution: 256
-    densityResolution: 32

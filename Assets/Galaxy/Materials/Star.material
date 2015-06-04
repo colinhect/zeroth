@@ -1,6 +1,6 @@
 ---
-shader: Galaxy/Shaders/Star.shader
+shader: Shaders/Star.shader
 uniformValues:
   - name: starTexture
     type: Texture2
-    value: Galaxy/Textures/Star.texture2
+    value: Textures/Star.texture2

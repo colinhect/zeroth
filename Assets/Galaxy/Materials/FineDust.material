@@ -1,0 +1,6 @@
+---
+shader: Shaders/Particle.shader
+uniformValues:
+  - name: particleTexture
+    type: Texture2
+    value: Galaxy/Textures/FineDust.texture2
