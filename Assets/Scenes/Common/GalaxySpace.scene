@@ -13,3 +13,6 @@ systemTypes:
 systems:
   - type: PhysicsSystem
     gravity: [ 0, 0, 0 ]
+  - type: GalaxySystem
+    spiralDiameterRange: [ 50000, 150000 ]
+    spiralThicknessRange: [ 6000, 12000 ]

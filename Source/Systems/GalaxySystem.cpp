@@ -47,11 +47,33 @@ void GalaxySystem::tick(double timeStep)
 
 void GalaxySystem::onComponentAdded(Galaxy::Iterator galaxy)
 {
+    generateGalaxy(galaxy);
+}
+
+void GalaxySystem::generateGalaxy(Galaxy::Iterator galaxy)
+{
     Entity::Iterator entity = galaxy->entity();
+
+    // Create the random number generator for this galaxy
+    Random random;
+    if (galaxy->seed != 0)
+    {
+        random = Random(galaxy->seed);
+    }
     
+    // Generate the numerical properties about the galaxy
+    galaxy->diameter = random.next(spiralDiameterRange[0], spiralDiameterRange[1]);
+    HECT_DEBUG(format("Diameter: %f ly", galaxy->diameter));
+    galaxy->thickness = random.next(spiralThicknessRange[0], spiralThicknessRange[1]);
+    HECT_DEBUG(format("Thickness: %f ly", galaxy->thickness));
+    galaxy->eccentricity = random.next(0.0, 1.0);
+    HECT_DEBUG(format("Eccentricity: %f", galaxy->eccentricity));
+    galaxy->armThickness = random.next(0.0, 1.0);
+    HECT_DEBUG(format("Arm Thickness: %f", galaxy->armThickness));
+
     // Compute minimum
-    double horizontalRadius = 60000;
-    double verticalRadius = 10000;
+    double horizontalRadius = galaxy->diameter / 2.0;
+    double verticalRadius = galaxy->thickness / 2.0;
     const Vector3 minimum(-horizontalRadius, -horizontalRadius, -verticalRadius);
 
     // Compute the ratio of horizontal to vertical nodes
@@ -70,7 +92,7 @@ void GalaxySystem::onComponentAdded(Galaxy::Iterator galaxy)
         {
             Vector3 localPosition = minimum + size * Vector3(x, y, 0) + halfSize;
             Entity::Iterator rootGalaxyNode = createGalaxyNode(galaxy, size, localPosition, Vector3::Zero);
-            galaxy->entity()->addChild(*rootGalaxyNode);
+            entity->addChild(*rootGalaxyNode);
         }
     }
 
