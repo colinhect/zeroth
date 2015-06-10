@@ -99,8 +99,54 @@ void GalaxySystem::generateGalaxy(Galaxy::Iterator galaxy)
     // Add the bounding box for the whole galaxy
     BoundingBox::Iterator boundingBox = entity->addComponent<BoundingBox>();
 
-    // Add the model for the particle layer meshes
+    // Add the model for the topology and particle layer meshes
     Model::Iterator model = entity->addComponent<Model>();
+
+    createTopologyMesh(galaxy);
+}
+
+void GalaxySystem::createTopologyMesh(Galaxy::Iterator galaxy)
+{
+    // Create mesh
+    Mesh::Handle topologyMesh(new Mesh("Topology"));
+    topologyMesh->setPrimitiveType(PrimitiveType::Triangles);
+
+    // Write the vertex/index data
+    VertexAttributeSemantic position = VertexAttributeSemantic::Position;
+    VertexAttributeSemantic textureCoords = VertexAttributeSemantic::TextureCoords0;
+    MeshWriter meshWriter(*topologyMesh);
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(position, Vector2(-0.5, -0.5) * galaxy->diameter);
+    meshWriter.writeAttributeData(textureCoords, Vector2(0.0, 0.0));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(position, Vector2(0.5, -0.5) * galaxy->diameter);
+    meshWriter.writeAttributeData(textureCoords, Vector2(1.0, 0.0));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(position, Vector2(0.5, 0.5) * galaxy->diameter);
+    meshWriter.writeAttributeData(textureCoords, Vector2(1.0, 1.0));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(position, Vector2(-0.5, 0.5) * galaxy->diameter);
+    meshWriter.writeAttributeData(textureCoords, Vector2(0.0, 1.0));
+    meshWriter.addIndex(0);
+    meshWriter.addIndex(1);
+    meshWriter.addIndex(2);
+    meshWriter.addIndex(2);
+    meshWriter.addIndex(3);
+    meshWriter.addIndex(0);
+
+    // Temp
+    AssetCache& assetCache = Engine::instance().assetCache();
+    Texture2::Handle tempTexture = assetCache.getHandle<Texture2>("Galaxy/Materials/Textures/ComplexDust.texture2");
+
+    // Create the material
+    Material::Handle topologyMaterial(new Material("Topology"));
+    topologyMaterial->setShader(topologyShader);
+    topologyMaterial->setUniformValue("texture", tempTexture);
+    topologyMaterial->setCullMode(CullMode::None);
+
+    // Add the mesh to the galaxy's model
+    Model::Iterator model = galaxy->entity()->component<Model>();
+    model->addSurface(topologyMesh, topologyMaterial);
 }
 
 Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition)

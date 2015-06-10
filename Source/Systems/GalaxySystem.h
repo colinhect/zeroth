@@ -32,8 +32,12 @@ public:
     /// \property{required}
     Vector2 spiralThicknessRange;
 
+    /// \property{required}
+    Shader::Handle topologyShader;
+
 private:
     void generateGalaxy(Galaxy::Iterator galaxy);
+    void createTopologyMesh(Galaxy::Iterator galaxy);
 
     Entity::Iterator createGalaxyNode(Galaxy::Iterator galaxy, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition);
     void adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterator entity);

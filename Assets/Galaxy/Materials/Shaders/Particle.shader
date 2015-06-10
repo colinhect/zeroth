@@ -16,5 +16,5 @@ uniforms:
     type: Texture2
 depthTested: false
 blendMode:
-    sourceFactor: One
-    destinationFactor: One
+  sourceFactor: One
+  destinationFactor: One
