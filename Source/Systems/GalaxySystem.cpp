@@ -56,6 +56,9 @@ void GalaxySystem::receiveEvent(const KeyboardEvent& event)
 {
     if (event.key == Key::F5 && event.type == KeyboardEventType::KeyDown)
     {
+        AssetCache& assetCache = Engine::instance().assetCache();
+        assetCache.refresh(true);
+
         // Destroy the existing galaxies
         for (Galaxy& galaxy : scene().components<Galaxy>())
         {
@@ -78,11 +81,11 @@ void GalaxySystem::generateGalaxy(Galaxy::Iterator galaxy)
     Entity::Iterator entity = galaxy->entity();
 
     // Create the random number generator for this galaxy
-    Random random;
-    if (galaxy->seed != 0)
+    if (galaxy->seed == 0)
     {
-        random = Random(galaxy->seed);
+        galaxy->seed = static_cast<RandomSeed>(Timer::totalElapsed().milliseconds());
     }
+    Random random(galaxy->seed);
     
     // Generate the numerical properties about the galaxy
     galaxy->diameter = random.next(spiralDiameterRange[0], spiralDiameterRange[1]);
@@ -174,7 +177,7 @@ void GalaxySystem::createTopologyMesh(Galaxy::Iterator galaxy)
 
 Texture2::Handle GalaxySystem::generateTopologyTexture(Galaxy::Iterator galaxy)
 {
-    Texture2::Handle texture(new Texture2("Topology", topologyTextureResolution, topologyTextureResolution, PixelFormat::Rgba8, TextureFilter::Linear, TextureFilter::Linear, false, false));
+    Texture2::Handle texture(new Texture2("Topology", topologyTextureResolution, topologyTextureResolution, PixelFormat::Rgba16, TextureFilter::Linear, TextureFilter::Linear, false, false));
 
     FrameBuffer frameBuffer(topologyTextureResolution, topologyTextureResolution);
     frameBuffer.attach(FrameBufferSlot::Color0, *texture);
@@ -185,7 +188,7 @@ Texture2::Handle GalaxySystem::generateTopologyTexture(Galaxy::Iterator galaxy)
 
     Shader& shader = *generateSpiralShader;
     frame.setShader(shader);
-    frame.setUniform(shader.uniform("seed"), static_cast<double>(galaxy->seed));
+    frame.setUniform(shader.uniform("seed"), Random(galaxy->seed).next(-10000.0, 10000.0));
     frame.setUniform(shader.uniform("eccentricity"), galaxy->eccentricity);
     frame.setUniform(shader.uniform("armThickness"), galaxy->armThickness);
     frame.renderViewport();
