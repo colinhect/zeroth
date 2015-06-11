@@ -12,6 +12,8 @@ GalaxySystem::GalaxySystem(Scene& scene) :
     System(scene),
     _cameraSystem(scene.system<CameraSystem>())
 {
+    Engine& engine = Engine::instance();
+    engine.keyboard().registerListener(*this);
 }
 
 void GalaxySystem::initialize()
@@ -48,6 +50,27 @@ void GalaxySystem::tick(double timeStep)
 void GalaxySystem::onComponentAdded(Galaxy::Iterator galaxy)
 {
     generateGalaxy(galaxy);
+}
+
+void GalaxySystem::receiveEvent(const KeyboardEvent& event)
+{
+    if (event.key == Key::F5 && event.type == KeyboardEventType::KeyDown)
+    {
+        // Destroy the existing galaxies
+        for (Galaxy& galaxy : scene().components<Galaxy>())
+        {
+            Entity::Iterator entity = galaxy.entity();
+            if (!entity->isPendingDestruction())
+            {
+                entity->destroy();
+            }
+        }
+
+        // Create a new galaxy
+        Entity::Iterator entity = scene().createEntity();
+        entity->addComponent<Galaxy>();
+        entity->activate();
+    }
 }
 
 void GalaxySystem::generateGalaxy(Galaxy::Iterator galaxy)
@@ -134,19 +157,40 @@ void GalaxySystem::createTopologyMesh(Galaxy::Iterator galaxy)
     meshWriter.addIndex(3);
     meshWriter.addIndex(0);
 
-    // Temp
-    AssetCache& assetCache = Engine::instance().assetCache();
-    Texture2::Handle tempTexture = assetCache.getHandle<Texture2>("Galaxy/Materials/Textures/ComplexDust.texture2");
+    // Generate the topology texture
+    Texture2::Handle texture = generateTopologyTexture(galaxy);
 
     // Create the material
     Material::Handle topologyMaterial(new Material("Topology"));
     topologyMaterial->setShader(topologyShader);
-    topologyMaterial->setUniformValue("texture", tempTexture);
+    topologyMaterial->setUniformValue("additiveTexture", texture);
+    topologyMaterial->setUniformValue("intensity", 0.5);
     topologyMaterial->setCullMode(CullMode::None);
 
     // Add the mesh to the galaxy's model
     Model::Iterator model = galaxy->entity()->component<Model>();
     model->addSurface(topologyMesh, topologyMaterial);
+}
+
+Texture2::Handle GalaxySystem::generateTopologyTexture(Galaxy::Iterator galaxy)
+{
+    Texture2::Handle texture(new Texture2("Topology", topologyTextureResolution, topologyTextureResolution, PixelFormat::Rgba8, TextureFilter::Linear, TextureFilter::Linear, false, false));
+
+    FrameBuffer frameBuffer(topologyTextureResolution, topologyTextureResolution);
+    frameBuffer.attach(FrameBufferSlot::Color0, *texture);
+
+    Renderer& renderer = Engine::instance().renderer();
+
+    Renderer::Frame frame = renderer.beginFrame(frameBuffer);
+
+    Shader& shader = *generateSpiralShader;
+    frame.setShader(shader);
+    frame.setUniform(shader.uniform("seed"), static_cast<double>(galaxy->seed));
+    frame.setUniform(shader.uniform("eccentricity"), galaxy->eccentricity);
+    frame.setUniform(shader.uniform("armThickness"), galaxy->armThickness);
+    frame.renderViewport();
+
+    return texture;
 }
 
 Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition)

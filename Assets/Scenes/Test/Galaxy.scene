@@ -4,6 +4,9 @@ entities:
   - base: Test/Observer.entity
     components:
       - type: Transform
-        localPosition: [ 0, -100000, 0 ]
+        localPosition: [ 0, 0, 50000 ]
+        localRotation:
+          axis: [ 1, 0, 0 ]
+          angle: 90
   - components:
       - type: Galaxy
