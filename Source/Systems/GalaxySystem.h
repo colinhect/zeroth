@@ -54,7 +54,11 @@ public:
 
 private:
     void generateGalaxy(Galaxy::Iterator galaxy);
+
     void createTopologyMesh(Galaxy::Iterator galaxy);
+    void createParticlesMesh(Galaxy::Iterator galaxy);
+
+    Texture2::Handle generateParticleTexture(Galaxy::Iterator galaxy);
     Texture2::Handle generateTopologyTexture(Galaxy::Iterator galaxy);
 
     Entity::Iterator createGalaxyNode(Galaxy::Iterator galaxy, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition);

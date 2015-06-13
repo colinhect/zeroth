@@ -129,18 +129,19 @@ void GalaxySystem::generateGalaxy(Galaxy::Iterator galaxy)
     Model::Iterator model = entity->addComponent<Model>();
 
     createTopologyMesh(galaxy);
+    createParticlesMesh(galaxy);
 }
 
 void GalaxySystem::createTopologyMesh(Galaxy::Iterator galaxy)
 {
     // Create mesh
-    Mesh::Handle topologyMesh(new Mesh("Topology"));
-    topologyMesh->setPrimitiveType(PrimitiveType::Triangles);
+    Mesh::Handle mesh(new Mesh("Topology"));
+    mesh->setPrimitiveType(PrimitiveType::Triangles);
 
     // Write the vertex/index data
     VertexAttributeSemantic position = VertexAttributeSemantic::Position;
     VertexAttributeSemantic textureCoords = VertexAttributeSemantic::TextureCoords0;
-    MeshWriter meshWriter(*topologyMesh);
+    MeshWriter meshWriter(*mesh);
     meshWriter.addVertex();
     meshWriter.writeAttributeData(position, Vector2(-0.5, -0.5) * galaxy->diameter);
     meshWriter.writeAttributeData(textureCoords, Vector2(0.0, 0.0));
@@ -164,15 +165,92 @@ void GalaxySystem::createTopologyMesh(Galaxy::Iterator galaxy)
     Texture2::Handle texture = generateTopologyTexture(galaxy);
 
     // Create the material
-    Material::Handle topologyMaterial(new Material("Topology"));
-    topologyMaterial->setShader(topologyShader);
-    topologyMaterial->setUniformValue("additiveTexture", texture);
-    topologyMaterial->setUniformValue("intensity", 0.5);
-    topologyMaterial->setCullMode(CullMode::None);
+    Material::Handle material(new Material("Topology"));
+    material->setShader(topologyShader);
+    material->setUniformValue("additiveTexture", texture);
+    material->setUniformValue("intensity", 0.5);
+    material->setCullMode(CullMode::None);
 
     // Add the mesh to the galaxy's model
     Model::Iterator model = galaxy->entity()->component<Model>();
-    model->addSurface(topologyMesh, topologyMaterial);
+    model->addSurface(mesh, material);
+}
+
+void GalaxySystem::createParticlesMesh(Galaxy::Iterator galaxy)
+{
+    Entity::Iterator entity = galaxy->entity();
+
+    VertexLayout vertexLayout;
+    VertexAttribute position(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3);
+    vertexLayout.addAttribute(position);
+    VertexAttribute size(VertexAttributeSemantic::Weight0, VertexAttributeType::Float32, 1);
+    vertexLayout.addAttribute(size);
+    VertexAttribute rotation(VertexAttributeSemantic::Weight1, VertexAttributeType::Float32, 1);
+    vertexLayout.addAttribute(rotation);
+    VertexAttribute brightness(VertexAttributeSemantic::Weight2, VertexAttributeType::Float32, 1);
+    vertexLayout.addAttribute(brightness);
+
+    Mesh::Handle mesh(new Mesh("Particles"));
+    mesh->setVertexLayout(vertexLayout);
+    mesh->setPrimitiveType(PrimitiveType::Points);
+
+    MeshWriter writer(*mesh);
+
+    Random random(galaxy->seed);
+
+    BoundingBox::Iterator boundingBox = entity->component<BoundingBox>();
+    Vector3 halfSize = boundingBox->extents.size() / 2;
+    halfSize.z = galaxy->thickness;
+
+    unsigned particleCount = 0;
+    while (particleCount < 1000)
+    {
+        Vector3 position = random.next(-halfSize, halfSize);
+
+        double size = random.next(3000.0, 8000.0);
+        double rotation = random.next(0.0, 2.0 * pi);
+        double brightness = random.next(0.0001, 0.005);
+
+        writer.addVertex();
+        writer.writeAttributeData(VertexAttributeSemantic::Position, position);
+        writer.writeAttributeData(VertexAttributeSemantic::Weight0, size);
+        writer.writeAttributeData(VertexAttributeSemantic::Weight1, rotation);
+        writer.writeAttributeData(VertexAttributeSemantic::Weight2, brightness);
+        writer.addIndex(particleCount);
+
+        ++particleCount;
+    }
+
+    // Generate the particle texture
+    Texture2::Handle texture = generateParticleTexture(galaxy);
+
+    // Create the material
+    Material::Handle material(new Material("Particle"));
+    material->setShader(particleShader);
+    material->setUniformValue("particleTexture", texture);
+    material->setCullMode(CullMode::None);
+
+    // Add the mesh to the galaxy's model
+    Model::Iterator model = galaxy->entity()->component<Model>();
+    model->addSurface(mesh, material);
+}
+
+Texture2::Handle GalaxySystem::generateParticleTexture(Galaxy::Iterator galaxy)
+{
+    Texture2::Handle texture(new Texture2("Particle", particleTextureResolution, particleTextureResolution, PixelFormat::Rgb8, TextureFilter::Linear, TextureFilter::Linear, false, false));
+
+    FrameBuffer frameBuffer(particleTextureResolution, particleTextureResolution);
+    frameBuffer.attach(FrameBufferSlot::Color0, *texture);
+
+    Renderer& renderer = Engine::instance().renderer();
+    Renderer::Frame frame = renderer.beginFrame(frameBuffer);
+
+    Shader& shader = *particleGenerateShader;
+    frame.setShader(shader);
+    frame.setUniform(shader.uniform("seed"), Random(galaxy->seed).next(-10000.0, 10000.0));
+    frame.renderViewport();
+
+    return texture;
 }
 
 Texture2::Handle GalaxySystem::generateTopologyTexture(Galaxy::Iterator galaxy)
@@ -183,7 +261,6 @@ Texture2::Handle GalaxySystem::generateTopologyTexture(Galaxy::Iterator galaxy)
     frameBuffer.attach(FrameBufferSlot::Color0, *texture);
 
     Renderer& renderer = Engine::instance().renderer();
-
     Renderer::Frame frame = renderer.beginFrame(frameBuffer);
 
     Shader& shader = *spiralGenerateTopologyShader;
