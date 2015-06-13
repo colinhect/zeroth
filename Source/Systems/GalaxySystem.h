@@ -18,7 +18,7 @@ namespace zeroth
 /// \system
 class GalaxySystem :
     public System<GalaxySystem, Components<Galaxy>>,
-    public Listener<KeyboardEvent>
+            public Listener<KeyboardEvent>
 {
 public:
     GalaxySystem(Scene& scene);
@@ -29,19 +29,28 @@ public:
     void receiveEvent(const KeyboardEvent& event) override;
 
     /// \property{required}
-    Vector2 spiralDiameterRange;
-
-    /// \property{required}
-    Vector2 spiralThicknessRange;
-
-    /// \property{required}
     Shader::Handle topologyShader;
 
     /// \property{required}
     unsigned topologyTextureResolution;
 
     /// \property{required}
-    Shader::Handle generateSpiralShader;
+    Shader::Handle particleShader;
+
+    /// \property{required}
+    Shader::Handle particleGenerateShader;
+
+    /// \property{required}
+    unsigned particleTextureResolution;
+
+    /// \property{required}
+    Vector2 spiralDiameterRange;
+
+    /// \property{required}
+    Vector2 spiralThicknessRange;
+
+    /// \property{required}
+    Shader::Handle spiralGenerateTopologyShader;
 
 private:
     void generateGalaxy(Galaxy::Iterator galaxy);
@@ -52,7 +61,7 @@ private:
     void adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterator entity);
     void splitGalaxyNode(Entity::Iterator entity);
     void joinGalaxyNode(Entity::Iterator entity);
-    
+
     CameraSystem::Handle _cameraSystem;
 };
 

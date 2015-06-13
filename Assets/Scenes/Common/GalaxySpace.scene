@@ -14,8 +14,11 @@ systems:
   - type: PhysicsSystem
     gravity: [ 0, 0, 0 ]
   - type: GalaxySystem
-    spiralDiameterRange: [ 50000, 150000 ]
-    spiralThicknessRange: [ 6000, 12000 ]
     topologyShader: Hect/Shaders/Additive.shader
     topologyTextureResolution: 1024
-    generateSpiralShader: Galaxy/Materials/Shaders/GenerateSpiral.shader
+    particleShader: Galaxy/Materials/Shaders/Particle.shader
+    particleGenerateShader: Galaxy/Materials/Shaders/GenerateParticle.shader
+    particleTextureResolution: 256
+    spiralDiameterRange: [ 50000, 150000 ]
+    spiralThicknessRange: [ 6000, 12000 ]
+    spiralGenerateTopologyShader: Galaxy/Materials/Shaders/Spiral/GenerateTopology.shader

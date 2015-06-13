@@ -86,7 +86,7 @@ void GalaxySystem::generateGalaxy(Galaxy::Iterator galaxy)
         galaxy->seed = static_cast<RandomSeed>(Timer::totalElapsed().milliseconds());
     }
     Random random(galaxy->seed);
-    
+
     // Generate the numerical properties about the galaxy
     galaxy->diameter = random.next(spiralDiameterRange[0], spiralDiameterRange[1]);
     HECT_DEBUG(format("Diameter: %f ly", galaxy->diameter));
@@ -186,7 +186,7 @@ Texture2::Handle GalaxySystem::generateTopologyTexture(Galaxy::Iterator galaxy)
 
     Renderer::Frame frame = renderer.beginFrame(frameBuffer);
 
-    Shader& shader = *generateSpiralShader;
+    Shader& shader = *spiralGenerateTopologyShader;
     frame.setShader(shader);
     frame.setUniform(shader.uniform("seed"), Random(galaxy->seed).next(-10000.0, 10000.0));
     frame.setUniform(shader.uniform("eccentricity"), galaxy->eccentricity);
@@ -218,7 +218,7 @@ Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, const V
     GalaxyNode::Iterator galaxyNode = entity->addComponent<GalaxyNode>();
     galaxyNode->galaxy = galaxy;
     galaxyNode->radius = size.length() / 2;
-    
+
     // Activate and return the entity
     entity->activate();
     return entity;

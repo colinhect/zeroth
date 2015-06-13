@@ -1,8 +1,8 @@
 ---
-base: Procedural.shader
+base: Galaxy/Materials/Shaders/Procedural.shader
 modules:
   - type: Fragment
-    path: GenerateSpiral.glsl
+    path: GenerateTopology.glsl
 uniforms:
   - name: seed
     type: Float
