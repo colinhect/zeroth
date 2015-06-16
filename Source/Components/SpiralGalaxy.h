@@ -25,12 +25,6 @@ public:
     double thickness;
     unsigned density;
 
-    std::array<double, 4> variations;
-
-    Color bulgeColor;
-    Color primaryColor;
-    Color secondaryColor;
-
     Texture2::Handle topologyTexture;
 };
 

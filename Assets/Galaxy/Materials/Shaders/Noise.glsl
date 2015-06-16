@@ -98,11 +98,27 @@ float fractalNoise(
 
     for (int i = 0; i < octaveCount; ++i)
     {
-        value += simplexNoise(point + vec3(100.0) * i) * currentPersistence;
+        value += simplexNoise(point + vec3(123.4) * i) * currentPersistence;
 
         point *= lacunarity;
         currentPersistence *= persistence;
     }
 
     return value;
+}
+
+int randomIndex = 0;
+
+float random(
+    in  float   seed,
+    in  float   min,
+    in  float   max)
+{
+    randomIndex += 1;
+
+    int i = randomIndex;
+    vec3 point = vec3(0.67 * i + seed, 1.45 * i - (seed / 2), 3.21 * i + seed);
+    float value = clamp(simplexNoise(point) * 0.5 + 0.5, 0.0, 1.0);
+
+    return clamp(mix(min, max, value), min, max);
 }

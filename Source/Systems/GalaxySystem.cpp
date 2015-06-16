@@ -85,21 +85,6 @@ void GalaxySystem::generateSpiralGalaxy(SpiralGalaxy::Iterator galaxy)
 {
     Entity::Iterator entity = galaxy->entity();
 
-    std::vector<Color> bulgeColors = {
-        Color(244.0, 216.0, 203.0) / 255.0,
-        Color(236.0, 234.0, 235.0) / 255.0,
-        Color(206.0, 166.0, 130.0) / 255.0,
-        Color(219.0, 228.0, 211.0) / 255.0
-    };
-
-    std::vector<Color> primaryColors = {
-        Color(180.0, 76.0, 117.0) / 255.0,
-        Color(207.0, 214.0, 233.0) / 255.0,
-        Color(142.0, 177.0, 255.0) / 255.0,
-        Color(216.0, 115.0, 233.0) / 255.0,
-        Color(244.0, 216.0, 203.0) / 255.0
-    };
-
     // Create the random number generator for this galaxy
     if (galaxy->seed == 0)
     {
@@ -111,15 +96,6 @@ void GalaxySystem::generateSpiralGalaxy(SpiralGalaxy::Iterator galaxy)
     galaxy->diameter = random.next(spiralDiameterRange[0], spiralDiameterRange[1]);
     galaxy->thickness = random.next(spiralThicknessRange[0], spiralThicknessRange[1]);
     galaxy->density = static_cast<unsigned>(random.next(spiralDensityRange[0], spiralDensityRange[1]));
-
-    for (double& variation : galaxy->variations)
-    {
-        variation = random.next(0.0, 1.0);
-    }
-
-    galaxy->bulgeColor = bulgeColors[random.next(size_t(0), bulgeColors.size())];
-    galaxy->primaryColor = primaryColors[random.next(size_t(0), primaryColors.size())];
-    galaxy->secondaryColor = primaryColors[random.next(size_t(0), primaryColors.size())];
 
     // Compute minimum
     double horizontalRadius = galaxy->diameter / 2.0;
@@ -296,15 +272,6 @@ void GalaxySystem::generateTopologyTexture(SpiralGalaxy::Iterator galaxy)
     Shader& shader = *spiralGenerateTopologyShader;
     frame.setShader(shader);
     frame.setUniform(shader.uniform("seed"), Random(galaxy->seed).next(-10000.0, 10000.0));
-    frame.setUniform(shader.uniform("bulgeColor"), galaxy->bulgeColor);
-    frame.setUniform(shader.uniform("primaryColor"), galaxy->primaryColor);
-    frame.setUniform(shader.uniform("secondaryColor"), galaxy->secondaryColor);
-
-    size_t i = 0;
-    for (double& variation : galaxy->variations)
-    {
-        frame.setUniform(shader.uniform("variation" + std::to_string(i++)), variation);
-    }
 
     frame.renderViewport();
 }
