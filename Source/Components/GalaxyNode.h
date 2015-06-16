@@ -9,7 +9,7 @@
 #include <Hect.h>
 using namespace hect;
 
-#include "Components/Galaxy.h"
+#include "Components/SpiralGalaxy.h"
 
 namespace zeroth
 {
@@ -19,7 +19,7 @@ class GalaxyNode :
     public Component<GalaxyNode>
 {
 public:
-    Galaxy::Iterator galaxy;
+    SpiralGalaxy::Iterator galaxy;
     double radius { 0 };
     bool split { false };
 };

@@ -33,7 +33,7 @@ void GalaxySystem::tick(double timeStep)
             Vector3 cameraPosition = activeCamera->position;
 
             // For each galaxy
-            for (Galaxy& galaxy : scene().components<Galaxy>())
+            for (SpiralGalaxy& galaxy : scene().components<SpiralGalaxy>())
             {
                 // Adapt each root galaxy node to the camera position
                 Entity::Iterator galaxyEntity = galaxy.entity();
@@ -47,20 +47,16 @@ void GalaxySystem::tick(double timeStep)
     }
 }
 
-void GalaxySystem::onComponentAdded(Galaxy::Iterator galaxy)
+void GalaxySystem::onComponentAdded(SpiralGalaxy::Iterator galaxy)
 {
-    generateGalaxy(galaxy);
+    generateSpiralGalaxy(galaxy);
 }
 
 void GalaxySystem::receiveEvent(const KeyboardEvent& event)
 {
     if (event.key == Key::F5 && event.type == KeyboardEventType::KeyDown)
     {
-        AssetCache& assetCache = Engine::instance().assetCache();
-        assetCache.refresh(true);
-
-        // Destroy the existing galaxies
-        for (Galaxy& galaxy : scene().components<Galaxy>())
+        for (SpiralGalaxy& galaxy : scene().components<SpiralGalaxy>())
         {
             Entity::Iterator entity = galaxy.entity();
             if (!entity->isPendingDestruction())
@@ -69,16 +65,40 @@ void GalaxySystem::receiveEvent(const KeyboardEvent& event)
             }
         }
 
-        // Create a new galaxy
         Entity::Iterator entity = scene().createEntity();
-        entity->addComponent<Galaxy>();
+        entity->addComponent<SpiralGalaxy>();
         entity->activate();
+    }
+    else if (event.key == Key::F6 && event.type == KeyboardEventType::KeyDown)
+    {
+        for (SpiralGalaxy& galaxy : scene().components<SpiralGalaxy>())
+        {
+            Entity::Iterator entity = galaxy.entity();
+            Model::Iterator model = entity->component<Model>();
+            ModelSurface& surface = model->surfaces[0];
+            surface.visible = !surface.visible;
+        }
     }
 }
 
-void GalaxySystem::generateGalaxy(Galaxy::Iterator galaxy)
+void GalaxySystem::generateSpiralGalaxy(SpiralGalaxy::Iterator galaxy)
 {
     Entity::Iterator entity = galaxy->entity();
+
+    std::vector<Color> bulgeColors = {
+        Color(244.0, 216.0, 203.0) / 255.0,
+        Color(236.0, 234.0, 235.0) / 255.0,
+        Color(206.0, 166.0, 130.0) / 255.0,
+        Color(219.0, 228.0, 211.0) / 255.0
+    };
+
+    std::vector<Color> primaryColors = {
+        Color(180.0, 76.0, 117.0) / 255.0,
+        Color(207.0, 214.0, 233.0) / 255.0,
+        Color(142.0, 177.0, 255.0) / 255.0,
+        Color(216.0, 115.0, 233.0) / 255.0,
+        Color(244.0, 216.0, 203.0) / 255.0
+    };
 
     // Create the random number generator for this galaxy
     if (galaxy->seed == 0)
@@ -89,13 +109,17 @@ void GalaxySystem::generateGalaxy(Galaxy::Iterator galaxy)
 
     // Generate the numerical properties about the galaxy
     galaxy->diameter = random.next(spiralDiameterRange[0], spiralDiameterRange[1]);
-    HECT_DEBUG(format("Diameter: %f ly", galaxy->diameter));
     galaxy->thickness = random.next(spiralThicknessRange[0], spiralThicknessRange[1]);
-    HECT_DEBUG(format("Thickness: %f ly", galaxy->thickness));
-    galaxy->eccentricity = random.next(0.0, 1.0);
-    HECT_DEBUG(format("Eccentricity: %f", galaxy->eccentricity));
-    galaxy->armThickness = random.next(0.0, 1.0);
-    HECT_DEBUG(format("Arm Thickness: %f", galaxy->armThickness));
+    galaxy->density = static_cast<unsigned>(random.next(spiralDensityRange[0], spiralDensityRange[1]));
+
+    for (double& variation : galaxy->variations)
+    {
+        variation = random.next(0.0, 1.0);
+    }
+
+    galaxy->bulgeColor = bulgeColors[random.next(size_t(0), bulgeColors.size())];
+    galaxy->primaryColor = primaryColors[random.next(size_t(0), primaryColors.size())];
+    galaxy->secondaryColor = primaryColors[random.next(size_t(0), primaryColors.size())];
 
     // Compute minimum
     double horizontalRadius = galaxy->diameter / 2.0;
@@ -132,7 +156,7 @@ void GalaxySystem::generateGalaxy(Galaxy::Iterator galaxy)
     createParticlesMesh(galaxy);
 }
 
-void GalaxySystem::createTopologyMesh(Galaxy::Iterator galaxy)
+void GalaxySystem::createTopologyMesh(SpiralGalaxy::Iterator galaxy)
 {
     // Create mesh
     Mesh::Handle mesh(new Mesh("Topology"));
@@ -162,13 +186,13 @@ void GalaxySystem::createTopologyMesh(Galaxy::Iterator galaxy)
     meshWriter.addIndex(0);
 
     // Generate the topology texture
-    Texture2::Handle texture = generateTopologyTexture(galaxy);
+    generateTopologyTexture(galaxy);
 
     // Create the material
     Material::Handle material(new Material("Topology"));
     material->setShader(topologyShader);
-    material->setUniformValue("additiveTexture", texture);
-    material->setUniformValue("intensity", 0.5);
+    material->setUniformValue("additiveTexture", galaxy->topologyTexture);
+    material->setUniformValue("intensity", 0.12);
     material->setCullMode(CullMode::None);
 
     // Add the mesh to the galaxy's model
@@ -176,19 +200,19 @@ void GalaxySystem::createTopologyMesh(Galaxy::Iterator galaxy)
     model->addSurface(mesh, material);
 }
 
-void GalaxySystem::createParticlesMesh(Galaxy::Iterator galaxy)
+void GalaxySystem::createParticlesMesh(SpiralGalaxy::Iterator galaxy)
 {
     Entity::Iterator entity = galaxy->entity();
 
     VertexLayout vertexLayout;
     VertexAttribute position(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3);
     vertexLayout.addAttribute(position);
+    VertexAttribute color(VertexAttributeSemantic::Color, VertexAttributeType::Float32, 3);
+    vertexLayout.addAttribute(color);
     VertexAttribute size(VertexAttributeSemantic::Weight0, VertexAttributeType::Float32, 1);
     vertexLayout.addAttribute(size);
     VertexAttribute rotation(VertexAttributeSemantic::Weight1, VertexAttributeType::Float32, 1);
     vertexLayout.addAttribute(rotation);
-    VertexAttribute brightness(VertexAttributeSemantic::Weight2, VertexAttributeType::Float32, 1);
-    vertexLayout.addAttribute(brightness);
 
     Mesh::Handle mesh(new Mesh("Particles"));
     mesh->setVertexLayout(vertexLayout);
@@ -203,22 +227,28 @@ void GalaxySystem::createParticlesMesh(Galaxy::Iterator galaxy)
     halfSize.z = galaxy->thickness;
 
     unsigned particleCount = 0;
-    while (particleCount < 1000)
+    while (particleCount < galaxy->density)
     {
         Vector3 position = random.next(-halfSize, halfSize);
 
-        double size = random.next(3000.0, 8000.0);
-        double rotation = random.next(0.0, 2.0 * pi);
-        double brightness = random.next(0.0001, 0.005);
+        Color color;
+        double thickness = 0.0;
+        sampleTopology(galaxy, position, color, thickness);
+        if (random.next(0.0, 1.0) < thickness)
+        {
+            position.z = random.next(-thickness, thickness) * galaxy->thickness * 0.5;
+            double size = random.next(2000.0, 8000.0);
+            double rotation = random.next(0.0, 2.0 * pi);
 
-        writer.addVertex();
-        writer.writeAttributeData(VertexAttributeSemantic::Position, position);
-        writer.writeAttributeData(VertexAttributeSemantic::Weight0, size);
-        writer.writeAttributeData(VertexAttributeSemantic::Weight1, rotation);
-        writer.writeAttributeData(VertexAttributeSemantic::Weight2, brightness);
-        writer.addIndex(particleCount);
+            writer.addVertex();
+            writer.writeAttributeData(VertexAttributeSemantic::Position, position);
+            writer.writeAttributeData(VertexAttributeSemantic::Color, Vector3(color.r, color.g, color.b));
+            writer.writeAttributeData(VertexAttributeSemantic::Weight0, size);
+            writer.writeAttributeData(VertexAttributeSemantic::Weight1, rotation);
+            writer.addIndex(particleCount);
 
-        ++particleCount;
+            ++particleCount;
+        }
     }
 
     // Generate the particle texture
@@ -235,7 +265,7 @@ void GalaxySystem::createParticlesMesh(Galaxy::Iterator galaxy)
     model->addSurface(mesh, material);
 }
 
-Texture2::Handle GalaxySystem::generateParticleTexture(Galaxy::Iterator galaxy)
+Texture2::Handle GalaxySystem::generateParticleTexture(SpiralGalaxy::Iterator galaxy)
 {
     Texture2::Handle texture(new Texture2("Particle", particleTextureResolution, particleTextureResolution, PixelFormat::Rgb8, TextureFilter::Linear, TextureFilter::Linear, false, false));
 
@@ -253,12 +283,12 @@ Texture2::Handle GalaxySystem::generateParticleTexture(Galaxy::Iterator galaxy)
     return texture;
 }
 
-Texture2::Handle GalaxySystem::generateTopologyTexture(Galaxy::Iterator galaxy)
+void GalaxySystem::generateTopologyTexture(SpiralGalaxy::Iterator galaxy)
 {
-    Texture2::Handle texture(new Texture2("Topology", topologyTextureResolution, topologyTextureResolution, PixelFormat::Rgba16, TextureFilter::Linear, TextureFilter::Linear, false, false));
+    galaxy->topologyTexture = new Texture2("Topology", topologyTextureResolution, topologyTextureResolution, PixelFormat::Rgba32, TextureFilter::Linear, TextureFilter::Linear, false, false);
 
     FrameBuffer frameBuffer(topologyTextureResolution, topologyTextureResolution);
-    frameBuffer.attach(FrameBufferSlot::Color0, *texture);
+    frameBuffer.attach(FrameBufferSlot::Color0, *galaxy->topologyTexture);
 
     Renderer& renderer = Engine::instance().renderer();
     Renderer::Frame frame = renderer.beginFrame(frameBuffer);
@@ -266,14 +296,36 @@ Texture2::Handle GalaxySystem::generateTopologyTexture(Galaxy::Iterator galaxy)
     Shader& shader = *spiralGenerateTopologyShader;
     frame.setShader(shader);
     frame.setUniform(shader.uniform("seed"), Random(galaxy->seed).next(-10000.0, 10000.0));
-    frame.setUniform(shader.uniform("eccentricity"), galaxy->eccentricity);
-    frame.setUniform(shader.uniform("armThickness"), galaxy->armThickness);
-    frame.renderViewport();
+    frame.setUniform(shader.uniform("bulgeColor"), galaxy->bulgeColor);
+    frame.setUniform(shader.uniform("primaryColor"), galaxy->primaryColor);
+    frame.setUniform(shader.uniform("secondaryColor"), galaxy->secondaryColor);
 
-    return texture;
+    size_t i = 0;
+    for (double& variation : galaxy->variations)
+    {
+        frame.setUniform(shader.uniform("variation" + std::to_string(i++)), variation);
+    }
+
+    frame.renderViewport();
 }
 
-Entity::Iterator GalaxySystem::createGalaxyNode(Galaxy::Iterator galaxy, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition)
+void GalaxySystem::sampleTopology(SpiralGalaxy::Iterator galaxy, const Vector3& position, Color& color, double& thickness)
+{
+    Vector3 coords;
+
+    BoundingBox::Iterator boundingBox = galaxy->entity()->component<BoundingBox>();
+
+    AxisAlignedBox& extents = boundingBox->extents;
+    Vector3 totalSize = extents.size();
+    coords = (position - extents.minimum()) / totalSize;
+
+    Vector2 densityCoords(coords.x, coords.y);
+    color = galaxy->topologyTexture->readPixel(densityCoords);
+    thickness = color.a;
+    color.a = 1.0;
+}
+
+Entity::Iterator GalaxySystem::createGalaxyNode(SpiralGalaxy::Iterator galaxy, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition)
 {
     // Create the galaxy node entity
     Entity::Iterator entity = scene().createEntity();
@@ -311,7 +363,7 @@ void GalaxySystem::adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterat
         Transform::Iterator transform = entity->component<Transform>();
         if (transform)
         {
-            Galaxy::Iterator galaxy = galaxyNode->galaxy;
+            SpiralGalaxy::Iterator galaxy = galaxyNode->galaxy;
 
             // Compute the distance from the camera to the node
             double distance = (cameraPosition - transform->globalPosition).length();
@@ -360,7 +412,7 @@ void GalaxySystem::splitGalaxyNode(Entity::Iterator entity)
         BoundingBox::Iterator boundingBox = entity->component<BoundingBox>();
         if (boundingBox)
         {
-            Galaxy::Iterator galaxy = galaxyNode->galaxy;
+            SpiralGalaxy::Iterator galaxy = galaxyNode->galaxy;
 
             Vector3 size = boundingBox->extents.size() / 2;
             Vector3 halfSize = size / 2;

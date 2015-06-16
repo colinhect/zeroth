@@ -1,8 +1,8 @@
 ---
 base: Hect/Scenes/Default.scene
 componentTypes:
-  - Galaxy
   - GalaxyNode
+  - SpiralGalaxy
   - ObserverCamera
   - Ship
   - Thruster
@@ -15,10 +15,11 @@ systems:
     gravity: [ 0, 0, 0 ]
   - type: GalaxySystem
     topologyShader: Hect/Shaders/Additive.shader
-    topologyTextureResolution: 1024
+    topologyTextureResolution: 2048
     particleShader: Galaxy/Materials/Shaders/Particle.shader
     particleGenerateShader: Galaxy/Materials/Shaders/GenerateParticle.shader
     particleTextureResolution: 256
     spiralDiameterRange: [ 50000, 150000 ]
-    spiralThicknessRange: [ 6000, 12000 ]
+    spiralThicknessRange: [ 6000, 20000 ]
+    spiralDensityRange: [ 1200, 2200 ]
     spiralGenerateTopologyShader: Galaxy/Materials/Shaders/Spiral/GenerateTopology.shader

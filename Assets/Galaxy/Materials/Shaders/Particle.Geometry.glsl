@@ -5,12 +5,12 @@ layout(triangle_strip, max_vertices = 4) out;
 
 uniform vec2 renderTargetSize;
 
+in vec3 vertexColor[];
 in float vertexSize[];
 in float vertexRotation[];
-in float vertexBrightness[];
 
 out vec2 vertexTextureCoords;
-out float vertexFinalBrightness;
+out vec3 vertexFinalColor;
 
 const vec2 corners[4] =
 { 
@@ -50,7 +50,7 @@ void main()
             eyePosition.xy += rotate(vertexSize[0] * corners[i], vertexRotation[0]) * aspectRatio;
             gl_Position = eyePosition;
             vertexTextureCoords = textureCoords[i];
-            vertexFinalBrightness = vertexBrightness[0] * falloff;
+            vertexFinalColor = vertexColor[0];
             EmitVertex();
         }
 

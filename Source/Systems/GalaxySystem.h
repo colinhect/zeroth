@@ -9,7 +9,7 @@
 #include <Hect.h>
 using namespace hect;
 
-#include "Components/Galaxy.h"
+#include "Components/SpiralGalaxy.h"
 #include "Components/GalaxyNode.h"
 
 namespace zeroth
@@ -17,7 +17,7 @@ namespace zeroth
 
 /// \system
 class GalaxySystem :
-    public System<GalaxySystem, Components<Galaxy>>,
+    public System<GalaxySystem, Components<SpiralGalaxy>>,
             public Listener<KeyboardEvent>
 {
 public:
@@ -25,7 +25,7 @@ public:
 
     void initialize() override;
     void tick(double timeStep) override;
-    void onComponentAdded(Galaxy::Iterator galaxy) override;
+    void onComponentAdded(SpiralGalaxy::Iterator galaxy) override;
     void receiveEvent(const KeyboardEvent& event) override;
 
     /// \property{required}
@@ -50,18 +50,23 @@ public:
     Vector2 spiralThicknessRange;
 
     /// \property{required}
+    Vector2 spiralDensityRange;
+
+    /// \property{required}
     Shader::Handle spiralGenerateTopologyShader;
 
 private:
-    void generateGalaxy(Galaxy::Iterator galaxy);
+    void generateSpiralGalaxy(SpiralGalaxy::Iterator galaxy);
 
-    void createTopologyMesh(Galaxy::Iterator galaxy);
-    void createParticlesMesh(Galaxy::Iterator galaxy);
+    void createTopologyMesh(SpiralGalaxy::Iterator galaxy);
+    void createParticlesMesh(SpiralGalaxy::Iterator galaxy);
 
-    Texture2::Handle generateParticleTexture(Galaxy::Iterator galaxy);
-    Texture2::Handle generateTopologyTexture(Galaxy::Iterator galaxy);
+    Texture2::Handle generateParticleTexture(SpiralGalaxy::Iterator galaxy);
+    void generateTopologyTexture(SpiralGalaxy::Iterator galaxy);
 
-    Entity::Iterator createGalaxyNode(Galaxy::Iterator galaxy, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition);
+    void sampleTopology(SpiralGalaxy::Iterator galaxy, const Vector3& position, Color& color, double& thickness);
+
+    Entity::Iterator createGalaxyNode(SpiralGalaxy::Iterator galaxy, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition);
     void adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterator entity);
     void splitGalaxyNode(Entity::Iterator entity);
     void joinGalaxyNode(Entity::Iterator entity);

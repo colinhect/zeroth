@@ -12,27 +12,26 @@ using namespace hect;
 namespace zeroth
 {
 
-enum class GalaxyType
-{
-    //Elliptical,
-    //Lenticular,
-    Spiral
-};
-
 /// \component
-class Galaxy :
-    public Component<Galaxy>
+class SpiralGalaxy :
+    public Component<SpiralGalaxy>
 {
 public:
 
     /// \property
     unsigned seed { 0 };
 
-    GalaxyType type;
     double diameter;
     double thickness;
-    double eccentricity;
-    double armThickness;
+    unsigned density;
+
+    std::array<double, 4> variations;
+
+    Color bulgeColor;
+    Color primaryColor;
+    Color secondaryColor;
+
+    Texture2::Handle topologyTexture;
 };
 
 }

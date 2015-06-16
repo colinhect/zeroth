@@ -9,4 +9,4 @@ entities:
           axis: [ 1, 0, 0 ]
           angle: 90
   - components:
-      - type: Galaxy
+      - type: SpiralGalaxy
