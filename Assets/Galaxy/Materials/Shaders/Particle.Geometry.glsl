@@ -50,7 +50,7 @@ void main()
             eyePosition.xy += rotate(vertexSize[0] * corners[i], vertexRotation[0]) * aspectRatio;
             gl_Position = eyePosition;
             vertexTextureCoords = textureCoords[i];
-            vertexFinalColor = vertexColor[0];
+            vertexFinalColor = vertexColor[0] * falloff;
             EmitVertex();
         }
 

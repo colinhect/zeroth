@@ -50,9 +50,6 @@ public:
     Vector2 spiralThicknessRange;
 
     /// \property{required}
-    Vector2 spiralDensityRange;
-
-    /// \property{required}
     Shader::Handle spiralGenerateTopologyShader;
 
 private:

@@ -19,15 +19,12 @@ float random(
 const float barThickness = random(seed, 1.0, 8.0);
 const float spiralFactor = random(seed, 3.0, 18.0);
 
-const float weights[32] = float[32](
-    random(seed, 0.0, 1.0), random(seed, 0.0, 1.0), random(seed, 0.0, 1.0), random(seed, 0.0, 1.0),
-    random(seed, 0.0, 1.0), random(seed, 0.0, 1.0), random(seed, 0.0, 1.0), random(seed, 0.0, 1.0),
-    random(seed, 0.0, 1.0), random(seed, 0.0, 1.0), random(seed, 0.0, 1.0), random(seed, 0.0, 1.0),
-    random(seed, 0.0, 1.0), random(seed, 0.0, 1.0), random(seed, 0.0, 1.0), random(seed, 0.0, 1.0),
-    random(seed, 0.0, 1.0), random(seed, 0.0, 1.0), random(seed, 0.0, 1.0), random(seed, 0.0, 1.0),
-    random(seed, 0.0, 1.0), random(seed, 0.0, 1.0), random(seed, 0.0, 1.0), random(seed, 0.0, 1.0),
-    random(seed, 0.0, 1.0), random(seed, 0.0, 1.0), random(seed, 0.0, 1.0), random(seed, 0.0, 1.0),
-    random(seed, 0.0, 1.0), random(seed, 0.0, 1.0), random(seed, 0.0, 1.0), random(seed, 0.0, 1.0)
+const float weights[5] = float[5](
+    random(seed, 0.0, 1.0),
+    random(seed, 0.0, 1.0),
+    random(seed, 0.0, 1.0),
+    random(seed, 0.0, 1.0),
+    random(seed, 0.0, 1.0)
 );
 
 const vec3 colors[4] = vec3[4](
@@ -85,10 +82,10 @@ void proceduralTexture(
     bulgeNoise = clamp(bulgeNoise * 0.5 + 0.5, 0.0, 1.0);
 
     // Center bulge
-    color += colors[0] * pow(1.0 - clamp(length(point) * mix(weights[3], 1.5, 6.0), 0.0, 1.0), 5.0) * 2.0;
+    color += colors[0] * (1.0 - clamp(length(point) * mix(weights[3], 4.5, 14.0), 0.0, 1.0));
 
     // Bulge halo
-    color += colors[0] * bulgeNoise * pow(1.0 - clamp(length(point) * mix(weights[4], 1.0, 2.5), 0.0, 1.0), 10.0) * 2.0;
+    color += colors[0] * bulgeNoise * pow(1.0 - clamp(length(point) * mix(weights[4], 1.0, 2.5), 0.0, 1.0), 10.0);
     
     // Spiral bars
     float spiralBars = generateBars(spiraledPoint + offsetNoise * 0.08);
@@ -107,7 +104,8 @@ void proceduralTexture(
     tartiaryNoise = pow(tartiaryNoise, 4.34);
     color += colors[3] * tartiaryNoise * spiralBars * 0.15;
 
+    // Thickness
     float thickness = max(color.r, max(color.g, color.b));
+
     outputColor = vec4(color, thickness);
-    //outputColor = vec4(generateBars(point));
 }

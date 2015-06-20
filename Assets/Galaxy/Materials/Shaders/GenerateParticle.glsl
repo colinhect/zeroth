@@ -18,7 +18,7 @@ void proceduralTexture(
     shape = pow(shape, 3.0);
 
     float value = fractalNoise(point * 2.0, 2.0, 0.5, 6) * 0.5 + 0.5;
-    value *= 1.0 - clamp((length(point.xy + shape * 0.1) + 1.0) * 0.7, 0.0, 1.0);
+    value *= 1.0 - clamp((length(point.xy + shape * 0.01) + 1.0) * 0.7, 0.0, 1.0);
     value = clamp(value, 0.0, 1.0);
 
     outputColor = vec4(vec3(value), 1.0);

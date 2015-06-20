@@ -95,7 +95,7 @@ void GalaxySystem::generateSpiralGalaxy(SpiralGalaxy::Iterator galaxy)
     // Generate the numerical properties about the galaxy
     galaxy->diameter = random.next(spiralDiameterRange[0], spiralDiameterRange[1]);
     galaxy->thickness = random.next(spiralThicknessRange[0], spiralThicknessRange[1]);
-    galaxy->density = static_cast<unsigned>(random.next(spiralDensityRange[0], spiralDensityRange[1]));
+    galaxy->density = static_cast<unsigned>(galaxy->diameter * 0.011);
 
     // Compute minimum
     double horizontalRadius = galaxy->diameter / 2.0;
@@ -210,10 +210,10 @@ void GalaxySystem::createParticlesMesh(SpiralGalaxy::Iterator galaxy)
         Color color;
         double thickness = 0.0;
         sampleTopology(galaxy, position, color, thickness);
-        if (random.next(0.0, 1.0) < thickness)
+        if (thickness > 0.05 && random.next(0.0, 1.0) < thickness)
         {
-            position.z = random.next(-thickness, thickness) * galaxy->thickness * 0.5;
-            double size = random.next(2000.0, 8000.0);
+            position.z = random.next(-thickness, thickness) * galaxy->thickness * 0.25;
+            double size = random.next(5000.0, 15000.0);
             double rotation = random.next(0.0, 2.0 * pi);
 
             writer.addVertex();
