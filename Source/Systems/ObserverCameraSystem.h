@@ -19,7 +19,7 @@ class ObserverCameraSystem :
     public Listener<MouseEvent>
 {
 public:
-    ObserverCameraSystem(Scene& scene);
+    ObserverCameraSystem(Engine& engine, Scene& scene);
 
     void tick(double timeStep) override;
 

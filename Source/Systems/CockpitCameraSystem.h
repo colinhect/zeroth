@@ -17,7 +17,7 @@ class CockpitCameraSystem :
     public System<CockpitCameraSystem>
 {
 public:
-    CockpitCameraSystem(Scene& scene);
+    CockpitCameraSystem(Engine& engine, Scene& scene);
 
     void tick(double timeStep) override;
 };

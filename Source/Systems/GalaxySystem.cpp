@@ -8,11 +8,11 @@
 
 using namespace zeroth;
 
-GalaxySystem::GalaxySystem(Scene& scene) :
-    System(scene),
+GalaxySystem::GalaxySystem(Engine& engine, Scene& scene) :
+    System(engine, scene),
+    _renderer(engine.renderer()),
     _cameraSystem(scene.system<CameraSystem>())
 {
-    Engine& engine = Engine::instance();
     engine.keyboard().registerListener(*this);
 }
 
@@ -248,8 +248,7 @@ Texture2::Handle GalaxySystem::generateParticleTexture(SpiralGalaxy::Iterator ga
     FrameBuffer frameBuffer(particleTextureResolution, particleTextureResolution);
     frameBuffer.attach(FrameBufferSlot::Color0, *texture);
 
-    Renderer& renderer = Engine::instance().renderer();
-    Renderer::Frame frame = renderer.beginFrame(frameBuffer);
+    Renderer::Frame frame = _renderer.beginFrame(frameBuffer);
 
     Shader& shader = *particleGenerateShader;
     frame.setShader(shader);
@@ -266,8 +265,7 @@ void GalaxySystem::generateTopologyTexture(SpiralGalaxy::Iterator galaxy)
     FrameBuffer frameBuffer(topologyTextureResolution, topologyTextureResolution);
     frameBuffer.attach(FrameBufferSlot::Color0, *galaxy->topologyTexture);
 
-    Renderer& renderer = Engine::instance().renderer();
-    Renderer::Frame frame = renderer.beginFrame(frameBuffer);
+    Renderer::Frame frame = _renderer.beginFrame(frameBuffer);
 
     Shader& shader = *spiralGenerateTopologyShader;
     frame.setShader(shader);

@@ -10,15 +10,14 @@
 
 using namespace zeroth;
 
-ObserverCameraSystem::ObserverCameraSystem(Scene& scene) :
-    System(scene),
+ObserverCameraSystem::ObserverCameraSystem(Engine& engine, Scene& scene) :
+    System(engine, scene),
     _cameraSystem(scene.system<CameraSystem>()),
     _transformSystem(scene.system<TransformSystem>()),
     _inputSystem(scene.system<InputSystem>())
 {
     _observerEntity = scene.createEntity("Test/Observer.entity");
 
-    Engine& engine = Engine::instance();
     Keyboard& keyboard = engine.keyboard();
     keyboard.registerListener(*this);
 

@@ -10,8 +10,8 @@
 
 using namespace zeroth;
 
-CockpitCameraSystem::CockpitCameraSystem(Scene& scene) :
-    System(scene)
+CockpitCameraSystem::CockpitCameraSystem(Engine& engine, Scene& scene) :
+    System(engine, scene)
 {
 }
 

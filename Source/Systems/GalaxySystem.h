@@ -21,7 +21,7 @@ class GalaxySystem :
             public Listener<KeyboardEvent>
 {
 public:
-    GalaxySystem(Scene& scene);
+    GalaxySystem(Engine& engine, Scene& scene);
 
     void initialize() override;
     void tick(double timeStep) override;
@@ -67,6 +67,8 @@ private:
     void adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterator entity);
     void splitGalaxyNode(Entity::Iterator entity);
     void joinGalaxyNode(Entity::Iterator entity);
+
+    Renderer& _renderer;
 
     CameraSystem::Handle _cameraSystem;
 };

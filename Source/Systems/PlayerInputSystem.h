@@ -20,7 +20,7 @@ class PlayerInputSystem :
     public Listener<KeyboardEvent>
 {
 public:
-    PlayerInputSystem(Scene& scene);
+    PlayerInputSystem(Engine& engine, Scene& scene);
 
     void tick(double timeStep) override;
     void receiveEvent(const KeyboardEvent& event) override;

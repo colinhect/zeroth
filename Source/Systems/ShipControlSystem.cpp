@@ -10,8 +10,8 @@
 
 using namespace zeroth;
 
-ShipControlSystem::ShipControlSystem(Scene& scene) :
-    System(scene),
+ShipControlSystem::ShipControlSystem(Engine& engine, Scene& scene) :
+    System(engine, scene),
     _transformSystem(scene.system<TransformSystem>()),
     _physicsSystem(scene.system<PhysicsSystem>())
 {

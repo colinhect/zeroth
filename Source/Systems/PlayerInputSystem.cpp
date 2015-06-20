@@ -11,10 +11,10 @@
 
 using namespace zeroth;
 
-PlayerInputSystem::PlayerInputSystem(Scene& scene) :
-    System(scene),
-    _keyboard(Engine::instance().keyboard()),
-    _mouse(Engine::instance().mouse()),
+PlayerInputSystem::PlayerInputSystem(Engine& engine, Scene& scene) :
+    System(engine, scene),
+    _keyboard(engine.keyboard()),
+    _mouse(engine.mouse()),
     _cameraSystem(scene.system<CameraSystem>()),
     _debugSystem(scene.system<DebugSystem>()),
     _inputSystem(scene.system<InputSystem>()),
@@ -26,7 +26,7 @@ PlayerInputSystem::PlayerInputSystem(Scene& scene) :
     WidgetSystem::Handle widgetSystem = scene.system<WidgetSystem>();
     if (widgetSystem)
     {
-        AssetCache& assetCache = Engine::instance().assetCache();
+        AssetCache& assetCache = engine.assetCache();
         Font::Handle font = assetCache.getHandle<Font>("UI/Default.font");
 
         Label::Handle label(new Label("Testing...", Vector2(100, 100), font, 16));
