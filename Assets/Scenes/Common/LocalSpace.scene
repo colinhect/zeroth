@@ -11,6 +11,7 @@ systemTypes:
   - CockpitCameraSystem
   - ObserverCameraSystem
   - ShipControlSystem
+  - HudSystem
 systems:
   - type: PhysicsSystem
     gravity: [ 0, 0, 0 ]

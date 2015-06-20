@@ -210,10 +210,10 @@ void GalaxySystem::createParticlesMesh(SpiralGalaxy::Iterator galaxy)
         Color color;
         double thickness = 0.0;
         sampleTopology(galaxy, position, color, thickness);
-        if (thickness > 0.05 && random.next(0.0, 1.0) < thickness)
+        if (random.next(0.0, 1.0) < thickness)
         {
-            position.z = random.next(-thickness, thickness) * galaxy->thickness * 0.25;
-            double size = random.next(5000.0, 15000.0);
+            position.z = 0.0;
+            double size = random.next(0.5, 0.5 + thickness * 0.5) * 15000.0;
             double rotation = random.next(0.0, 2.0 * pi);
 
             writer.addVertex();

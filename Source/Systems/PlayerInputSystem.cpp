@@ -22,16 +22,6 @@ PlayerInputSystem::PlayerInputSystem(Engine& engine, Scene& scene) :
 {
     _keyboard.registerListener(*this);
     _mouse.setMode(MouseMode::Relative);
-
-    WidgetSystem::Handle widgetSystem = scene.system<WidgetSystem>();
-    if (widgetSystem)
-    {
-        AssetCache& assetCache = engine.assetCache();
-        Font::Handle font = assetCache.getHandle<Font>("UI/Default.font");
-
-        Label::Handle label(new Label("Testing...", Vector2(100, 100), font, 16));
-        widgetSystem->add(label);
-    }
 }
 
 void PlayerInputSystem::tick(double timeStep)
