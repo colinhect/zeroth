@@ -1,5 +1,5 @@
 ---
-base: Galaxy/Materials/Shaders/Procedural.shader
+base: Procedural.shader
 modules:
   - type: Fragment
     path: GenerateTopology.glsl

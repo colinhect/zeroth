@@ -26,6 +26,7 @@ public:
     unsigned density;
 
     Texture2::Handle topologyTexture;
+    Texture2::Handle particleTexture;
 };
 
 }

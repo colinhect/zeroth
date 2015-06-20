@@ -56,6 +56,7 @@ void GalaxySystem::receiveEvent(const KeyboardEvent& event)
 {
     if (event.key == Key::F5 && event.type == KeyboardEventType::KeyDown)
     {
+        // Destroy all galaxies
         for (SpiralGalaxy& galaxy : scene().components<SpiralGalaxy>())
         {
             Entity::Iterator entity = galaxy.entity();
@@ -65,19 +66,10 @@ void GalaxySystem::receiveEvent(const KeyboardEvent& event)
             }
         }
 
+        // Create a new one
         Entity::Iterator entity = scene().createEntity();
         entity->addComponent<SpiralGalaxy>();
         entity->activate();
-    }
-    else if (event.key == Key::F6 && event.type == KeyboardEventType::KeyDown)
-    {
-        for (SpiralGalaxy& galaxy : scene().components<SpiralGalaxy>())
-        {
-            Entity::Iterator entity = galaxy.entity();
-            Model::Iterator model = entity->component<Model>();
-            ModelSurface& surface = model->surfaces[0];
-            surface.visible = !surface.visible;
-        }
     }
 }
 
@@ -85,19 +77,21 @@ void GalaxySystem::generateSpiralGalaxy(SpiralGalaxy::Iterator galaxy)
 {
     Entity::Iterator entity = galaxy->entity();
 
-    // Create the random number generator for this galaxy
+    // If no seed was specified then generate a random seed
     if (galaxy->seed == 0)
     {
-        galaxy->seed = static_cast<RandomSeed>(Timer::totalElapsed().milliseconds());
+        galaxy->seed = Random().next();
     }
-    Random random(galaxy->seed);
 
     // Generate the numerical properties about the galaxy
+    Random random(galaxy->seed);
     galaxy->diameter = random.next(spiralDiameterRange[0], spiralDiameterRange[1]);
     galaxy->thickness = random.next(spiralThicknessRange[0], spiralThicknessRange[1]);
     galaxy->density = static_cast<unsigned>(galaxy->diameter * 0.011);
 
-    // Compute minimum
+    HECT_DEBUG(format("Seed: %i", galaxy->seed));
+
+    // Compute radii and minimum
     double horizontalRadius = galaxy->diameter / 2.0;
     double verticalRadius = galaxy->thickness / 2.0;
     const Vector3 minimum(-horizontalRadius, -horizontalRadius, -verticalRadius);
@@ -117,24 +111,23 @@ void GalaxySystem::generateSpiralGalaxy(SpiralGalaxy::Iterator galaxy)
         for (int y = 0; y < rootNodeCount; ++y)
         {
             Vector3 localPosition = minimum + size * Vector3(x, y, 0) + halfSize;
-            Entity::Iterator rootGalaxyNode = createGalaxyNode(galaxy, size, localPosition, Vector3::Zero);
-            entity->addChild(*rootGalaxyNode);
+            Entity::Iterator rootNode = createGalaxyNode(galaxy, size, localPosition, Vector3::Zero);
+            entity->addChild(*rootNode);
         }
     }
 
-    // Add the bounding box for the whole galaxy
+    // Add the bounding box for the galaxy
     BoundingBox::Iterator boundingBox = entity->addComponent<BoundingBox>();
 
-    // Add the model for the topology and particle layer meshes
+    // Add the model for the topology and particle meshes
     Model::Iterator model = entity->addComponent<Model>();
-
     createTopologyMesh(galaxy);
     createParticlesMesh(galaxy);
 }
 
 void GalaxySystem::createTopologyMesh(SpiralGalaxy::Iterator galaxy)
 {
-    // Create mesh
+    // Create the mesh
     Mesh::Handle mesh(new Mesh("Topology"));
     mesh->setPrimitiveType(PrimitiveType::Triangles);
 
@@ -167,8 +160,7 @@ void GalaxySystem::createTopologyMesh(SpiralGalaxy::Iterator galaxy)
     // Create the material
     Material::Handle material(new Material("Topology"));
     material->setShader(topologyShader);
-    material->setUniformValue("additiveTexture", galaxy->topologyTexture);
-    material->setUniformValue("intensity", 0.12);
+    material->setUniformValue("topologyTexture", galaxy->topologyTexture);
     material->setCullMode(CullMode::None);
 
     // Add the mesh to the galaxy's model
@@ -180,6 +172,7 @@ void GalaxySystem::createParticlesMesh(SpiralGalaxy::Iterator galaxy)
 {
     Entity::Iterator entity = galaxy->entity();
 
+    // Create the vertex layout
     VertexLayout vertexLayout;
     VertexAttribute position(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3);
     vertexLayout.addAttribute(position);
@@ -190,35 +183,41 @@ void GalaxySystem::createParticlesMesh(SpiralGalaxy::Iterator galaxy)
     VertexAttribute rotation(VertexAttributeSemantic::Weight1, VertexAttributeType::Float32, 1);
     vertexLayout.addAttribute(rotation);
 
+    // Create the mesh
     Mesh::Handle mesh(new Mesh("Particles"));
     mesh->setVertexLayout(vertexLayout);
     mesh->setPrimitiveType(PrimitiveType::Points);
-
     MeshWriter writer(*mesh);
 
-    Random random(galaxy->seed);
-
+    // Compute the half-size of the galaxy
     BoundingBox::Iterator boundingBox = entity->component<BoundingBox>();
     Vector3 halfSize = boundingBox->extents.size() / 2;
-    halfSize.z = galaxy->thickness;
 
+    // Add particle until the density is satisfied
+    Random random(galaxy->seed);
     unsigned particleCount = 0;
     while (particleCount < galaxy->density)
     {
+        // Pick a point in the galaxy
         Vector3 position = random.next(-halfSize, halfSize);
+        position.z = 0.0;
 
+        // Sample the color/density for the point
         Color color;
         double thickness = 0.0;
-        sampleTopology(galaxy, position, color, thickness);
+        sampleTopology(galaxy, boundingBox, position, color, thickness);
+
+        // If the point resulted in a particle
         if (random.next(0.0, 1.0) < thickness)
         {
-            position.z = 0.0;
-            double size = random.next(0.5, 0.5 + thickness * 0.5) * 15000.0;
+            // Generate the size/rotation of the particle
+            double size = lerp(spiralParticleSizeRange[0], spiralParticleSizeRange[1], random.next(0.0, thickness));
             double rotation = random.next(0.0, 2.0 * pi);
 
+            // Add the particle's vertex in the mesh
             writer.addVertex();
             writer.writeAttributeData(VertexAttributeSemantic::Position, position);
-            writer.writeAttributeData(VertexAttributeSemantic::Color, Vector3(color.r, color.g, color.b));
+            writer.writeAttributeData(VertexAttributeSemantic::Color, color);
             writer.writeAttributeData(VertexAttributeSemantic::Weight0, size);
             writer.writeAttributeData(VertexAttributeSemantic::Weight1, rotation);
             writer.addIndex(particleCount);
@@ -228,34 +227,17 @@ void GalaxySystem::createParticlesMesh(SpiralGalaxy::Iterator galaxy)
     }
 
     // Generate the particle texture
-    Texture2::Handle texture = generateParticleTexture(galaxy);
+    generateParticleTexture(galaxy);
 
     // Create the material
     Material::Handle material(new Material("Particle"));
     material->setShader(particleShader);
-    material->setUniformValue("particleTexture", texture);
+    material->setUniformValue("particleTexture", galaxy->particleTexture);
     material->setCullMode(CullMode::None);
 
     // Add the mesh to the galaxy's model
     Model::Iterator model = galaxy->entity()->component<Model>();
     model->addSurface(mesh, material);
-}
-
-Texture2::Handle GalaxySystem::generateParticleTexture(SpiralGalaxy::Iterator galaxy)
-{
-    Texture2::Handle texture(new Texture2("Particle", particleTextureResolution, particleTextureResolution, PixelFormat::Rgb8, TextureFilter::Linear, TextureFilter::Linear, false, false));
-
-    FrameBuffer frameBuffer(particleTextureResolution, particleTextureResolution);
-    frameBuffer.attach(FrameBufferSlot::Color0, *texture);
-
-    Renderer::Frame frame = _renderer.beginFrame(frameBuffer);
-
-    Shader& shader = *particleGenerateShader;
-    frame.setShader(shader);
-    frame.setUniform(shader.uniform("seed"), Random(galaxy->seed).next(-10000.0, 10000.0));
-    frame.renderViewport();
-
-    return texture;
 }
 
 void GalaxySystem::generateTopologyTexture(SpiralGalaxy::Iterator galaxy)
@@ -267,27 +249,86 @@ void GalaxySystem::generateTopologyTexture(SpiralGalaxy::Iterator galaxy)
 
     Renderer::Frame frame = _renderer.beginFrame(frameBuffer);
 
-    Shader& shader = *spiralGenerateTopologyShader;
+    Shader& shader = *generateTopologyShader;
     frame.setShader(shader);
-    frame.setUniform(shader.uniform("seed"), Random(galaxy->seed).next(-10000.0, 10000.0));
+    frame.setUniform(shader.uniform("seed"), createSeedUniformValue(galaxy->seed));
 
     frame.renderViewport();
 }
 
-void GalaxySystem::sampleTopology(SpiralGalaxy::Iterator galaxy, const Vector3& position, Color& color, double& thickness)
+void GalaxySystem::generateParticleTexture(SpiralGalaxy::Iterator galaxy)
 {
-    Vector3 coords;
+    galaxy->particleTexture = new Texture2("Particle", particleTextureResolution, particleTextureResolution, PixelFormat::Rg8, TextureFilter::Linear, TextureFilter::Linear, false, false);
 
-    BoundingBox::Iterator boundingBox = galaxy->entity()->component<BoundingBox>();
+    FrameBuffer frameBuffer(particleTextureResolution, particleTextureResolution);
+    frameBuffer.attach(FrameBufferSlot::Color0, *galaxy->particleTexture);
 
+    Renderer::Frame frame = _renderer.beginFrame(frameBuffer);
+
+    Shader& shader = *generateParticleShader;
+    frame.setShader(shader);
+    frame.setUniform(shader.uniform("seed"), createSeedUniformValue(galaxy->seed));
+    frame.renderViewport();
+}
+
+void GalaxySystem::sampleTopology(SpiralGalaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, const Vector3& position, Color& color, double& thickness)
+{
     AxisAlignedBox& extents = boundingBox->extents;
     Vector3 totalSize = extents.size();
-    coords = (position - extents.minimum()) / totalSize;
+    Vector3 coords = (position - extents.minimum()) / totalSize;
 
     Vector2 densityCoords(coords.x, coords.y);
     color = galaxy->topologyTexture->readPixel(densityCoords);
     thickness = color.a;
     color.a = 1.0;
+}
+
+void GalaxySystem::generateStars(GalaxyNode::Iterator galaxyNode, SpiralGalaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model)
+{
+    Vector3 globalPosition = boundingBox->extents.center();
+    Random random(galaxy->seed + static_cast<RandomSeed>(globalPosition.x * globalPosition.y * globalPosition.z * galaxy->seed));
+    Vector3 halfSize = boundingBox->extents.size() / 2;
+
+    VertexAttributeType attributeType = VertexAttributeType::Float32;
+    VertexLayout vertexLayout;
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, attributeType, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Weight0, attributeType, 1));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Weight1, attributeType, 1));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Weight2, attributeType, 1));
+
+    // Create the mesh containing the points for the stars
+    Mesh::Handle mesh(new Mesh("Stars"));
+    mesh->setVertexLayout(vertexLayout);
+    mesh->setPrimitiveType(PrimitiveType::PointSprites);
+    MeshWriter writer(*mesh);
+
+    BoundingBox::Iterator galaxyBoundingBox = galaxy->entity()->component<BoundingBox>();
+
+    // Generate particles until we meet the density
+    for (unsigned i = 0; i < 100; ++i)
+    {
+        // Pick a random point and check if it could be a star location
+        Vector3 position = random.next(-halfSize, halfSize);
+
+        // Sample the color/density for the point
+        Color color;
+        double thickness = 0.0;
+        sampleTopology(galaxy, galaxyBoundingBox, globalPosition + position, color, thickness);
+        if (random.next(0.0, 1.0) < std::max(color.r, std::max(color.g, color.b)))
+        {
+            double size = random.next(0.25, 2.0);
+            double brightness = random.next(0.001, 10.0);
+
+            size_t vertexIndex = writer.addVertex();
+            writer.writeAttributeData(VertexAttributeSemantic::Position, position);
+            writer.writeAttributeData(VertexAttributeSemantic::Weight0, size);
+            writer.writeAttributeData(VertexAttributeSemantic::Weight1, brightness);
+            writer.writeAttributeData(VertexAttributeSemantic::Weight2, galaxyNode->radius * 2.0);
+            writer.addIndex(vertexIndex);
+        }
+    }
+
+    model->surfaces.push_back(ModelSurface(mesh, starMaterial));
 }
 
 Entity::Iterator GalaxySystem::createGalaxyNode(SpiralGalaxy::Iterator galaxy, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition)
@@ -312,6 +353,14 @@ Entity::Iterator GalaxySystem::createGalaxyNode(SpiralGalaxy::Iterator galaxy, c
     GalaxyNode::Iterator galaxyNode = entity->addComponent<GalaxyNode>();
     galaxyNode->galaxy = galaxy;
     galaxyNode->radius = size.length() / 2;
+
+    // Create the stars
+    if (galaxyNode->radius < 6000.0)
+    {
+        // Add the model for the star field meshes
+        Model::Iterator model = entity->addComponent<Model>();
+        generateStars(galaxyNode, galaxy, boundingBox, model);
+    }
 
     // Activate and return the entity
     entity->activate();
@@ -369,7 +418,7 @@ void GalaxySystem::splitGalaxyNode(Entity::Iterator entity)
 {
     // If the node is not split and is not at the maximum level
     GalaxyNode::Iterator galaxyNode = entity->component<GalaxyNode>();
-    if (galaxyNode && !galaxyNode->split && galaxyNode->radius > 600.0)
+    if (galaxyNode && !galaxyNode->split && galaxyNode->radius > minimumNodeRadius)
     {
         Entity::Iterator parent = entity->iterator();
 
@@ -401,4 +450,9 @@ void GalaxySystem::splitGalaxyNode(Entity::Iterator entity)
             galaxyNode->split = true;
         }
     }
+}
+
+double GalaxySystem::createSeedUniformValue(RandomSeed seed) const
+{
+    return Random(seed).next(-100000.0, 100000.0);
 }

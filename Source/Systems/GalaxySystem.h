@@ -29,7 +29,13 @@ public:
     void receiveEvent(const KeyboardEvent& event) override;
 
     /// \property{required}
+    Material::Handle starMaterial;
+
+    /// \property{required}
     Shader::Handle topologyShader;
+
+    /// \property{required}
+    Shader::Handle generateTopologyShader;
 
     /// \property{required}
     unsigned topologyTextureResolution;
@@ -38,7 +44,7 @@ public:
     Shader::Handle particleShader;
 
     /// \property{required}
-    Shader::Handle particleGenerateShader;
+    Shader::Handle generateParticleShader;
 
     /// \property{required}
     unsigned particleTextureResolution;
@@ -50,23 +56,27 @@ public:
     Vector2 spiralThicknessRange;
 
     /// \property{required}
-    Shader::Handle spiralGenerateTopologyShader;
+    Vector2 spiralParticleSizeRange;
+
+    /// \property{required}
+    double minimumNodeRadius;
 
 private:
     void generateSpiralGalaxy(SpiralGalaxy::Iterator galaxy);
-
     void createTopologyMesh(SpiralGalaxy::Iterator galaxy);
     void createParticlesMesh(SpiralGalaxy::Iterator galaxy);
-
-    Texture2::Handle generateParticleTexture(SpiralGalaxy::Iterator galaxy);
     void generateTopologyTexture(SpiralGalaxy::Iterator galaxy);
+    void generateParticleTexture(SpiralGalaxy::Iterator galaxy);
+    void sampleTopology(SpiralGalaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, const Vector3& position, Color& color, double& thickness);
+    void generateStars(GalaxyNode::Iterator galaxyNode, SpiralGalaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model);
 
-    void sampleTopology(SpiralGalaxy::Iterator galaxy, const Vector3& position, Color& color, double& thickness);
 
     Entity::Iterator createGalaxyNode(SpiralGalaxy::Iterator galaxy, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition);
     void adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterator entity);
     void splitGalaxyNode(Entity::Iterator entity);
     void joinGalaxyNode(Entity::Iterator entity);
+
+    double createSeedUniformValue(RandomSeed seed) const;
 
     Renderer& _renderer;
 

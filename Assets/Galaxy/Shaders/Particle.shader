@@ -14,6 +14,9 @@ uniforms:
     binding: RenderTargetSize
   - name: particleTexture
     type: Texture2
+  - name: brightness
+    type: Float
+    value: 0.01
 depthTested: false
 blendMode:
   sourceFactor: One
