@@ -63,7 +63,7 @@ public:
 
     /// \property{required}
     double minimumNodeRadiusWithStars;
-    
+
     /// \property{required}
     unsigned maxStarsPerNode;
 

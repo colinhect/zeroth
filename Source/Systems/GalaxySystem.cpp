@@ -310,7 +310,7 @@ void GalaxySystem::generateStars(GalaxyNode::Iterator galaxyNode, SpiralGalaxy::
     Color color;
     double thickness = 0.0;
     sampleTopology(galaxy, galaxyBoundingBox, globalPosition, color, thickness);
-    
+
     // Generate stars
     for (unsigned i = 0; i < maxStarsPerNode * thickness * verticalFalloff; ++i)
     {
