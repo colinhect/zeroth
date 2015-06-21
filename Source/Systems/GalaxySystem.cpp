@@ -288,6 +288,8 @@ void GalaxySystem::generateStars(GalaxyNode::Iterator galaxyNode, SpiralGalaxy::
     Vector3 globalPosition = boundingBox->extents.center();
     Random random(galaxy->seed + static_cast<RandomSeed>(globalPosition.x * globalPosition.y * globalPosition.z * galaxy->seed));
     Vector3 halfSize = boundingBox->extents.size() / 2;
+    double verticalRadius = galaxy->thickness / 2.0;
+    double verticalFalloff = 1.0 - (std::abs(globalPosition.z) / verticalRadius);
 
     VertexAttributeType attributeType = VertexAttributeType::Float32;
     VertexLayout vertexLayout;
@@ -304,28 +306,24 @@ void GalaxySystem::generateStars(GalaxyNode::Iterator galaxyNode, SpiralGalaxy::
 
     BoundingBox::Iterator galaxyBoundingBox = galaxy->entity()->component<BoundingBox>();
 
-    // Generate particles until we meet the density
-    for (unsigned i = 0; i < 100; ++i)
+    // Sample the color/density for the node
+    Color color;
+    double thickness = 0.0;
+    sampleTopology(galaxy, galaxyBoundingBox, globalPosition, color, thickness);
+    
+    // Generate stars
+    for (unsigned i = 0; i < maxStarsPerNode * thickness * verticalFalloff; ++i)
     {
-        // Pick a random point and check if it could be a star location
         Vector3 position = random.next(-halfSize, halfSize);
+        double size = random.next(0.0, 1.0);
+        double brightness = random.next(0.0, 1.0);
 
-        // Sample the color/density for the point
-        Color color;
-        double thickness = 0.0;
-        sampleTopology(galaxy, galaxyBoundingBox, globalPosition + position, color, thickness);
-        if (random.next(0.0, 1.0) < std::max(color.r, std::max(color.g, color.b)))
-        {
-            double size = random.next(0.25, 2.0);
-            double brightness = random.next(0.001, 10.0);
-
-            size_t vertexIndex = writer.addVertex();
-            writer.writeAttributeData(VertexAttributeSemantic::Position, position);
-            writer.writeAttributeData(VertexAttributeSemantic::Weight0, size);
-            writer.writeAttributeData(VertexAttributeSemantic::Weight1, brightness);
-            writer.writeAttributeData(VertexAttributeSemantic::Weight2, galaxyNode->radius * 2.0);
-            writer.addIndex(vertexIndex);
-        }
+        size_t vertexIndex = writer.addVertex();
+        writer.writeAttributeData(VertexAttributeSemantic::Position, position);
+        writer.writeAttributeData(VertexAttributeSemantic::Weight0, size);
+        writer.writeAttributeData(VertexAttributeSemantic::Weight1, brightness);
+        writer.writeAttributeData(VertexAttributeSemantic::Weight2, galaxyNode->radius * 2.0);
+        writer.addIndex(vertexIndex);
     }
 
     model->surfaces.push_back(ModelSurface(mesh, starMaterial));
@@ -355,7 +353,7 @@ Entity::Iterator GalaxySystem::createGalaxyNode(SpiralGalaxy::Iterator galaxy, c
     galaxyNode->radius = size.length() / 2;
 
     // Create the stars
-    if (galaxyNode->radius < 6000.0)
+    if (galaxyNode->radius < minimumNodeRadiusWithStars)
     {
         // Add the model for the star field meshes
         Model::Iterator model = entity->addComponent<Model>();

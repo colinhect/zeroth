@@ -14,6 +14,12 @@ uniforms:
     binding: ModelViewProjectionMatrix
   - name: starTexture
     type: Texture2
+  - name: sizeRange
+    type: Vector2
+    value: [ 0.25, 1.5 ]
+  - name: brightnessRange
+    type: Vector2
+    value: [ 0.00001, 100.0 ]
 depthTested: false
 blendMode:
     sourceFactor: One

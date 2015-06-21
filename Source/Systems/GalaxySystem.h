@@ -61,6 +61,12 @@ public:
     /// \property{required}
     double minimumNodeRadius;
 
+    /// \property{required}
+    double minimumNodeRadiusWithStars;
+    
+    /// \property{required}
+    unsigned maxStarsPerNode;
+
 private:
     void generateSpiralGalaxy(SpiralGalaxy::Iterator galaxy);
     void createTopologyMesh(SpiralGalaxy::Iterator galaxy);

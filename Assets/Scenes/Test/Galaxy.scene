@@ -10,3 +10,4 @@ entities:
           angle: 90
   - components:
       - type: SpiralGalaxy
+        seed: -1588410648

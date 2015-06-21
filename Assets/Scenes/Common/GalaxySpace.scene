@@ -25,4 +25,6 @@ systems:
     spiralDiameterRange: [ 50000, 150000 ]
     spiralThicknessRange: [ 6000, 20000 ]
     spiralParticleSizeRange: [ 7000, 15000 ]
-    minimumNodeRadius: 1000
+    minimumNodeRadius: 250
+    minimumNodeRadiusWithStars: 3000
+    maxStarsPerNode: 500
