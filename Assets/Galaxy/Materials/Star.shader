@@ -16,10 +16,10 @@ uniforms:
     type: Texture2
   - name: sizeRange
     type: Vector2
-    value: [ 0.25, 1.5 ]
+    value: [ 1.0, 6.0 ]
   - name: brightnessRange
     type: Vector2
-    value: [ 0.00001, 100.0 ]
+    value: [ 0.000001, 50.0 ]
 depthTested: false
 blendMode:
     sourceFactor: One
