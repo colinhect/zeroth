@@ -71,6 +71,46 @@ void GalaxySystem::receiveEvent(const KeyboardEvent& event)
         entity->addComponent<SpiralGalaxy>();
         entity->activate();
     }
+    else if (event.key == Key::F6 && event.type == KeyboardEventType::KeyDown)
+    {
+        // Get the position of the active camera
+        Vector3 position;
+        CameraSystem::Handle cameraSystem = scene().system<CameraSystem>();
+        if (cameraSystem)
+        {
+            position = cameraSystem->activeCamera()->position;
+        }
+
+        // Render the scene to a cubic texture
+        RenderSystem::Handle renderSystem = scene().system<RenderSystem>();
+        if (renderSystem)
+        {
+            TextureCube::Handle texture(new TextureCube("SkyBox", 1536, 1536, PixelFormat::Rgb16));
+            renderSystem->renderToTextureCube(position, *texture);
+
+            // Create a sky box
+            Entity::Iterator skyBoxEntity = scene().createEntity();
+            SkyBox::Iterator skyBox = skyBoxEntity->addComponent<SkyBox>();
+            skyBox->texture = texture;
+            skyBoxEntity->activate();
+
+            // Create a light probe
+            Entity::Iterator lightProbeEntity = scene().createEntity();
+            LightProbe::Iterator lightProbe = lightProbeEntity->addComponent<LightProbe>();
+            lightProbe->texture = texture;
+            lightProbeEntity->activate();
+        }
+
+        // Destroy all galaxies
+        for (SpiralGalaxy& galaxy : scene().components<SpiralGalaxy>())
+        {
+            Entity::Iterator entity = galaxy.entity();
+            if (!entity->isPendingDestruction())
+            {
+                entity->destroy();
+            }
+        }
+    }
 }
 
 void GalaxySystem::generateSpiralGalaxy(SpiralGalaxy::Iterator galaxy)
@@ -111,7 +151,7 @@ void GalaxySystem::generateSpiralGalaxy(SpiralGalaxy::Iterator galaxy)
         for (int y = 0; y < rootNodeCount; ++y)
         {
             Vector3 localPosition = minimum + size * Vector3(x, y, 0) + halfSize;
-            Entity::Iterator rootNode = createGalaxyNode(galaxy, size, localPosition, Vector3::Zero);
+            Entity::Iterator rootNode = createGalaxyNode(galaxy, size, localPosition, Vector3::Zero, true);
             entity->addChild(*rootNode);
         }
     }
@@ -329,7 +369,7 @@ void GalaxySystem::generateStars(GalaxyNode::Iterator galaxyNode, SpiralGalaxy::
     model->surfaces.push_back(ModelSurface(mesh, starMaterial));
 }
 
-Entity::Iterator GalaxySystem::createGalaxyNode(SpiralGalaxy::Iterator galaxy, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition)
+Entity::Iterator GalaxySystem::createGalaxyNode(SpiralGalaxy::Iterator galaxy, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition, bool rootNode)
 {
     // Create the galaxy node entity
     Entity::Iterator entity = scene().createEntity();
@@ -337,6 +377,7 @@ Entity::Iterator GalaxySystem::createGalaxyNode(SpiralGalaxy::Iterator galaxy, c
 
     // Add transform component
     Transform::Iterator transform = entity->addComponent<Transform>();
+    transform->dynamic = false;
     transform->localPosition = localPosition;
     transform->globalPosition = parentGlobalPosition + localPosition;
 
@@ -353,7 +394,7 @@ Entity::Iterator GalaxySystem::createGalaxyNode(SpiralGalaxy::Iterator galaxy, c
     galaxyNode->radius = size.length() / 2;
 
     // Create the stars
-    if (galaxyNode->radius < minimumNodeRadiusWithStars)
+    if (!rootNode && galaxyNode->radius < minimumNodeRadiusWithStars)
     {
         // Add the model for the star field meshes
         Model::Iterator model = entity->addComponent<Model>();
@@ -439,7 +480,7 @@ void GalaxySystem::splitGalaxyNode(Entity::Iterator entity)
                     for (int z : values)
                     {
                         const Vector3 localPosition = halfSize * Vector3(x, y, z);
-                        Entity::Iterator child = createGalaxyNode(galaxy, size, localPosition, parentGlobalPosition);
+                        Entity::Iterator child = createGalaxyNode(galaxy, size, localPosition, parentGlobalPosition, false);
                         parent->addChild(*child);
                     }
                 }

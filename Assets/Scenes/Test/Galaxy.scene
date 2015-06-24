@@ -4,10 +4,19 @@ entities:
   - base: Test/Observer.entity
     components:
       - type: Transform
-        localPosition: [ 0, 0, 50000 ]
-        localRotation:
-          axis: [ 1, 0, 0 ]
-          angle: 90
+        localPosition: [ 0, 0, 0 ]
+  - components:
+      - type: Transform
+        localPosition: [ 0, 0, 0 ]
+      - type: BoundingBox
+      - type: Model
+        surfaces:
+          - mesh: Test/Cube.Main.mesh
+            material: Test/MetalCrate.material
+  - components:
+    - type: DirectionalLight
+      direction: [ 1, 0.1, 0.1 ]
+      color: [ 0.5, 0.5, 0.5 ]
   - components:
       - type: SpiralGalaxy
-        seed: -1588410648
+        seed: 1406064303
