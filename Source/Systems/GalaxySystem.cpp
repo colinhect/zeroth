@@ -73,6 +73,7 @@ void GalaxySystem::receiveEvent(const KeyboardEvent& event)
     }
     else if (event.key == Key::F6 && event.type == KeyboardEventType::KeyDown)
     {
+
         // Get the position of the active camera
         Vector3 position;
         CameraSystem::Handle cameraSystem = scene().system<CameraSystem>();
@@ -85,8 +86,18 @@ void GalaxySystem::receiveEvent(const KeyboardEvent& event)
         RenderSystem::Handle renderSystem = scene().system<RenderSystem>();
         if (renderSystem)
         {
-            TextureCube::Handle texture(new TextureCube("SkyBox", 1536, 1536, PixelFormat::Rgb16));
+            TextureCube::Handle texture(new TextureCube("SkyBox", 1440, 1440, PixelFormat::Rgb16));
             renderSystem->renderToTextureCube(position, *texture);
+
+            // Destroy all sky boxes
+            for (SkyBox& skyBox : scene().components<SkyBox>())
+            {
+                Entity::Iterator entity = skyBox.entity();
+                if (!entity->isPendingDestruction())
+                {
+                    entity->destroy();
+                }
+            }
 
             // Create a sky box
             Entity::Iterator skyBoxEntity = scene().createEntity();
@@ -252,7 +263,7 @@ void GalaxySystem::createParticlesMesh(SpiralGalaxy::Iterator galaxy)
         {
             // Generate the size/rotation of the particle
             double size = lerp(spiralParticleSizeRange[0], spiralParticleSizeRange[1], random.next(0.0, thickness));
-            double rotation = random.next(0.0, 2.0 * pi);
+            double rotation = random.next(0.0, 2.0 * Pi);
 
             // Add the particle's vertex in the mesh
             writer.addVertex();

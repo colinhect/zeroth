@@ -9,6 +9,9 @@
 #include <Hect.h>
 using namespace hect;
 
+#include <mutex>
+#include <vector>
+
 namespace zeroth
 {
 
@@ -34,6 +37,9 @@ private:
 
     WidgetSystem::Handle _widgetSystem;
     MessageLog::Handle _messageLog;
+
+    std::vector<std::string> _pendingMessages;
+    std::mutex _pendingMessagesMutex;
 };
 
 }

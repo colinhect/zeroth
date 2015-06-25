@@ -1,8 +1,0 @@
----
-images:
-  positiveX: TropicalSunnyDayLeft2048.png
-  negativeX: TropicalSunnyDayRight2048.png
-  positiveY: TropicalSunnyDayDown2048.png
-  negativeY: TropicalSunnyDayUp2048.png
-  positiveZ: TropicalSunnyDayFront2048.png
-  negativeZ: TropicalSunnyDayBack2048.png

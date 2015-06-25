@@ -1,0 +1,8 @@
+---
+images:
+  positiveX: Side_PositiveX.png
+  negativeX: Side_NegativeX.png
+  positiveY: Side_PositiveY.png
+  negativeY: Side_NegativeY.png
+  positiveZ: Side_PositiveZ.png
+  negativeZ: Side_NegativeZ.png

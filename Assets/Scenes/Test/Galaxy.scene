@@ -7,7 +7,7 @@ entities:
         localPosition: [ 0, 0, 0 ]
   - components:
       - type: Transform
-        localPosition: [ 0, 0, 0 ]
+        localPosition: [ 5, 0, 0 ]
       - type: BoundingBox
       - type: Model
         surfaces:

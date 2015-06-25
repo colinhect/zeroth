@@ -33,6 +33,12 @@ void HudSystem::initialize()
 
 void HudSystem::tick(double timeStep)
 {
+    std::lock_guard<std::mutex> lock(_pendingMessagesMutex);
+    for (const std::string& message : _pendingMessages)
+    {
+        _messageLog->addMessage(message);
+    }
+    _pendingMessages.clear();
 }
 
 void HudSystem::receiveEvent(const KeyboardEvent& event)
@@ -41,8 +47,6 @@ void HudSystem::receiveEvent(const KeyboardEvent& event)
 
 void HudSystem::receiveEvent(const LogMessageEvent& event)
 {
-    if (_messageLog)
-    {
-        _messageLog->addMessage(event.message);
-    }
+    std::lock_guard<std::mutex> lock(_pendingMessagesMutex);
+    _pendingMessages.push_back(event.message);
 }
