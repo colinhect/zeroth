@@ -35,7 +35,7 @@ private:
     Keyboard& _keyboard;
     Mouse& _mouse;
 
-    WidgetSystem::Handle _widgetSystem;
+    UserInterfaceSystem::Handle _userInterfaceSystem;
     MessageLog::Handle _messageLog;
 
     std::vector<std::string> _pendingMessages;

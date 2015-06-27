@@ -14,20 +14,20 @@ HudSystem::HudSystem(Engine& engine, Scene& scene) :
     _window(engine.window()),
     _keyboard(engine.keyboard()),
     _mouse(engine.mouse()),
-    _widgetSystem(scene.system<WidgetSystem>())
+    _userInterfaceSystem(scene.system<UserInterfaceSystem>())
 {
     registerLogListener(*this);
 }
 
 void HudSystem::initialize()
 {
-    if (_widgetSystem)
+    if (_userInterfaceSystem)
     {
-        Font::Handle font = _widgetSystem->defaultFont;
-        double fontSize = _widgetSystem->defaultFontSize;
+        Font::Handle font = _userInterfaceSystem->defaultFont;
+        double fontSize = _userInterfaceSystem->defaultFontSize;
 
         _messageLog = MessageLog::Handle(new MessageLog(Vector2(5, 0), Vector2(_window.width(), _window.height()), font, fontSize));
-        _widgetSystem->add(_messageLog);
+        _userInterfaceSystem->add(_messageLog);
     }
 }
 

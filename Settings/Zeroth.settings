@@ -12,6 +12,6 @@ taskPool:
     threadCount: 6
 assetCache:
     concurrent: true
-scene: Scenes/Test/Galaxy.scene
+scene: Scenes/Test/UI.scene
 include:
   - Zeroth.InputAxes.SaitekX52.settings
