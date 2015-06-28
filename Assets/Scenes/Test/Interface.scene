@@ -1,0 +1,6 @@
+---
+base: Hect/Scenes/Default.scene
+entities:
+  - components:
+    - type: Camera
+      clearColor: [ 0.15, 0.15, 0.15, 0.0 ]
