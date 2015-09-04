@@ -52,52 +52,6 @@ void GalaxySystem::onComponentAdded(SpiralGalaxy::Iterator spiralGalaxy)
     generateSpiralGalaxy(spiralGalaxy);
 }
 
-void GalaxySystem::onComponentAdded(ProxyGalaxy::Iterator proxyGalaxy)
-{
-    // TODO:
-    // Need to create a separate scene to render the galaxy skybox!
-    // Make sure to remove GalaxySystem from LocalSpace.scene
-
-    Entity::Iterator galaxyEntity = scene().createEntity();
-    galaxyEntity->setTransient(true);
-
-    SpiralGalaxy::Iterator spiralGalaxy = galaxyEntity->addComponent<SpiralGalaxy>();
-    spiralGalaxy->seed = proxyGalaxy->seed;
-
-    galaxyEntity->activate();
-
-    const Vector3& position = proxyGalaxy->position;
-
-    // Adapt each root galaxy node to the camera position
-    for (Entity& child : galaxyEntity->children())
-    {
-        Entity::Iterator rootGalaxyNode = child.iterator();
-        adaptGalaxyNode(position, rootGalaxyNode);
-    }
-
-    // Render the scene to a cubic texture
-    RenderSystem::Handle renderSystem = scene().system<RenderSystem>();
-    if (renderSystem)
-    {
-        TextureCube::Handle texture(new TextureCube("SkyBox", 1440, 1440, PixelFormat::Rgb16));
-        renderSystem->renderToTextureCube(position, 0.1, 1000000.0, *texture);
-
-        // Create a sky box
-        Entity::Iterator skyBoxEntity = scene().createEntity();
-        SkyBox::Iterator skyBox = skyBoxEntity->addComponent<SkyBox>();
-        skyBox->texture = texture;
-        skyBoxEntity->activate();
-
-        // Create a light probe
-        Entity::Iterator lightProbeEntity = scene().createEntity();
-        LightProbe::Iterator lightProbe = lightProbeEntity->addComponent<LightProbe>();
-        lightProbe->texture = texture;
-        lightProbeEntity->activate();
-    }
-
-    galaxyEntity->destroy();
-}
-
 void GalaxySystem::receiveEvent(const KeyboardEvent& event)
 {
     if (event.key == Key::F5 && event.type == KeyboardEventType::KeyDown)

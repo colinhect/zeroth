@@ -11,14 +11,13 @@ using namespace hect;
 
 #include "Components/GalaxyNode.h"
 #include "Components/SpiralGalaxy.h"
-#include "Components/ProxyGalaxy.h"
 
 namespace zeroth
 {
 
 /// \system
 class GalaxySystem :
-    public System<GalaxySystem, Components<SpiralGalaxy, ProxyGalaxy>>,
+    public System<GalaxySystem, Components<SpiralGalaxy>>,
     public Listener<KeyboardEvent>
 {
 public:
@@ -27,7 +26,6 @@ public:
     void initialize() override;
     void tick(double timeStep) override;
     void onComponentAdded(SpiralGalaxy::Iterator spiralGalaxy) override;
-    void onComponentAdded(ProxyGalaxy::Iterator proxyGalaxy) override;
     void receiveEvent(const KeyboardEvent& event) override;
 
     /// \property{required}
@@ -77,7 +75,6 @@ private:
     void generateParticleTexture(SpiralGalaxy::Iterator galaxy);
     void sampleTopology(SpiralGalaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, const Vector3& position, Color& color, double& thickness);
     void generateStars(GalaxyNode::Iterator galaxyNode, SpiralGalaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model);
-
 
     Entity::Iterator createGalaxyNode(SpiralGalaxy::Iterator galaxy, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition, bool rootNode);
     void adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterator entity);

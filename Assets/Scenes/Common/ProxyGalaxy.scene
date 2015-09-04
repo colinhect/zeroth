@@ -1,0 +1,7 @@
+---
+base: Scenes/Common/GalaxySpace.scene
+entities:
+  - components:
+    - type: Camera
+      farClip: 1000000
+    - type: Transform

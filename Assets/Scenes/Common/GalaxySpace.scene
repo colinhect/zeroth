@@ -3,18 +3,9 @@ base: Hect/Scenes/Default.scene
 componentTypes:
   - GalaxyNode
   - SpiralGalaxy
-  - ProxyGalaxy
-  - ObserverCamera
-  - Ship
-  - Thruster
 systemTypes:
-  - PlayerInputSystem
   - GalaxySystem
-  - ObserverCameraSystem
-  - HudSystem
 systems:
-  - type: PhysicsSystem
-    gravity: [ 0, 0, 0 ]
   - type: GalaxySystem
     starMaterial: Galaxy/Materials/Star.material
     topologyShader: Galaxy/Shaders/Topology.shader
@@ -28,4 +19,4 @@ systems:
     spiralParticleSizeRange: [ 7000, 15000 ]
     minimumNodeRadius: 250
     minimumNodeRadiusWithStars: 6000
-    maxStarsPerNode: 500
+    maxStarsPerNode: 2000
