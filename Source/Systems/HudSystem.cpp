@@ -26,8 +26,7 @@ void HudSystem::initialize()
         Font::Handle font = _interfaceSystem->defaultFont;
         double fontSize = _interfaceSystem->defaultFontSize;
 
-        _messageLog = MessageLog::Handle(new MessageLog(Vector2(5, 0), Vector2(_window.width(), _window.height()), font, fontSize));
-        _interfaceSystem->add(_messageLog);
+        _messageLog = _interfaceSystem->add<MessageLog>(Vector2(5, 0), Vector2(_window.width(), _window.height()), font, fontSize);
     }
 }
 

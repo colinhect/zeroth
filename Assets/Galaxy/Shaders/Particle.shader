@@ -8,10 +8,12 @@ modules:
   - type: Fragment
     path: Particle.Fragment.glsl
 uniforms:
-  - name: modelViewProjection
-    binding: ModelViewProjectionMatrix
-  - name: renderTargetSize
-    binding: RenderTargetSize
+  - name: model
+    binding: ModelMatrix
+  - name: viewProjection
+    binding: ViewProjectionMatrix
+  - name: cameraPosition
+    binding: CameraPosition
   - name: particleTexture
     type: Texture2
   - name: brightness

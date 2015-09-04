@@ -4,10 +4,10 @@ entities:
   - base: Test/Observer.entity
     components:
       - type: Transform
-        localPosition: [ 0, 0, 0 ]
+        localPosition: [ -26976, 9971, 684 ]
   - components:
       - type: Transform
-        localPosition: [ 5, 0, 0 ]
+        localPosition: [ -26973, 9971, 684 ]
       - type: BoundingBox
       - type: Model
         surfaces:
@@ -19,4 +19,4 @@ entities:
       color: [ 0.5, 0.5, 0.5 ]
   - components:
       - type: SpiralGalaxy
-        seed: 1406064303
+        seed: -2039787494
