@@ -1,7 +1,14 @@
 ---
 base: Scenes/Common/LocalSpace.scene
 entities:
-  - base: Test/Skybox.entity
+  - components:
+    - type: ProxyGalaxy
+      seed: -2039787494
+      position: [ -26976, 9971, 684 ]
+  - components:
+    - type: DirectionalLight
+      direction: [ 1, 0.1, 0.1 ]
+      color: [ 4.5, 4.5, 4.5 ]
   - base: Ships/Indor.entity
     components:
       - type: Transform

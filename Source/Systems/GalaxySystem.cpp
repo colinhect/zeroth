@@ -47,9 +47,55 @@ void GalaxySystem::tick(double timeStep)
     }
 }
 
-void GalaxySystem::onComponentAdded(SpiralGalaxy::Iterator galaxy)
+void GalaxySystem::onComponentAdded(SpiralGalaxy::Iterator spiralGalaxy)
 {
-    generateSpiralGalaxy(galaxy);
+    generateSpiralGalaxy(spiralGalaxy);
+}
+
+void GalaxySystem::onComponentAdded(ProxyGalaxy::Iterator proxyGalaxy)
+{
+    // TODO:
+    // Need to create a separate scene to render the galaxy skybox!
+    // Make sure to remove GalaxySystem from LocalSpace.scene
+
+    Entity::Iterator galaxyEntity = scene().createEntity();
+    galaxyEntity->setTransient(true);
+
+    SpiralGalaxy::Iterator spiralGalaxy = galaxyEntity->addComponent<SpiralGalaxy>();
+    spiralGalaxy->seed = proxyGalaxy->seed;
+
+    galaxyEntity->activate();
+
+    const Vector3& position = proxyGalaxy->position;
+
+    // Adapt each root galaxy node to the camera position
+    for (Entity& child : galaxyEntity->children())
+    {
+        Entity::Iterator rootGalaxyNode = child.iterator();
+        adaptGalaxyNode(position, rootGalaxyNode);
+    }
+
+    // Render the scene to a cubic texture
+    RenderSystem::Handle renderSystem = scene().system<RenderSystem>();
+    if (renderSystem)
+    {
+        TextureCube::Handle texture(new TextureCube("SkyBox", 1440, 1440, PixelFormat::Rgb16));
+        renderSystem->renderToTextureCube(position, 0.1, 1000000.0, *texture);
+
+        // Create a sky box
+        Entity::Iterator skyBoxEntity = scene().createEntity();
+        SkyBox::Iterator skyBox = skyBoxEntity->addComponent<SkyBox>();
+        skyBox->texture = texture;
+        skyBoxEntity->activate();
+
+        // Create a light probe
+        Entity::Iterator lightProbeEntity = scene().createEntity();
+        LightProbe::Iterator lightProbe = lightProbeEntity->addComponent<LightProbe>();
+        lightProbe->texture = texture;
+        lightProbeEntity->activate();
+    }
+
+    galaxyEntity->destroy();
 }
 
 void GalaxySystem::receiveEvent(const KeyboardEvent& event)
@@ -70,57 +116,6 @@ void GalaxySystem::receiveEvent(const KeyboardEvent& event)
         Entity::Iterator entity = scene().createEntity();
         entity->addComponent<SpiralGalaxy>();
         entity->activate();
-    }
-    else if (event.key == Key::F6 && event.type == KeyboardEventType::KeyDown)
-    {
-
-        // Get the position of the active camera
-        Vector3 position;
-        CameraSystem::Handle cameraSystem = scene().system<CameraSystem>();
-        if (cameraSystem)
-        {
-            position = cameraSystem->activeCamera()->position;
-        }
-
-        // Render the scene to a cubic texture
-        RenderSystem::Handle renderSystem = scene().system<RenderSystem>();
-        if (renderSystem)
-        {
-            TextureCube::Handle texture(new TextureCube("SkyBox", 1440, 1440, PixelFormat::Rgb16));
-            renderSystem->renderToTextureCube(position, *texture);
-
-            // Destroy all sky boxes
-            for (SkyBox& skyBox : scene().components<SkyBox>())
-            {
-                Entity::Iterator entity = skyBox.entity();
-                if (!entity->isPendingDestruction())
-                {
-                    entity->destroy();
-                }
-            }
-
-            // Create a sky box
-            Entity::Iterator skyBoxEntity = scene().createEntity();
-            SkyBox::Iterator skyBox = skyBoxEntity->addComponent<SkyBox>();
-            skyBox->texture = texture;
-            skyBoxEntity->activate();
-
-            // Create a light probe
-            Entity::Iterator lightProbeEntity = scene().createEntity();
-            LightProbe::Iterator lightProbe = lightProbeEntity->addComponent<LightProbe>();
-            lightProbe->texture = texture;
-            lightProbeEntity->activate();
-        }
-
-        // Destroy all galaxies
-        for (SpiralGalaxy& galaxy : scene().components<SpiralGalaxy>())
-        {
-            Entity::Iterator entity = galaxy.entity();
-            if (!entity->isPendingDestruction())
-            {
-                entity->destroy();
-            }
-        }
     }
 }
 

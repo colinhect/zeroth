@@ -3,6 +3,7 @@ base: Hect/Scenes/Default.scene
 componentTypes:
   - GalaxyNode
   - SpiralGalaxy
+  - ProxyGalaxy
   - ObserverCamera
   - Ship
   - Thruster

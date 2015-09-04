@@ -9,23 +9,25 @@
 #include <Hect.h>
 using namespace hect;
 
-#include "Components/SpiralGalaxy.h"
 #include "Components/GalaxyNode.h"
+#include "Components/SpiralGalaxy.h"
+#include "Components/ProxyGalaxy.h"
 
 namespace zeroth
 {
 
 /// \system
 class GalaxySystem :
-    public System<GalaxySystem, Components<SpiralGalaxy>>,
-            public Listener<KeyboardEvent>
+    public System<GalaxySystem, Components<SpiralGalaxy, ProxyGalaxy>>,
+    public Listener<KeyboardEvent>
 {
 public:
     GalaxySystem(Engine& engine, Scene& scene);
 
     void initialize() override;
     void tick(double timeStep) override;
-    void onComponentAdded(SpiralGalaxy::Iterator galaxy) override;
+    void onComponentAdded(SpiralGalaxy::Iterator spiralGalaxy) override;
+    void onComponentAdded(ProxyGalaxy::Iterator proxyGalaxy) override;
     void receiveEvent(const KeyboardEvent& event) override;
 
     /// \property{required}
