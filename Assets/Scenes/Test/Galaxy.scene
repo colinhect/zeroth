@@ -1,5 +1,5 @@
 ---
-base: Scenes/Common/GalaxySpace.scene
+base: Scenes/Base/GalaxyBase.scene
 entities:
   - base: Test/Observer.entity
     components:

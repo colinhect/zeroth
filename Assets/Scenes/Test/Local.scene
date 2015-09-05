@@ -1,15 +1,10 @@
 ---
-base: Scenes/Common/LocalSpace.scene
+base: Scenes/Base/LocalBase.scene
 entities:
-  - components:
-    - type: ProxyGalaxy
-      #seed: -2039787494
-      seed: 29749422
-      position: [ 9971, 16976, 403 ]
   - components:
     - type: DirectionalLight
       direction: [ 1, 0.1, 0.1 ]
-      color: [ 4.5, 4.5, 4.5 ]
+      color: [ 1.5, 1.5, 1.5 ]
   - base: Ships/Indor.entity
     components:
       - type: Transform
@@ -32,3 +27,7 @@ entities:
       - type: RigidBody
         mass: 1
         mesh: Test/Cube.Main.mesh
+  - components:
+    - type: ProxyGalaxy
+      seed: 29749422
+      position: [ 9971, 16976, 403 ]

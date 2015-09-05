@@ -1,0 +1,7 @@
+---
+base: GalaxyBase.scene
+entities:
+  - components:
+    - type: Camera
+      farClip: 1000000
+    - type: Transform

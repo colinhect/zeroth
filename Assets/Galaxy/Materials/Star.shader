@@ -19,7 +19,7 @@ uniforms:
     value: [ 1.0, 6.0 ]
   - name: brightnessRange
     type: Vector2
-    value: [ 0.0001, 150.0 ]
+    value: [ 0.00001, 15.0 ]
 depthTested: false
 blendMode:
     sourceFactor: One

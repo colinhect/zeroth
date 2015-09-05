@@ -35,6 +35,7 @@ void PlayerInputSystem::tick(double timeStep)
             {
                 double exposure = _inputSystem->axisValue("exposure");
                 camera->exposure += exposure * 5.0 * timeStep;
+                camera->exposure = std::max(0.01, camera->exposure);
             }
         }
     }
