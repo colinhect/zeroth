@@ -18,7 +18,7 @@ namespace zeroth
 /// \system
 class GalaxySystem :
     public System<GalaxySystem, Components<SpiralGalaxy>>,
-    public Listener<KeyboardEvent>
+            public Listener<KeyboardEvent>
 {
 public:
     GalaxySystem(Engine& engine, Scene& scene);

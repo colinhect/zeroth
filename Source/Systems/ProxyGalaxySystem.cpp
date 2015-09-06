@@ -19,15 +19,15 @@ ProxyGalaxySystem::ProxyGalaxySystem(Engine& engine, Scene& scene) :
 
 void ProxyGalaxySystem::onComponentAdded(ProxyGalaxy::Iterator proxyGalaxy)
 {
-    Scene& galaxyScene = _assetCache.get<Scene>(baseGalaxyScene, _engine);
+    Scene::Handle galaxyScene = _assetCache.getHandle<Scene>(baseGalaxyScene, _engine);
 
-    CameraSystem::Handle cameraSystem = galaxyScene.system<CameraSystem>();
+    CameraSystem::Handle cameraSystem = galaxyScene->system<CameraSystem>();
     if (cameraSystem)
     {
         Camera::Iterator activeCamera = cameraSystem->activeCamera();
         if (activeCamera)
         {
-            Entity::Iterator galaxyEntity = galaxyScene.createEntity();
+            Entity::Iterator galaxyEntity = galaxyScene->createEntity();
             galaxyEntity->setTransient(true);
 
             SpiralGalaxy::Iterator spiralGalaxy = galaxyEntity->addComponent<SpiralGalaxy>();
@@ -42,11 +42,11 @@ void ProxyGalaxySystem::onComponentAdded(ProxyGalaxy::Iterator proxyGalaxy)
             }
 
             // Tick the scene to insure that the galaxy has adapted to the camera
-            galaxyScene.tick(0.0);
-            galaxyScene.tick(0.0); // Issue #186
+            galaxyScene->tick(0.0);
+            galaxyScene->tick(0.0); // Issue #186
 
             // Render the scene to a cubic texture
-            RenderSystem::Handle renderSystem = galaxyScene.system<RenderSystem>();
+            RenderSystem::Handle renderSystem = galaxyScene->system<RenderSystem>();
             if (renderSystem)
             {
                 unsigned skyBoxResolution = computeSkyBoxResolution();
@@ -67,6 +67,8 @@ void ProxyGalaxySystem::onComponentAdded(ProxyGalaxy::Iterator proxyGalaxy)
             }
         }
     }
+
+    _assetCache.remove(galaxyScene);
 }
 
 unsigned ProxyGalaxySystem::computeSkyBoxResolution()

@@ -12,6 +12,7 @@ using namespace zeroth;
 
 ObserverCameraSystem::ObserverCameraSystem(Engine& engine, Scene& scene) :
     System(engine, scene),
+    _mouse(engine.mouse()),
     _cameraSystem(scene.system<CameraSystem>()),
     _transformSystem(scene.system<TransformSystem>()),
     _inputSystem(scene.system<InputSystem>())
@@ -27,7 +28,7 @@ ObserverCameraSystem::ObserverCameraSystem(Engine& engine, Scene& scene) :
 
 void ObserverCameraSystem::tick(double timeStep)
 {
-    if (_inputSystem && _transformSystem)
+    if (_inputSystem && _transformSystem && _mouse.mode() == MouseMode::Relative)
     {
         for (ObserverCamera& observerCamera : scene().components<ObserverCamera>())
         {

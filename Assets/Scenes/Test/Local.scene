@@ -29,5 +29,5 @@ entities:
         mesh: Test/Cube.Main.mesh
   - components:
     - type: ProxyGalaxy
-      seed: 29749422
-      position: [ 9971, 16976, 403 ]
+      seed: -2039787494
+      position: [ -26976, 9971, 684 ]

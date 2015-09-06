@@ -88,7 +88,7 @@ void PlayerInputSystem::receiveEvent(const KeyboardEvent& event)
         }
         else if (event.key == Key::Esc)
         {
-            scene().setActivate(false);
+            scene().setActive(false);
         }
     }
 }
