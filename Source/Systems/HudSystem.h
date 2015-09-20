@@ -9,9 +9,6 @@
 #include <Hect.h>
 using namespace hect;
 
-#include <mutex>
-#include <vector>
-
 namespace zeroth
 {
 
@@ -36,10 +33,6 @@ private:
     Mouse& _mouse;
 
     InterfaceSystem::Handle _interfaceSystem;
-    MessageLog::Handle _messageLog;
-
-    std::vector<std::string> _pendingMessages;
-    std::mutex _pendingMessagesMutex;
 };
 
 }

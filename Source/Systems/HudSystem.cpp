@@ -21,31 +21,19 @@ HudSystem::HudSystem(Engine& engine, Scene& scene) :
 
 void HudSystem::initialize()
 {
-    if (_interfaceSystem)
-    {
-        Font::Handle font = _interfaceSystem->defaultFont;
-        double fontSize = _interfaceSystem->defaultFontSize;
-
-        _messageLog = _interfaceSystem->add<MessageLog>(Vector2(5, 0), Vector2(_window.width(), _window.height()), font, fontSize);
-    }
 }
 
 void HudSystem::tick(double timeStep)
 {
-    std::lock_guard<std::mutex> lock(_pendingMessagesMutex);
-    for (const std::string& message : _pendingMessages)
-    {
-        _messageLog->addMessage(message);
-    }
-    _pendingMessages.clear();
+    (void)timeStep;
 }
 
 void HudSystem::receiveEvent(const KeyboardEvent& event)
 {
+    (void)event;
 }
 
 void HudSystem::receiveEvent(const LogMessageEvent& event)
 {
-    std::lock_guard<std::mutex> lock(_pendingMessagesMutex);
-    _pendingMessages.push_back(event.message);
+    (void)event;
 }
