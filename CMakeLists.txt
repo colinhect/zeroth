@@ -8,8 +8,65 @@ include_directories(
     "${PROJECT_SOURCE_DIR}/Source"
     "${PROJECT_SOURCE_DIR}/../../Engine/Source"
     )
+    
+set(SOURCE_FILES
+    "Source/Main.cpp"
+    "Source/Components/CockpitCamera.h"
+    "Source/Components/GalaxyNode.h"
+    "Source/Components/ObserverCamera.h"
+    "Source/Components/PlayerShipControl.h"
+    "Source/Components/ProxyGalaxy.h"
+    "Source/Components/Ship.h"
+    "Source/Components/SpiralGalaxy.h"
+    "Source/Components/Thruster.h"
+    "Source/Systems/CockpitCameraSystem.cpp"
+    "Source/Systems/CockpitCameraSystem.h"
+    "Source/Systems/GalaxySystem.cpp"
+    "Source/Systems/GalaxySystem.h"
+    "Source/Systems/HudSystem.cpp"
+    "Source/Systems/HudSystem.h"
+    "Source/Systems/ObserverCameraSystem.cpp"
+    "Source/Systems/ObserverCameraSystem.h"
+    "Source/Systems/PlayerInputSystem.cpp"
+    "Source/Systems/PlayerInputSystem.h"
+    "Source/Systems/ProxyGalaxySystem.cpp"
+    "Source/Systems/ProxyGalaxySystem.h"
+    "Source/Systems/ShipControlSystem.cpp"
+    "Source/Systems/ShipControlSystem.h"
+    )
+    
+source_group("Source" FILES
+    "Source/Main.cpp"
+    )
+    
+source_group("Source\\Components" FILES
+    "Source/Components/CockpitCamera.h"
+    "Source/Components/GalaxyNode.h"
+    "Source/Components/ObserverCamera.h"
+    "Source/Components/PlayerShipControl.h"
+    "Source/Components/ProxyGalaxy.h"
+    "Source/Components/Ship.h"
+    "Source/Components/SpiralGalaxy.h"
+    "Source/Components/Thruster.h"
+    )
 
-grouped_source_files(SOURCE_FILES ${PROJECT_SOURCE_DIR}/Source)
+source_group("Source\\Systems" FILES
+    "Source/Systems/CockpitCameraSystem.cpp"
+    "Source/Systems/CockpitCameraSystem.h"
+    "Source/Systems/GalaxySystem.cpp"
+    "Source/Systems/GalaxySystem.h"
+    "Source/Systems/HudSystem.cpp"
+    "Source/Systems/HudSystem.h"
+    "Source/Systems/ObserverCameraSystem.cpp"
+    "Source/Systems/ObserverCameraSystem.h"
+    "Source/Systems/PlayerInputSystem.cpp"
+    "Source/Systems/PlayerInputSystem.h"
+    "Source/Systems/ProxyGalaxySystem.cpp"
+    "Source/Systems/ProxyGalaxySystem.h"
+    "Source/Systems/ShipControlSystem.cpp"
+    "Source/Systems/ShipControlSystem.h"
+    )
+
 add_executable(Zeroth ${SOURCE_FILES})
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/Assets)
