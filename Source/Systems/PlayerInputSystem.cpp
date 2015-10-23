@@ -82,8 +82,7 @@ void PlayerInputSystem::receiveEvent(const KeyboardEvent& event)
         {
             if (_debugSystem)
             {
-                bool enabled = _debugSystem->isEnabled();
-                _debugSystem->setEnabled(!enabled);
+                _debugSystem->toggleShowInterface();
             }
         }
         else if (event.key == Key::Esc)
