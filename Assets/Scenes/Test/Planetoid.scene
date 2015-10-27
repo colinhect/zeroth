@@ -16,13 +16,17 @@ entities:
     - type: DirectionalLight
       direction: [ -0.5, -0.5, -0.75 ]
       color: [ 1.5, 1.5, 1.5 ]
+  - components:
+    - type: DirectionalLight
+      direction: [ 0.5, 0.5, 0.75 ]
+      color: [ 1.5, 1.5, 1.5 ]
   - base: Ships/Indor.entity
     components:
       - type: Transform
-        localPosition: [ 0, 100, 0 ]
+        localPosition: [ 0, 200, 0 ]
   - components:
       - type: Transform
-        localPosition: [ 0, 50, 0 ]
+        localPosition: [ 0, 240, 0 ]
       - type: BoundingBox
       - type: Model
         surfaces:
@@ -38,5 +42,7 @@ entities:
   - components:
       - type: Transform
         localPosition: [ 0, 0, 0 ]
+      - type: BoundingBox
       - type: Planetoid
-        size: 64
+        name: Endromin
+        meanRadius: 50

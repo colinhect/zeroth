@@ -19,7 +19,10 @@ class Planetoid :
 public:
 
     /// \property
-    double size { 0 };
+    std::string name { "Unknown Planetoid" };
+
+    /// \property
+    double meanRadius { 0 };
 };
 
 }

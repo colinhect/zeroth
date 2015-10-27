@@ -33,7 +33,7 @@ public:
     unsigned patchResolution { 16 };
 
 private:
-    Entity::Iterator createPatch(Planetoid::Iterator planetoid, double size, const Vector3& localPosition, const Vector3& parentGlobalPosition);
+    Entity::Iterator createRootPatch(Planetoid::Iterator planetoid, const Vector3& direction, const Vector3& tangent);
 
     CameraSystem::Handle _cameraSystem;
 };

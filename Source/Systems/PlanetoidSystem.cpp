@@ -39,43 +39,51 @@ void PlanetoidSystem::onComponentAdded(Planetoid::Iterator planetoid)
     Transform::Iterator transform = entity->component<Transform>();
     if (transform)
     {
-        createPatch(planetoid, planetoid->size, Vector3::Zero, Vector3::Zero);
+        createRootPatch(planetoid, Vector3::UnitX, Vector3::UnitY);
+        createRootPatch(planetoid, -Vector3::UnitX, -Vector3::UnitY);
+        createRootPatch(planetoid, Vector3::UnitY, -Vector3::UnitX);
+        createRootPatch(planetoid, -Vector3::UnitY, Vector3::UnitX);
+        createRootPatch(planetoid, Vector3::UnitZ, Vector3::UnitX);
+        createRootPatch(planetoid, -Vector3::UnitZ, -Vector3::UnitX);
     }
 }
 
-Entity::Iterator PlanetoidSystem::createPatch(Planetoid::Iterator planetoid, double size, const Vector3& localPosition, const Vector3& parentGlobalPosition)
+Entity::Iterator PlanetoidSystem::createRootPatch(Planetoid::Iterator planetoid, const Vector3& direction, const Vector3& tangent)
 {
+    const Vector3 bitangent = direction.cross(tangent);
+
     Entity::Iterator entity = scene().createEntity();
     entity->setTransient(true);
 
     Transform::Iterator transform = entity->addComponent<Transform>();
     transform->dynamic = false;
-    transform->localPosition = localPosition;
-    transform->globalPosition = parentGlobalPosition + localPosition;
+    transform->localPosition = direction * planetoid->meanRadius;
 
     entity->addComponent<BoundingBox>();
 
     PlanetoidPatch::Iterator planetoidPatch = entity->addComponent<PlanetoidPatch>();
-    planetoidPatch->terrain = planetoid;
-    planetoidPatch->size = size;
+    planetoidPatch->planetoid = planetoid;
+    planetoidPatch->size = planetoid->meanRadius * 2;
 
-    double subdivideSize = size / static_cast<double>(patchResolution);
-
-    double halfSize = size * 0.5;
+    double subdivideSize = planetoidPatch->size / static_cast<double>(patchResolution);
+    double halfSize = planetoidPatch->size * 0.5;
 
     Mesh::Handle mesh(new Mesh());
     mesh->setPrimitiveType(PrimitiveType::Lines);
 
     MeshWriter meshWriter(*mesh);
-    for (unsigned x = 0; x < patchResolution; ++x)
+    for (unsigned y = 0; y < patchResolution; ++y)
     {
-        for (unsigned y = 0; y < patchResolution; ++y)
+        for (unsigned x = 0; x < patchResolution; ++x)
         {
-            Vector3 position(x * subdivideSize, y * subdivideSize, 0);
-            position -= Vector3(1, 1, 0) * halfSize;
+            Vector3 position;
+            position += tangent * x * subdivideSize;
+            position += bitangent * y * subdivideSize;
+
+            position -= (Vector3::One - direction) * halfSize;
             meshWriter.addVertex();
             meshWriter.writeAttributeData(VertexAttributeSemantic::Position, position);
-            meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3::UnitZ);
+            meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, direction);
         }
     }
 
@@ -86,7 +94,6 @@ Entity::Iterator PlanetoidSystem::createPatch(Planetoid::Iterator planetoid, dou
             meshWriter.addIndex(y * patchResolution + x);
             meshWriter.addIndex((y + 1) * patchResolution + x);
             meshWriter.addIndex((y + 1) * patchResolution + x + 1);
-
             meshWriter.addIndex((y + 1) * patchResolution + x + 1);
             meshWriter.addIndex(y * patchResolution + x + 1);
             meshWriter.addIndex(y * patchResolution + x);
@@ -97,5 +104,8 @@ Entity::Iterator PlanetoidSystem::createPatch(Planetoid::Iterator planetoid, dou
     model->addSurface(mesh, patchMaterial);
 
     entity->activate();
+
+    planetoid->entity()->addChild(*entity);
+
     return entity;
 }
