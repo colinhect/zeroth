@@ -1,0 +1,42 @@
+---
+base: Scenes/Base/LocalBase.scene
+componentTypes:
+  - Planetoid
+  - PlanetoidPatch
+systemTypes:
+  - PlanetoidSystem
+systems:
+  - type: PhysicsSystem
+    gravity: [ 0, 0, 0 ]
+  - type: PlanetoidSystem
+    patchMaterial: Hect/Materials/OpaqueSolid.material
+    patchResolution: 16
+entities:
+  - components:
+    - type: DirectionalLight
+      direction: [ -0.5, -0.5, -0.75 ]
+      color: [ 1.5, 1.5, 1.5 ]
+  - base: Ships/Indor.entity
+    components:
+      - type: Transform
+        localPosition: [ 0, 100, 0 ]
+  - components:
+      - type: Transform
+        localPosition: [ 0, 50, 0 ]
+      - type: BoundingBox
+      - type: Model
+        surfaces:
+          - mesh: Test/Cube.Main.mesh
+            material: Test/MetalCrate.material
+      - type: RigidBody
+        mass: 1
+        mesh: Test/Cube.Main.mesh
+  - base: Test/Observer.entity
+    components:
+      - type: Transform
+        localPosition: [ 0, 0, 0 ]
+  - components:
+      - type: Transform
+        localPosition: [ 0, 0, 0 ]
+      - type: Planetoid
+        size: 64

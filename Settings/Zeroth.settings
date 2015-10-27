@@ -12,6 +12,6 @@ taskPool:
     threadCount: 6
 assetCache:
     concurrent: true
-scene: Scenes/Test/Local.scene
+scene: Scenes/Test/Planetoid.scene
 include:
   - Zeroth.InputAxes.SaitekX52.settings
