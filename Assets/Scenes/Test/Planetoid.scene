@@ -10,7 +10,6 @@ systems:
     gravity: [ 0, 0, 0 ]
   - type: PlanetoidSystem
     patchMaterial: Hect/Materials/OpaqueSolid.material
-    patchResolution: 16
 entities:
   - components:
     - type: DirectionalLight
@@ -46,3 +45,4 @@ entities:
       - type: Planetoid
         name: Endromin
         meanRadius: 50
+        patchResolution: 16

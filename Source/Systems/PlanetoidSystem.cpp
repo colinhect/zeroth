@@ -39,51 +39,65 @@ void PlanetoidSystem::onComponentAdded(Planetoid::Iterator planetoid)
     Transform::Iterator transform = entity->component<Transform>();
     if (transform)
     {
-        createRootPatch(planetoid, Vector3::UnitX, Vector3::UnitY);
-        createRootPatch(planetoid, -Vector3::UnitX, -Vector3::UnitY);
-        createRootPatch(planetoid, Vector3::UnitY, -Vector3::UnitX);
-        createRootPatch(planetoid, -Vector3::UnitY, Vector3::UnitX);
-        createRootPatch(planetoid, Vector3::UnitZ, Vector3::UnitX);
-        createRootPatch(planetoid, -Vector3::UnitZ, -Vector3::UnitX);
+        createPatch(planetoid, PlanetoidPatch::Iterator(), Vector3::UnitZ * planetoid->meanRadius, 100, Vector3::UnitZ, Vector3::UnitX);
+        createPatch(planetoid, PlanetoidPatch::Iterator(), -Vector3::UnitZ * planetoid->meanRadius, 100, -Vector3::UnitZ, -Vector3::UnitX);
+        createPatch(planetoid, PlanetoidPatch::Iterator(), Vector3::UnitX * planetoid->meanRadius, 100, Vector3::UnitX, Vector3::UnitY);
+        createPatch(planetoid, PlanetoidPatch::Iterator(), -Vector3::UnitX * planetoid->meanRadius, 100, -Vector3::UnitX, -Vector3::UnitY);
+        createPatch(planetoid, PlanetoidPatch::Iterator(), Vector3::UnitY * planetoid->meanRadius, 100, Vector3::UnitY, -Vector3::UnitX);
+        createPatch(planetoid, PlanetoidPatch::Iterator(), -Vector3::UnitY * planetoid->meanRadius, 100, -Vector3::UnitY, Vector3::UnitX);
     }
 }
 
-Entity::Iterator PlanetoidSystem::createRootPatch(Planetoid::Iterator planetoid, const Vector3& direction, const Vector3& tangent)
+Entity::Iterator PlanetoidSystem::createPatch(Planetoid::Iterator planetoid, PlanetoidPatch::Iterator parentPatch, const Vector3& localPosition, double size, const Vector3& up, const Vector3& right)
 {
-    const Vector3 bitangent = direction.cross(tangent);
+    Entity::Iterator patchEntity = scene().createEntity();
+    patchEntity->setTransient(true);
 
-    Entity::Iterator entity = scene().createEntity();
-    entity->setTransient(true);
-
-    Transform::Iterator transform = entity->addComponent<Transform>();
+    Transform::Iterator transform = patchEntity->addComponent<Transform>();
     transform->dynamic = false;
-    transform->localPosition = direction * planetoid->meanRadius;
+    transform->localPosition = localPosition;
 
-    entity->addComponent<BoundingBox>();
+    BoundingBox::Iterator boundingBox = patchEntity->addComponent<BoundingBox>();
 
-    PlanetoidPatch::Iterator planetoidPatch = entity->addComponent<PlanetoidPatch>();
-    planetoidPatch->planetoid = planetoid;
-    planetoidPatch->size = planetoid->meanRadius * 2;
+    PlanetoidPatch::Iterator patch = patchEntity->addComponent<PlanetoidPatch>();
+    patch->planetoid = planetoid;
+    patch->size = size;
 
-    double subdivideSize = planetoidPatch->size / static_cast<double>(patchResolution);
-    double halfSize = planetoidPatch->size * 0.5;
+    Mesh::Handle mesh = buildPatchMesh(patch, up, right);
+
+    Model::Iterator model = patchEntity->addComponent<Model>();
+    model->addSurface(mesh, patchMaterial);
+
+    patchEntity->activate();
+
+    Entity::Iterator parentEntity = parentPatch ? parentPatch->entity() : planetoid->entity();
+    parentEntity->addChild(*patchEntity);
+
+    return patchEntity;
+}
+
+Mesh::Handle PlanetoidSystem::buildPatchMesh(PlanetoidPatch::Iterator patch, const Vector3& up, const Vector3& right)
+{
+    const Vector3 front = up.cross(right);
+    const unsigned patchResolution = patch->planetoid->patchResolution;
+    const double halfPatchSize = patch->size * 0.5;
+    const double faceSize = patch->size / static_cast<double>(patchResolution);
 
     Mesh::Handle mesh(new Mesh());
-    mesh->setPrimitiveType(PrimitiveType::Lines);
+    mesh->setPrimitiveType(PrimitiveType::Triangles);
 
     MeshWriter meshWriter(*mesh);
     for (unsigned y = 0; y < patchResolution; ++y)
     {
+        Vector3 position = -(right + front) * halfPatchSize;
+        position += front * y * faceSize;
         for (unsigned x = 0; x < patchResolution; ++x)
         {
-            Vector3 position;
-            position += tangent * x * subdivideSize;
-            position += bitangent * y * subdivideSize;
+            position += right * faceSize;
 
-            position -= (Vector3::One - direction) * halfSize;
             meshWriter.addVertex();
             meshWriter.writeAttributeData(VertexAttributeSemantic::Position, position);
-            meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, direction);
+            meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, up);
         }
     }
 
@@ -100,12 +114,5 @@ Entity::Iterator PlanetoidSystem::createRootPatch(Planetoid::Iterator planetoid,
         }
     }
 
-    Model::Iterator model = entity->addComponent<Model>();
-    model->addSurface(mesh, patchMaterial);
-
-    entity->activate();
-
-    planetoid->entity()->addChild(*entity);
-
-    return entity;
+    return mesh;
 }

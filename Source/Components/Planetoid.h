@@ -23,6 +23,9 @@ public:
 
     /// \property
     double meanRadius { 0 };
+
+    /// \property
+    unsigned patchResolution { 16 };
 };
 
 }

@@ -29,11 +29,9 @@ public:
     /// \property
     Material::Handle patchMaterial;
 
-    /// \property
-    unsigned patchResolution { 16 };
-
 private:
-    Entity::Iterator createRootPatch(Planetoid::Iterator planetoid, const Vector3& direction, const Vector3& tangent);
+    Entity::Iterator createPatch(Planetoid::Iterator planetoid, PlanetoidPatch::Iterator parentPatch, const Vector3& localPosition, double size, const Vector3& up, const Vector3& right);
+    Mesh::Handle buildPatchMesh(PlanetoidPatch::Iterator patch, const Vector3& up, const Vector3& right);
 
     CameraSystem::Handle _cameraSystem;
 };
