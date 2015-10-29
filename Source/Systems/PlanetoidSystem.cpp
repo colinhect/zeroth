@@ -28,7 +28,6 @@ void PlanetoidSystem::tick(double timeStep)
         if (activeCamera)
         {
             Vector3 cameraPosition = activeCamera->position;
-
         }
     }
 }
@@ -39,12 +38,14 @@ void PlanetoidSystem::onComponentAdded(Planetoid::Iterator planetoid)
     Transform::Iterator transform = entity->component<Transform>();
     if (transform)
     {
-        createPatch(planetoid, PlanetoidPatch::Iterator(), Vector3::UnitZ * planetoid->meanRadius, 100, Vector3::UnitZ, Vector3::UnitX);
-        createPatch(planetoid, PlanetoidPatch::Iterator(), -Vector3::UnitZ * planetoid->meanRadius, 100, -Vector3::UnitZ, -Vector3::UnitX);
-        createPatch(planetoid, PlanetoidPatch::Iterator(), Vector3::UnitX * planetoid->meanRadius, 100, Vector3::UnitX, Vector3::UnitY);
-        createPatch(planetoid, PlanetoidPatch::Iterator(), -Vector3::UnitX * planetoid->meanRadius, 100, -Vector3::UnitX, -Vector3::UnitY);
-        createPatch(planetoid, PlanetoidPatch::Iterator(), Vector3::UnitY * planetoid->meanRadius, 100, Vector3::UnitY, -Vector3::UnitX);
-        createPatch(planetoid, PlanetoidPatch::Iterator(), -Vector3::UnitY * planetoid->meanRadius, 100, -Vector3::UnitY, Vector3::UnitX);
+        double radius = planetoid->meanRadius;
+
+        createPatch(planetoid, PlanetoidPatch::Iterator(), Vector3::UnitZ * radius, radius * 2, Vector3::UnitZ, Vector3::UnitX);
+        createPatch(planetoid, PlanetoidPatch::Iterator(), -Vector3::UnitZ * radius, radius * 2, -Vector3::UnitZ, -Vector3::UnitX);
+        createPatch(planetoid, PlanetoidPatch::Iterator(), Vector3::UnitX * radius, radius * 2, Vector3::UnitX, Vector3::UnitY);
+        createPatch(planetoid, PlanetoidPatch::Iterator(), -Vector3::UnitX * radius, radius * 2, -Vector3::UnitX, -Vector3::UnitY);
+        createPatch(planetoid, PlanetoidPatch::Iterator(), Vector3::UnitY * radius, radius * 2, Vector3::UnitY, -Vector3::UnitX);
+        createPatch(planetoid, PlanetoidPatch::Iterator(), -Vector3::UnitY * radius, radius * 2, -Vector3::UnitY, Vector3::UnitX);
     }
 }
 
@@ -84,33 +85,35 @@ Mesh::Handle PlanetoidSystem::buildPatchMesh(PlanetoidPatch::Iterator patch, con
     const double faceSize = patch->size / static_cast<double>(patchResolution);
 
     Mesh::Handle mesh(new Mesh());
-    mesh->setPrimitiveType(PrimitiveType::Triangles);
+    mesh->setPrimitiveType(PrimitiveType::Lines);
 
     MeshWriter meshWriter(*mesh);
-    for (unsigned y = 0; y < patchResolution; ++y)
+    for (unsigned y = 0; y < patchResolution + 1; ++y)
     {
         Vector3 position = -(right + front) * halfPatchSize;
         position += front * y * faceSize;
-        for (unsigned x = 0; x < patchResolution; ++x)
+        for (unsigned x = 0; x < patchResolution + 1; ++x)
         {
-            position += right * faceSize;
-
             meshWriter.addVertex();
             meshWriter.writeAttributeData(VertexAttributeSemantic::Position, position);
             meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, up);
+
+            position += right * faceSize;
         }
     }
 
-    for (unsigned y = 0; y < patchResolution - 1; ++y)
+    unsigned verticesPerRow = patchResolution + 1;
+
+    for (unsigned y = 0; y < patchResolution; ++y)
     {
-        for (unsigned x = 0; x < patchResolution - 1; ++x)
+        for (unsigned x = 0; x < patchResolution; ++x)
         {
-            meshWriter.addIndex(y * patchResolution + x);
-            meshWriter.addIndex((y + 1) * patchResolution + x);
-            meshWriter.addIndex((y + 1) * patchResolution + x + 1);
-            meshWriter.addIndex((y + 1) * patchResolution + x + 1);
-            meshWriter.addIndex(y * patchResolution + x + 1);
-            meshWriter.addIndex(y * patchResolution + x);
+            meshWriter.addIndex(y * verticesPerRow + x);
+            meshWriter.addIndex(y * verticesPerRow + x + 1);
+            meshWriter.addIndex((y + 1) * verticesPerRow + x + 1);
+            meshWriter.addIndex((y + 1) * verticesPerRow + x + 1);
+            meshWriter.addIndex((y + 1) * verticesPerRow + x);
+            meshWriter.addIndex(y * verticesPerRow + x);
         }
     }
 

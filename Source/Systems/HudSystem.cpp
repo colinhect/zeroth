@@ -21,11 +21,30 @@ HudSystem::HudSystem(Engine& engine, Scene& scene) :
 
 void HudSystem::initialize()
 {
+    if (_interfaceSystem)
+    {
+        _cameraPositionLabel = _interfaceSystem->addWidget<Label>();
+    }
 }
 
 void HudSystem::tick(double timeStep)
 {
     (void)timeStep;
+
+    CameraSystem::Handle cameraSystem = scene().system<CameraSystem>();
+    if (cameraSystem)
+    {
+        Camera::Iterator camera = cameraSystem->activeCamera();
+        if (camera)
+        {
+            Transform::Iterator transform = camera->entity()->component<Transform>();
+            if (transform)
+            {
+                const Vector3& position = transform->localPosition;
+                _cameraPositionLabel->setText(format("%f %f %f", position.x, position.y, position.z));
+            }
+        }
+    }
 }
 
 void HudSystem::receiveEvent(const KeyboardEvent& event)

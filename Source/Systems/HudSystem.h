@@ -33,6 +33,7 @@ private:
     Mouse& _mouse;
 
     InterfaceSystem::Handle _interfaceSystem;
+    Label::Handle _cameraPositionLabel;
 };
 
 }
