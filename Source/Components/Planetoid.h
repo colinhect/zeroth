@@ -26,6 +26,9 @@ public:
 
     /// \property
     unsigned patchResolution { 16 };
+
+    /// \property
+    Material::Handle patchMaterial;
 };
 
 }

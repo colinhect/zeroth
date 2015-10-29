@@ -26,13 +26,11 @@ public:
     void tick(double timeStep) override;
     void onComponentAdded(Planetoid::Iterator planetoid) override;
 
-    /// \property
-    Material::Handle patchMaterial;
-
 private:
     Entity::Iterator createPatch(Planetoid::Iterator planetoid, PlanetoidPatch::Iterator parentPatch, const Vector3& localPosition, double size, const Vector3& up, const Vector3& right);
     Mesh::Handle buildPatchMesh(PlanetoidPatch::Iterator patch, const Vector3& up, const Vector3& right);
 
+    BoundingBoxSystem::Handle _boundingBoxSystem;
     CameraSystem::Handle _cameraSystem;
 };
 

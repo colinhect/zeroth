@@ -8,8 +8,6 @@ systemTypes:
 systems:
   - type: PhysicsSystem
     gravity: [ 0, 0, 0 ]
-  - type: PlanetoidSystem
-    patchMaterial: Hect/Materials/OpaqueSolid.material
 entities:
   - components:
     - type: DirectionalLight
@@ -39,10 +37,8 @@ entities:
       - type: Transform
         localPosition: [ 0, 0, 0 ]
   - components:
-      - type: Transform
-        localPosition: [ 0, 0, 0 ]
-      - type: BoundingBox
       - type: Planetoid
         name: Endromin
         meanRadius: 50
         patchResolution: 16
+        patchMaterial: Hect/Materials/OpaqueSolid.material

@@ -10,6 +10,7 @@ using namespace zeroth;
 
 PlanetoidSystem::PlanetoidSystem(Engine& engine, Scene& scene) :
     System(engine, scene),
+    _boundingBoxSystem(scene.system<BoundingBoxSystem>()),
     _cameraSystem(scene.system<CameraSystem>())
 {
 }
@@ -35,17 +36,35 @@ void PlanetoidSystem::tick(double timeStep)
 void PlanetoidSystem::onComponentAdded(Planetoid::Iterator planetoid)
 {
     Entity::Iterator entity = planetoid->entity();
+
     Transform::Iterator transform = entity->component<Transform>();
     if (transform)
     {
-        double radius = planetoid->meanRadius;
+        throw InvalidOperation("Planetoid cannot be created with a transform");
+    }
+    transform = entity->addComponent<Transform>();
+    transform->dynamic = false;
 
-        createPatch(planetoid, PlanetoidPatch::Iterator(), Vector3::UnitZ * radius, radius * 2, Vector3::UnitZ, Vector3::UnitX);
-        createPatch(planetoid, PlanetoidPatch::Iterator(), -Vector3::UnitZ * radius, radius * 2, -Vector3::UnitZ, -Vector3::UnitX);
-        createPatch(planetoid, PlanetoidPatch::Iterator(), Vector3::UnitX * radius, radius * 2, Vector3::UnitX, Vector3::UnitY);
-        createPatch(planetoid, PlanetoidPatch::Iterator(), -Vector3::UnitX * radius, radius * 2, -Vector3::UnitX, -Vector3::UnitY);
-        createPatch(planetoid, PlanetoidPatch::Iterator(), Vector3::UnitY * radius, radius * 2, Vector3::UnitY, -Vector3::UnitX);
-        createPatch(planetoid, PlanetoidPatch::Iterator(), -Vector3::UnitY * radius, radius * 2, -Vector3::UnitY, Vector3::UnitX);
+    BoundingBox::Iterator boundingBox = entity->component<BoundingBox>();
+    if (!boundingBox)
+    {
+        boundingBox = entity->addComponent<BoundingBox>();
+        boundingBox->adaptive = true;
+    }
+
+    double radius = planetoid->meanRadius;
+
+    PlanetoidPatch::Iterator none;
+    createPatch(planetoid, none, Vector3::UnitZ * radius, radius * 2, Vector3::UnitZ, Vector3::UnitX);
+    createPatch(planetoid, none, -Vector3::UnitZ * radius, radius * 2, -Vector3::UnitZ, -Vector3::UnitX);
+    createPatch(planetoid, none, Vector3::UnitX * radius, radius * 2, Vector3::UnitX, Vector3::UnitY);
+    createPatch(planetoid, none, -Vector3::UnitX * radius, radius * 2, -Vector3::UnitX, -Vector3::UnitY);
+    createPatch(planetoid, none, Vector3::UnitY * radius, radius * 2, Vector3::UnitY, -Vector3::UnitX);
+    createPatch(planetoid, none, -Vector3::UnitY * radius, radius * 2, -Vector3::UnitY, Vector3::UnitX);
+
+    if (_boundingBoxSystem)
+    {
+        _boundingBoxSystem->update(*boundingBox);
     }
 }
 
@@ -55,7 +74,7 @@ Entity::Iterator PlanetoidSystem::createPatch(Planetoid::Iterator planetoid, Pla
     patchEntity->setTransient(true);
 
     Transform::Iterator transform = patchEntity->addComponent<Transform>();
-    transform->dynamic = false;
+    transform->dynamic = true;
     transform->localPosition = localPosition;
 
     BoundingBox::Iterator boundingBox = patchEntity->addComponent<BoundingBox>();
@@ -67,7 +86,7 @@ Entity::Iterator PlanetoidSystem::createPatch(Planetoid::Iterator planetoid, Pla
     Mesh::Handle mesh = buildPatchMesh(patch, up, right);
 
     Model::Iterator model = patchEntity->addComponent<Model>();
-    model->addSurface(mesh, patchMaterial);
+    model->addSurface(mesh, planetoid->patchMaterial);
 
     patchEntity->activate();
 
