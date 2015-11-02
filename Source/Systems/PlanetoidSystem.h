@@ -28,7 +28,9 @@ public:
 
 private:
     Entity::Iterator createPatch(Planetoid::Iterator planetoid, PlanetoidPatch::Iterator parentPatch, const Vector3& localPosition, double size, const Vector3& up, const Vector3& right);
-    Mesh::Handle buildPatchMesh(PlanetoidPatch::Iterator patch, const Vector3& up, const Vector3& right);
+    Mesh::Handle buildPatchMesh(PlanetoidPatch::Iterator patch, const Vector3& relativePosition, const Vector3& up, const Vector3& right);
+
+    static Vector3 cubeToSphere(const Vector3& localPosition, const Vector3& relativePosition, double radius);
 
     BoundingBoxSystem::Handle _boundingBoxSystem;
     CameraSystem::Handle _cameraSystem;

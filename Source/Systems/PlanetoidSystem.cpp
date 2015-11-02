@@ -83,25 +83,29 @@ Entity::Iterator PlanetoidSystem::createPatch(Planetoid::Iterator planetoid, Pla
     patch->planetoid = planetoid;
     patch->size = size;
 
-    Mesh::Handle mesh = buildPatchMesh(patch, up, right);
+    Entity::Iterator parentEntity = parentPatch ? parentPatch->entity() : planetoid->entity();
+    Transform::Iterator parentTransform = parentEntity->component<Transform>();
+    Vector3 relativePosition = parentTransform->globalPosition + localPosition;
+
+    Mesh::Handle mesh = buildPatchMesh(patch, relativePosition, up, right);
 
     Model::Iterator model = patchEntity->addComponent<Model>();
     model->addSurface(mesh, planetoid->patchMaterial);
 
     patchEntity->activate();
 
-    Entity::Iterator parentEntity = parentPatch ? parentPatch->entity() : planetoid->entity();
     parentEntity->addChild(*patchEntity);
 
     return patchEntity;
 }
 
-Mesh::Handle PlanetoidSystem::buildPatchMesh(PlanetoidPatch::Iterator patch, const Vector3& up, const Vector3& right)
+Mesh::Handle PlanetoidSystem::buildPatchMesh(PlanetoidPatch::Iterator patch, const Vector3& relativePosition, const Vector3& up, const Vector3& right)
 {
     const Vector3 front = up.cross(right);
     const unsigned patchResolution = patch->planetoid->patchResolution;
     const double halfPatchSize = patch->size * 0.5;
     const double faceSize = patch->size / static_cast<double>(patchResolution);
+    const double planetoidMeanRadius = patch->planetoid->meanRadius;
 
     Mesh::Handle mesh(new Mesh());
     mesh->setPrimitiveType(PrimitiveType::Lines);
@@ -113,9 +117,12 @@ Mesh::Handle PlanetoidSystem::buildPatchMesh(PlanetoidPatch::Iterator patch, con
         position += front * y * faceSize;
         for (unsigned x = 0; x < patchResolution + 1; ++x)
         {
+            Vector3 morphedPosition = cubeToSphere(position, relativePosition, planetoidMeanRadius);
+            const Vector3 normal = (morphedPosition + relativePosition).normalized();
+
             meshWriter.addVertex();
-            meshWriter.writeAttributeData(VertexAttributeSemantic::Position, position);
-            meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, up);
+            meshWriter.writeAttributeData(VertexAttributeSemantic::Position, morphedPosition);
+            meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, normal);
 
             position += right * faceSize;
         }
@@ -137,4 +144,23 @@ Mesh::Handle PlanetoidSystem::buildPatchMesh(PlanetoidPatch::Iterator patch, con
     }
 
     return mesh;
+}
+
+Vector3 PlanetoidSystem::cubeToSphere(const Vector3& localPosition, const Vector3& relativePosition, double radius)
+{
+    Vector3 morphedPosition = localPosition;
+    morphedPosition += relativePosition;
+    morphedPosition /= radius;
+
+    const double x2 = morphedPosition.x * morphedPosition.x;
+    const double y2 = morphedPosition.y * morphedPosition.y;
+    const double z2 = morphedPosition.z * morphedPosition.z;
+    morphedPosition.x *= std::sqrt(1.0 - y2 / 2.0 - z2 / 2.0 + (y2 * z2) / 3.0);
+    morphedPosition.y *= std::sqrt(1.0 - z2 / 2.0 - x2 / 2.0 + (z2 * x2) / 3.0);
+    morphedPosition.z *= std::sqrt(1.0 - x2 / 2.0 - y2 / 2.0 + (x2 * y2) / 3.0);
+
+    morphedPosition *= radius;
+    morphedPosition -= relativePosition;
+
+    return morphedPosition;
 }
