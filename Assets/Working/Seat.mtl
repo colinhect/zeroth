@@ -1,0 +1,150 @@
+# Blender MTL File: 'Indor.blend'
+# Material Count: 15
+
+newmtl boltColor
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.029928 0.029928 0.029928
+Ks 0.150000 0.150000 0.150000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl seatAdjustLeverColor
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.100000 0.100000 0.100000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd D:\Desktop\textures\seatAdjustLever_T.png
+
+newmtl seatFrameMiddleColor
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.000243 0.000243 0.000243
+Ks 0.010000 0.010000 0.010000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl seatFrameRailColor
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.011735 0.011735 0.011735
+Ks 0.150000 0.150000 0.150000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd D:\Desktop\textures\seatFrameRail_T.png
+
+newmtl seatLowerLeftColor
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd D:\Desktop\textures\seatLowerLeft_T.png
+
+newmtl seatLowerMiddleColor
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd D:\Desktop\textures\seatLowerMiddle_T.png
+
+newmtl seatLowerRightColor
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd D:\Desktop\textures\seatLowerRight_T.png
+
+newmtl seatPivotColor
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.100000 0.100000 0.100000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd D:\Desktop\textures\seatPivotRight_T.png
+
+newmtl seatPivotControlLeftColor
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.100000 0.100000 0.100000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd D:\Desktop\textures\seatPivotControlLeft_T.png
+
+newmtl seatPivotControlRightColor
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.100000 0.100000 0.100000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd D:\Desktop\textures\seatPivotControRight_T.png
+
+newmtl seatPivotLeftColor
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.100000 0.100000 0.100000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd D:\Desktop\textures\seatPivotLeft_T.png
+
+newmtl seatUpperLeftColor
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd D:\Desktop\textures\seatUpperLeft_T.png
+
+newmtl seatUpperMiddleColor
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd D:\Desktop\textures\seatUpperMiddle_T.png
+
+newmtl seatUpperRightColor
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd D:\Desktop\textures\seatUpperRight_T.png
+
+newmtl seatUpperTopColor
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd D:\Desktop\textures\seatUpperTop_T.png
