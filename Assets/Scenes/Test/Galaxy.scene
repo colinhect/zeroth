@@ -1,5 +1,7 @@
 ---
 base: Scenes/Base/GalaxyBase.scene
+systemTypes:
+  - PlayerInputSystem
 entities:
   - base: Test/Observer.entity
     components:

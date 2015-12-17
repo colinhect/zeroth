@@ -39,6 +39,6 @@ entities:
   - components:
       - type: Planetoid
         name: Endromin
-        meanRadius: 50
+        meanRadius: 10
         patchResolution: 16
         patchMaterial: Hect/Materials/OpaqueSolid.material

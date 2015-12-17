@@ -27,10 +27,10 @@ public:
     void onComponentAdded(Planetoid::Iterator planetoid) override;
 
 private:
-    Entity::Iterator createPatch(Planetoid::Iterator planetoid, PlanetoidPatch::Iterator parentPatch, const Vector3& localPosition, double size, const Vector3& up, const Vector3& right);
-    Mesh::Handle buildPatchMesh(PlanetoidPatch::Iterator patch, const Vector3& relativePosition, const Vector3& up, const Vector3& right);
+    Entity::Iterator createRootPatch(Planetoid::Iterator planetoid, const Vector3& up, const Vector3& right);
+    Mesh::Handle buildPatchMesh(Planetoid::Iterator planetoid, PlanetoidPatch::Iterator patch, const Vector3& relativePosition, const Vector3& up, const Vector3& right);
 
-    static Vector3 cubeToSphere(const Vector3& localPosition, const Vector3& relativePosition, double radius);
+    static Vector3 cubeToSphere(const Vector3& point);
 
     BoundingBoxSystem::Handle _boundingBoxSystem;
     CameraSystem::Handle _cameraSystem;

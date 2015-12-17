@@ -19,8 +19,7 @@ class PlanetoidPatch :
     public Component<PlanetoidPatch>
 {
 public:
-    Planetoid::Iterator planetoid;
-    double size { 0 };
+    double halfSize { 1.0 };
     bool split { false };
 };
 
