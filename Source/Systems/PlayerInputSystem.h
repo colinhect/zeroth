@@ -26,6 +26,10 @@ public:
     void receiveEvent(const KeyboardEvent& event) override;
 
 private:
+    void swapMouseMode();
+    void toggleDebugInterface();
+    void deactivateScene();
+
     Keyboard& _keyboard;
     Mouse& _mouse;
 

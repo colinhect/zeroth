@@ -337,7 +337,7 @@ Entity::Iterator GalaxySystem::createGalaxyNode(SpiralGalaxy::Iterator galaxy, c
 
     // Add transform component
     Transform::Iterator transform = entity->addComponent<Transform>();
-    transform->dynamic = false;
+    transform->mobility = Mobility::Static;
     transform->localPosition = localPosition;
     transform->globalPosition = parentGlobalPosition + localPosition;
 

@@ -68,26 +68,41 @@ void PlayerInputSystem::receiveEvent(const KeyboardEvent& event)
     {
         if (event.key == Key::Tab)
         {
-            MouseMode mode = _mouse.mode();
-            if (mode == MouseMode::Cursor)
-            {
-                _mouse.setMode(MouseMode::Relative);
-            }
-            else
-            {
-                _mouse.setMode(MouseMode::Cursor);
-            }
+            swapMouseMode();
         }
         else if (event.key == Key::F1)
         {
-            if (_debugSystem)
-            {
-                _debugSystem->toggleShowInterface();
-            }
+            toggleDebugInterface();
         }
         else if (event.key == Key::Esc)
         {
-            scene().setActive(false);
+            deactivateScene();
         }
     }
+}
+
+void PlayerInputSystem::swapMouseMode()
+{
+    MouseMode mode = _mouse.mode();
+    if (mode == MouseMode::Cursor)
+    {
+        _mouse.setMode(MouseMode::Relative);
+    }
+    else
+    {
+        _mouse.setMode(MouseMode::Cursor);
+    }
+}
+
+void PlayerInputSystem::toggleDebugInterface()
+{
+    if (_debugSystem)
+    {
+        _debugSystem->toggleShowInterface();
+    }
+}
+
+void PlayerInputSystem::deactivateScene()
+{
+    scene().setActive(false);
 }

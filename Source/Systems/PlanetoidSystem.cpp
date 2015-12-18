@@ -29,6 +29,8 @@ void PlanetoidSystem::tick(double timeStep)
         if (activeCamera)
         {
             Vector3 cameraPosition = activeCamera->position;
+
+            // Adapt planetoids
         }
     }
 }
@@ -40,10 +42,10 @@ void PlanetoidSystem::onComponentAdded(Planetoid::Iterator planetoid)
     Transform::Iterator transform = entity->component<Transform>();
     if (transform)
     {
-        throw InvalidOperation("Planetoid cannot be created with a transform");
+        throw InvalidOperation("Planetoid cannot be created with a transform; they can only be centered at the origin");
     }
     transform = entity->addComponent<Transform>();
-    transform->dynamic = false;
+    transform->mobility = Mobility::Static;
 
     BoundingBox::Iterator boundingBox = entity->component<BoundingBox>();
     if (!boundingBox)
@@ -73,7 +75,7 @@ Entity::Iterator PlanetoidSystem::createRootPatch(Planetoid::Iterator planetoid,
     patchEntity->setTransient(true);
 
     Transform::Iterator transform = patchEntity->addComponent<Transform>();
-    transform->dynamic = true;
+    transform->mobility = Mobility::Dynamic;
     transform->localPosition = up * planetoid->meanRadius;
 
     BoundingBox::Iterator boundingBox = patchEntity->addComponent<BoundingBox>();
