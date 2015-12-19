@@ -19,6 +19,7 @@ class PlanetoidPatch :
     public Component<PlanetoidPatch>
 {
 public:
+    CubeSide cubeSide { CubeSide::PositiveZ };
     double halfSize { 1.0 };
     bool split { false };
 };

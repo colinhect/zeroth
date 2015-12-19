@@ -39,12 +39,12 @@ void PlanetoidSystem::onComponentAdded(Planetoid::Iterator planetoid)
 {
     Entity::Iterator entity = planetoid->entity();
 
-    Transform::Iterator transform = entity->component<Transform>();
-    if (transform)
+    if (entity->hasComponent<Transform>())
     {
         throw InvalidOperation("Planetoid cannot be created with a transform; they can only be centered at the origin");
     }
-    transform = entity->addComponent<Transform>();
+
+    Transform::Iterator transform = entity->addComponent<Transform>();
     transform->mobility = Mobility::Static;
 
     BoundingBox::Iterator boundingBox = entity->component<BoundingBox>();
@@ -54,14 +54,12 @@ void PlanetoidSystem::onComponentAdded(Planetoid::Iterator planetoid)
         boundingBox->adaptive = true;
     }
 
-    double radius = planetoid->meanRadius;
-
-    createRootPatch(planetoid, Vector3::UnitZ, Vector3::UnitX);
-    createRootPatch(planetoid, -Vector3::UnitZ, -Vector3::UnitX);
-    createRootPatch(planetoid, Vector3::UnitX, Vector3::UnitY);
-    createRootPatch(planetoid, -Vector3::UnitX, -Vector3::UnitY);
-    createRootPatch(planetoid, Vector3::UnitY, -Vector3::UnitX);
-    createRootPatch(planetoid, -Vector3::UnitY, Vector3::UnitX);
+    createRootPatch(planetoid, CubeSide::PositiveX);
+    createRootPatch(planetoid, CubeSide::NegativeX);
+    createRootPatch(planetoid, CubeSide::PositiveY);
+    createRootPatch(planetoid, CubeSide::NegativeY);
+    createRootPatch(planetoid, CubeSide::PositiveZ);
+    createRootPatch(planetoid, CubeSide::NegativeZ);
 
     if (_boundingBoxSystem)
     {
@@ -69,20 +67,36 @@ void PlanetoidSystem::onComponentAdded(Planetoid::Iterator planetoid)
     }
 }
 
-Entity::Iterator PlanetoidSystem::createRootPatch(Planetoid::Iterator planetoid, const Vector3& up, const Vector3& right)
+void PlanetoidSystem::split(PlanetoidPatch::Iterator patch)
 {
+    if (!patch->split)
+    {
+
+        patch->split = true;
+    }
+}
+
+Entity::Iterator PlanetoidSystem::createRootPatch(Planetoid::Iterator planetoid, CubeSide cubeSide)
+{
+    const Vector3& up = cubeSideUpVector(cubeSide);
+    const Vector3& right = cubeSideRightVector(cubeSide);
+
     Entity::Iterator patchEntity = scene().createEntity();
     patchEntity->setTransient(true);
 
+    Vector3 patchPosition = up * planetoid->meanRadius;
+
     Transform::Iterator transform = patchEntity->addComponent<Transform>();
     transform->mobility = Mobility::Dynamic;
-    transform->localPosition = up * planetoid->meanRadius;
+    transform->localPosition = patchPosition;
 
     BoundingBox::Iterator boundingBox = patchEntity->addComponent<BoundingBox>();
 
     PlanetoidPatch::Iterator patch = patchEntity->addComponent<PlanetoidPatch>();
-    
-    Mesh::Handle mesh = buildPatchMesh(planetoid, patch, transform->localPosition, up, right);
+    patch->cubeSide = cubeSide;
+    patch->halfSize = planetoid->meanRadius;
+
+    Mesh::Handle mesh = buildPatchMesh(planetoid, patch, patchPosition);
 
     Model::Iterator model = patchEntity->addComponent<Model>();
     model->addSurface(mesh, planetoid->patchMaterial);
@@ -94,8 +108,11 @@ Entity::Iterator PlanetoidSystem::createRootPatch(Planetoid::Iterator planetoid,
     return patchEntity;
 }
 
-Mesh::Handle PlanetoidSystem::buildPatchMesh(Planetoid::Iterator planetoid, PlanetoidPatch::Iterator patch, const Vector3& relativePosition, const Vector3& up, const Vector3& right)
+Mesh::Handle PlanetoidSystem::buildPatchMesh(Planetoid::Iterator planetoid, PlanetoidPatch::Iterator patch, const Vector3& relativePosition)
 {
+    const Vector3& up = cubeSideUpVector(patch->cubeSide);
+    const Vector3& right = cubeSideRightVector(patch->cubeSide);
+
     const Vector3 front = up.cross(right);
     const unsigned patchResolution = planetoid->patchResolution;
     const double patchHalfSize = patch->halfSize;
@@ -112,12 +129,10 @@ Mesh::Handle PlanetoidSystem::buildPatchMesh(Planetoid::Iterator planetoid, Plan
         position += front * y * faceSize;
         for (unsigned x = 0; x < patchResolution + 1; ++x)
         {
-            Vector3 morphedPosition = cubeToSphere(position);
-            //morphedPosition *= planetoidMeanRadius;
-            //morphedPosition -= relativePosition;
-            
+            Vector3 morphedPosition = morphPointToSphere(position, relativePosition, planetoidMeanRadius);
+
             meshWriter.addVertex();
-            meshWriter.writeAttributeData(VertexAttributeSemantic::Position, position);
+            meshWriter.writeAttributeData(VertexAttributeSemantic::Position, morphedPosition);
             meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, morphedPosition.normalized());
 
             position += right * faceSize;
@@ -142,7 +157,18 @@ Mesh::Handle PlanetoidSystem::buildPatchMesh(Planetoid::Iterator planetoid, Plan
     return mesh;
 }
 
-Vector3 PlanetoidSystem::cubeToSphere(const Vector3& point)
+Vector3 PlanetoidSystem::morphPointToSphere(const Vector3& point, const Vector3& relativePosition, double radius)
+{
+    Vector3 unitPosition = (relativePosition + point) / radius;
+
+    Vector3 result = projectUnitCubeToSphere(unitPosition);
+    result *= radius;
+    result -= relativePosition;
+
+    return result;
+}
+
+Vector3 PlanetoidSystem::projectUnitCubeToSphere(const Vector3& point)
 {
     const double x2 = point.x * point.x;
     const double y2 = point.y * point.y;
@@ -154,4 +180,34 @@ Vector3 PlanetoidSystem::cubeToSphere(const Vector3& point)
     result.z *= std::sqrt(1.0 - x2 / 2.0 - y2 / 2.0 + (x2 * y2) / 3.0);
 
     return result;
+}
+
+const Vector3& PlanetoidSystem::cubeSideUpVector(CubeSide cubeSide)
+{
+    static Vector3 _vectors[6] =
+    {
+        Vector3::UnitX,
+        -Vector3::UnitX,
+        Vector3::UnitY,
+        -Vector3::UnitY,
+        Vector3::UnitZ,
+        -Vector3::UnitZ
+    };
+
+    return _vectors[static_cast<int>(cubeSide)];
+}
+
+const Vector3& PlanetoidSystem::cubeSideRightVector(CubeSide cubeSide)
+{
+    static Vector3 _vectors[6] =
+    {
+        Vector3::UnitY,
+        -Vector3::UnitY,
+        -Vector3::UnitX,
+        Vector3::UnitX,
+        Vector3::UnitX,
+        -Vector3::UnitX
+    };
+
+    return _vectors[static_cast<int>(cubeSide)];
 }
