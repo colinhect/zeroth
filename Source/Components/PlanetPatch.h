@@ -9,14 +9,12 @@
 #include <Hect.h>
 using namespace hect;
 
-#include "Components/Planetoid.h"
-
 namespace zeroth
 {
 
 /// \component
-class PlanetoidPatch :
-    public Component<PlanetoidPatch>
+class PlanetPatch :
+    public Component<PlanetPatch>
 {
 public:
     CubeSide cubeSide { CubeSide::PositiveZ };

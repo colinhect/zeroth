@@ -13,13 +13,13 @@ namespace zeroth
 {
 
 /// \component
-class Planetoid :
-    public Component<Planetoid>
+class Planet :
+    public Component<Planet>
 {
 public:
 
     /// \property
-    std::string name { "Unknown Planetoid" };
+    std::string name { "Unknown Planet" };
 
     /// \property
     double meanRadius { 0 };

@@ -4,22 +4,23 @@
 // Copyright (c) 2015 Colin Hill
 //
 ///////////////////////////////////////////////////////////////////////////////
-#include "PlanetoidSystem.h"
+#include "PlanetSystem.h"
 
 using namespace zeroth;
 
-PlanetoidSystem::PlanetoidSystem(Engine& engine, Scene& scene) :
+PlanetSystem::PlanetSystem(Engine& engine, Scene& scene) :
     System(engine, scene),
     _boundingBoxSystem(scene.system<BoundingBoxSystem>()),
-    _cameraSystem(scene.system<CameraSystem>())
+    _cameraSystem(scene.system<CameraSystem>()),
+    _transformSystem(scene.system<TransformSystem>())
 {
 }
 
-void PlanetoidSystem::initialize()
+void PlanetSystem::initialize()
 {
 }
 
-void PlanetoidSystem::tick(double timeStep)
+void PlanetSystem::tick(double timeStep)
 {
     (void)timeStep;
 
@@ -35,13 +36,13 @@ void PlanetoidSystem::tick(double timeStep)
     }
 }
 
-void PlanetoidSystem::onComponentAdded(Planetoid::Iterator planetoid)
+void PlanetSystem::onComponentAdded(Planet::Iterator planetoid)
 {
     Entity::Iterator entity = planetoid->entity();
 
     if (entity->hasComponent<Transform>())
     {
-        throw InvalidOperation("Planetoid cannot be created with a transform; they can only be centered at the origin");
+        throw InvalidOperation("Planet cannot be created with a transform; they can only be centered at the origin");
     }
 
     Transform::Iterator transform = entity->addComponent<Transform>();
@@ -67,16 +68,7 @@ void PlanetoidSystem::onComponentAdded(Planetoid::Iterator planetoid)
     }
 }
 
-void PlanetoidSystem::split(PlanetoidPatch::Iterator patch)
-{
-    if (!patch->split)
-    {
-
-        patch->split = true;
-    }
-}
-
-Entity::Iterator PlanetoidSystem::createRootPatch(Planetoid::Iterator planetoid, CubeSide cubeSide)
+Entity::Iterator PlanetSystem::createRootPatch(Planet::Iterator planetoid, CubeSide cubeSide)
 {
     const Vector3& up = cubeSideUpVector(cubeSide);
     const Vector3& right = cubeSideRightVector(cubeSide);
@@ -92,7 +84,7 @@ Entity::Iterator PlanetoidSystem::createRootPatch(Planetoid::Iterator planetoid,
 
     BoundingBox::Iterator boundingBox = patchEntity->addComponent<BoundingBox>();
 
-    PlanetoidPatch::Iterator patch = patchEntity->addComponent<PlanetoidPatch>();
+    PlanetPatch::Iterator patch = patchEntity->addComponent<PlanetPatch>();
     patch->cubeSide = cubeSide;
     patch->halfSize = planetoid->meanRadius;
 
@@ -108,7 +100,7 @@ Entity::Iterator PlanetoidSystem::createRootPatch(Planetoid::Iterator planetoid,
     return patchEntity;
 }
 
-Mesh::Handle PlanetoidSystem::buildPatchMesh(Planetoid::Iterator planetoid, PlanetoidPatch::Iterator patch, const Vector3& relativePosition)
+Mesh::Handle PlanetSystem::buildPatchMesh(Planet::Iterator planetoid, PlanetPatch::Iterator patch, const Vector3& relativePosition)
 {
     const Vector3& up = cubeSideUpVector(patch->cubeSide);
     const Vector3& right = cubeSideRightVector(patch->cubeSide);
@@ -129,11 +121,12 @@ Mesh::Handle PlanetoidSystem::buildPatchMesh(Planetoid::Iterator planetoid, Plan
         position += front * y * faceSize;
         for (unsigned x = 0; x < patchResolution + 1; ++x)
         {
-            Vector3 morphedPosition = morphPointToSphere(position, relativePosition, planetoidMeanRadius);
+            const Vector3 morphedPosition = morphPointToSphere(position, relativePosition, planetoidMeanRadius);
+            const Vector3 morphedNormal = (morphedPosition + relativePosition).normalized();
 
             meshWriter.addVertex();
             meshWriter.writeAttributeData(VertexAttributeSemantic::Position, morphedPosition);
-            meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, morphedPosition.normalized());
+            meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, morphedNormal);
 
             position += right * faceSize;
         }
@@ -157,7 +150,7 @@ Mesh::Handle PlanetoidSystem::buildPatchMesh(Planetoid::Iterator planetoid, Plan
     return mesh;
 }
 
-Vector3 PlanetoidSystem::morphPointToSphere(const Vector3& point, const Vector3& relativePosition, double radius)
+Vector3 PlanetSystem::morphPointToSphere(const Vector3& point, const Vector3& relativePosition, double radius)
 {
     Vector3 unitPosition = (relativePosition + point) / radius;
 
@@ -168,7 +161,7 @@ Vector3 PlanetoidSystem::morphPointToSphere(const Vector3& point, const Vector3&
     return result;
 }
 
-Vector3 PlanetoidSystem::projectUnitCubeToSphere(const Vector3& point)
+Vector3 PlanetSystem::projectUnitCubeToSphere(const Vector3& point)
 {
     const double x2 = point.x * point.x;
     const double y2 = point.y * point.y;
@@ -182,7 +175,7 @@ Vector3 PlanetoidSystem::projectUnitCubeToSphere(const Vector3& point)
     return result;
 }
 
-const Vector3& PlanetoidSystem::cubeSideUpVector(CubeSide cubeSide)
+const Vector3& PlanetSystem::cubeSideUpVector(CubeSide cubeSide)
 {
     static Vector3 _vectors[6] =
     {
@@ -197,7 +190,7 @@ const Vector3& PlanetoidSystem::cubeSideUpVector(CubeSide cubeSide)
     return _vectors[static_cast<int>(cubeSide)];
 }
 
-const Vector3& PlanetoidSystem::cubeSideRightVector(CubeSide cubeSide)
+const Vector3& PlanetSystem::cubeSideRightVector(CubeSide cubeSide)
 {
     static Vector3 _vectors[6] =
     {

@@ -1,10 +1,10 @@
 ---
 base: Scenes/Base/LocalBase.scene
 componentTypes:
-  - Planetoid
-  - PlanetoidPatch
+  - Planet
+  - PlanetPatch
 systemTypes:
-  - PlanetoidSystem
+  - PlanetSystem
 systems:
   - type: PhysicsSystem
     gravity: [ 0, 0, 0 ]
@@ -37,7 +37,7 @@ entities:
       - type: Transform
         localPosition: [ 0, 0, 0 ]
   - components:
-      - type: Planetoid
+      - type: Planet
         name: Endromin
         meanRadius: 10
         patchResolution: 16
