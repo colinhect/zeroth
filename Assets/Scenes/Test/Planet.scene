@@ -39,6 +39,6 @@ entities:
   - components:
       - type: Planet
         name: Endromin
-        meanRadius: 10
+        meanRadius: 50
         patchResolution: 16
         patchMaterial: Hect/Materials/OpaqueSolid.material
