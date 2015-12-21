@@ -33,6 +33,7 @@ void PlanetSystem::tick(double timeStep)
             Vector3 cameraPosition = activeCamera->position;
 
             // Adapt planets
+            adapt(cameraPosition, _planet->entity());
         }
     }
 }
@@ -43,45 +44,83 @@ void PlanetSystem::onComponentAdded(Planet::Iterator planet)
     {
         throw InvalidOperation("Only one planet can exist in a scene");
     }
+
+    _planet = planet;
+
+    Entity::Iterator entity = planet->entity();
+
+    // Add the transform component
+    Transform::Iterator transform = entity->component<Transform>();
+    if (!transform)
+    {
+        transform = entity->addComponent<Transform>();
+    }
+    transform->mobility = Mobility::Static;
+    transform->localPosition = Vector3::Zero;
+    transform->localScale = Vector3::One;
+    transform->localRotation = Quaternion::Identity;
+
+    // Add the bounding box component
+    BoundingBox::Iterator boundingBox = entity->component<BoundingBox>();
+    if (!boundingBox)
+    {
+        boundingBox = entity->addComponent<BoundingBox>();
+        boundingBox->adaptive = true;
+    }
+
+    // Create the root patches
+    createRootPatch(planet, CubeSide::PositiveX);
+    createRootPatch(planet, CubeSide::NegativeX);
+    createRootPatch(planet, CubeSide::PositiveY);
+    createRootPatch(planet, CubeSide::NegativeY);
+    createRootPatch(planet, CubeSide::PositiveZ);
+    createRootPatch(planet, CubeSide::NegativeZ);
+
+    // Update the bounding box
+    if (_boundingBoxSystem)
+    {
+        _boundingBoxSystem->update(*boundingBox);
+    }
+}
+
+void PlanetSystem::adapt(const Vector3& cameraPosition, Entity::Iterator entity)
+{
+    PlanetPatch::Iterator patch = entity->component<PlanetPatch>();
+    if (patch)
+    {
+        Transform::Iterator transform = entity->component<Transform>();
+        if (transform)
+        {
+            double distance = (cameraPosition - transform->globalPosition).length();
+
+            if (!patch->split)
+            {
+                if (distance < patch->halfSize * 2.0 && patch->depth < 5)
+                {
+                    split(patch);
+                }
+            }
+            else
+            {
+                if (distance > patch->halfSize * 2.2)
+                {
+                    join(patch);
+                }
+                else
+                {
+                    for (Entity& child : entity->children())
+                    {
+                        adapt(cameraPosition, child.iterator());
+                    }
+                }
+            }
+        }
+    }
     else
     {
-        _planet = planet;
-
-        Entity::Iterator entity = planet->entity();
-
-        // Add the transform component
-        Transform::Iterator transform = entity->component<Transform>();
-        if (!transform)
+        for (Entity& child : entity->children())
         {
-            transform = entity->addComponent<Transform>();
-        }
-        transform->mobility = Mobility::Static;
-        transform->localPosition = Vector3::Zero;
-        transform->localScale = Vector3::One;
-        transform->localRotation = Quaternion::Identity;
-
-        // Add the bounding box component
-        BoundingBox::Iterator boundingBox = entity->component<BoundingBox>();
-        if (!boundingBox)
-        {
-            boundingBox = entity->addComponent<BoundingBox>();
-            boundingBox->adaptive = true;
-        }
-
-        // Create the root patches
-        Entity::Iterator positiveX = createRootPatch(planet, CubeSide::PositiveX);
-        createRootPatch(planet, CubeSide::NegativeX);
-        createRootPatch(planet, CubeSide::PositiveY);
-        createRootPatch(planet, CubeSide::NegativeY);
-        createRootPatch(planet, CubeSide::PositiveZ);
-        createRootPatch(planet, CubeSide::NegativeZ);
-
-        split(positiveX->component<PlanetPatch>());
-
-        // Update the bounding box
-        if (_boundingBoxSystem)
-        {
-            _boundingBoxSystem->update(*boundingBox);
+            adapt(cameraPosition, child.iterator());
         }
     }
 }
@@ -100,17 +139,40 @@ void PlanetSystem::split(PlanetPatch::Iterator patch)
         model->visible = false;
     }
 
+    Transform::Iterator transform = entity->component<Transform>();
+
     double quarterSize = patch->halfSize * 0.5;
     for (int y = -1; y <= 1; y += 2)
     {
         for (int x = -1; x <= 1; x += 2)
         {
-            createPatch(entity, patch->cubeSide, right * quarterSize * x + front * quarterSize * y);
+            const Vector3& parentGlobalPosition = transform->globalPosition;
+            const Vector3 localPosition = right * quarterSize * x + front * quarterSize * y;
+            const Vector3 morphedPosition = morphPointToSphere(localPosition, parentGlobalPosition, _planet->meanRadius);
+
+            createPatch(entity, patch->cubeSide, localPosition, parentGlobalPosition);
         }
     }
+
+    patch->split = true;
 }
 
-Entity::Iterator PlanetSystem::createPatch(Entity::Iterator parent, CubeSide cubeSide, const Vector3& relativePosition)
+void PlanetSystem::join(PlanetPatch::Iterator patch)
+{
+    Entity::Iterator entity = patch->entity();
+
+    Model::Iterator model = entity->component<Model>();
+    if (model)
+    {
+        model->visible = true;
+    }
+
+    entity->destroyAllChildren();
+
+    patch->split = false;
+}
+
+Entity::Iterator PlanetSystem::createPatch(Entity::Iterator parent, CubeSide cubeSide, const Vector3& localPosition, const Vector3& parentGlobalPosition)
 {
     const Vector3& up = cubeSideUpVector(cubeSide);
     const Vector3& right = cubeSideRightVector(cubeSide);
@@ -123,7 +185,7 @@ Entity::Iterator PlanetSystem::createPatch(Entity::Iterator parent, CubeSide cub
     
     Transform::Iterator transform = patchEntity->addComponent<Transform>();
     transform->mobility = Mobility::Dynamic;
-    transform->localPosition = relativePosition;
+    transform->localPosition = localPosition;
 
     BoundingBox::Iterator boundingBox = patchEntity->addComponent<BoundingBox>();
 
@@ -137,9 +199,10 @@ Entity::Iterator PlanetSystem::createPatch(Entity::Iterator parent, CubeSide cub
     else
     {
         patch->halfSize = parentPatch->halfSize * 0.5;
+        patch->depth = parentPatch->depth + 1;
     }
 
-    Mesh::Handle mesh = buildPatchMesh(_planet, patch, relativePosition);
+    Mesh::Handle mesh = buildPatchMesh(_planet, patch, localPosition, parentGlobalPosition);
 
     Model::Iterator model = patchEntity->addComponent<Model>();
     model->addSurface(mesh, _planet->patchMaterial);
@@ -155,13 +218,15 @@ Entity::Iterator PlanetSystem::createPatch(Entity::Iterator parent, CubeSide cub
 
 Entity::Iterator PlanetSystem::createRootPatch(Planet::Iterator planet, CubeSide cubeSide)
 {
-    return createPatch(planet->entity(), cubeSide, cubeSideUpVector(cubeSide) * planet->meanRadius);
+    return createPatch(planet->entity(), cubeSide, cubeSideUpVector(cubeSide) * planet->meanRadius, Vector3::Zero);
 }
 
-Mesh::Handle PlanetSystem::buildPatchMesh(Planet::Iterator planet, PlanetPatch::Iterator patch, const Vector3& relativePosition)
+Mesh::Handle PlanetSystem::buildPatchMesh(Planet::Iterator planet, PlanetPatch::Iterator patch, const Vector3& localPosition, const Vector3& parentGlobalPosition)
 {
     const Vector3& up = cubeSideUpVector(patch->cubeSide);
     const Vector3& right = cubeSideRightVector(patch->cubeSide);
+
+    const Vector3 relativePosition = localPosition + parentGlobalPosition;
 
     const Vector3 front = up.cross(right);
     const unsigned patchResolution = planet->patchResolution;
@@ -179,12 +244,12 @@ Mesh::Handle PlanetSystem::buildPatchMesh(Planet::Iterator planet, PlanetPatch::
         position += front * y * faceSize;
         for (unsigned x = 0; x < patchResolution + 1; ++x)
         {
-            //const Vector3 morphedPosition = morphPointToSphere(position, relativePosition, planetMeanRadius);
-            //const Vector3 morphedNormal = (morphedPosition + relativePosition).normalized();
+            const Vector3 morphedPosition = morphPointToSphere(position, relativePosition, planetMeanRadius);
+            const Vector3 morphedNormal = (morphedPosition + relativePosition).normalized();
 
             meshWriter.addVertex();
-            meshWriter.writeAttributeData(VertexAttributeSemantic::Position, position);
-            meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, (position + relativePosition).normalized());
+            meshWriter.writeAttributeData(VertexAttributeSemantic::Position, morphedPosition);
+            meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, morphedNormal);
 
             position += right * faceSize;
         }
@@ -208,13 +273,13 @@ Mesh::Handle PlanetSystem::buildPatchMesh(Planet::Iterator planet, PlanetPatch::
     return mesh;
 }
 
-Vector3 PlanetSystem::morphPointToSphere(const Vector3& point, const Vector3& relativePosition, double radius)
+Vector3 PlanetSystem::morphPointToSphere(const Vector3& point, const Vector3& localPosition, double radius)
 {
-    Vector3 unitPosition = (relativePosition + point) / radius;
+    Vector3 unitPosition = (localPosition + point) / radius;
 
     Vector3 result = projectUnitCubeToSphere(unitPosition);
     result *= radius;
-    result -= relativePosition;
+    result -= localPosition;
 
     return result;
 }

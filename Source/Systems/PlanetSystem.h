@@ -27,14 +27,17 @@ public:
     void onComponentAdded(Planet::Iterator planet) override;
 
 private:
-    void split(PlanetPatch::Iterator patch);
+    void adapt(const Vector3& cameraPosition, Entity::Iterator entity);
 
-    Entity::Iterator createPatch(Entity::Iterator parent, CubeSide cubeSide, const Vector3& relativePosition);
+    void split(PlanetPatch::Iterator patch);
+    void join(PlanetPatch::Iterator patch);
+
+    Entity::Iterator createPatch(Entity::Iterator parent, CubeSide cubeSide, const Vector3& localPosition, const Vector3& parentGlobalPosition);
     Entity::Iterator createRootPatch(Planet::Iterator planet, CubeSide cubeSide);
 
-    Mesh::Handle buildPatchMesh(Planet::Iterator planet, PlanetPatch::Iterator patch, const Vector3& relativePosition);
+    Mesh::Handle buildPatchMesh(Planet::Iterator planet, PlanetPatch::Iterator patch, const Vector3& localPosition, const Vector3& parentGlobalPosition);
 
-    static Vector3 morphPointToSphere(const Vector3& point, const Vector3& relativePosition, double radius);
+    static Vector3 morphPointToSphere(const Vector3& point, const Vector3& localPosition, double radius);
     static Vector3 projectUnitCubeToSphere(const Vector3& point);
 
     static const Vector3& cubeSideUpVector(CubeSide cubeSide);

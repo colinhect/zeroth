@@ -20,6 +20,7 @@ public:
     CubeSide cubeSide { CubeSide::PositiveZ };
     double halfSize { 1.0 };
     bool split { false };
+    unsigned depth { 0 };
 };
 
 }
