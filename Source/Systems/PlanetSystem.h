@@ -32,6 +32,8 @@ private:
     void split(PlanetPatch::Iterator patch);
     void join(PlanetPatch::Iterator patch);
 
+    void createPlanet(Planet::Iterator planet);
+
     Entity::Iterator createPatch(Entity::Iterator parent, CubeSide cubeSide, const Vector3& localPosition, const Vector3& parentGlobalPosition);
     Entity::Iterator createRootPatch(Planet::Iterator planet, CubeSide cubeSide);
 

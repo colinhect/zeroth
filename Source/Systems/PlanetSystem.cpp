@@ -40,47 +40,7 @@ void PlanetSystem::tick(double timeStep)
 
 void PlanetSystem::onComponentAdded(Planet::Iterator planet)
 {
-    if (_planet)
-    {
-        throw InvalidOperation("Only one planet can exist in a scene");
-    }
-
-    _planet = planet;
-
-    Entity::Iterator entity = planet->entity();
-
-    // Add the transform component
-    Transform::Iterator transform = entity->component<Transform>();
-    if (!transform)
-    {
-        transform = entity->addComponent<Transform>();
-    }
-    transform->mobility = Mobility::Static;
-    transform->localPosition = Vector3::Zero;
-    transform->localScale = Vector3::One;
-    transform->localRotation = Quaternion::Identity;
-
-    // Add the bounding box component
-    BoundingBox::Iterator boundingBox = entity->component<BoundingBox>();
-    if (!boundingBox)
-    {
-        boundingBox = entity->addComponent<BoundingBox>();
-        boundingBox->adaptive = true;
-    }
-
-    // Create the root patches
-    createRootPatch(planet, CubeSide::PositiveX);
-    createRootPatch(planet, CubeSide::NegativeX);
-    createRootPatch(planet, CubeSide::PositiveY);
-    createRootPatch(planet, CubeSide::NegativeY);
-    createRootPatch(planet, CubeSide::PositiveZ);
-    createRootPatch(planet, CubeSide::NegativeZ);
-
-    // Update the bounding box
-    if (_boundingBoxSystem)
-    {
-        _boundingBoxSystem->update(*boundingBox);
-    }
+    createPlanet(planet);
 }
 
 void PlanetSystem::adapt(const Vector3& cameraPosition, Entity::Iterator entity)
@@ -172,6 +132,51 @@ void PlanetSystem::join(PlanetPatch::Iterator patch)
     patch->split = false;
 }
 
+void PlanetSystem::createPlanet(Planet::Iterator planet)
+{
+    if (_planet)
+    {
+        throw InvalidOperation("Only one planet can exist in a scene");
+    }
+
+    _planet = planet;
+
+    Entity::Iterator entity = planet->entity();
+
+    // Add the transform component
+    Transform::Iterator transform = entity->component<Transform>();
+    if (!transform)
+    {
+        transform = entity->addComponent<Transform>();
+    }
+    transform->mobility = Mobility::Static;
+    transform->localPosition = Vector3::Zero;
+    transform->localScale = Vector3::One;
+    transform->localRotation = Quaternion::Identity;
+
+    // Add the bounding box component
+    BoundingBox::Iterator boundingBox = entity->component<BoundingBox>();
+    if (!boundingBox)
+    {
+        boundingBox = entity->addComponent<BoundingBox>();
+    }
+    boundingBox->adaptive = true;
+
+    // Create the root patches
+    createRootPatch(planet, CubeSide::PositiveX);
+    createRootPatch(planet, CubeSide::NegativeX);
+    createRootPatch(planet, CubeSide::PositiveY);
+    createRootPatch(planet, CubeSide::NegativeY);
+    createRootPatch(planet, CubeSide::PositiveZ);
+    createRootPatch(planet, CubeSide::NegativeZ);
+
+    // Update the bounding box
+    //if (_boundingBoxSystem)
+    //{
+    //     _boundingBoxSystem->update(*boundingBox);
+    //}
+}
+
 Entity::Iterator PlanetSystem::createPatch(Entity::Iterator parent, CubeSide cubeSide, const Vector3& localPosition, const Vector3& parentGlobalPosition)
 {
     const Vector3& up = cubeSideUpVector(cubeSide);
@@ -182,7 +187,7 @@ Entity::Iterator PlanetSystem::createPatch(Entity::Iterator parent, CubeSide cub
 
     Entity::Iterator patchEntity = scene().createEntity();
     patchEntity->setTransient(true);
-    
+
     Transform::Iterator transform = patchEntity->addComponent<Transform>();
     transform->mobility = Mobility::Dynamic;
     transform->localPosition = localPosition;
