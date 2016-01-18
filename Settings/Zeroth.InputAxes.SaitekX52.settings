@@ -34,7 +34,20 @@ inputAxes:
         acceleration: 5
         gravity: 2
         invert: true
-  - name: thrustFront
+  - name: thrustX
+    bindings:
+      - type: Key
+        key: D
+        range: [ 0, 1 ]
+        acceleration: 5
+        gravity: 2
+      - type: Key
+        key: A
+        range: [ -1, 0 ]
+        acceleration: 5
+        gravity: 2
+        invert: true
+  - name: thrustY
     bindings:
       - type: JoystickAxis
         joystickAxis: Axis2
@@ -52,20 +65,7 @@ inputAxes:
         acceleration: 5
         gravity: 2
         invert: true
-  - name: thrustRight
-    bindings:
-      - type: Key
-        key: D
-        range: [ 0, 1 ]
-        acceleration: 5
-        gravity: 2
-      - type: Key
-        key: A
-        range: [ -1, 0 ]
-        acceleration: 5
-        gravity: 2
-        invert: true
-  - name: exposure
+  - name: thrustZ
     bindings:
       - type: Key
         key: X
@@ -74,6 +74,19 @@ inputAxes:
         gravity: 2
       - type: Key
         key: Z
+        range: [ -1, 0 ]
+        acceleration: 5
+        gravity: 2
+        invert: true
+  - name: exposure
+    bindings:
+      - type: Key
+        key: V
+        range: [ 0, 1 ]
+        acceleration: 5
+        gravity: 2
+      - type: Key
+        key: C
         range: [ -1, 0 ]
         acceleration: 5
         gravity: 2

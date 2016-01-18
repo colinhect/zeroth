@@ -19,4 +19,4 @@ children:
         localPosition: [ 0, 7, 0 ]
       - type: Thruster
         direction: [ 0, 1, 0 ]
-        power: 4000
+        power: 100000

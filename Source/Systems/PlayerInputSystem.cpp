@@ -46,17 +46,21 @@ void PlayerInputSystem::tick(double timeStep)
         ObserverCamera::Iterator observerCamera = scene().components<ObserverCamera>().begin();
         if (!observerCamera)
         {
-            double pitch = _inputSystem->axisValue("pitch");
-            double yaw = _inputSystem->axisValue("yaw");
-            double roll = _inputSystem->axisValue("roll");
-            double thrust = _inputSystem->axisValue("thrustFront");
+            Vector3 angularThrust;
+            angularThrust.x = _inputSystem->axisValue("pitch");
+            angularThrust.y = _inputSystem->axisValue("roll");
+            angularThrust.z = _inputSystem->axisValue("yaw");
+
+            Vector3 directionalThrust;
+            directionalThrust.x = _inputSystem->axisValue("thrustX");
+            directionalThrust.y = _inputSystem->axisValue("thrustY");
+            directionalThrust.z = _inputSystem->axisValue("thrustZ");
 
             for (PlayerShipControl& playerShipControl : scene().components<PlayerShipControl>())
             {
                 Entity::Iterator entity = playerShipControl.entity();
 
-                Vector3 angularAxis(pitch, roll, yaw);
-                _shipControlSystem->controlShip(*entity, angularAxis, thrust, timeStep);
+                _shipControlSystem->controlShip(*entity, directionalThrust, angularThrust, timeStep);
             }
         }
     }

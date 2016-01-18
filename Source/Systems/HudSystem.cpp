@@ -23,7 +23,7 @@ void HudSystem::initialize()
 {
     if (_interfaceSystem)
     {
-        _cameraPositionLabel = _interfaceSystem->createForm()->createWidget<Label>();
+        _cameraPositionLabel = _interfaceSystem->createForm(_window)->createChild<Label>();
     }
 }
 

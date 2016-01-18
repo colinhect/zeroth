@@ -17,7 +17,7 @@ ShipControlSystem::ShipControlSystem(Engine& engine, Scene& scene) :
 {
 }
 
-void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, double thrustAmount, double timeStep)
+void ShipControlSystem::controlShip(Entity& ship, const Vector3& directionalThrust, const Vector3& angularThrust, double timeStep)
 {
     if (_transformSystem && _physicsSystem)
     {
@@ -34,7 +34,7 @@ void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, 
                 angularVelocity = angularVelocity - angularVelocity * timeStep * 1.0;
 
                 // Compute angular velocity delta based on control amount
-                Vector3 angularDelta = transform->globalRotation * angularAmount;
+                Vector3 angularDelta = transform->globalRotation * angularThrust;
                 angularDelta *= timeStep * 2.0;
 
                 // Apply fiction to linear velocity
@@ -58,9 +58,7 @@ void ShipControlSystem::controlShip(Entity& ship, const Vector3& angularAmount, 
                     Transform::Iterator thrusterTransform = thrusterEntity->component<Transform>();
                     if (thrusterTransform)
                     {
-                        Vector3 thrustVector = transform->globalRotation * thruster->direction;
-                        thrustVector = thrustVector.normalized() * thruster->power * thrustAmount;
-
+                        Vector3 thrustVector = transform->globalRotation * directionalThrust * thruster->power * timeStep;
                         _physicsSystem->applyForce(*rigidBody, thrustVector, Vector3::Zero);
                     }
                 }

@@ -34,9 +34,9 @@ void ObserverCameraSystem::tick(double timeStep)
         {
             Entity::Iterator entity = observerCamera.entity();
 
-            double lookSpeed = timeStep * observerCamera.lookSpeed;
-            double rollSpeed = timeStep * observerCamera.rollSpeed;
-            double moveSpeed = timeStep * observerCamera.moveSpeed;
+            double lookSpeed = observerCamera.lookSpeed * timeStep;
+            double rollSpeed = observerCamera.rollSpeed * timeStep;
+            double moveSpeed = observerCamera.moveSpeed * timeStep;
 
             Transform::Iterator transform = entity->component<Transform>();
             Camera::Iterator camera = entity->component<Camera>();
@@ -46,8 +46,9 @@ void ObserverCameraSystem::tick(double timeStep)
                 transform->localRotation *= Quaternion::fromAxisAngle(camera->right, _inputSystem->axisValue("pitch") * lookSpeed);
                 transform->localRotation *= Quaternion::fromAxisAngle(camera->front, _inputSystem->axisValue("roll") * -rollSpeed);
 
-                transform->localPosition += camera->front * _inputSystem->axisValue("thrustFront") * moveSpeed;
-                transform->localPosition += camera->right * _inputSystem->axisValue("thrustRight") * moveSpeed;
+                transform->localPosition += camera->right * _inputSystem->axisValue("thrustX") * moveSpeed;
+                transform->localPosition += camera->front * _inputSystem->axisValue("thrustY") * moveSpeed;
+                transform->localPosition += camera->up * _inputSystem->axisValue("thrustZ") * moveSpeed;
 
                 _transformSystem->commit(*transform);
             }

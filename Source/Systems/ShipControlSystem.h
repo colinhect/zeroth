@@ -19,7 +19,7 @@ class ShipControlSystem :
 public:
     ShipControlSystem(Engine& engine, Scene& scene);
 
-    void controlShip(Entity& ship, const Vector3& angularAmount, double thrustAmount, double timeStep);
+    void controlShip(Entity& ship, const Vector3& directionalThrust, const Vector3& angularThrust, double timeStep);
 
 private:
     TransformSystem::Handle _transformSystem;
