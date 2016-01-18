@@ -16,7 +16,7 @@ components:
 children:
   - components:
       - componentType: Transform
-        localPosition: [ 0, -7, 0 ]
+        localPosition: [ 0, -8, 0 ]
       - componentType: Thruster
         direction: [ 0, 1, 0 ]
         power: 100000
