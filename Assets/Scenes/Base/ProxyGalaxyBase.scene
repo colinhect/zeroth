@@ -2,6 +2,6 @@
 base: GalaxyBase.scene
 entities:
   - components:
-    - type: Camera
+    - componentType: Camera
       farClip: 1000000
-    - type: Transform
+    - componentType: Transform

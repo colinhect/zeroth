@@ -2,32 +2,32 @@
 base: Scenes/Base/LocalBase.scene
 entities:
   - components:
-    - type: DirectionalLight
+    - componentType: DirectionalLight
       direction: [ 1, 0.1, 0.1 ]
       color: [ 1.5, 1.5, 1.5 ]
   - base: Ships/Indor.entity
     components:
-      - type: Transform
+      - componentType: Transform
         localPosition: [ 0, 0, 0 ]
-      - type: PlayerShipControl
+      - componentType: PlayerShipControl
     children:
       - base: Ships/Indor.Cockpit.entity
   - base: Ships/Indor.entity
     components:
-      - type: Transform
+      - componentType: Transform
         localPosition: [ 0, 100, 0 ]
   - components:
-      - type: Transform
+      - componentType: Transform
         localPosition: [ 0, 50, 0 ]
-      - type: BoundingBox
-      - type: Model
+      - componentType: BoundingBox
+      - componentType: Model
         surfaces:
           - mesh: Test/Cube.Main.mesh
             material: Test/MetalCrate.material
-      - type: RigidBody
+      - componentType: RigidBody
         mass: 1
         mesh: Test/Cube.Main.mesh
   - components:
-    - type: ProxyGalaxy
+    - componentType: ProxyGalaxy
       seed: -2039787494
       position: [ -26976, 9971, 684 ]

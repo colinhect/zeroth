@@ -8,42 +8,42 @@ systemTypes:
 entities:
   - base: Test/Observer.entity
   - components:
-    - type: LightProbe
+    - componentType: LightProbe
       texture: Test/Space.texturecube
-    - type: SkyBox
+    - componentType: SkyBox
       texture: Test/Space.texturecube
-    - type: DirectionalLight
+    - componentType: DirectionalLight
       direction: [ 1, 0.2, 0.2 ]
       color: [ 0.5, 0.5, 0.5 ]
   - components:
-      - type: Transform
+      - componentType: Transform
         localPosition: [ 0, 10, 0 ]
-      - type: BoundingBox
-      - type: Model
+      - componentType: BoundingBox
+      - componentType: Model
         surfaces:
           - mesh: Test/Cube.Main.mesh
             material: Test/MetalCrate.material
   - components:
-      - type: Transform
+      - componentType: Transform
         localPosition: [ -10, 10, 0 ]
-      - type: BoundingBox
-      - type: Model
+      - componentType: BoundingBox
+      - componentType: Model
         surfaces:
           - mesh: Test/Cube.Main.mesh
             material: Test/Dusty.material
   - components:
-      - type: Transform
+      - componentType: Transform
         localPosition: [ -15, 10, 0 ]
-      - type: BoundingBox
-      - type: Model
+      - componentType: BoundingBox
+      - componentType: Model
         surfaces:
           - mesh: Test/Cube.Main.mesh
             material: Test/Dusty.material
   - components:
-      - type: Transform
+      - componentType: Transform
         localPosition: [ 10, 10, 0 ]
-      - type: BoundingBox
-      - type: Model
+      - componentType: BoundingBox
+      - componentType: Model
         surfaces:
           - mesh: Test/Cube.Main.mesh
             material: Test/MetalCrate.material

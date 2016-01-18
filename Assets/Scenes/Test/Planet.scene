@@ -6,38 +6,38 @@ componentTypes:
 systemTypes:
   - PlanetSystem
 systems:
-  - type: PhysicsSystem
+  - systemType: PhysicsSystem
     gravity: [ 0, 0, 0 ]
 entities:
   - components:
-    - type: DirectionalLight
+    - componentType: DirectionalLight
       direction: [ -0.5, -0.5, -0.75 ]
       color: [ 1.5, 1.5, 1.5 ]
   - components:
-    - type: DirectionalLight
+    - componentType: DirectionalLight
       direction: [ 0.5, 0.5, 0.75 ]
       color: [ 1.5, 1.5, 1.5 ]
   - base: Ships/Indor.entity
     components:
-      - type: Transform
+      - componentType: Transform
         localPosition: [ 0, 200, 0 ]
   - components:
-      - type: Transform
+      - componentType: Transform
         localPosition: [ 0, 240, 0 ]
-      - type: BoundingBox
-      - type: Model
+      - componentType: BoundingBox
+      - componentType: Model
         surfaces:
           - mesh: Test/Cube.Main.mesh
             material: Test/MetalCrate.material
-      - type: RigidBody
+      - componentType: RigidBody
         mass: 1
         mesh: Test/Cube.Main.mesh
   - base: Test/Observer.entity
     components:
-      - type: Transform
+      - componentType: Transform
         localPosition: [ 0, -250, 0 ]
   - components:
-      - type: Planet
+      - componentType: Planet
         name: Endromin
         meanRadius: 50
         patchResolution: 16

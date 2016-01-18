@@ -15,7 +15,7 @@ systemTypes:
   - ShipControlSystem
   - HudSystem
 systems:
-  - type: PhysicsSystem
+  - systemType: PhysicsSystem
     gravity: [ 0, 0, 0 ]
-  - type: ProxyGalaxySystem
+  - systemType: ProxyGalaxySystem
     baseGalaxyScene: Scenes/Base/ProxyGalaxyBase.scene

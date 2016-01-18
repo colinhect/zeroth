@@ -1,10 +1,10 @@
 ---
 components:
-  - type: Transform
-  - type: ObserverCamera
+  - componentType: Transform
+  - componentType: ObserverCamera
     lookSpeed: 20
     rollSpeed: 2
     moveSpeed: 100
-  - type: Camera
+  - componentType: Camera
     fieldOfView: 75
     farClip: 1000000

@@ -1,9 +1,9 @@
 ---
 components:
-  - type: LightProbe
+  - componentType: LightProbe
     texture: Space.texturecube
-  - type: DirectionalLight
+  - componentType: DirectionalLight
     direction: [ 1, 0.1, 0.1 ]
     color: [ 0.5, 0.5, 0.5 ]
-  - type: SkyBox
+  - componentType: SkyBox
     texture: Space.texturecube

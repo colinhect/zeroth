@@ -48,7 +48,8 @@ void ShipControlSystem::controlShip(Entity& ship, const Vector3& directionalThru
                 // Find all child entities that are thrusters
                 auto thrusterEntities = ship.findDescendants([](const Entity& entity)
                 {
-                    return entity.component<Thruster>();
+                    Thruster::ConstIterator thruster = entity.component<Thruster>();
+                    return thruster && thruster->type == ThrusterType::PrimaryEngine;
                 });
 
                 // Apply force from all thrusters

@@ -8,7 +8,7 @@ systemTypes:
   - GalaxySystem
   - ObserverCameraSystem
 systems:
-  - type: GalaxySystem
+  - systemType: GalaxySystem
     starMaterial: Galaxy/Materials/Star.material
     topologyShader: Galaxy/Shaders/Topology.shader
     generateTopologyShader: Galaxy/Shaders/GenerateTopology.shader
