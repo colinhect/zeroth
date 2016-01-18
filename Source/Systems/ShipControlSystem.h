@@ -21,7 +21,10 @@ public:
 
     void controlShip(Entity& ship, const Vector3& directionalThrust, const Vector3& angularThrust, double timeStep);
 
+    void debugTick(double timeStep) override;
+
 private:
+    DebugSystem::Handle _debugSystem;
     TransformSystem::Handle _transformSystem;
     PhysicsSystem::Handle _physicsSystem;
 };

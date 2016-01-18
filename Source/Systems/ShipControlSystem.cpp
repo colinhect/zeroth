@@ -12,6 +12,7 @@ using namespace zeroth;
 
 ShipControlSystem::ShipControlSystem(Engine& engine, Scene& scene) :
     System(engine, scene),
+    _debugSystem(scene.system<DebugSystem>()),
     _transformSystem(scene.system<TransformSystem>()),
     _physicsSystem(scene.system<PhysicsSystem>())
 {
@@ -63,6 +64,26 @@ void ShipControlSystem::controlShip(Entity& ship, const Vector3& directionalThru
                         _physicsSystem->applyForce(*rigidBody, thrustVector, Vector3::Zero);
                     }
                 }
+            }
+        }
+    }
+}
+
+void ShipControlSystem::debugTick(double timeStep)
+{
+    (void)timeStep;
+
+    if (_debugSystem)
+    {
+        for (const Thruster& thruster : scene().components<Thruster>())
+        {
+            Entity::ConstIterator entity = thruster.entity();
+            Transform::ConstIterator transform = entity->component<Transform>();
+            if (transform)
+            {
+                const Vector3& origin = transform->globalPosition;
+                Vector3 direction = transform->globalRotation * thruster.direction;
+                _debugSystem->renderLine(Color::Red, origin, origin + direction);
             }
         }
     }
