@@ -83,6 +83,8 @@ void PlayerInputSystem::receiveEvent(const KeyboardEvent& event)
             deactivateScene();
         }
     }
+
+    parseKeyboardShortcut(event);
 }
 
 void PlayerInputSystem::swapMouseMode()
@@ -103,6 +105,37 @@ void PlayerInputSystem::toggleDebugInterface()
     if (_debugSystem)
     {
         _debugSystem->toggleShowInterface();
+    }
+}
+
+void PlayerInputSystem::toggleDebugRendering()
+{
+    SystemRegistry::SystemTypeIdSequence typeIds = SystemRegistry::typeIds();
+
+    for (SystemTypeId typeId : typeIds)
+    {
+        if (scene().hasSystemOfTypeId(typeId))
+        {
+            SystemBase& system = scene().systemOfTypeId(typeId);
+
+            bool enabled = system.isDebugEnabled();
+            system.setDebugEnabled(!enabled);
+        }
+    }
+}
+
+void PlayerInputSystem::parseKeyboardShortcut(const KeyboardEvent& event)
+{
+    if (event.type != KeyboardEventType::KeyDown)
+    {
+        return;
+    }
+
+    switch (event.key)
+    {
+    case Key::F5:
+        toggleDebugRendering();
+        break;
     }
 }
 

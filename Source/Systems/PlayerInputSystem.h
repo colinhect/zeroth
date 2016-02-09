@@ -28,6 +28,9 @@ public:
 private:
     void swapMouseMode();
     void toggleDebugInterface();
+    void toggleDebugRendering();
+    void parseKeyboardShortcut(const KeyboardEvent& event);
+
     void deactivateScene();
 
     Keyboard& _keyboard;
