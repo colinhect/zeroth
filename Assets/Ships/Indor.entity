@@ -18,5 +18,12 @@ children:
       - componentType: Transform
         localPosition: [ 0, -8, 0 ]
       - componentType: Thruster
+        type: PrimaryEngine
         direction: [ 0, 1, 0 ]
         power: 100000
+  - components:
+      - componentType: Transform
+        localPosition: [ 0, 8, 0 ]
+      - componentType: Thruster
+        type: ReactionControl
+        direction: [ 0, 0, 1 ]

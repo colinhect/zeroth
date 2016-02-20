@@ -55,9 +55,8 @@ void ShipControlSystem::controlShip(Entity& ship, const Vector3& directionalThru
                         Transform::Iterator thrusterTransform = entity.component<Transform>();
                         if (thrusterTransform)
                         {
-                            Vector3 relativePosition = shipTransform->globalRotation * thrusterTransform->localPosition;
-
-                            Vector3 thrustVector = shipTransform->globalRotation * directionalThrust * thruster->power * timeStep;
+                            const Vector3 relativePosition = shipTransform->globalRotation * thrusterTransform->localPosition;
+                            const Vector3 thrustVector = shipTransform->globalRotation * directionalThrust * thruster->power * timeStep;
                             _physicsSystem->applyForce(*shipRigidBody, thrustVector, relativePosition);
                         }
                     }
@@ -81,7 +80,19 @@ void ShipControlSystem::debugTick(double timeStep)
             {
                 const Vector3& origin = transform->globalPosition;
                 Vector3 direction = transform->globalRotation * thruster.direction;
-                _debugSystem->renderLine(Color::Red, origin, origin + direction);
+
+                Color color;
+                switch (thruster.type)
+                {
+                case ThrusterType::PrimaryEngine:
+                    color = Color::Red;
+                    break;
+                case ThrusterType::ReactionControl:
+                    color = Color::Green;
+                    break;
+                }
+
+                _debugSystem->renderLine(color, origin, origin + direction);
             }
         }
     }

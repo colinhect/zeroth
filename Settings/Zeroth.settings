@@ -12,6 +12,8 @@ taskPool:
     threadCount: 6
 assetCache:
     concurrent: true
+logging:
+    levels: [ Info, Debug, Error, Warning ]
 scene: Scenes/Test/Local.scene
 include:
   - Zeroth.InputAxes.SaitekX52.settings
