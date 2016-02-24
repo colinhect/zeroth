@@ -146,7 +146,7 @@ void ObserverCameraSystem::receiveEvent(const MouseEvent& event)
         for (ObserverCamera& observerCamera : scene().components<ObserverCamera>())
         {
             observerCamera.moveSpeed *= 2;
-            HECT_DEBUG(format("moveSpeed = %f", observerCamera.moveSpeed));
+            HECT_DEBUG("moveSpeed = %f", observerCamera.moveSpeed);
         }
     }
     else if (event.type == MouseEventType::ScrollDown)
@@ -154,7 +154,7 @@ void ObserverCameraSystem::receiveEvent(const MouseEvent& event)
         for (ObserverCamera& observerCamera : scene().components<ObserverCamera>())
         {
             observerCamera.moveSpeed /= 2;
-            HECT_DEBUG(format("moveSpeed = %f", observerCamera.moveSpeed));
+            HECT_DEBUG("moveSpeed = %f", observerCamera.moveSpeed);
         }
     }
 }
