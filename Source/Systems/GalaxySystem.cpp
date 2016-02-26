@@ -89,7 +89,7 @@ void GalaxySystem::generateSpiralGalaxy(SpiralGalaxy::Iterator galaxy)
     galaxy->thickness = random.next(spiralThicknessRange[0], spiralThicknessRange[1]);
     galaxy->density = static_cast<unsigned>(galaxy->diameter * 0.011);
 
-    HECT_DEBUG("Seed: %i", galaxy->seed);
+    HECT_DEBUG(format("Seed: %i", galaxy->seed));
 
     // Compute radii and minimum
     double horizontalRadius = galaxy->diameter / 2.0;
