@@ -9,7 +9,7 @@ components:
   - componentType: Model
     surfaces:
       - mesh: Indor.Hull.mesh
-        material: Hect/Materials/OpaqueSolid.material
+        material: Ships/Indor.Hull.material
       - mesh: Indor.Seat.mesh
         material: Hect/Materials/OpaqueSolid.material
   - componentType: Transform
