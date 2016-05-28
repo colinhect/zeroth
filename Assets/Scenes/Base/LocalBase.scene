@@ -1,9 +1,8 @@
 ---
-base: Hect/Scenes/Default.scene
+base: Base.scene
 componentTypes:
   - ProxyGalaxy
   - CockpitCamera
-  - ObserverCamera
   - PlayerShipControl
   - Ship
   - Thruster
@@ -11,7 +10,6 @@ systemTypes:
   - ProxyGalaxySystem
   - PlayerInputSystem
   - CockpitCameraSystem
-  - ObserverCameraSystem
   - ShipControlSystem
   - HudSystem
 systems:

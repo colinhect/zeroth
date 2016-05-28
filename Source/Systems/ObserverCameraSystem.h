@@ -21,10 +21,14 @@ class ObserverCameraSystem :
 public:
     ObserverCameraSystem(Engine& engine, Scene& scene);
 
+    void initialize() override;
     void tick(double timeStep) override;
 
     void receiveEvent(const KeyboardEvent& event) override;
     void receiveEvent(const MouseEvent& event) override;
+
+    /// \property{required}
+    Path observerArchetype;
 
 private:
     Mouse& _mouse;
@@ -33,7 +37,7 @@ private:
     TransformSystem::Handle _transformSystem;
     InputSystem::Handle _inputSystem;
 
-    Entity::Iterator _observerEntity;
+    Entity::Iterator _observerArchetype;
     Entity::Handle _activeObserver;
     Entity::Handle _lastActiveCamera;
 };

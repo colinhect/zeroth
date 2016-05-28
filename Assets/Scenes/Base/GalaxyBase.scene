@@ -1,12 +1,10 @@
 ---
-base: Hect/Scenes/Default.scene
+base: Base.scene
 componentTypes:
   - GalaxyNode
-  - ObserverCamera
   - SpiralGalaxy
 systemTypes:
   - GalaxySystem
-  - ObserverCameraSystem
 systems:
   - systemType: GalaxySystem
     starMaterial: Galaxy/Materials/Star.material

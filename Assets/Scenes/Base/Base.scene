@@ -1,0 +1,9 @@
+---
+base: Hect/Scenes/Default.scene
+componentTypes:
+  - ObserverCamera
+systemTypes:
+  - ObserverCameraSystem
+systems:
+  - systemType: ObserverCameraSystem
+    observerArchetype: Test/Observer.entity

@@ -11,6 +11,7 @@ include_directories(
     
 set(SOURCE_FILES
     "Source/Main.cpp"
+    "Source/Components/ChaseCamera.h"
     "Source/Components/CockpitCamera.h"
     "Source/Components/GalaxyNode.h"
     "Source/Components/ObserverCamera.h"
@@ -21,6 +22,8 @@ set(SOURCE_FILES
     "Source/Components/Ship.h"
     "Source/Components/SpiralGalaxy.h"
     "Source/Components/Thruster.h"
+    "Source/Systems/ChaseCameraSystem.cpp"
+    "Source/Systems/ChaseCameraSystem.h"
     "Source/Systems/CockpitCameraSystem.cpp"
     "Source/Systems/CockpitCameraSystem.h"
     "Source/Systems/GalaxySystem.cpp"
@@ -44,6 +47,7 @@ source_group("Source" FILES
     )
     
 source_group("Source\\Components" FILES
+    "Source/Components/ChaseCamera.h"
     "Source/Components/CockpitCamera.h"
     "Source/Components/GalaxyNode.h"
     "Source/Components/ObserverCamera.h"
@@ -57,6 +61,8 @@ source_group("Source\\Components" FILES
     )
 
 source_group("Source\\Systems" FILES
+    "Source/Systems/ChaseCameraSystem.cpp"
+    "Source/Systems/ChaseCameraSystem.h"
     "Source/Systems/CockpitCameraSystem.cpp"
     "Source/Systems/CockpitCameraSystem.h"
     "Source/Systems/GalaxySystem.cpp"

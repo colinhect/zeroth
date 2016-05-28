@@ -17,13 +17,19 @@ ObserverCameraSystem::ObserverCameraSystem(Engine& engine, Scene& scene) :
     _transformSystem(scene.system<TransformSystem>()),
     _inputSystem(scene.system<InputSystem>())
 {
-    _observerEntity = scene.createEntity("Test/Observer.entity");
-
     Keyboard& keyboard = engine.keyboard();
     keyboard.registerListener(*this);
 
     Mouse& mouse = engine.mouse();
     mouse.registerListener(*this);
+}
+
+void ObserverCameraSystem::initialize()
+{
+    if (!observerArchetype.empty())
+    {
+        _observerArchetype = scene().createEntity(observerArchetype);
+    }
 }
 
 void ObserverCameraSystem::tick(double timeStep)
@@ -58,7 +64,7 @@ void ObserverCameraSystem::tick(double timeStep)
 
 void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
 {
-    if (_cameraSystem && _transformSystem)
+    if (_cameraSystem && _transformSystem && _observerArchetype)
     {
         if (event.type == KeyboardEventType::KeyDown && event.key == Key::F)
         {
@@ -95,7 +101,7 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
                 }
 
                 // Instantiate an observer
-                Entity::Iterator observer = _observerEntity->clone();
+                Entity::Iterator observer = _observerArchetype->clone();
                 observer->activate();
 
                 if (_lastActiveCamera)
