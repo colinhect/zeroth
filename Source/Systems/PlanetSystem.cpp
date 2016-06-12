@@ -160,7 +160,9 @@ void PlanetSystem::createPlanet(Planet::Iterator planet)
     {
         boundingBox = entity->addComponent<BoundingBox>();
     }
-    boundingBox->adaptive = true;
+    double boxRadius = std::sqrt(2.0 * std::pow(planet->meanRadius, 2.0));
+    boundingBox->adaptive = false;
+    boundingBox->extents = AxisAlignedBox(-boxRadius, boxRadius);
 
     // Create the root patches
     createRootPatch(planet, CubeSide::PositiveX);
@@ -169,12 +171,6 @@ void PlanetSystem::createPlanet(Planet::Iterator planet)
     createRootPatch(planet, CubeSide::NegativeY);
     createRootPatch(planet, CubeSide::PositiveZ);
     createRootPatch(planet, CubeSide::NegativeZ);
-
-    // Update the bounding box
-    //if (_boundingBoxSystem)
-    //{
-    //     _boundingBoxSystem->update(*boundingBox);
-    //}
 }
 
 Entity::Iterator PlanetSystem::createPatch(Entity::Iterator parent, CubeSide cubeSide, const Vector3& localPosition, const Vector3& parentGlobalPosition)

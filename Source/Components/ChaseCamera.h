@@ -19,7 +19,7 @@ class ChaseCamera :
 public:
 
     /// \property{required}
-    double distance{ 10.0 };
+    double distance { 10.0 };
 };
 
 }

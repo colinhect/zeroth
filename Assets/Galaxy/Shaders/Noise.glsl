@@ -3,25 +3,25 @@
 vec3 mod289(
     in  vec3    x)
 {
-  return x - floor(x * (1.0 / 289.0)) * 289.0;
+    return x - floor(x * (1.0 / 289.0)) * 289.0;
 }
 
 vec4 mod289(
     in  vec4    x)
 {
-  return x - floor(x * (1.0 / 289.0)) * 289.0;
+    return x - floor(x * (1.0 / 289.0)) * 289.0;
 }
 
 vec4 permute(
     in  vec4    x)
 {
-     return mod289((x * 34.0 + 1.0) * x);
+    return mod289((x * 34.0 + 1.0) * x);
 }
 
 vec4 taylorInvSqrt(
     in  vec4    r)
 {
-  return 1.79284291400159 - 0.85373472095314 * r;
+    return 1.79284291400159 - 0.85373472095314 * r;
 }
 
 float simplexNoise(
