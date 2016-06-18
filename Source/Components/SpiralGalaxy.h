@@ -9,11 +9,13 @@
 #include <Hect.h>
 using namespace hect;
 
+#include "Export.h"
+
 namespace zeroth
 {
 
 /// \component
-class SpiralGalaxy :
+class ZEROTH_EXPORT SpiralGalaxy :
     public Component<SpiralGalaxy>
 {
 public:

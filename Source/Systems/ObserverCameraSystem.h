@@ -9,11 +9,13 @@
 #include <Hect.h>
 using namespace hect;
 
+#include "Export.h"
+
 namespace zeroth
 {
 
 /// \system
-class ObserverCameraSystem :
+class ZEROTH_EXPORT ObserverCameraSystem :
     public System<ObserverCameraSystem>,
     public Listener<KeyboardEvent>,
     public Listener<MouseEvent>

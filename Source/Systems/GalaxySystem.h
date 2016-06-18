@@ -9,6 +9,7 @@
 #include <Hect.h>
 using namespace hect;
 
+#include "Export.h"
 #include "Components/GalaxyNode.h"
 #include "Components/SpiralGalaxy.h"
 
@@ -16,7 +17,7 @@ namespace zeroth
 {
 
 /// \system
-class GalaxySystem :
+class ZEROTH_EXPORT GalaxySystem :
     public System<GalaxySystem, Components<SpiralGalaxy>>,
             public Listener<KeyboardEvent>
 {

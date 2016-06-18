@@ -9,11 +9,13 @@
 #include <Hect.h>
 using namespace hect;
 
+#include "Export.h"
+
 namespace zeroth
 {
 
 /// \system
-class ChaseCameraSystem :
+class ZEROTH_EXPORT ChaseCameraSystem :
     public System<ChaseCameraSystem>
 {
 public:

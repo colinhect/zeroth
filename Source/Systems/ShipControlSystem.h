@@ -9,11 +9,13 @@
 #include <Hect.h>
 using namespace hect;
 
+#include "Export.h"
+
 namespace zeroth
 {
 
 /// \system
-class ShipControlSystem :
+class ZEROTH_EXPORT ShipControlSystem :
     public System<ShipControlSystem>
 {
 public:

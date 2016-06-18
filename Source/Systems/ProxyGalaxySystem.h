@@ -9,13 +9,14 @@
 #include <Hect.h>
 using namespace hect;
 
+#include "Export.h"
 #include "Components/ProxyGalaxy.h"
 
 namespace zeroth
 {
 
 /// \system
-class ProxyGalaxySystem :
+class ZEROTH_EXPORT ProxyGalaxySystem :
     public System<ProxyGalaxySystem, Components<ProxyGalaxy>>
 {
 public:

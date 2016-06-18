@@ -9,13 +9,14 @@
 #include <Hect.h>
 using namespace hect;
 
+#include "Export.h"
 #include "Systems/ShipControlSystem.h"
 
 namespace zeroth
 {
 
 /// \system
-class PlayerInputSystem :
+class ZEROTH_EXPORT PlayerInputSystem :
     public System<PlayerInputSystem>,
     public Listener<KeyboardEvent>
 {

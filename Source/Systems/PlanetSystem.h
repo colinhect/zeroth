@@ -9,6 +9,7 @@
 #include <Hect.h>
 using namespace hect;
 
+#include "Export.h"
 #include "Components/Planet.h"
 #include "Components/PlanetPatch.h"
 
@@ -16,7 +17,7 @@ namespace zeroth
 {
 
 /// \system
-class PlanetSystem :
+class ZEROTH_EXPORT PlanetSystem :
     public System<PlanetSystem, Components<Planet>>
 {
 public:

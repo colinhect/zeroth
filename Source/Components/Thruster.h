@@ -9,6 +9,8 @@
 #include <Hect.h>
 using namespace hect;
 
+#include "Export.h"
+
 namespace zeroth
 {
 
@@ -19,7 +21,7 @@ enum ThrusterType
 };
 
 /// \component
-class Thruster :
+class ZEROTH_EXPORT Thruster :
     public Component<Thruster>
 {
 public:

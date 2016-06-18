@@ -6,22 +6,16 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include <Hect/Core/Export.h>
 
-#include "Export.h"
+#ifdef HECT_WINDOWS_BUILD
 
-namespace zeroth
-{
+#ifdef ZEROTH_EXPORTS
+#define ZEROTH_EXPORT __declspec(dllexport)
+#else
+#define ZEROTH_EXPORT __declspec(dllimport)
+#endif
 
-/// \component
-class ZEROTH_EXPORT Ship :
-    public Component<Ship>
-{
-public:
-
-    /// \property
-    std::string name;
-};
-
-}
+#else
+#define ZEROTH_EXPORTS
+#endif

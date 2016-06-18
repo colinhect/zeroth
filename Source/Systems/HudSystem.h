@@ -9,11 +9,13 @@
 #include <Hect.h>
 using namespace hect;
 
+#include "Export.h"
+
 namespace zeroth
 {
 
 /// \system
-class HudSystem :
+class ZEROTH_EXPORT HudSystem :
     public System<HudSystem>,
     public Listener<KeyboardEvent>,
     public Listener<LogMessageEvent>

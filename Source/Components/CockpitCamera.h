@@ -9,11 +9,13 @@
 #include <Hect.h>
 using namespace hect;
 
+#include "Export.h"
+
 namespace zeroth
 {
 
 /// \component
-class CockpitCamera :
+class ZEROTH_EXPORT CockpitCamera :
     public Component<CockpitCamera>
 {
 };
