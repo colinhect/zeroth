@@ -27,8 +27,9 @@ public:
     void tick(double timeStep) override;
     void onComponentAdded(Planet::Iterator planet) override;
 
-private:
     void adapt(const Vector3& cameraPosition, Entity::Iterator entity);
+
+private:
 
     void split(PlanetPatch::Iterator patch);
     void join(PlanetPatch::Iterator patch);

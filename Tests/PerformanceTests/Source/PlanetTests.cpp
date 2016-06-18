@@ -9,6 +9,8 @@
 #include <Hect.h>
 using namespace hect;
 
+#include <Components/Planet.h>
+#include <Components/PlanetPatch.h>
 #include <Systems/PlanetSystem.h>
 using namespace zeroth;
 
@@ -18,24 +20,67 @@ class PlanetTestFixture :
 public:
     PlanetTestFixture()
     {
-        Engine& engine = Engine::instance();
-        AssetCache& assetCache = engine.assetCache();
-
-        scene = assetCache.getHandle<Scene>("Scenes/Base/Planetary.scene", engine);
     }
 
     void setUp(int64_t experimentValue) override
     {
+        (void)experimentValue;
+
+        Engine& engine = Engine::instance();
+        AssetCache& assetCache = engine.assetCache();
+
+        // Clear all cached assets, forcing all assets to be re-loaded
+        assetCache.clear();
+
+        // Load a blank scene
+        scene = assetCache.getHandle<Scene>("Hect/Scenes/Default.scene", engine);
+
+        // Add planet components and system to the scene
+        scene->addComponentType<Planet>();
+        scene->addComponentType<PlanetPatch>();
+        scene->addSystemType<PlanetSystem>();
+
+        // Get a handle to the planet system
+        planetSystem = scene->system<PlanetSystem>();
+
+        // Create the planet entity
+        planetEntity = scene->createEntity();
+        planet = planetEntity->addComponent<Planet>();
+        planet->name = "Test";
+        planet->meanRadius = 100.0;
+
+        // Refresh the scene
+        scene->refresh();
     }
 
     virtual void tearDown() override
     {
+        scene.invalidate();
+        planetSystem.invalidate();
+        planetEntity.invalidate();
+        planet.invalidate();
     }
 
     Scene::Handle scene;
+    PlanetSystem::Handle planetSystem;
+    Entity::Iterator planetEntity;
+    Planet::Iterator planet;
 };
 
-BASELINE_F(SortRandInts, BubbleSort, PlanetTestFixture, 5, 1)
+BASELINE_F(PlanetTests, AdaptPlanetAtSurface, PlanetTestFixture, 10, 10)
 {
-    PlanetSystem::Handle planetSystem = scene->system<PlanetSystem>();
+    // Adapt the planet as if the camera is directly at the surface
+    planetSystem->adapt(Vector3::UnitX * planet->meanRadius, planetEntity);
+
+    // Adapt the planet as if the camera is far away from the surface
+    planetSystem->adapt(Vector3::One * 10000.0, planetEntity);
+}
+
+BENCHMARK_F(PlanetTests, AdaptPlanetCloseToSurface, PlanetTestFixture, 10, 10)
+{
+    // Adapt the planet as if the camera is directly at the surface
+    planetSystem->adapt(Vector3::UnitX * planet->meanRadius * 1.5, planetEntity);
+
+    // Adapt the planet as if the camera is far away from the surface
+    planetSystem->adapt(Vector3::One * 10000.0, planetEntity);
 }
