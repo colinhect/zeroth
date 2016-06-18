@@ -93,6 +93,7 @@ void PlanetSystem::split(PlanetPatch::Iterator patch)
 
     Entity::Iterator entity = patch->entity();
 
+    // Hide the model of the path being split
     Model::Iterator model = entity->component<Model>();
     if (model)
     {
@@ -208,8 +209,8 @@ Entity::Iterator PlanetSystem::createPatch(Entity::Iterator parent, CubeSide cub
     Model::Iterator model = patchEntity->addComponent<Model>();
     model->addSurface(mesh, _planet->patchMaterial);
 
-    Mesh::Handle cubeMesh = _assetCache.getHandle<Mesh>("Test/Cube.Main.mesh");
-    model->addSurface(cubeMesh, _planet->patchMaterial);
+    //Mesh::Handle cubeMesh = _assetCache.getHandle<Mesh>("Test/Cube.Main.mesh");
+    //model->addSurface(cubeMesh, _planet->patchMaterial);
 
     patchEntity->activate();
     parent->addChild(*patchEntity);
