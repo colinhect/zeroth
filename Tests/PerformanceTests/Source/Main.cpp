@@ -9,4 +9,4 @@
 #include <Hect.h>
 #include <celero/Celero.h>
 
-HECT_PROJECT_MAIN_TEST_HARNESS(zeroth, "ZerothPerformanceTests.settings", { celero::Run(argc, const_cast<char**>(argv)); })
+HECT_MAIN_SYSTEM_TEST_HARNESS_PROJECT(zeroth, "ZerothPerformanceTests.settings", { celero::Run(argc, const_cast<char**>(argv)); })

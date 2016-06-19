@@ -4,5 +4,9 @@
 // Copyright (c) 2016 Colin Hill
 //
 ///////////////////////////////////////////////////////////////////////////////
-#define CATCH_CONFIG_MAIN
+#include <Hect.h>
+
+#define CATCH_CONFIG_RUNNER
 #include <catch.hpp>
+
+HECT_MAIN_UNIT_TEST_HARNESS({ code = Catch::Session().run(argc, argv); })

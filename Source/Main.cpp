@@ -8,4 +8,4 @@
 
 #include <Hect.h>
 
-HECT_PROJECT_MAIN(zeroth)
+HECT_MAIN_PROJECT(zeroth)
