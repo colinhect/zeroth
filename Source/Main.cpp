@@ -4,8 +4,8 @@
 // Copyright (c) 2016 Colin Hill
 //
 ///////////////////////////////////////////////////////////////////////////////
-#include <Hect.h>
-
 #include "Generated/RegisterTypes.h"
 
-HECT_MAIN(zeroth)
+#include <Hect.h>
+
+HECT_PROJECT_MAIN(zeroth)
