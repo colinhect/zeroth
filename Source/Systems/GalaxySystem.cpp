@@ -67,7 +67,7 @@ void GalaxySystem::receiveEvent(const KeyboardEvent& event)
         }
 
         // Create a new one
-        Entity::Iterator entity = scene().createEntity();
+        Entity::Iterator entity = scene().createEntity("Galaxy");
         entity->addComponent<SpiralGalaxy>();
         entity->activate();
     }
@@ -332,7 +332,7 @@ void GalaxySystem::generateStars(GalaxyNode::Iterator galaxyNode, SpiralGalaxy::
 Entity::Iterator GalaxySystem::createGalaxyNode(SpiralGalaxy::Iterator galaxy, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition, bool rootNode)
 {
     // Create the galaxy node entity
-    Entity::Iterator entity = scene().createEntity();
+    Entity::Iterator entity = scene().createEntity("GalaxyNode");
     entity->setTransient(true);
 
     // Add transform component

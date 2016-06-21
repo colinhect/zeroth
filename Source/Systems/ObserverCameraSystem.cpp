@@ -28,7 +28,7 @@ void ObserverCameraSystem::initialize()
 {
     if (!observerArchetype.empty())
     {
-        _observerArchetype = scene().createEntity(observerArchetype);
+        _observerArchetype = scene().loadEntity(observerArchetype);
     }
 }
 
