@@ -182,7 +182,7 @@ Entity::Iterator PlanetSystem::createPatch(Entity::Iterator parent, CubeSide cub
     Planet::Iterator planet = parent->component<Planet>();
     PlanetPatch::Iterator parentPatch = parent->component<PlanetPatch>();
 
-    Entity::Iterator patchEntity = scene().createEntity();
+    Entity::Iterator patchEntity = scene().createEntity("PlanetPatch");
     patchEntity->setTransient(true);
 
     Transform::Iterator transform = patchEntity->addComponent<Transform>();
