@@ -271,7 +271,7 @@ void GalaxySystem::generateParticleTexture(SpiralGalaxy::Iterator galaxy)
     frame.renderViewport();
 }
 
-void GalaxySystem::sampleTopology(SpiralGalaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, const Vector3& position, Color& color, double& thickness)
+void GalaxySystem::sampleTopology(SpiralGalaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Vector3 position, Color& color, double& thickness)
 {
     AxisAlignedBox& extents = boundingBox->extents;
     Vector3 totalSize = extents.size();
@@ -329,7 +329,7 @@ void GalaxySystem::generateStars(GalaxyNode::Iterator galaxyNode, SpiralGalaxy::
     model->surfaces.push_back(ModelSurface(mesh, starMaterial));
 }
 
-Entity::Iterator GalaxySystem::createGalaxyNode(SpiralGalaxy::Iterator galaxy, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition, bool rootNode)
+Entity::Iterator GalaxySystem::createGalaxyNode(SpiralGalaxy::Iterator galaxy, Vector3 size, Vector3 localPosition, Vector3 parentGlobalPosition, bool rootNode)
 {
     // Create the galaxy node entity
     Entity::Iterator entity = scene().createEntity();
@@ -366,7 +366,7 @@ Entity::Iterator GalaxySystem::createGalaxyNode(SpiralGalaxy::Iterator galaxy, c
     return entity;
 }
 
-void GalaxySystem::adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterator entity)
+void GalaxySystem::adaptGalaxyNode(Vector3 cameraPosition, Entity::Iterator entity)
 {
     // Get the galaxy node component
     GalaxyNode::Iterator galaxyNode = entity->component<GalaxyNode>();

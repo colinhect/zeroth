@@ -18,7 +18,7 @@ ShipControlSystem::ShipControlSystem(Engine& engine, Scene& scene) :
 {
 }
 
-void ShipControlSystem::controlShip(Entity& ship, const Vector3& directionalThrust, const Vector3& angularThrust, double timeStep)
+void ShipControlSystem::controlShip(Entity& ship, Vector3 directionalThrust, Vector3 angularThrust, double timeStep)
 {
     if (_transformSystem && _physicsSystem)
     {
@@ -78,7 +78,7 @@ void ShipControlSystem::debugTick(double timeStep)
             Transform::ConstIterator transform = entity->component<Transform>();
             if (transform)
             {
-                const Vector3& origin = transform->globalPosition;
+                Vector3 origin = transform->globalPosition;
                 Vector3 direction = transform->globalRotation * thruster.direction;
 
                 Color color;

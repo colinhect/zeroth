@@ -74,11 +74,11 @@ private:
     void createParticlesMesh(SpiralGalaxy::Iterator galaxy);
     void generateTopologyTexture(SpiralGalaxy::Iterator galaxy);
     void generateParticleTexture(SpiralGalaxy::Iterator galaxy);
-    void sampleTopology(SpiralGalaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, const Vector3& position, Color& color, double& thickness);
+    void sampleTopology(SpiralGalaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Vector3 position, Color& color, double& thickness);
     void generateStars(GalaxyNode::Iterator galaxyNode, SpiralGalaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model);
 
-    Entity::Iterator createGalaxyNode(SpiralGalaxy::Iterator galaxy, const Vector3& size, const Vector3& localPosition, const Vector3& parentGlobalPosition, bool rootNode);
-    void adaptGalaxyNode(const Vector3& cameraPosition, Entity::Iterator entity);
+    Entity::Iterator createGalaxyNode(SpiralGalaxy::Iterator galaxy, Vector3 size, Vector3 localPosition, Vector3 parentGlobalPosition, bool rootNode);
+    void adaptGalaxyNode(Vector3 cameraPosition, Entity::Iterator entity);
     void splitGalaxyNode(Entity::Iterator entity);
     void joinGalaxyNode(Entity::Iterator entity);
 

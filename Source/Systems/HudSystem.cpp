@@ -41,7 +41,7 @@ void HudSystem::tick(double timeStep)
             Transform::Iterator transform = camera->entity()->component<Transform>();
             if (transform)
             {
-                const Vector3& position = transform->localPosition;
+                Vector3 position = transform->localPosition;
                 _cameraPositionLabel->setText(format("%f %f %f", position.x, position.y, position.z));
             }
         }

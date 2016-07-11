@@ -83,7 +83,7 @@ unsigned ProxyGalaxySystem::computeSkyBoxResolution()
         Camera::Iterator activeCamera = cameraSystem->activeCamera();
         if (activeCamera)
         {
-            double factor = activeCamera->fieldOfView.degrees() / 90.0;
+            double factor = activeCamera->fieldOfView.inDegrees() / 90.0;
             resolution = static_cast<unsigned>(windowWidth * factor);
         }
     }

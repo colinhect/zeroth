@@ -21,7 +21,7 @@ class ZEROTH_EXPORT ShipControlSystem :
 public:
     ShipControlSystem(Engine& engine, Scene& scene);
 
-    void controlShip(Entity& ship, const Vector3& directionalThrust, const Vector3& angularThrust, double timeStep);
+    void controlShip(Entity& ship, Vector3 directionalThrust, Vector3 angularThrust, double timeStep);
 
     void debugTick(double timeStep) override;
 

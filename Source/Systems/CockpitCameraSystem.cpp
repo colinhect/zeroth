@@ -30,8 +30,8 @@ void CockpitCameraSystem::tick(double timeStep)
             Camera::Iterator camera = entity.component<Camera>();
             if (camera)
             {
-                const Vector3& up = camera->up;
-                const Vector3& right = camera->right;
+                Vector3 up = camera->up;
+                Vector3 right = camera->right;
 
                 double rotateSpeed = timeStep * 1;
 

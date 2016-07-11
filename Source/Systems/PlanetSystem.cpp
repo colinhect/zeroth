@@ -43,7 +43,7 @@ void PlanetSystem::onComponentAdded(Planet::Iterator planet)
     createPlanet(planet);
 }
 
-void PlanetSystem::adapt(const Vector3& cameraPosition, Entity::Iterator entity)
+void PlanetSystem::adapt(Vector3 cameraPosition, Entity::Iterator entity)
 {
     PlanetPatch::Iterator patch = entity->component<PlanetPatch>();
     if (patch)
@@ -87,8 +87,8 @@ void PlanetSystem::adapt(const Vector3& cameraPosition, Entity::Iterator entity)
 
 void PlanetSystem::split(PlanetPatch::Iterator patch)
 {
-    const Vector3& up = cubeSideUpVector(patch->cubeSide);
-    const Vector3& right = cubeSideRightVector(patch->cubeSide);
+    Vector3 up = cubeSideUpVector(patch->cubeSide);
+    Vector3 right = cubeSideRightVector(patch->cubeSide);
     const Vector3 front = up.cross(right);
 
     Entity::Iterator entity = patch->entity();
@@ -107,7 +107,7 @@ void PlanetSystem::split(PlanetPatch::Iterator patch)
     {
         for (int x = -1; x <= 1; x += 2)
         {
-            const Vector3& parentGlobalPosition = transform->globalPosition;
+            Vector3 parentGlobalPosition = transform->globalPosition;
             const Vector3 localPosition = right * quarterSize * x + front * quarterSize * y;
             const Vector3 morphedPosition = morphPointToSphere(localPosition, parentGlobalPosition, _planet->meanRadius);
 
@@ -174,10 +174,10 @@ void PlanetSystem::createPlanet(Planet::Iterator planet)
     createRootPatch(planet, CubeSide::NegativeZ);
 }
 
-Entity::Iterator PlanetSystem::createPatch(Entity::Iterator parent, CubeSide cubeSide, const Vector3& localPosition, const Vector3& parentGlobalPosition)
+Entity::Iterator PlanetSystem::createPatch(Entity::Iterator parent, CubeSide cubeSide, Vector3 localPosition, Vector3 parentGlobalPosition)
 {
-    const Vector3& up = cubeSideUpVector(cubeSide);
-    const Vector3& right = cubeSideRightVector(cubeSide);
+    Vector3 up = cubeSideUpVector(cubeSide);
+    Vector3 right = cubeSideRightVector(cubeSide);
 
     Planet::Iterator planet = parent->component<Planet>();
     PlanetPatch::Iterator parentPatch = parent->component<PlanetPatch>();
@@ -223,10 +223,10 @@ Entity::Iterator PlanetSystem::createRootPatch(Planet::Iterator planet, CubeSide
     return createPatch(planet->entity(), cubeSide, cubeSideUpVector(cubeSide) * planet->meanRadius, Vector3::Zero);
 }
 
-Mesh::Handle PlanetSystem::buildPatchMesh(Planet::Iterator planet, PlanetPatch::Iterator patch, const Vector3& localPosition, const Vector3& parentGlobalPosition)
+Mesh::Handle PlanetSystem::buildPatchMesh(Planet::Iterator planet, PlanetPatch::Iterator patch, Vector3 localPosition, Vector3 parentGlobalPosition)
 {
-    const Vector3& up = cubeSideUpVector(patch->cubeSide);
-    const Vector3& right = cubeSideRightVector(patch->cubeSide);
+    Vector3 up = cubeSideUpVector(patch->cubeSide);
+    Vector3 right = cubeSideRightVector(patch->cubeSide);
 
     const Vector3 relativePosition = localPosition + parentGlobalPosition;
 
@@ -275,7 +275,7 @@ Mesh::Handle PlanetSystem::buildPatchMesh(Planet::Iterator planet, PlanetPatch::
     return mesh;
 }
 
-Vector3 PlanetSystem::morphPointToSphere(const Vector3& point, const Vector3& localPosition, double radius)
+Vector3 PlanetSystem::morphPointToSphere(Vector3 point, Vector3 localPosition, double radius)
 {
     Vector3 unitPosition = (localPosition + point) / radius;
 
@@ -286,7 +286,7 @@ Vector3 PlanetSystem::morphPointToSphere(const Vector3& point, const Vector3& lo
     return result;
 }
 
-Vector3 PlanetSystem::projectUnitCubeToSphere(const Vector3& point)
+Vector3 PlanetSystem::projectUnitCubeToSphere(Vector3 point)
 {
     const double x2 = point.x * point.x;
     const double y2 = point.y * point.y;
@@ -300,7 +300,7 @@ Vector3 PlanetSystem::projectUnitCubeToSphere(const Vector3& point)
     return result;
 }
 
-const Vector3& PlanetSystem::cubeSideUpVector(CubeSide cubeSide)
+Vector3 PlanetSystem::cubeSideUpVector(CubeSide cubeSide)
 {
     static Vector3 _vectors[6] =
     {
@@ -315,7 +315,7 @@ const Vector3& PlanetSystem::cubeSideUpVector(CubeSide cubeSide)
     return _vectors[static_cast<int>(cubeSide)];
 }
 
-const Vector3& PlanetSystem::cubeSideRightVector(CubeSide cubeSide)
+Vector3 PlanetSystem::cubeSideRightVector(CubeSide cubeSide)
 {
     static Vector3 _vectors[6] =
     {

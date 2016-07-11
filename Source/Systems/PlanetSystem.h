@@ -27,7 +27,7 @@ public:
     void tick(double timeStep) override;
     void onComponentAdded(Planet::Iterator planet) override;
 
-    void adapt(const Vector3& cameraPosition, Entity::Iterator entity);
+    void adapt(Vector3 cameraPosition, Entity::Iterator entity);
 
 private:
 
@@ -36,16 +36,16 @@ private:
 
     void createPlanet(Planet::Iterator planet);
 
-    Entity::Iterator createPatch(Entity::Iterator parent, CubeSide cubeSide, const Vector3& localPosition, const Vector3& parentGlobalPosition);
+    Entity::Iterator createPatch(Entity::Iterator parent, CubeSide cubeSide, Vector3 localPosition, Vector3 parentGlobalPosition);
     Entity::Iterator createRootPatch(Planet::Iterator planet, CubeSide cubeSide);
 
-    Mesh::Handle buildPatchMesh(Planet::Iterator planet, PlanetPatch::Iterator patch, const Vector3& localPosition, const Vector3& parentGlobalPosition);
+    Mesh::Handle buildPatchMesh(Planet::Iterator planet, PlanetPatch::Iterator patch, Vector3 localPosition, Vector3 parentGlobalPosition);
 
-    static Vector3 morphPointToSphere(const Vector3& point, const Vector3& localPosition, double radius);
-    static Vector3 projectUnitCubeToSphere(const Vector3& point);
+    static Vector3 morphPointToSphere(Vector3 point, Vector3 localPosition, double radius);
+    static Vector3 projectUnitCubeToSphere(Vector3 point);
 
-    static const Vector3& cubeSideUpVector(CubeSide cubeSide);
-    static const Vector3& cubeSideRightVector(CubeSide cubeSide);
+    static Vector3 cubeSideUpVector(CubeSide cubeSide);
+    static Vector3 cubeSideRightVector(CubeSide cubeSide);
 
     AssetCache& _assetCache;
 

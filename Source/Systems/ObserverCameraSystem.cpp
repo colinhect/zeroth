@@ -28,7 +28,7 @@ void ObserverCameraSystem::initialize()
 {
     if (!observerArchetype.empty())
     {
-        _observerArchetype = scene().createEntity(observerArchetype);
+        _observerArchetype = scene().loadEntity(observerArchetype);
     }
 }
 
@@ -48,9 +48,9 @@ void ObserverCameraSystem::tick(double timeStep)
             Camera::Iterator camera = entity->component<Camera>();
             if (transform && camera)
             {
-                transform->localRotation *= Quaternion::fromAxisAngle(camera->up, _inputSystem->axisValue("yaw") * -lookSpeed);
-                transform->localRotation *= Quaternion::fromAxisAngle(camera->right, _inputSystem->axisValue("pitch") * lookSpeed);
-                transform->localRotation *= Quaternion::fromAxisAngle(camera->front, _inputSystem->axisValue("roll") * -rollSpeed);
+                transform->localRotation *= Quaternion::fromAxisAngle(camera->up, Radians(_inputSystem->axisValue("yaw") * -lookSpeed));
+                transform->localRotation *= Quaternion::fromAxisAngle(camera->right, Radians(_inputSystem->axisValue("pitch") * lookSpeed));
+                transform->localRotation *= Quaternion::fromAxisAngle(camera->front, Radians(_inputSystem->axisValue("roll") * -rollSpeed));
 
                 transform->localPosition += camera->right * _inputSystem->axisValue("thrustX") * moveSpeed;
                 transform->localPosition += camera->front * _inputSystem->axisValue("thrustY") * moveSpeed;
