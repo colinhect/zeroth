@@ -1,7 +1,7 @@
 project(ZerothAssets)
 
 add_custom_target(ZerothAssets
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR} ${OUTPUT_DIR}/Zeroth.data/
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Zeroth.data/
     )
     
 set_target_properties(ZerothAssets PROPERTIES

@@ -1,4 +1,5 @@
 ---
+sceneType: Scene
 base: GalaxyBase.scene
 entities:
   - components:

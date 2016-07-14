@@ -1,4 +1,5 @@
 ---
+sceneType: Scene
 base: Base.scene
 componentTypes:
   - GalaxyNode

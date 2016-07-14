@@ -1,5 +1,7 @@
 project(ZerothSystemTests CXX)
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${CMAKE_BUILD_TYPE})
+
 if(UNIX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall -Wextra -Werror -pedantic")
 endif()
@@ -30,5 +32,5 @@ set_target_properties(ZerothSystemTests PROPERTIES
 # Copy settings
 add_custom_command(TARGET ZerothSystemTests
     POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/Settings ${OUTPUT_DIR}/
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/Settings ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
     )

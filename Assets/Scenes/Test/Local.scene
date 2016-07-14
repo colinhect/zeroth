@@ -1,4 +1,5 @@
 ---
+sceneType: ZerothScene
 base: Scenes/Base/LocalBase.scene
 entities:
   - components:

@@ -182,7 +182,8 @@ Entity::Iterator PlanetSystem::createPatch(Entity::Iterator parent, CubeSide cub
     Planet::Iterator planet = parent->component<Planet>();
     PlanetPatch::Iterator parentPatch = parent->component<PlanetPatch>();
 
-    Entity::Iterator patchEntity = scene().createEntity("PlanetPatch");
+    static const Name patchEntityName("PlanetPatch");
+    Entity::Iterator patchEntity = scene().createEntity(patchEntityName);
     patchEntity->setTransient(true);
 
     Transform::Iterator transform = patchEntity->addComponent<Transform>();
@@ -236,7 +237,8 @@ Mesh::Handle PlanetSystem::buildPatchMesh(Planet::Iterator planet, PlanetPatch::
     const double faceSize = (patchHalfSize * 2) / patchResolution;
     const double planetMeanRadius = planet->meanRadius;
 
-    Mesh::Handle mesh(new Mesh());
+    static const Name meshName("PlanetPatch");
+    Mesh::Handle mesh(new Mesh(meshName));
     mesh->setPrimitiveType(PrimitiveType::Lines);
 
     MeshWriter meshWriter(*mesh);
