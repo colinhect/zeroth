@@ -75,7 +75,7 @@ private:
     void generateTopologyTexture(SpiralGalaxyComponent::Iterator galaxy);
     void generateParticleTexture(SpiralGalaxyComponent::Iterator galaxy);
     void sampleTopology(SpiralGalaxyComponent::Iterator galaxy, BoundingBoxComponent::Iterator boundingBox, Vector3 position, Color& color, double& thickness);
-    void generateStars(GalaxyNodeComponent::Iterator galaxyNode, SpiralGalaxyComponent::Iterator galaxy, BoundingBoxComponent::Iterator boundingBox, ModelComponent::Iterator model);
+    void generateStars(GalaxyNodeComponent::Iterator galaxyNode, SpiralGalaxyComponent::Iterator galaxy, BoundingBoxComponent::Iterator boundingBox, MeshComponent::Iterator mesh);
 
     Entity::Iterator createGalaxyNode(SpiralGalaxyComponent::Iterator galaxy, Vector3 size, Vector3 localPosition, Vector3 parentGlobalPosition, bool rootNode);
     void adaptGalaxyNode(Vector3 cameraPosition, Entity::Iterator entity);

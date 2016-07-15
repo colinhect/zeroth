@@ -119,8 +119,8 @@ void GalaxySystem::generateSpiralGalaxy(SpiralGalaxyComponent::Iterator galaxy)
     // Add the bounding box for the galaxy
     BoundingBoxComponent::Iterator boundingBox = entity->addComponent<BoundingBoxComponent>();
 
-    // Add the model for the topology and particle meshes
-    ModelComponent::Iterator model = entity->addComponent<ModelComponent>();
+    // Add the mesh for the topology and particle meshes
+    MeshComponent::Iterator mesh = entity->addComponent<MeshComponent>();
     createTopologyMesh(galaxy);
     createParticlesMesh(galaxy);
 }
@@ -163,9 +163,9 @@ void GalaxySystem::createTopologyMesh(SpiralGalaxyComponent::Iterator galaxy)
     material->setUniformValue("topologyTexture", galaxy->topologyTexture);
     material->setCullMode(CullMode::None);
 
-    // Add the mesh to the galaxy's model
-    ModelComponent::Iterator model = galaxy->entity()->component<ModelComponent>();
-    model->addSurface(mesh, material);
+    // Add the mesh to the galaxy's mesh
+    MeshComponent::Iterator meshComponent = galaxy->entity()->component<MeshComponent>();
+    meshComponent->addSurface(mesh, material);
 }
 
 void GalaxySystem::createParticlesMesh(SpiralGalaxyComponent::Iterator galaxy)
@@ -184,10 +184,10 @@ void GalaxySystem::createParticlesMesh(SpiralGalaxyComponent::Iterator galaxy)
     vertexLayout.addAttribute(rotation);
 
     // Create the mesh
-    Mesh::Handle mesh(new Mesh("Particles"));
-    mesh->setVertexLayout(vertexLayout);
-    mesh->setPrimitiveType(PrimitiveType::Points);
-    MeshWriter writer(*mesh);
+    Mesh::Handle particlesMesh(new Mesh("Particles"));
+    particlesMesh->setVertexLayout(vertexLayout);
+    particlesMesh->setPrimitiveType(PrimitiveType::Points);
+    MeshWriter writer(*particlesMesh);
 
     // Compute the half-size of the galaxy
     BoundingBoxComponent::Iterator boundingBox = entity->component<BoundingBoxComponent>();
@@ -235,9 +235,9 @@ void GalaxySystem::createParticlesMesh(SpiralGalaxyComponent::Iterator galaxy)
     material->setUniformValue("particleTexture", galaxy->particleTexture);
     material->setCullMode(CullMode::None);
 
-    // Add the mesh to the galaxy's model
-    ModelComponent::Iterator model = galaxy->entity()->component<ModelComponent>();
-    model->addSurface(mesh, material);
+    // Add the mesh to the galaxy's mesh
+    MeshComponent::Iterator mesh = galaxy->entity()->component<MeshComponent>();
+    mesh->addSurface(particlesMesh, material);
 }
 
 void GalaxySystem::generateTopologyTexture(SpiralGalaxyComponent::Iterator galaxy)
@@ -283,7 +283,7 @@ void GalaxySystem::sampleTopology(SpiralGalaxyComponent::Iterator galaxy, Boundi
     color.a = 1.0;
 }
 
-void GalaxySystem::generateStars(GalaxyNodeComponent::Iterator galaxyNode, SpiralGalaxyComponent::Iterator galaxy, BoundingBoxComponent::Iterator boundingBox, ModelComponent::Iterator model)
+void GalaxySystem::generateStars(GalaxyNodeComponent::Iterator galaxyNode, SpiralGalaxyComponent::Iterator galaxy, BoundingBoxComponent::Iterator boundingBox, MeshComponent::Iterator mesh)
 {
     Vector3 globalPosition = boundingBox->extents.center();
     Random random(galaxy->seed + static_cast<RandomSeed>(globalPosition.x * globalPosition.y * globalPosition.z * galaxy->seed));
@@ -299,10 +299,10 @@ void GalaxySystem::generateStars(GalaxyNodeComponent::Iterator galaxyNode, Spira
     vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Weight2, attributeType, 1));
 
     // Create the mesh containing the points for the stars
-    Mesh::Handle mesh(new Mesh("Stars"));
-    mesh->setVertexLayout(vertexLayout);
-    mesh->setPrimitiveType(PrimitiveType::PointSprites);
-    MeshWriter writer(*mesh);
+    Mesh::Handle starsMesh(new Mesh("Stars"));
+    starsMesh->setVertexLayout(vertexLayout);
+    starsMesh->setPrimitiveType(PrimitiveType::PointSprites);
+    MeshWriter writer(*starsMesh);
 
     BoundingBoxComponent::Iterator galaxyBoundingBox = galaxy->entity()->component<BoundingBoxComponent>();
 
@@ -326,7 +326,7 @@ void GalaxySystem::generateStars(GalaxyNodeComponent::Iterator galaxyNode, Spira
         writer.addIndex(vertexIndex);
     }
 
-    model->surfaces.push_back(ModelSurface(mesh, starMaterial));
+    mesh->surfaces.push_back(MeshSurface(starsMesh, starMaterial));
 }
 
 Entity::Iterator GalaxySystem::createGalaxyNode(SpiralGalaxyComponent::Iterator galaxy, Vector3 size, Vector3 localPosition, Vector3 parentGlobalPosition, bool rootNode)
@@ -356,9 +356,9 @@ Entity::Iterator GalaxySystem::createGalaxyNode(SpiralGalaxyComponent::Iterator 
     // Create the stars
     if (!rootNode && galaxyNode->radius < minimumNodeRadiusWithStars)
     {
-        // Add the model for the star field meshes
-        ModelComponent::Iterator model = entity->addComponent<ModelComponent>();
-        generateStars(galaxyNode, galaxy, boundingBox, model);
+        // Add the mesh component for the star field meshes
+        MeshComponent::Iterator mesh = entity->addComponent<MeshComponent>();
+        generateStars(galaxyNode, galaxy, boundingBox, mesh);
     }
 
     // Activate and return the entity

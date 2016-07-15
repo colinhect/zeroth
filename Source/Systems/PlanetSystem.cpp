@@ -93,11 +93,11 @@ void PlanetSystem::split(PlanetPatchComponent::Iterator patch)
 
     Entity::Iterator entity = patch->entity();
 
-    // Hide the model of the path being split
-    ModelComponent::Iterator model = entity->component<ModelComponent>();
-    if (model)
+    // Hide the mesh of the patch being split
+    MeshComponent::Iterator mesh = entity->component<MeshComponent>();
+    if (mesh)
     {
-        model->visible = false;
+        mesh->visible = false;
     }
 
     TransformComponent::Iterator transform = entity->component<TransformComponent>();
@@ -122,10 +122,10 @@ void PlanetSystem::join(PlanetPatchComponent::Iterator patch)
 {
     Entity::Iterator entity = patch->entity();
 
-    ModelComponent::Iterator model = entity->component<ModelComponent>();
-    if (model)
+    MeshComponent::Iterator mesh = entity->component<MeshComponent>();
+    if (mesh)
     {
-        model->visible = true;
+        mesh->visible = true;
     }
 
     entity->destroyAllChildren();
@@ -205,13 +205,13 @@ Entity::Iterator PlanetSystem::createPatch(Entity::Iterator parent, CubeSide cub
         patch->depth = parentPatch->depth + 1;
     }
 
-    Mesh::Handle mesh = buildPatchMesh(_planet, patch, localPosition, parentGlobalPosition);
+    Mesh::Handle patchMesh = buildPatchMesh(_planet, patch, localPosition, parentGlobalPosition);
 
-    ModelComponent::Iterator model = patchEntity->addComponent<ModelComponent>();
-    model->addSurface(mesh, _planet->patchMaterial);
+    MeshComponent::Iterator mesh = patchEntity->addComponent<MeshComponent>();
+    mesh->addSurface(patchMesh, _planet->patchMaterial);
 
     //Mesh::Handle cubeMesh = _assetCache.getHandle<Mesh>("Test/Cube.Main.mesh");
-    //model->addSurface(cubeMesh, _planet->patchMaterial);
+    //mesh->addSurface(cubeMesh, _planet->patchMaterial);
 
     patchEntity->activate();
     parent->addChild(*patchEntity);
