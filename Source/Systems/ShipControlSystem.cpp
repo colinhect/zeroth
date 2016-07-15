@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ShipControlSystem.h"
 
-#include "Components/Thruster.h"
+#include "Components/ThrusterComponent.h"
 
 using namespace zeroth;
 
@@ -22,10 +22,10 @@ void ShipControlSystem::controlShip(Entity& ship, Vector3 directionalThrust, Vec
 {
     if (_transformSystem && _physicsSystem)
     {
-        Transform::Iterator shipTransform = ship.component<Transform>();
+        TransformComponent::Iterator shipTransform = ship.component<TransformComponent>();
         if (shipTransform)
         {
-            RigidBody::Iterator shipRigidBody = ship.component<RigidBody>();
+            RigidBodyComponent::Iterator shipRigidBody = ship.component<RigidBodyComponent>();
             if (shipRigidBody)
             {
                 Vector3 angularVelocity = shipRigidBody->angularVelocity;
@@ -49,10 +49,10 @@ void ShipControlSystem::controlShip(Entity& ship, Vector3 directionalThrust, Vec
                 // Apply force from primary engine thrusters
                 ship.forDescendants([&](Entity& entity)
                 {
-                    Thruster::ConstIterator thruster = entity.component<Thruster>();
+                    ThrusterComponent::ConstIterator thruster = entity.component<ThrusterComponent>();
                     if (thruster && thruster->type == ThrusterType::PrimaryEngine)
                     {
-                        Transform::Iterator thrusterTransform = entity.component<Transform>();
+                        TransformComponent::Iterator thrusterTransform = entity.component<TransformComponent>();
                         if (thrusterTransform)
                         {
                             const Vector3 relativePosition = shipTransform->globalRotation * thrusterTransform->localPosition;
@@ -72,10 +72,10 @@ void ShipControlSystem::debugTick(double timeStep)
 
     if (_debugSystem)
     {
-        for (const Thruster& thruster : scene().components<Thruster>())
+        for (const ThrusterComponent& thruster : scene().components<ThrusterComponent>())
         {
             Entity::ConstIterator entity = thruster.entity();
-            Transform::ConstIterator transform = entity->component<Transform>();
+            TransformComponent::ConstIterator transform = entity->component<TransformComponent>();
             if (transform)
             {
                 Vector3 origin = transform->globalPosition;

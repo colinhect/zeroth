@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ProxyGalaxySystem.h"
 
-#include "Components/SpiralGalaxy.h"
+#include "Components/SpiralGalaxyComponent.h"
 
 using namespace zeroth;
 
@@ -17,25 +17,25 @@ ProxyGalaxySystem::ProxyGalaxySystem(Engine& engine, Scene& scene) :
 {
 }
 
-void ProxyGalaxySystem::onComponentAdded(ProxyGalaxy::Iterator proxyGalaxy)
+void ProxyGalaxySystem::onComponentAdded(ProxyGalaxyComponent::Iterator proxyGalaxy)
 {
     Scene::Handle galaxyScene = _assetCache.getHandle<Scene>(baseGalaxyScene, _engine);
 
     CameraSystem::Handle cameraSystem = galaxyScene->system<CameraSystem>();
     if (cameraSystem)
     {
-        Camera::Iterator activeCamera = cameraSystem->activeCamera();
+        CameraComponent::Iterator activeCamera = cameraSystem->activeCamera();
         if (activeCamera)
         {
             Entity::Iterator galaxyEntity = galaxyScene->createEntity();
             galaxyEntity->setTransient(true);
 
-            SpiralGalaxy::Iterator spiralGalaxy = galaxyEntity->addComponent<SpiralGalaxy>();
+            SpiralGalaxyComponent::Iterator spiralGalaxy = galaxyEntity->addComponent<SpiralGalaxyComponent>();
             spiralGalaxy->seed = proxyGalaxy->seed;
 
             galaxyEntity->activate();
 
-            Transform::Iterator activeCameraTransform = activeCamera->entity()->component<Transform>();
+            TransformComponent::Iterator activeCameraTransform = activeCamera->entity()->component<TransformComponent>();
             if (activeCameraTransform)
             {
                 activeCameraTransform->globalPosition = proxyGalaxy->position;
@@ -55,13 +55,13 @@ void ProxyGalaxySystem::onComponentAdded(ProxyGalaxy::Iterator proxyGalaxy)
 
                 // Create a sky box
                 Entity::Iterator skyBoxEntity = scene().createEntity();
-                SkyBox::Iterator skyBox = skyBoxEntity->addComponent<SkyBox>();
+                SkyBoxComponent::Iterator skyBox = skyBoxEntity->addComponent<SkyBoxComponent>();
                 skyBox->texture = texture;
                 skyBoxEntity->activate();
 
                 // Create a light probe
                 Entity::Iterator lightProbeEntity = scene().createEntity();
-                LightProbe::Iterator lightProbe = lightProbeEntity->addComponent<LightProbe>();
+                LightProbeComponent::Iterator lightProbe = lightProbeEntity->addComponent<LightProbeComponent>();
                 lightProbe->texture = texture;
                 lightProbeEntity->activate();
             }
@@ -80,7 +80,7 @@ unsigned ProxyGalaxySystem::computeSkyBoxResolution()
     CameraSystem::Handle cameraSystem = scene().system<CameraSystem>();
     if (cameraSystem)
     {
-        Camera::Iterator activeCamera = cameraSystem->activeCamera();
+        CameraComponent::Iterator activeCamera = cameraSystem->activeCamera();
         if (activeCamera)
         {
             double factor = activeCamera->fieldOfView.inDegrees() / 90.0;

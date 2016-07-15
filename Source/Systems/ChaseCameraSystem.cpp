@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ChaseCameraSystem.h"
 
-#include "Components/ChaseCamera.h"
+#include "Components/ChaseCameraComponent.h"
 
 using namespace zeroth;
 

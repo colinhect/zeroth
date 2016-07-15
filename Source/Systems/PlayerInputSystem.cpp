@@ -6,8 +6,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "PlayerInputSystem.h"
 
-#include "Components/PlayerShipControl.h"
-#include "Components/ObserverCamera.h"
+#include "Components/PlayerShipControlComponent.h"
+#include "Components/ObserverCameraComponent.h"
 
 using namespace zeroth;
 
@@ -28,7 +28,7 @@ void PlayerInputSystem::tick(double timeStep)
 {
     if (_cameraSystem)
     {
-        Camera::Iterator camera = _cameraSystem->activeCamera();
+        CameraComponent::Iterator camera = _cameraSystem->activeCamera();
         if (camera)
         {
             if (_inputSystem)
@@ -43,7 +43,7 @@ void PlayerInputSystem::tick(double timeStep)
     if (_inputSystem && _shipControlSystem)
     {
         // If there is no observer camera
-        ObserverCamera::Iterator observerCamera = scene().components<ObserverCamera>().begin();
+        ObserverCameraComponent::Iterator observerCamera = scene().components<ObserverCameraComponent>().begin();
         if (!observerCamera)
         {
             Vector3 angularThrust;
@@ -56,7 +56,7 @@ void PlayerInputSystem::tick(double timeStep)
             directionalThrust.y = _inputSystem->axisValue("thrustY");
             directionalThrust.z = _inputSystem->axisValue("thrustZ");
 
-            for (PlayerShipControl& playerShipControl : scene().components<PlayerShipControl>())
+            for (PlayerShipControlComponent& playerShipControl : scene().components<PlayerShipControlComponent>())
             {
                 Entity::Iterator entity = playerShipControl.entity();
 

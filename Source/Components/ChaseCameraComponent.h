@@ -15,9 +15,13 @@ namespace zeroth
 {
 
 /// \component
-class ZEROTH_EXPORT PlayerShipControl :
-    public Component<PlayerShipControl>
+class ZEROTH_EXPORT ChaseCameraComponent :
+    public Component<ChaseCameraComponent>
 {
+public:
+
+    /// \property{required}
+    double distance { 10.0 };
 };
 
 }

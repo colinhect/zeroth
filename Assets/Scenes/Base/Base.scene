@@ -2,7 +2,7 @@
 sceneType: Scene
 base: Hect/Scenes/Default.scene
 componentTypes:
-  - ObserverCamera
+  - ObserverCameraComponent
 systemTypes:
   - ObserverCameraSystem
 systems:

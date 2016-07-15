@@ -6,20 +6,20 @@ systemTypes:
 entities:
   - base: Test/Observer.entity
     components:
-      - componentType: Transform
+      - componentType: TransformComponent
         localPosition: [ -26976, 9971, 684 ]
   - components:
-      - componentType: Transform
+      - componentType: TransformComponent
         localPosition: [ -26973, 9971, 684 ]
-      - componentType: BoundingBox
-      - componentType: Model
+      - componentType: BoundingBoxComponent
+      - componentType: ModelComponent
         surfaces:
           - mesh: Test/Cube.Main.mesh
             material: Test/MetalCrate.material
   - components:
-    - componentType: DirectionalLight
+    - componentType: DirectionalLightComponent
       direction: [ 1, 0.1, 0.1 ]
       color: [ 0.5, 0.5, 0.5 ]
   - components:
-      - componentType: SpiralGalaxy
+      - componentType: SpiralGalaxyComponent
         seed: -2039787494

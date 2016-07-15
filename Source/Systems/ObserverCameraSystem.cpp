@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ObserverCameraSystem.h"
 
-#include "Components/ObserverCamera.h"
+#include "Components/ObserverCameraComponent.h"
 
 using namespace zeroth;
 
@@ -36,7 +36,7 @@ void ObserverCameraSystem::tick(double timeStep)
 {
     if (_inputSystem && _transformSystem && _mouse.mode() == MouseMode::Relative)
     {
-        for (ObserverCamera& observerCamera : scene().components<ObserverCamera>())
+        for (ObserverCameraComponent& observerCamera : scene().components<ObserverCameraComponent>())
         {
             Entity::Iterator entity = observerCamera.entity();
 
@@ -44,8 +44,8 @@ void ObserverCameraSystem::tick(double timeStep)
             double rollSpeed = observerCamera.rollSpeed * timeStep;
             double moveSpeed = observerCamera.moveSpeed * timeStep;
 
-            Transform::Iterator transform = entity->component<Transform>();
-            Camera::Iterator camera = entity->component<Camera>();
+            TransformComponent::Iterator transform = entity->component<TransformComponent>();
+            CameraComponent::Iterator camera = entity->component<CameraComponent>();
             if (transform && camera)
             {
                 transform->localRotation *= Quaternion::fromAxisAngle(camera->up, Radians(_inputSystem->axisValue("yaw") * -lookSpeed));
@@ -73,11 +73,11 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
                 // Restore the last active camera
                 if (_lastActiveCamera)
                 {
-                    Camera::Iterator camera = _lastActiveCamera->component<Camera>();
+                    CameraComponent::Iterator camera = _lastActiveCamera->component<CameraComponent>();
                     if (camera)
                     {
                         // Preserve the exposure of the last observer camera
-                        Camera::Iterator observerCamera = _activeObserver->component<Camera>();
+                        CameraComponent::Iterator observerCamera = _activeObserver->component<CameraComponent>();
                         if (observerCamera)
                         {
                             camera->exposure = observerCamera->exposure;
@@ -94,7 +94,7 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
             else
             {
                 // Remember the active camera
-                Camera::Iterator camera = _cameraSystem->activeCamera();
+                CameraComponent::Iterator camera = _cameraSystem->activeCamera();
                 if (camera)
                 {
                     _lastActiveCamera = camera->entity()->createHandle();
@@ -107,10 +107,10 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
                 if (_lastActiveCamera)
                 {
                     // Preserve the exposure of the last active camera
-                    Camera::Iterator camera = _lastActiveCamera->component<Camera>();
+                    CameraComponent::Iterator camera = _lastActiveCamera->component<CameraComponent>();
                     if (camera)
                     {
-                        Camera::Iterator observerCamera = observer->component<Camera>();
+                        CameraComponent::Iterator observerCamera = observer->component<CameraComponent>();
                         if (observerCamera)
                         {
                             observerCamera->exposure = camera->exposure;
@@ -118,10 +118,10 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
                     }
 
                     // Preserve the transform of the last active camera
-                    Transform::Iterator transform = _lastActiveCamera->component<Transform>();
+                    TransformComponent::Iterator transform = _lastActiveCamera->component<TransformComponent>();
                     if (transform)
                     {
-                        Transform::Iterator observerTransform = observer->component<Transform>();
+                        TransformComponent::Iterator observerTransform = observer->component<TransformComponent>();
                         if (observerTransform)
                         {
                             observerTransform->localPosition = transform->globalPosition;
@@ -135,7 +135,7 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
                 _activeObserver = observer->createHandle();
 
                 // Set active camera
-                Camera::Iterator observerCamera = _activeObserver->component<Camera>();
+                CameraComponent::Iterator observerCamera = _activeObserver->component<CameraComponent>();
                 if (observerCamera)
                 {
                     _cameraSystem->setActiveCamera(*observerCamera);
@@ -149,7 +149,7 @@ void ObserverCameraSystem::receiveEvent(const MouseEvent& event)
 {
     if (event.type == MouseEventType::ScrollUp)
     {
-        for (ObserverCamera& observerCamera : scene().components<ObserverCamera>())
+        for (ObserverCameraComponent& observerCamera : scene().components<ObserverCameraComponent>())
         {
             observerCamera.moveSpeed *= 2;
             HECT_DEBUG(format("moveSpeed = %f", observerCamera.moveSpeed));
@@ -157,7 +157,7 @@ void ObserverCameraSystem::receiveEvent(const MouseEvent& event)
     }
     else if (event.type == MouseEventType::ScrollDown)
     {
-        for (ObserverCamera& observerCamera : scene().components<ObserverCamera>())
+        for (ObserverCameraComponent& observerCamera : scene().components<ObserverCameraComponent>())
         {
             observerCamera.moveSpeed /= 2;
             HECT_DEBUG(format("moveSpeed = %f", observerCamera.moveSpeed));

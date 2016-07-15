@@ -15,13 +15,13 @@ namespace zeroth
 {
 
 /// \component
-class ZEROTH_EXPORT ChaseCamera :
-    public Component<ChaseCamera>
+class ZEROTH_EXPORT ShipComponent :
+    public Component<ShipComponent>
 {
 public:
 
-    /// \property{required}
-    double distance { 10.0 };
+    /// \property
+    std::string name;
 };
 
 }

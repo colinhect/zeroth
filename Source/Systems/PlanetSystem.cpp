@@ -27,7 +27,7 @@ void PlanetSystem::tick(double timeStep)
 
     if (_cameraSystem)
     {
-        Camera::Iterator activeCamera = _cameraSystem->activeCamera();
+        CameraComponent::Iterator activeCamera = _cameraSystem->activeCamera();
         if (activeCamera)
         {
             Vector3 cameraPosition = activeCamera->position;
@@ -38,17 +38,17 @@ void PlanetSystem::tick(double timeStep)
     }
 }
 
-void PlanetSystem::onComponentAdded(Planet::Iterator planet)
+void PlanetSystem::onComponentAdded(PlanetComponent::Iterator planet)
 {
     createPlanet(planet);
 }
 
 void PlanetSystem::adapt(Vector3 cameraPosition, Entity::Iterator entity)
 {
-    PlanetPatch::Iterator patch = entity->component<PlanetPatch>();
+    PlanetPatchComponent::Iterator patch = entity->component<PlanetPatchComponent>();
     if (patch)
     {
-        Transform::Iterator transform = entity->component<Transform>();
+        TransformComponent::Iterator transform = entity->component<TransformComponent>();
         if (transform)
         {
             double distance = (cameraPosition - transform->globalPosition).length();
@@ -85,7 +85,7 @@ void PlanetSystem::adapt(Vector3 cameraPosition, Entity::Iterator entity)
     }
 }
 
-void PlanetSystem::split(PlanetPatch::Iterator patch)
+void PlanetSystem::split(PlanetPatchComponent::Iterator patch)
 {
     Vector3 up = cubeSideUpVector(patch->cubeSide);
     Vector3 right = cubeSideRightVector(patch->cubeSide);
@@ -94,13 +94,13 @@ void PlanetSystem::split(PlanetPatch::Iterator patch)
     Entity::Iterator entity = patch->entity();
 
     // Hide the model of the path being split
-    Model::Iterator model = entity->component<Model>();
+    ModelComponent::Iterator model = entity->component<ModelComponent>();
     if (model)
     {
         model->visible = false;
     }
 
-    Transform::Iterator transform = entity->component<Transform>();
+    TransformComponent::Iterator transform = entity->component<TransformComponent>();
 
     double quarterSize = patch->halfSize * 0.5;
     for (int y = -1; y <= 1; y += 2)
@@ -118,11 +118,11 @@ void PlanetSystem::split(PlanetPatch::Iterator patch)
     patch->split = true;
 }
 
-void PlanetSystem::join(PlanetPatch::Iterator patch)
+void PlanetSystem::join(PlanetPatchComponent::Iterator patch)
 {
     Entity::Iterator entity = patch->entity();
 
-    Model::Iterator model = entity->component<Model>();
+    ModelComponent::Iterator model = entity->component<ModelComponent>();
     if (model)
     {
         model->visible = true;
@@ -133,7 +133,7 @@ void PlanetSystem::join(PlanetPatch::Iterator patch)
     patch->split = false;
 }
 
-void PlanetSystem::createPlanet(Planet::Iterator planet)
+void PlanetSystem::createPlanet(PlanetComponent::Iterator planet)
 {
     if (_planet)
     {
@@ -145,10 +145,10 @@ void PlanetSystem::createPlanet(Planet::Iterator planet)
     Entity::Iterator entity = planet->entity();
 
     // Add the transform component
-    Transform::Iterator transform = entity->component<Transform>();
+    TransformComponent::Iterator transform = entity->component<TransformComponent>();
     if (!transform)
     {
-        transform = entity->addComponent<Transform>();
+        transform = entity->addComponent<TransformComponent>();
     }
     transform->mobility = Mobility::Static;
     transform->localPosition = Vector3::Zero;
@@ -156,10 +156,10 @@ void PlanetSystem::createPlanet(Planet::Iterator planet)
     transform->localRotation = Quaternion::Identity;
 
     // Add the bounding box component
-    BoundingBox::Iterator boundingBox = entity->component<BoundingBox>();
+    BoundingBoxComponent::Iterator boundingBox = entity->component<BoundingBoxComponent>();
     if (!boundingBox)
     {
-        boundingBox = entity->addComponent<BoundingBox>();
+        boundingBox = entity->addComponent<BoundingBoxComponent>();
     }
     double boxRadius = std::sqrt(2.0 * std::pow(planet->meanRadius, 2.0));
     boundingBox->adaptive = false;
@@ -179,20 +179,20 @@ Entity::Iterator PlanetSystem::createPatch(Entity::Iterator parent, CubeSide cub
     Vector3 up = cubeSideUpVector(cubeSide);
     Vector3 right = cubeSideRightVector(cubeSide);
 
-    Planet::Iterator planet = parent->component<Planet>();
-    PlanetPatch::Iterator parentPatch = parent->component<PlanetPatch>();
+    PlanetComponent::Iterator planet = parent->component<PlanetComponent>();
+    PlanetPatchComponent::Iterator parentPatch = parent->component<PlanetPatchComponent>();
 
-    static const Name patchEntityName("PlanetPatch");
+    static const Name patchEntityName("PlanetPatchComponent");
     Entity::Iterator patchEntity = scene().createEntity(patchEntityName);
     patchEntity->setTransient(true);
 
-    Transform::Iterator transform = patchEntity->addComponent<Transform>();
+    TransformComponent::Iterator transform = patchEntity->addComponent<TransformComponent>();
     transform->mobility = Mobility::Dynamic;
     transform->localPosition = localPosition;
 
-    BoundingBox::Iterator boundingBox = patchEntity->addComponent<BoundingBox>();
+    BoundingBoxComponent::Iterator boundingBox = patchEntity->addComponent<BoundingBoxComponent>();
 
-    PlanetPatch::Iterator patch = patchEntity->addComponent<PlanetPatch>();
+    PlanetPatchComponent::Iterator patch = patchEntity->addComponent<PlanetPatchComponent>();
     patch->cubeSide = cubeSide;
 
     if (planet)
@@ -207,7 +207,7 @@ Entity::Iterator PlanetSystem::createPatch(Entity::Iterator parent, CubeSide cub
 
     Mesh::Handle mesh = buildPatchMesh(_planet, patch, localPosition, parentGlobalPosition);
 
-    Model::Iterator model = patchEntity->addComponent<Model>();
+    ModelComponent::Iterator model = patchEntity->addComponent<ModelComponent>();
     model->addSurface(mesh, _planet->patchMaterial);
 
     //Mesh::Handle cubeMesh = _assetCache.getHandle<Mesh>("Test/Cube.Main.mesh");
@@ -219,12 +219,12 @@ Entity::Iterator PlanetSystem::createPatch(Entity::Iterator parent, CubeSide cub
     return patchEntity;
 }
 
-Entity::Iterator PlanetSystem::createRootPatch(Planet::Iterator planet, CubeSide cubeSide)
+Entity::Iterator PlanetSystem::createRootPatch(PlanetComponent::Iterator planet, CubeSide cubeSide)
 {
     return createPatch(planet->entity(), cubeSide, cubeSideUpVector(cubeSide) * planet->meanRadius, Vector3::Zero);
 }
 
-Mesh::Handle PlanetSystem::buildPatchMesh(Planet::Iterator planet, PlanetPatch::Iterator patch, Vector3 localPosition, Vector3 parentGlobalPosition)
+Mesh::Handle PlanetSystem::buildPatchMesh(PlanetComponent::Iterator planet, PlanetPatchComponent::Iterator patch, Vector3 localPosition, Vector3 parentGlobalPosition)
 {
     Vector3 up = cubeSideUpVector(patch->cubeSide);
     Vector3 right = cubeSideRightVector(patch->cubeSide);
@@ -237,7 +237,7 @@ Mesh::Handle PlanetSystem::buildPatchMesh(Planet::Iterator planet, PlanetPatch::
     const double faceSize = (patchHalfSize * 2) / patchResolution;
     const double planetMeanRadius = planet->meanRadius;
 
-    static const Name meshName("PlanetPatch");
+    static const Name meshName("PlanetPatchComponent");
     Mesh::Handle mesh(new Mesh(meshName));
     mesh->setPrimitiveType(PrimitiveType::Lines);
 

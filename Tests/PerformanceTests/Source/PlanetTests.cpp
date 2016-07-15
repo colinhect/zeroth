@@ -9,8 +9,8 @@
 #include <Hect.h>
 using namespace hect;
 
-#include <Components/Planet.h>
-#include <Components/PlanetPatch.h>
+#include <Components/PlanetComponent.h>
+#include <Components/PlanetPatchComponent.h>
 #include <Systems/PlanetSystem.h>
 using namespace zeroth;
 
@@ -36,8 +36,8 @@ public:
         scene = assetCache.getHandle<Scene>("Hect/Scenes/Default.scene", engine);
 
         // Add planet components and system to the scene
-        scene->addComponentType<Planet>();
-        scene->addComponentType<PlanetPatch>();
+        scene->addComponentType<PlanetComponent>();
+        scene->addComponentType<PlanetPatchComponent>();
         scene->addSystemType<PlanetSystem>();
 
         // Get a handle to the planet system
@@ -45,7 +45,7 @@ public:
 
         // Create the planet entity
         planetEntity = scene->createEntity();
-        planet = planetEntity->addComponent<Planet>();
+        planet = planetEntity->addComponent<PlanetComponent>();
         planet->name = "Test";
         planet->meanRadius = 100.0;
 
@@ -64,7 +64,7 @@ public:
     Scene::Handle scene;
     PlanetSystem::Handle planetSystem;
     Entity::Iterator planetEntity;
-    Planet::Iterator planet;
+    PlanetComponent::Iterator planet;
 };
 
 BASELINE_F(PlanetTests, AdaptPlanetAtSurface, PlanetTestFixture, 10, 10)

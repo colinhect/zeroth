@@ -2,11 +2,11 @@
 sceneType: Scene
 base: Base.scene
 componentTypes:
-  - ProxyGalaxy
-  - CockpitCamera
-  - PlayerShipControl
-  - Ship
-  - Thruster
+  - ProxyGalaxyComponent
+  - CockpitCameraComponent
+  - PlayerShipControlComponent
+  - ShipComponent
+  - ThrusterComponent
 systemTypes:
   - ProxyGalaxySystem
   - PlayerInputSystem

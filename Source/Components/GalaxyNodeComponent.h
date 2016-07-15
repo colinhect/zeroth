@@ -10,21 +10,19 @@
 using namespace hect;
 
 #include "Export.h"
+#include "Components/SpiralGalaxyComponent.h"
 
 namespace zeroth
 {
 
 /// \component
-class ZEROTH_EXPORT ProxyGalaxy :
-    public Component<ProxyGalaxy>
+class ZEROTH_EXPORT GalaxyNodeComponent :
+    public Component<GalaxyNodeComponent>
 {
 public:
-
-    /// \property
-    unsigned seed { 0 };
-
-    /// \property
-    Vector3 position;
+    SpiralGalaxyComponent::Iterator galaxy;
+    double radius { 0 };
+    bool split { false };
 };
 
 }

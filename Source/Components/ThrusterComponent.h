@@ -14,14 +14,27 @@ using namespace hect;
 namespace zeroth
 {
 
+enum ThrusterType
+{
+    PrimaryEngine,
+    ReactionControl
+};
+
 /// \component
-class ZEROTH_EXPORT Ship :
-    public Component<Ship>
+class ZEROTH_EXPORT ThrusterComponent :
+    public Component<ThrusterComponent>
 {
 public:
 
+    ///
+    /// \property{enum}
+    ThrusterType type { ThrusterType::PrimaryEngine };
+
     /// \property
-    std::string name;
+    double power { 1 };
+
+    /// \property
+    Vector3 direction { Vector3::UnitZ };
 };
 
 }

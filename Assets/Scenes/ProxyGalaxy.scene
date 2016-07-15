@@ -3,6 +3,6 @@ sceneType: Scene
 base: Base/GalaxyBase.scene
 entities:
   - components:
-    - componentType: Camera
+    - componentType: CameraComponent
       farClip: 1000000
-    - componentType: Transform
+    - componentType: TransformComponent

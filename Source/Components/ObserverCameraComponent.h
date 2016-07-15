@@ -14,27 +14,23 @@ using namespace hect;
 namespace zeroth
 {
 
-enum ThrusterType
-{
-    PrimaryEngine,
-    ReactionControl
-};
-
 /// \component
-class ZEROTH_EXPORT Thruster :
-    public Component<Thruster>
+class ZEROTH_EXPORT ObserverCameraComponent :
+    public Component<ObserverCameraComponent>
 {
 public:
 
-    ///
-    /// \property{enum}
-    ThrusterType type { ThrusterType::PrimaryEngine };
+    /// \property
+    double speed;
 
     /// \property
-    double power { 1 };
+    double lookSpeed;
 
     /// \property
-    Vector3 direction { Vector3::UnitZ };
+    double rollSpeed;
+
+    /// \property
+    double moveSpeed;
 };
 
 }

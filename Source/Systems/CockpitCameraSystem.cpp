@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "CockpitCameraSystem.h"
 
-#include "Components/CockpitCamera.h"
+#include "Components/CockpitCameraComponent.h"
 
 using namespace zeroth;
 
@@ -20,14 +20,14 @@ void CockpitCameraSystem::tick(double timeStep)
     (void)timeStep;
 
     /*
-    for (CockpitCamera& cockpitCamera : scene().components<CockpitCamera>())
+    for (CockpitCameraComponent& cockpitCamera : scene().components<CockpitCameraComponent>())
     {
         Entity& entity = cockpitCamera.entity();
 
-        Transform::Iterator transform = entity.component<Transform>();
+        TransformComponent::Iterator transform = entity.component<TransformComponent>();
         if (transform)
         {
-            Camera::Iterator camera = entity.component<Camera>();
+            CameraComponent::Iterator camera = entity.component<CameraComponent>();
             if (camera)
             {
                 Vector3 up = camera->up;

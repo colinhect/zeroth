@@ -1,29 +1,29 @@
 ---
 components:
-  - componentType: RigidBody
+  - componentType: RigidBodyComponent
     mass: 100
     mesh: Indor.Hull.mesh
-  - componentType: Ship
+  - componentType: ShipComponent
     name: Indor
-  - componentType: BoundingBox
-  - componentType: Model
+  - componentType: BoundingBoxComponent
+  - componentType: ModelComponent
     surfaces:
       - mesh: Indor.Hull.mesh
         material: Ships/Indor.Hull.material
       - mesh: Indor.Seat.mesh
         material: Hect/Materials/OpaqueSolid.material
-  - componentType: Transform
+  - componentType: TransformComponent
 children:
   - components:
-      - componentType: Transform
+      - componentType: TransformComponent
         localPosition: [ 0, -8, 0 ]
-      - componentType: Thruster
+      - componentType: ThrusterComponent
         type: PrimaryEngine
         direction: [ 0, 1, 0 ]
         power: 100000
   - components:
-      - componentType: Transform
+      - componentType: TransformComponent
         localPosition: [ 0, 8, 0 ]
-      - componentType: Thruster
+      - componentType: ThrusterComponent
         type: ReactionControl
         direction: [ 0, 0, 1 ]

@@ -15,22 +15,20 @@ namespace zeroth
 {
 
 /// \component
-class ZEROTH_EXPORT Planet :
-    public Component<Planet>
+class ZEROTH_EXPORT SpiralGalaxyComponent :
+    public Component<SpiralGalaxyComponent>
 {
 public:
 
     /// \property
-    std::string name { "Unknown Planet" };
+    unsigned seed { 0 };
 
-    /// \property
-    double meanRadius { 0 };
+    double diameter;
+    double thickness;
+    unsigned density;
 
-    /// \property
-    unsigned patchResolution { 16 };
-
-    /// \property
-    Material::Handle patchMaterial;
+    Texture2::Handle topologyTexture;
+    Texture2::Handle particleTexture;
 };
 
 }

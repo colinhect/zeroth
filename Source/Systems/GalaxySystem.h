@@ -10,15 +10,15 @@
 using namespace hect;
 
 #include "Export.h"
-#include "Components/GalaxyNode.h"
-#include "Components/SpiralGalaxy.h"
+#include "Components/GalaxyNodeComponent.h"
+#include "Components/SpiralGalaxyComponent.h"
 
 namespace zeroth
 {
 
 /// \system
 class ZEROTH_EXPORT GalaxySystem :
-    public System<GalaxySystem, Components<SpiralGalaxy>>,
+    public System<GalaxySystem, Components<SpiralGalaxyComponent>>,
             public Listener<KeyboardEvent>
 {
 public:
@@ -26,7 +26,7 @@ public:
 
     void initialize() override;
     void tick(double timeStep) override;
-    void onComponentAdded(SpiralGalaxy::Iterator spiralGalaxy) override;
+    void onComponentAdded(SpiralGalaxyComponent::Iterator spiralGalaxy) override;
     void receiveEvent(const KeyboardEvent& event) override;
 
     /// \property{required}
@@ -69,15 +69,15 @@ public:
     unsigned maxStarsPerNode;
 
 private:
-    void generateSpiralGalaxy(SpiralGalaxy::Iterator galaxy);
-    void createTopologyMesh(SpiralGalaxy::Iterator galaxy);
-    void createParticlesMesh(SpiralGalaxy::Iterator galaxy);
-    void generateTopologyTexture(SpiralGalaxy::Iterator galaxy);
-    void generateParticleTexture(SpiralGalaxy::Iterator galaxy);
-    void sampleTopology(SpiralGalaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Vector3 position, Color& color, double& thickness);
-    void generateStars(GalaxyNode::Iterator galaxyNode, SpiralGalaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model);
+    void generateSpiralGalaxy(SpiralGalaxyComponent::Iterator galaxy);
+    void createTopologyMesh(SpiralGalaxyComponent::Iterator galaxy);
+    void createParticlesMesh(SpiralGalaxyComponent::Iterator galaxy);
+    void generateTopologyTexture(SpiralGalaxyComponent::Iterator galaxy);
+    void generateParticleTexture(SpiralGalaxyComponent::Iterator galaxy);
+    void sampleTopology(SpiralGalaxyComponent::Iterator galaxy, BoundingBoxComponent::Iterator boundingBox, Vector3 position, Color& color, double& thickness);
+    void generateStars(GalaxyNodeComponent::Iterator galaxyNode, SpiralGalaxyComponent::Iterator galaxy, BoundingBoxComponent::Iterator boundingBox, ModelComponent::Iterator model);
 
-    Entity::Iterator createGalaxyNode(SpiralGalaxy::Iterator galaxy, Vector3 size, Vector3 localPosition, Vector3 parentGlobalPosition, bool rootNode);
+    Entity::Iterator createGalaxyNode(SpiralGalaxyComponent::Iterator galaxy, Vector3 size, Vector3 localPosition, Vector3 parentGlobalPosition, bool rootNode);
     void adaptGalaxyNode(Vector3 cameraPosition, Entity::Iterator entity);
     void splitGalaxyNode(Entity::Iterator entity);
     void joinGalaxyNode(Entity::Iterator entity);

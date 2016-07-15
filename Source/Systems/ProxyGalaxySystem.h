@@ -10,19 +10,19 @@
 using namespace hect;
 
 #include "Export.h"
-#include "Components/ProxyGalaxy.h"
+#include "Components/ProxyGalaxyComponent.h"
 
 namespace zeroth
 {
 
 /// \system
 class ZEROTH_EXPORT ProxyGalaxySystem :
-    public System<ProxyGalaxySystem, Components<ProxyGalaxy>>
+    public System<ProxyGalaxySystem, Components<ProxyGalaxyComponent>>
 {
 public:
     ProxyGalaxySystem(Engine& engine, Scene& scene);
 
-    void onComponentAdded(ProxyGalaxy::Iterator proxyGalaxy) override;
+    void onComponentAdded(ProxyGalaxyComponent::Iterator proxyGalaxy) override;
 
     /// \property
     Path baseGalaxyScene;

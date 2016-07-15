@@ -10,36 +10,36 @@
 using namespace hect;
 
 #include "Export.h"
-#include "Components/Planet.h"
-#include "Components/PlanetPatch.h"
+#include "Components/PlanetComponent.h"
+#include "Components/PlanetPatchComponent.h"
 
 namespace zeroth
 {
 
 /// \system
 class ZEROTH_EXPORT PlanetSystem :
-    public System<PlanetSystem, Components<Planet>>
+    public System<PlanetSystem, Components<PlanetComponent>>
 {
 public:
     PlanetSystem(Engine& engine, Scene& scene);
 
     void initialize() override;
     void tick(double timeStep) override;
-    void onComponentAdded(Planet::Iterator planet) override;
+    void onComponentAdded(PlanetComponent::Iterator planet) override;
 
     void adapt(Vector3 cameraPosition, Entity::Iterator entity);
 
 private:
 
-    void split(PlanetPatch::Iterator patch);
-    void join(PlanetPatch::Iterator patch);
+    void split(PlanetPatchComponent::Iterator patch);
+    void join(PlanetPatchComponent::Iterator patch);
 
-    void createPlanet(Planet::Iterator planet);
+    void createPlanet(PlanetComponent::Iterator planet);
 
     Entity::Iterator createPatch(Entity::Iterator parent, CubeSide cubeSide, Vector3 localPosition, Vector3 parentGlobalPosition);
-    Entity::Iterator createRootPatch(Planet::Iterator planet, CubeSide cubeSide);
+    Entity::Iterator createRootPatch(PlanetComponent::Iterator planet, CubeSide cubeSide);
 
-    Mesh::Handle buildPatchMesh(Planet::Iterator planet, PlanetPatch::Iterator patch, Vector3 localPosition, Vector3 parentGlobalPosition);
+    Mesh::Handle buildPatchMesh(PlanetComponent::Iterator planet, PlanetPatchComponent::Iterator patch, Vector3 localPosition, Vector3 parentGlobalPosition);
 
     static Vector3 morphPointToSphere(Vector3 point, Vector3 localPosition, double radius);
     static Vector3 projectUnitCubeToSphere(Vector3 point);
@@ -53,7 +53,7 @@ private:
     CameraSystem::Handle _cameraSystem;
     TransformSystem::Handle _transformSystem;
 
-    Planet::Iterator _planet;
+    PlanetComponent::Iterator _planet;
 };
 
 }

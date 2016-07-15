@@ -27,13 +27,13 @@ void GalaxySystem::tick(double timeStep)
     if (_cameraSystem)
     {
         // If there is an active camera
-        Camera::Iterator activeCamera = _cameraSystem->activeCamera();
+        CameraComponent::Iterator activeCamera = _cameraSystem->activeCamera();
         if (activeCamera)
         {
             Vector3 cameraPosition = activeCamera->position;
 
             // For each galaxy
-            for (SpiralGalaxy& galaxy : scene().components<SpiralGalaxy>())
+            for (SpiralGalaxyComponent& galaxy : scene().components<SpiralGalaxyComponent>())
             {
                 // Adapt each root galaxy node to the camera position
                 Entity::Iterator galaxyEntity = galaxy.entity();
@@ -47,7 +47,7 @@ void GalaxySystem::tick(double timeStep)
     }
 }
 
-void GalaxySystem::onComponentAdded(SpiralGalaxy::Iterator spiralGalaxy)
+void GalaxySystem::onComponentAdded(SpiralGalaxyComponent::Iterator spiralGalaxy)
 {
     generateSpiralGalaxy(spiralGalaxy);
 }
@@ -57,7 +57,7 @@ void GalaxySystem::receiveEvent(const KeyboardEvent& event)
     if (event.key == Key::F5 && event.type == KeyboardEventType::KeyDown)
     {
         // Destroy all galaxies
-        for (SpiralGalaxy& galaxy : scene().components<SpiralGalaxy>())
+        for (SpiralGalaxyComponent& galaxy : scene().components<SpiralGalaxyComponent>())
         {
             Entity::Iterator entity = galaxy.entity();
             if (!entity->isPendingDestruction())
@@ -68,12 +68,12 @@ void GalaxySystem::receiveEvent(const KeyboardEvent& event)
 
         // Create a new one
         Entity::Iterator entity = scene().createEntity("Galaxy");
-        entity->addComponent<SpiralGalaxy>();
+        entity->addComponent<SpiralGalaxyComponent>();
         entity->activate();
     }
 }
 
-void GalaxySystem::generateSpiralGalaxy(SpiralGalaxy::Iterator galaxy)
+void GalaxySystem::generateSpiralGalaxy(SpiralGalaxyComponent::Iterator galaxy)
 {
     Entity::Iterator entity = galaxy->entity();
 
@@ -117,15 +117,15 @@ void GalaxySystem::generateSpiralGalaxy(SpiralGalaxy::Iterator galaxy)
     }
 
     // Add the bounding box for the galaxy
-    BoundingBox::Iterator boundingBox = entity->addComponent<BoundingBox>();
+    BoundingBoxComponent::Iterator boundingBox = entity->addComponent<BoundingBoxComponent>();
 
     // Add the model for the topology and particle meshes
-    Model::Iterator model = entity->addComponent<Model>();
+    ModelComponent::Iterator model = entity->addComponent<ModelComponent>();
     createTopologyMesh(galaxy);
     createParticlesMesh(galaxy);
 }
 
-void GalaxySystem::createTopologyMesh(SpiralGalaxy::Iterator galaxy)
+void GalaxySystem::createTopologyMesh(SpiralGalaxyComponent::Iterator galaxy)
 {
     // Create the mesh
     Mesh::Handle mesh(new Mesh("Topology"));
@@ -164,11 +164,11 @@ void GalaxySystem::createTopologyMesh(SpiralGalaxy::Iterator galaxy)
     material->setCullMode(CullMode::None);
 
     // Add the mesh to the galaxy's model
-    Model::Iterator model = galaxy->entity()->component<Model>();
+    ModelComponent::Iterator model = galaxy->entity()->component<ModelComponent>();
     model->addSurface(mesh, material);
 }
 
-void GalaxySystem::createParticlesMesh(SpiralGalaxy::Iterator galaxy)
+void GalaxySystem::createParticlesMesh(SpiralGalaxyComponent::Iterator galaxy)
 {
     Entity::Iterator entity = galaxy->entity();
 
@@ -190,7 +190,7 @@ void GalaxySystem::createParticlesMesh(SpiralGalaxy::Iterator galaxy)
     MeshWriter writer(*mesh);
 
     // Compute the half-size of the galaxy
-    BoundingBox::Iterator boundingBox = entity->component<BoundingBox>();
+    BoundingBoxComponent::Iterator boundingBox = entity->component<BoundingBoxComponent>();
     Vector3 halfSize = boundingBox->extents.size() / 2;
 
     // Add particle until the density is satisfied
@@ -236,11 +236,11 @@ void GalaxySystem::createParticlesMesh(SpiralGalaxy::Iterator galaxy)
     material->setCullMode(CullMode::None);
 
     // Add the mesh to the galaxy's model
-    Model::Iterator model = galaxy->entity()->component<Model>();
+    ModelComponent::Iterator model = galaxy->entity()->component<ModelComponent>();
     model->addSurface(mesh, material);
 }
 
-void GalaxySystem::generateTopologyTexture(SpiralGalaxy::Iterator galaxy)
+void GalaxySystem::generateTopologyTexture(SpiralGalaxyComponent::Iterator galaxy)
 {
     galaxy->topologyTexture = new Texture2("Topology", topologyTextureResolution, topologyTextureResolution, PixelFormat::Rgba32, TextureFilter::Linear, TextureFilter::Linear, false, false);
 
@@ -256,7 +256,7 @@ void GalaxySystem::generateTopologyTexture(SpiralGalaxy::Iterator galaxy)
     frame.renderViewport();
 }
 
-void GalaxySystem::generateParticleTexture(SpiralGalaxy::Iterator galaxy)
+void GalaxySystem::generateParticleTexture(SpiralGalaxyComponent::Iterator galaxy)
 {
     galaxy->particleTexture = new Texture2("Particle", particleTextureResolution, particleTextureResolution, PixelFormat::Rg8, TextureFilter::Linear, TextureFilter::Linear, false, false);
 
@@ -271,7 +271,7 @@ void GalaxySystem::generateParticleTexture(SpiralGalaxy::Iterator galaxy)
     frame.renderViewport();
 }
 
-void GalaxySystem::sampleTopology(SpiralGalaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Vector3 position, Color& color, double& thickness)
+void GalaxySystem::sampleTopology(SpiralGalaxyComponent::Iterator galaxy, BoundingBoxComponent::Iterator boundingBox, Vector3 position, Color& color, double& thickness)
 {
     AxisAlignedBox& extents = boundingBox->extents;
     Vector3 totalSize = extents.size();
@@ -283,7 +283,7 @@ void GalaxySystem::sampleTopology(SpiralGalaxy::Iterator galaxy, BoundingBox::It
     color.a = 1.0;
 }
 
-void GalaxySystem::generateStars(GalaxyNode::Iterator galaxyNode, SpiralGalaxy::Iterator galaxy, BoundingBox::Iterator boundingBox, Model::Iterator model)
+void GalaxySystem::generateStars(GalaxyNodeComponent::Iterator galaxyNode, SpiralGalaxyComponent::Iterator galaxy, BoundingBoxComponent::Iterator boundingBox, ModelComponent::Iterator model)
 {
     Vector3 globalPosition = boundingBox->extents.center();
     Random random(galaxy->seed + static_cast<RandomSeed>(globalPosition.x * globalPosition.y * globalPosition.z * galaxy->seed));
@@ -304,7 +304,7 @@ void GalaxySystem::generateStars(GalaxyNode::Iterator galaxyNode, SpiralGalaxy::
     mesh->setPrimitiveType(PrimitiveType::PointSprites);
     MeshWriter writer(*mesh);
 
-    BoundingBox::Iterator galaxyBoundingBox = galaxy->entity()->component<BoundingBox>();
+    BoundingBoxComponent::Iterator galaxyBoundingBox = galaxy->entity()->component<BoundingBoxComponent>();
 
     // Sample the color/density for the node
     Color color;
@@ -329,27 +329,27 @@ void GalaxySystem::generateStars(GalaxyNode::Iterator galaxyNode, SpiralGalaxy::
     model->surfaces.push_back(ModelSurface(mesh, starMaterial));
 }
 
-Entity::Iterator GalaxySystem::createGalaxyNode(SpiralGalaxy::Iterator galaxy, Vector3 size, Vector3 localPosition, Vector3 parentGlobalPosition, bool rootNode)
+Entity::Iterator GalaxySystem::createGalaxyNode(SpiralGalaxyComponent::Iterator galaxy, Vector3 size, Vector3 localPosition, Vector3 parentGlobalPosition, bool rootNode)
 {
     // Create the galaxy node entity
-    Entity::Iterator entity = scene().createEntity("GalaxyNode");
+    Entity::Iterator entity = scene().createEntity("GalaxyNodeComponent");
     entity->setTransient(true);
 
     // Add transform component
-    Transform::Iterator transform = entity->addComponent<Transform>();
+    TransformComponent::Iterator transform = entity->addComponent<TransformComponent>();
     transform->mobility = Mobility::Static;
     transform->localPosition = localPosition;
     transform->globalPosition = parentGlobalPosition + localPosition;
 
     // Add bounding box component
-    BoundingBox::Iterator boundingBox = entity->addComponent<BoundingBox>();
+    BoundingBoxComponent::Iterator boundingBox = entity->addComponent<BoundingBoxComponent>();
     boundingBox->adaptive = false;
     Vector3 minimum = parentGlobalPosition + localPosition;
     Vector3 halfSize = size / 2;
     boundingBox->extents = AxisAlignedBox(minimum - size / 2, minimum + size / 2);
 
     // Add galaxy node component
-    GalaxyNode::Iterator galaxyNode = entity->addComponent<GalaxyNode>();
+    GalaxyNodeComponent::Iterator galaxyNode = entity->addComponent<GalaxyNodeComponent>();
     galaxyNode->galaxy = galaxy;
     galaxyNode->radius = size.length() / 2;
 
@@ -357,7 +357,7 @@ Entity::Iterator GalaxySystem::createGalaxyNode(SpiralGalaxy::Iterator galaxy, V
     if (!rootNode && galaxyNode->radius < minimumNodeRadiusWithStars)
     {
         // Add the model for the star field meshes
-        Model::Iterator model = entity->addComponent<Model>();
+        ModelComponent::Iterator model = entity->addComponent<ModelComponent>();
         generateStars(galaxyNode, galaxy, boundingBox, model);
     }
 
@@ -369,14 +369,14 @@ Entity::Iterator GalaxySystem::createGalaxyNode(SpiralGalaxy::Iterator galaxy, V
 void GalaxySystem::adaptGalaxyNode(Vector3 cameraPosition, Entity::Iterator entity)
 {
     // Get the galaxy node component
-    GalaxyNode::Iterator galaxyNode = entity->component<GalaxyNode>();
+    GalaxyNodeComponent::Iterator galaxyNode = entity->component<GalaxyNodeComponent>();
     if (galaxyNode)
     {
         // Get the transform component
-        Transform::Iterator transform = entity->component<Transform>();
+        TransformComponent::Iterator transform = entity->component<TransformComponent>();
         if (transform)
         {
-            SpiralGalaxy::Iterator galaxy = galaxyNode->galaxy;
+            SpiralGalaxyComponent::Iterator galaxy = galaxyNode->galaxy;
 
             // Compute the distance from the camera to the node
             double distance = (cameraPosition - transform->globalPosition).length();
@@ -405,7 +405,7 @@ void GalaxySystem::adaptGalaxyNode(Vector3 cameraPosition, Entity::Iterator enti
 
 void GalaxySystem::joinGalaxyNode(Entity::Iterator entity)
 {
-    GalaxyNode::Iterator galaxyNode = entity->component<GalaxyNode>();
+    GalaxyNodeComponent::Iterator galaxyNode = entity->component<GalaxyNodeComponent>();
     if (galaxyNode && galaxyNode->split)
     {
         entity->destroyAllChildren();
@@ -416,16 +416,16 @@ void GalaxySystem::joinGalaxyNode(Entity::Iterator entity)
 void GalaxySystem::splitGalaxyNode(Entity::Iterator entity)
 {
     // If the node is not split and is not at the maximum level
-    GalaxyNode::Iterator galaxyNode = entity->component<GalaxyNode>();
+    GalaxyNodeComponent::Iterator galaxyNode = entity->component<GalaxyNodeComponent>();
     if (galaxyNode && !galaxyNode->split && galaxyNode->radius > minimumNodeRadius)
     {
         Entity::Iterator parent = entity->iterator();
 
         // Get the bounding box component
-        BoundingBox::Iterator boundingBox = entity->component<BoundingBox>();
+        BoundingBoxComponent::Iterator boundingBox = entity->component<BoundingBoxComponent>();
         if (boundingBox)
         {
-            SpiralGalaxy::Iterator galaxy = galaxyNode->galaxy;
+            SpiralGalaxyComponent::Iterator galaxy = galaxyNode->galaxy;
 
             Vector3 size = boundingBox->extents.size() / 2;
             Vector3 halfSize = size / 2;

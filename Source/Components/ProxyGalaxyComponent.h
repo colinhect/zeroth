@@ -15,9 +15,16 @@ namespace zeroth
 {
 
 /// \component
-class ZEROTH_EXPORT CockpitCamera :
-    public Component<CockpitCamera>
+class ZEROTH_EXPORT ProxyGalaxyComponent :
+    public Component<ProxyGalaxyComponent>
 {
+public:
+
+    /// \property
+    unsigned seed { 0 };
+
+    /// \property
+    Vector3 position;
 };
 
 }

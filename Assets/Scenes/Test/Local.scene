@@ -3,32 +3,32 @@ sceneType: ZerothScene
 base: Scenes/Base/LocalBase.scene
 entities:
   - components:
-    - componentType: DirectionalLight
+    - componentType: DirectionalLightComponent
       direction: [ 1, 0.1, 0.1 ]
       color: [ 1.5, 1.5, 1.5 ]
   - base: Ships/Indor.entity
     components:
-      - componentType: Transform
+      - componentType: TransformComponent
         localPosition: [ 0, 0, 0 ]
-      - componentType: PlayerShipControl
+      - componentType: PlayerShipControlComponent
     children:
       - base: Ships/Indor.Cockpit.entity
   - base: Ships/Indor.entity
     components:
-      - componentType: Transform
+      - componentType: TransformComponent
         localPosition: [ 0, 100, 0 ]
   - components:
-      - componentType: Transform
+      - componentType: TransformComponent
         localPosition: [ 0, 50, 0 ]
-      - componentType: BoundingBox
-      - componentType: Model
+      - componentType: BoundingBoxComponent
+      - componentType: ModelComponent
         surfaces:
           - mesh: Test/Cube.Main.mesh
             material: Test/MetalCrate.material
-      - componentType: RigidBody
+      - componentType: RigidBodyComponent
         mass: 1
         mesh: Test/Cube.Main.mesh
   - components:
-    - componentType: ProxyGalaxy
+    - componentType: ProxyGalaxyComponent
       seed: -2039787494
       position: [ -26976, 9971, 684 ]

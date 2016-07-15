@@ -15,22 +15,14 @@ namespace zeroth
 {
 
 /// \component
-class ZEROTH_EXPORT ObserverCamera :
-    public Component<ObserverCamera>
+class ZEROTH_EXPORT PlanetPatchComponent :
+    public Component<PlanetPatchComponent>
 {
 public:
-
-    /// \property
-    double speed;
-
-    /// \property
-    double lookSpeed;
-
-    /// \property
-    double rollSpeed;
-
-    /// \property
-    double moveSpeed;
+    CubeSide cubeSide { CubeSide::PositiveZ };
+    double halfSize { 1.0 };
+    bool split { false };
+    unsigned depth { 0 };
 };
 
 }

@@ -35,10 +35,10 @@ void HudSystem::tick(double timeStep)
     CameraSystem::Handle cameraSystem = scene().system<CameraSystem>();
     if (cameraSystem)
     {
-        Camera::Iterator camera = cameraSystem->activeCamera();
+        CameraComponent::Iterator camera = cameraSystem->activeCamera();
         if (camera)
         {
-            Transform::Iterator transform = camera->entity()->component<Transform>();
+            TransformComponent::Iterator transform = camera->entity()->component<TransformComponent>();
             if (transform)
             {
                 Vector3 position = transform->localPosition;

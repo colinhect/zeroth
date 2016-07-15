@@ -2,8 +2,8 @@
 sceneType: Scene
 base: Scenes/Base/LocalBase.scene
 componentTypes:
-  - Planet
-  - PlanetPatch
+  - PlanetComponent
+  - PlanetPatchComponent
 systemTypes:
   - PlanetSystem
 systems:
@@ -11,34 +11,34 @@ systems:
     gravity: [ 0, 0, 0 ]
 entities:
   - components:
-    - componentType: DirectionalLight
+    - componentType: DirectionalLightComponent
       direction: [ -0.5, -0.5, -0.75 ]
       color: [ 1.5, 1.5, 1.5 ]
   - components:
-    - componentType: DirectionalLight
+    - componentType: DirectionalLightComponent
       direction: [ 0.5, 0.5, 0.75 ]
       color: [ 1.5, 1.5, 1.5 ]
   - base: Ships/Indor.entity
     components:
-      - componentType: Transform
+      - componentType: TransformComponent
         localPosition: [ 0, 200, 0 ]
   - components:
-      - componentType: Transform
+      - componentType: TransformComponent
         localPosition: [ 0, 240, 0 ]
-      - componentType: BoundingBox
-      - componentType: Model
+      - componentType: BoundingBoxComponent
+      - componentType: ModelComponent
         surfaces:
           - mesh: Test/Cube.Main.mesh
             material: Test/MetalCrate.material
-      - componentType: RigidBody
+      - componentType: RigidBodyComponent
         mass: 1
         mesh: Test/Cube.Main.mesh
   - base: Test/Observer.entity
     components:
-      - componentType: Transform
+      - componentType: TransformComponent
         localPosition: [ 0, -250, 0 ]
   - components:
-      - componentType: Planet
+      - componentType: PlanetComponent
         name: Endromin
         meanRadius: 50
         patchResolution: 16

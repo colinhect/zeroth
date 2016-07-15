@@ -10,19 +10,14 @@
 using namespace hect;
 
 #include "Export.h"
-#include "Components/SpiralGalaxy.h"
 
 namespace zeroth
 {
 
 /// \component
-class ZEROTH_EXPORT GalaxyNode :
-    public Component<GalaxyNode>
+class ZEROTH_EXPORT CockpitCameraComponent :
+    public Component<CockpitCameraComponent>
 {
-public:
-    SpiralGalaxy::Iterator galaxy;
-    double radius { 0 };
-    bool split { false };
 };
 
 }
