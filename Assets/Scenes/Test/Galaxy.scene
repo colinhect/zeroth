@@ -1,12 +1,23 @@
 ---
 sceneType: ZerothScene
-base: Scenes/Base/GalaxyBase.scene
+base: Scenes/Base/Base.scene
 entities:
-  - base: Test/Observer.entity
+  - name: Observer
+    base: Test/Observer.entity
     components:
       - componentType: TransformComponent
         localPosition: [ -26976, 9971, 684 ]
-  - components:
+  - name: Galaxy
+    components:
+      - componentType: SpiralGalaxyComponent
+        seed: -2039787494
+  - name: Light
+    components:
+    - componentType: DirectionalLightComponent
+      direction: [ 1, 0.1, 0.1 ]
+      color: [ 0.5, 0.5, 0.5 ]
+  - name: Cube
+    components:
       - componentType: TransformComponent
         localPosition: [ -26973, 9971, 684 ]
       - componentType: BoundingBoxComponent
@@ -14,10 +25,3 @@ entities:
         surfaces:
           - mesh: Test/Cube.Main.mesh
             material: Test/MetalCrate.material
-  - components:
-    - componentType: DirectionalLightComponent
-      direction: [ 1, 0.1, 0.1 ]
-      color: [ 0.5, 0.5, 0.5 ]
-  - components:
-      - componentType: SpiralGalaxyComponent
-        seed: -2039787494

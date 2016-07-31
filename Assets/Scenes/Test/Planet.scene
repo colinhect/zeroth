@@ -1,20 +1,36 @@
 ---
 sceneType: ZerothScene
-base: Scenes/Base/LocalBase.scene
+base: Scenes/Base/Base.scene
 entities:
-  - components:
+  - name: Observer
+    base: Test/Observer.entity
+    components:
+      - componentType: TransformComponent
+        localPosition: [ 0, -250, 0 ]
+  - name: Planet
+    components:
+      - componentType: PlanetComponent
+        name: Endromin
+        meanRadius: 50
+        patchResolution: 16
+        patchMaterial: Hect/Materials/OpaqueSolid.material
+  - name: Light
+    components:
     - componentType: DirectionalLightComponent
       direction: [ -0.5, -0.5, -0.75 ]
       color: [ 1.5, 1.5, 1.5 ]
-  - components:
+  - name: Light
+    components:
     - componentType: DirectionalLightComponent
       direction: [ 0.5, 0.5, 0.75 ]
       color: [ 1.5, 1.5, 1.5 ]
-  - base: Ships/Indor.entity
+  - name: Indor
+    base: Ships/Indor.entity
     components:
       - componentType: TransformComponent
         localPosition: [ 0, 200, 0 ]
-  - components:
+  - name: Cube
+    components:
       - componentType: TransformComponent
         localPosition: [ 0, 240, 0 ]
       - componentType: BoundingBoxComponent
@@ -25,13 +41,3 @@ entities:
       - componentType: RigidBodyComponent
         mass: 1
         mesh: Test/Cube.Main.mesh
-  - base: Test/Observer.entity
-    components:
-      - componentType: TransformComponent
-        localPosition: [ 0, -250, 0 ]
-  - components:
-      - componentType: PlanetComponent
-        name: Endromin
-        meanRadius: 50
-        patchResolution: 16
-        patchMaterial: Hect/Materials/OpaqueSolid.material

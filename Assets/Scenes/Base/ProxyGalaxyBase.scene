@@ -1,6 +1,6 @@
 ---
 sceneType: ZerothScene
-base: GalaxyBase.scene
+base: Base.scene
 entities:
   - components:
     - componentType: CameraComponent

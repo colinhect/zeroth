@@ -1,8 +1,0 @@
----
-sceneType: ZerothScene
-base: Base.scene
-systems:
-  - systemType: PhysicsSystem
-    gravity: [ 0, 0, 0 ]
-  - systemType: ProxyGalaxySystem
-    baseGalaxyScene: Scenes/Base/ProxyGalaxyBase.scene

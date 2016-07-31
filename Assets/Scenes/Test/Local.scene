@@ -1,23 +1,22 @@
 ---
 sceneType: ZerothScene
-base: Scenes/Base/LocalBase.scene
+base: Scenes/Base/Base.scene
 entities:
-  - components:
-    - componentType: DirectionalLightComponent
-      direction: [ 1, 0.1, 0.1 ]
-      color: [ 1.5, 1.5, 1.5 ]
-  - base: Ships/Indor.entity
+  - name: Indor
+    base: Ships/Indor.entity
     components:
       - componentType: TransformComponent
         localPosition: [ 0, 0, 0 ]
       - componentType: PlayerShipControlComponent
     children:
       - base: Ships/Indor.Cockpit.entity
-  - base: Ships/Indor.entity
+  - name: Indor
+    base: Ships/Indor.entity
     components:
       - componentType: TransformComponent
         localPosition: [ 0, 100, 0 ]
-  - components:
+  - name: Cube
+    components:
       - componentType: TransformComponent
         localPosition: [ 0, 50, 0 ]
       - componentType: BoundingBoxComponent
@@ -28,7 +27,13 @@ entities:
       - componentType: RigidBodyComponent
         mass: 1
         mesh: Test/Cube.Main.mesh
-  - components:
+  - name: Light
+    components:
+    - componentType: DirectionalLightComponent
+      direction: [ 1, 0.1, 0.1 ]
+      color: [ 1.5, 1.5, 1.5 ]
+  - name: ProxyGalaxy
+    components:
     - componentType: ProxyGalaxyComponent
       seed: -2039787494
       position: [ -26976, 9971, 684 ]

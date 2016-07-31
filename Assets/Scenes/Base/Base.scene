@@ -4,3 +4,21 @@ base: Hect/Scenes/Default.scene
 systems:
   - systemType: ObserverCameraSystem
     observerArchetype: Test/Observer.entity
+  - systemType: GalaxySystem
+    starMaterial: Galaxy/Materials/Star.material
+    topologyShader: Galaxy/Shaders/Topology.shader
+    generateTopologyShader: Galaxy/Shaders/GenerateTopology.shader
+    topologyTextureResolution: 1024
+    particleShader: Galaxy/Shaders/Particle.shader
+    generateParticleShader: Galaxy/Shaders/GenerateParticle.shader
+    particleTextureResolution: 512
+    spiralDiameterRange: [ 50000, 150000 ]
+    spiralThicknessRange: [ 6000, 20000 ]
+    spiralParticleSizeRange: [ 7000, 15000 ]
+    minimumNodeRadius: 250
+    minimumNodeRadiusWithStars: 12000
+    maxStarsPerNode: 4500
+  - systemType: PhysicsSystem
+    gravity: [ 0, 0, 0 ]
+  - systemType: ProxyGalaxySystem
+    baseGalaxyScene: Scenes/Base/ProxyGalaxyBase.scene
