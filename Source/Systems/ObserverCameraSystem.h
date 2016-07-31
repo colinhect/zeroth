@@ -24,7 +24,7 @@ public:
     ObserverCameraSystem(Engine& engine, Scene& scene);
 
     void initialize() override;
-    void tick(double timeStep) override;
+    void tick(double timeStep);
 
     void receiveEvent(const KeyboardEvent& event) override;
     void receiveEvent(const MouseEvent& event) override;

@@ -23,7 +23,7 @@ public:
 
     void controlShip(Entity& ship, Vector3 directionalThrust, Vector3 angularThrust, double timeStep);
 
-    void debugTick(double timeStep) override;
+    void debugTick(double timeStep);
 
 private:
     DebugSystem::Handle _debugSystem;

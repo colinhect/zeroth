@@ -21,7 +21,7 @@ class ZEROTH_EXPORT CockpitCameraSystem :
 public:
     CockpitCameraSystem(Engine& engine, Scene& scene);
 
-    void tick(double timeStep) override;
+    void tick(double timeStep);
 };
 
 }

@@ -24,7 +24,7 @@ public:
     PlanetSystem(Engine& engine, Scene& scene);
 
     void initialize() override;
-    void tick(double timeStep) override;
+    void tick(double timeStep);
     void onComponentAdded(PlanetComponent::Iterator planet) override;
 
     void adapt(Vector3 cameraPosition, Entity::Iterator entity);

@@ -23,7 +23,7 @@ class ZEROTH_EXPORT PlayerInputSystem :
 public:
     PlayerInputSystem(Engine& engine, Scene& scene);
 
-    void tick(double timeStep) override;
+    void tick(double timeStep);
     void receiveEvent(const KeyboardEvent& event) override;
 
 private:

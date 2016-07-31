@@ -44,7 +44,7 @@ void ShipControlSystem::controlShip(Entity& ship, Vector3 directionalThrust, Vec
                 // Update the rigidy body based on new linear and angular velocities
                 shipRigidBody->angularVelocity = angularVelocity + angularDelta;
                 shipRigidBody->linearVelocity = linearVelocity;
-                _physicsSystem->commit(*shipRigidBody);
+                _physicsSystem->commitRigidBody(*shipRigidBody);
 
                 // Apply force from primary engine thrusters
                 ship.forDescendants([&](Entity& entity)
@@ -57,7 +57,7 @@ void ShipControlSystem::controlShip(Entity& ship, Vector3 directionalThrust, Vec
                         {
                             const Vector3 relativePosition = shipTransform->globalRotation * thrusterTransform->localPosition;
                             const Vector3 thrustVector = shipTransform->globalRotation * directionalThrust * thruster->power * timeStep;
-                            _physicsSystem->applyForce(*shipRigidBody, thrustVector, relativePosition);
+                            _physicsSystem->applyForceToRigidBody(*shipRigidBody, thrustVector, relativePosition);
                         }
                     }
                 });

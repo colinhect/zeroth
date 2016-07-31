@@ -49,11 +49,9 @@ void ZerothScene::tick(double timeStep)
     DefaultScene::preTick(timeStep);
 
     _observerCameraSystem->tick(timeStep);
-    _proxyGalaxySystem->tick(timeStep);
     _playerInputSystem->tick(timeStep);
     _cockpitCameraSystem->tick(timeStep);
     _chaseCameraSystem->tick(timeStep);
-    _shipControlSystem->tick(timeStep);
     _hudSystem->tick(timeStep);
     _galaxySystem->tick(timeStep);
     _planetSystem->tick(timeStep);

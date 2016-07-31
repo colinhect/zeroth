@@ -56,7 +56,7 @@ void ObserverCameraSystem::tick(double timeStep)
                 transform->localPosition += camera->front * _inputSystem->axisValue("thrustY") * moveSpeed;
                 transform->localPosition += camera->up * _inputSystem->axisValue("thrustZ") * moveSpeed;
 
-                _transformSystem->commit(*transform);
+                _transformSystem->commitTransform(*transform);
             }
         }
     }
@@ -126,7 +126,7 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
                         {
                             observerTransform->localPosition = transform->globalPosition;
                             observerTransform->localRotation = transform->globalRotation;
-                            _transformSystem->update(*observerTransform);
+                            _transformSystem->updateTransform(*observerTransform);
                         }
                     }
                 }
