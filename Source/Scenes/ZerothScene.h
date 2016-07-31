@@ -16,7 +16,7 @@ namespace zeroth
 
 /// \scene
 class ZEROTH_EXPORT ZerothScene :
-    public Scene
+    public DefaultScene
 {
 public:
     ZerothScene(Engine& engine);

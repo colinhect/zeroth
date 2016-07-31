@@ -1,14 +1,6 @@
 ---
-sceneType: Scene
+sceneType: ZerothScene
 base: Scenes/Base/LocalBase.scene
-componentTypes:
-  - PlanetComponent
-  - PlanetPatchComponent
-systemTypes:
-  - PlanetSystem
-systems:
-  - systemType: PhysicsSystem
-    gravity: [ 0, 0, 0 ]
 entities:
   - components:
     - componentType: DirectionalLightComponent
@@ -26,7 +18,7 @@ entities:
       - componentType: TransformComponent
         localPosition: [ 0, 240, 0 ]
       - componentType: BoundingBoxComponent
-      - componentType: ModelComponent
+      - componentType: MeshComponent
         surfaces:
           - mesh: Test/Cube.Main.mesh
             material: Test/MetalCrate.material

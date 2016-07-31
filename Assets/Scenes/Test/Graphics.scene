@@ -1,11 +1,6 @@
 ---
-sceneType: Scene
+sceneType: ZerothScene
 base: Hect/Scenes/Default.scene
-componentTypes:
-  - ObserverCameraComponent
-systemTypes:
-  - PlayerInputSystem
-  - ObserverCameraSystem
 entities:
   - base: Test/Observer.entity
   - components:
@@ -20,7 +15,7 @@ entities:
       - componentType: TransformComponent
         localPosition: [ 0, 10, 0 ]
       - componentType: BoundingBoxComponent
-      - componentType: ModelComponent
+      - componentType: MeshComponent
         surfaces:
           - mesh: Test/Cube.Main.mesh
             material: Test/MetalCrate.material
@@ -28,7 +23,7 @@ entities:
       - componentType: TransformComponent
         localPosition: [ -10, 10, 0 ]
       - componentType: BoundingBoxComponent
-      - componentType: ModelComponent
+      - componentType: MeshComponent
         surfaces:
           - mesh: Test/Cube.Main.mesh
             material: Test/Dusty.material
@@ -36,7 +31,7 @@ entities:
       - componentType: TransformComponent
         localPosition: [ -15, 10, 0 ]
       - componentType: BoundingBoxComponent
-      - componentType: ModelComponent
+      - componentType: MeshComponent
         surfaces:
           - mesh: Test/Cube.Main.mesh
             material: Test/Dusty.material
@@ -44,7 +39,7 @@ entities:
       - componentType: TransformComponent
         localPosition: [ 10, 10, 0 ]
       - componentType: BoundingBoxComponent
-      - componentType: ModelComponent
+      - componentType: MeshComponent
         surfaces:
           - mesh: Test/Cube.Main.mesh
             material: Test/MetalCrate.material

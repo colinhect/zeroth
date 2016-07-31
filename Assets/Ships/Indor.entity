@@ -6,7 +6,7 @@ components:
   - componentType: ShipComponent
     name: Indor
   - componentType: BoundingBoxComponent
-  - componentType: ModelComponent
+  - componentType: MeshComponent
     surfaces:
       - mesh: Indor.Hull.mesh
         material: Ships/Indor.Hull.material

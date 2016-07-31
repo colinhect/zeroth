@@ -1,11 +1,6 @@
 ---
-sceneType: Scene
+sceneType: ZerothScene
 base: Base.scene
-componentTypes:
-  - GalaxyNodeComponent
-  - SpiralGalaxyComponent
-systemTypes:
-  - GalaxySystem
 systems:
   - systemType: GalaxySystem
     starMaterial: Galaxy/Materials/Star.material

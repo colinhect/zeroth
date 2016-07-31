@@ -1,10 +1,6 @@
 ---
-sceneType: Scene
+sceneType: ZerothScene
 base: Hect/Scenes/Default.scene
-componentTypes:
-  - ObserverCameraComponent
-systemTypes:
-  - ObserverCameraSystem
 systems:
   - systemType: ObserverCameraSystem
     observerArchetype: Test/Observer.entity

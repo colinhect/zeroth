@@ -25,7 +25,7 @@ void PlanetSystem::tick(double timeStep)
 {
     (void)timeStep;
 
-    if (_cameraSystem)
+    if (_cameraSystem && _planet)
     {
         CameraComponent::Iterator activeCamera = _cameraSystem->activeCamera();
         if (activeCamera)

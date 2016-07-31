@@ -1,5 +1,5 @@
 ---
-sceneType: Scene
+sceneType: ZerothScene
 base: Hect/Scenes/Default.scene
 entities:
   - components:

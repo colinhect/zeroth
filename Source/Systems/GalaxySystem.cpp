@@ -54,6 +54,7 @@ void GalaxySystem::onComponentAdded(SpiralGalaxyComponent::Iterator spiralGalaxy
 
 void GalaxySystem::receiveEvent(const KeyboardEvent& event)
 {
+    /*
     if (event.key == Key::F5 && event.type == KeyboardEventType::KeyDown)
     {
         // Destroy all galaxies
@@ -71,6 +72,7 @@ void GalaxySystem::receiveEvent(const KeyboardEvent& event)
         entity->addComponent<SpiralGalaxyComponent>();
         entity->activate();
     }
+    */
 }
 
 void GalaxySystem::generateSpiralGalaxy(SpiralGalaxyComponent::Iterator galaxy)

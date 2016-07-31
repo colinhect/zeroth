@@ -7,6 +7,7 @@
 #include "ProxyGalaxySystem.h"
 
 #include "Components/SpiralGalaxyComponent.h"
+#include "Scenes/ZerothScene.h"
 
 using namespace zeroth;
 
@@ -19,7 +20,7 @@ ProxyGalaxySystem::ProxyGalaxySystem(Engine& engine, Scene& scene) :
 
 void ProxyGalaxySystem::onComponentAdded(ProxyGalaxyComponent::Iterator proxyGalaxy)
 {
-    Scene::Handle galaxyScene = _assetCache.getHandle<Scene>(baseGalaxyScene, _engine);
+    auto galaxyScene = _assetCache.getHandle<ZerothScene>(baseGalaxyScene, _engine);
 
     CameraSystem::Handle cameraSystem = galaxyScene->system<CameraSystem>();
     if (cameraSystem)

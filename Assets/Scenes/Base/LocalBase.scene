@@ -1,18 +1,6 @@
 ---
-sceneType: Scene
+sceneType: ZerothScene
 base: Base.scene
-componentTypes:
-  - ProxyGalaxyComponent
-  - CockpitCameraComponent
-  - PlayerShipControlComponent
-  - ShipComponent
-  - ThrusterComponent
-systemTypes:
-  - ProxyGalaxySystem
-  - PlayerInputSystem
-  - CockpitCameraSystem
-  - ShipControlSystem
-  - HudSystem
 systems:
   - systemType: PhysicsSystem
     gravity: [ 0, 0, 0 ]

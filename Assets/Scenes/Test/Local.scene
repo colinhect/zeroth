@@ -21,7 +21,7 @@ entities:
       - componentType: TransformComponent
         localPosition: [ 0, 50, 0 ]
       - componentType: BoundingBoxComponent
-      - componentType: ModelComponent
+      - componentType: MeshComponent
         surfaces:
           - mesh: Test/Cube.Main.mesh
             material: Test/MetalCrate.material

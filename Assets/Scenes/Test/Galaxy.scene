@@ -1,8 +1,6 @@
 ---
-sceneType: Scene
+sceneType: ZerothScene
 base: Scenes/Base/GalaxyBase.scene
-systemTypes:
-  - PlayerInputSystem
 entities:
   - base: Test/Observer.entity
     components:
@@ -12,7 +10,7 @@ entities:
       - componentType: TransformComponent
         localPosition: [ -26973, 9971, 684 ]
       - componentType: BoundingBoxComponent
-      - componentType: ModelComponent
+      - componentType: MeshComponent
         surfaces:
           - mesh: Test/Cube.Main.mesh
             material: Test/MetalCrate.material

@@ -8,11 +8,11 @@ include_directories(
     "${PROJECT_SOURCE_DIR}/../Source"
     "${PROJECT_SOURCE_DIR}/../../../Engine/Source"
     )
-    
+
 set(SOURCE_FILES
     "../Source/Main.cpp"
     )
-    
+
 source_group("Source" FILES
     "../Source/Main.cpp"
     )
@@ -23,7 +23,7 @@ target_link_libraries(ZerothExecutable Zeroth Hect)
 
 set_target_properties(ZerothExecutable PROPERTIES
     PROJECT_LABEL ZerothExecutable
-    OUTPUT_NAME Zeroth
+    OUTPUT_NAME PlayZeroth
     LINKER_LANGUAGE CXX
     FOLDER "/Projects/Zeroth"
     )
