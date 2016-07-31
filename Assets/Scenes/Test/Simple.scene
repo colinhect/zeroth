@@ -1,6 +1,6 @@
 ---
 sceneType: ZerothScene
-base: Scenes/Base/LocalBase.scene
+base: Scenes/Base/Base.scene
 entities:
   - name: Observer
     base: Test/Observer.entity

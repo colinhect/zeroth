@@ -14,14 +14,16 @@ components:
         material: Hect/Materials/OpaqueSolid.material
   - componentType: TransformComponent
 children:
-  - components:
+  - name: PrimaryEngine
+    components:
       - componentType: TransformComponent
         localPosition: [ 0, -8, 0 ]
       - componentType: ThrusterComponent
         type: PrimaryEngine
         direction: [ 0, 1, 0 ]
         power: 100000
-  - components:
+  - name: ReactionControl
+    components:
       - componentType: TransformComponent
         localPosition: [ 0, 8, 0 ]
       - componentType: ThrusterComponent
