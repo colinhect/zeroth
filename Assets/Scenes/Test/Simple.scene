@@ -1,0 +1,28 @@
+---
+sceneType: ZerothScene
+base: Scenes/Base/LocalBase.scene
+entities:
+  - name: Observer
+    base: Test/Observer.entity
+  - name: Light
+    components:
+    - componentType: DirectionalLightComponent
+      direction: [ 1, 0.1, 0.1 ]
+      color: [ 1.5, 1.5, 1.5 ]
+  - name: Indor
+    base: Ships/Indor.entity
+    components:
+      - componentType: TransformComponent
+        localPosition: [ 0, 100, 0 ]
+  - name: Cube
+    components:
+      - componentType: TransformComponent
+        localPosition: [ 0, 50, 0 ]
+      - componentType: BoundingBoxComponent
+      - componentType: MeshComponent
+        surfaces:
+          - mesh: Test/Cube.Main.mesh
+            material: Test/MetalCrate.material
+      - componentType: RigidBodyComponent
+        mass: 1
+        mesh: Test/Cube.Main.mesh

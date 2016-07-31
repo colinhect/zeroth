@@ -31,27 +31,32 @@
 using namespace zeroth;
 
 ZerothScene::ZerothScene(Engine& engine) :
-    DefaultScene(engine)
+    DefaultScene(engine),
+    _chaseCameraSystem(createSystem<ChaseCameraSystem>()),
+    _cockpitCameraSystem(createSystem<CockpitCameraSystem>()),
+    _galaxySystem(createSystem<GalaxySystem>()),
+    _hudSystem(createSystem<HudSystem>()),
+    _observerCameraSystem(createSystem<ObserverCameraSystem>()),
+    _planetSystem(createSystem<PlanetSystem>()),
+    _playerInputSystem(createSystem<PlayerInputSystem>()),
+    _proxyGalaxySystem(createSystem<ProxyGalaxySystem>()),
+    _shipControlSystem(createSystem<ShipControlSystem>())
 {
-    addComponentType<ChaseCameraComponent>();
-    addComponentType<CockpitCameraComponent>();
-    addComponentType<GalaxyNodeComponent>();
-    addComponentType<ObserverCameraComponent>();
-    addComponentType<PlanetComponent>();
-    addComponentType<PlanetPatchComponent>();
-    addComponentType<PlayerShipControlComponent>();
-    addComponentType<ProxyGalaxyComponent>();
-    addComponentType<ShipComponent>();
-    addComponentType<SpiralGalaxyComponent>();
-    addComponentType<ThrusterComponent>();
+}
 
-    addSystemType<ObserverCameraSystem>();
-    addSystemType<ProxyGalaxySystem>();
-    addSystemType<PlayerInputSystem>();
-    addSystemType<CockpitCameraSystem>();
-    addSystemType<ChaseCameraSystem>();
-    addSystemType<ShipControlSystem>();
-    addSystemType<HudSystem>();
-    addSystemType<GalaxySystem>();
-    addSystemType<PlanetSystem>();
+void ZerothScene::tick(double timeStep)
+{
+    DefaultScene::preTick(timeStep);
+
+    _observerCameraSystem->tick(timeStep);
+    _proxyGalaxySystem->tick(timeStep);
+    _playerInputSystem->tick(timeStep);
+    _cockpitCameraSystem->tick(timeStep);
+    _chaseCameraSystem->tick(timeStep);
+    _shipControlSystem->tick(timeStep);
+    _hudSystem->tick(timeStep);
+    _galaxySystem->tick(timeStep);
+    _planetSystem->tick(timeStep);
+
+    DefaultScene::postTick(timeStep);
 }
