@@ -18,7 +18,7 @@ namespace zeroth
 /// \system
 class ZEROTH_EXPORT PlayerInputSystem :
     public System<PlayerInputSystem>,
-    public Listener<KeyboardEvent>
+    public EventListener<KeyboardEvent>
 {
 public:
     PlayerInputSystem(Engine& engine, Scene& scene);

@@ -19,7 +19,7 @@ namespace zeroth
 /// \system
 class ZEROTH_EXPORT GalaxySystem :
     public System<GalaxySystem, Components<SpiralGalaxyComponent>>,
-            public Listener<KeyboardEvent>
+            public EventListener<KeyboardEvent>
 {
 public:
     GalaxySystem(Engine& engine, Scene& scene);

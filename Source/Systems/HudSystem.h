@@ -17,8 +17,8 @@ namespace zeroth
 /// \system
 class ZEROTH_EXPORT HudSystem :
     public System<HudSystem>,
-    public Listener<KeyboardEvent>,
-    public Listener<LogMessageEvent>
+    public EventListener<KeyboardEvent>,
+    public EventListener<LogMessageEvent>
 {
 public:
     HudSystem(Engine& engine, Scene& scene);

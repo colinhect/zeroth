@@ -17,8 +17,8 @@ namespace zeroth
 /// \system
 class ZEROTH_EXPORT ObserverCameraSystem :
     public System<ObserverCameraSystem>,
-    public Listener<KeyboardEvent>,
-    public Listener<MouseEvent>
+    public EventListener<KeyboardEvent>,
+    public EventListener<MouseEvent>
 {
 public:
     ObserverCameraSystem(Engine& engine, Scene& scene);
