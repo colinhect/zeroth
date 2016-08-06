@@ -66,10 +66,8 @@ void ShipControlSystem::controlShip(Entity& ship, Vector3 directionalThrust, Vec
     }
 }
 
-void ShipControlSystem::debugTick(double timeStep)
+void ShipControlSystem::renderDebugGeometry()
 {
-    (void)timeStep;
-
     if (_debugSystem)
     {
         for (const ThrusterComponent& thruster : scene().components<ThrusterComponent>())

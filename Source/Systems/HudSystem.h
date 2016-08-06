@@ -23,12 +23,16 @@ class ZEROTH_EXPORT HudSystem :
 public:
     HudSystem(Engine& engine, Scene& scene);
 
+    void updateWidgets();
+
+private:
+    // System overrides
     void initialize() override;
-    void tick(double timeStep);
+
+    // EventListener overrides
     void receiveEvent(const KeyboardEvent& event) override;
     void receiveEvent(const LogMessageEvent& event) override;
 
-private:
     AssetCache& _assetCache;
     Window& _window;
     Keyboard& _keyboard;

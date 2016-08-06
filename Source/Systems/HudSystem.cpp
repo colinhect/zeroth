@@ -19,19 +19,8 @@ HudSystem::HudSystem(Engine& engine, Scene& scene) :
     registerLogListener(*this);
 }
 
-void HudSystem::initialize()
+void HudSystem::updateWidgets()
 {
-    if (_interfaceSystem)
-    {
-        _interface = _interfaceSystem->createInterface(_window);
-        _cameraPositionLabel = _interface->createChild<Label>();
-    }
-}
-
-void HudSystem::tick(double timeStep)
-{
-    (void)timeStep;
-
     CameraSystem::Handle cameraSystem = scene().system<CameraSystem>();
     if (cameraSystem)
     {
@@ -45,6 +34,15 @@ void HudSystem::tick(double timeStep)
                 _cameraPositionLabel->setText(format("%f %f %f", position.x, position.y, position.z));
             }
         }
+    }
+}
+
+void HudSystem::initialize()
+{
+    if (_interfaceSystem)
+    {
+        _interface = _interfaceSystem->createInterface(_window);
+        _cameraPositionLabel = _interface->createChild<Label>();
     }
 }
 

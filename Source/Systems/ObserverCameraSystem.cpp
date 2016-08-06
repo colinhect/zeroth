@@ -12,27 +12,17 @@ using namespace zeroth;
 
 ObserverCameraSystem::ObserverCameraSystem(Engine& engine, Scene& scene) :
     System(engine, scene),
+    _keyboard(engine.keyboard()),
     _mouse(engine.mouse()),
     _cameraSystem(scene.system<CameraSystem>()),
     _transformSystem(scene.system<TransformSystem>()),
     _inputSystem(scene.system<InputSystem>())
 {
-    Keyboard& keyboard = engine.keyboard();
-    keyboard.registerListener(*this);
-
-    Mouse& mouse = engine.mouse();
-    mouse.registerListener(*this);
+    _keyboard.registerListener(*this);
+    _mouse.registerListener(*this);
 }
 
-void ObserverCameraSystem::initialize()
-{
-    if (!observerArchetype.empty())
-    {
-        _observerArchetype = scene().loadEntity(observerArchetype);
-    }
-}
-
-void ObserverCameraSystem::tick(double timeStep)
+void ObserverCameraSystem::tickObservers(double timeStep)
 {
     if (_inputSystem && _transformSystem && _mouse.mode() == MouseMode::Relative)
     {
@@ -59,6 +49,14 @@ void ObserverCameraSystem::tick(double timeStep)
                 _transformSystem->commitTransform(*transform);
             }
         }
+    }
+}
+
+void ObserverCameraSystem::initialize()
+{
+    if (!observerArchetype.empty())
+    {
+        _observerArchetype = scene().loadEntity(observerArchetype);
     }
 }
 

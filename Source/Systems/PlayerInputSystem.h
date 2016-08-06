@@ -23,17 +23,18 @@ class ZEROTH_EXPORT PlayerInputSystem :
 public:
     PlayerInputSystem(Engine& engine, Scene& scene);
 
-    void tick(double timeStep);
-
-    // EventListener<KeyboardEvent> overrides
-    void receiveEvent(const KeyboardEvent& event) override;
+    void handlePlayerInput(double timeStep);
 
 private:
+    void controlPlayerShips(double timeStep);
+    void adjustCameraExposure(double timeStep);
     void swapMouseMode();
     void toggleDebugInterface();
     void parseKeyboardShortcut(const KeyboardEvent& event);
-
     void deactivateScene();
+
+    // EventListener overrides
+    void receiveEvent(const KeyboardEvent& event) override;
 
     Keyboard& _keyboard;
     Mouse& _mouse;

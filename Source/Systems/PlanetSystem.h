@@ -23,13 +23,10 @@ class ZEROTH_EXPORT PlanetSystem :
 public:
     PlanetSystem(Engine& engine, Scene& scene);
 
-    void initialize() override;
-    void tick(double timeStep);
-    void onComponentAdded(PlanetComponent::Iterator planet) override;
-
-    void adapt(Vector3 cameraPosition, Entity::Iterator entity);
+    void adaptPlanets();
 
 private:
+    void adapt(Entity::Iterator entity, Vector3 cameraPosition);
 
     void split(PlanetPatchComponent::Iterator patch);
     void join(PlanetPatchComponent::Iterator patch);
@@ -40,6 +37,9 @@ private:
     Entity::Iterator createRootPatch(PlanetComponent::Iterator planet, CubeSide cubeSide);
 
     Mesh::Handle buildPatchMesh(PlanetComponent::Iterator planet, PlanetPatchComponent::Iterator patch, Vector3 localPosition, Vector3 parentGlobalPosition);
+
+    // System overrides
+    void onComponentAdded(PlanetComponent::Iterator planet) override;
 
     static Vector3 morphPointToSphere(Vector3 point, Vector3 localPosition, double radius);
     static Vector3 projectUnitCubeToSphere(Vector3 point);

@@ -23,16 +23,20 @@ class ZEROTH_EXPORT ObserverCameraSystem :
 public:
     ObserverCameraSystem(Engine& engine, Scene& scene);
 
-    void initialize() override;
-    void tick(double timeStep);
-
-    void receiveEvent(const KeyboardEvent& event) override;
-    void receiveEvent(const MouseEvent& event) override;
+    void tickObservers(double timeStep);
 
     /// \property{required}
     Path observerArchetype;
 
 private:
+    // Scene overrides
+    void initialize() override;
+
+    // EventListener overrides
+    void receiveEvent(const KeyboardEvent& event) override;
+    void receiveEvent(const MouseEvent& event) override;
+
+    Keyboard& _keyboard;
     Mouse& _mouse;
 
     CameraSystem::Handle _cameraSystem;

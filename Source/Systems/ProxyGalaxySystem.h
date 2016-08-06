@@ -22,12 +22,11 @@ class ZEROTH_EXPORT ProxyGalaxySystem :
 public:
     ProxyGalaxySystem(Engine& engine, Scene& scene);
 
-    void onComponentAdded(ProxyGalaxyComponent::Iterator proxyGalaxy) override;
-
     /// \property
     Path baseGalaxyScene;
 
 private:
+    void onComponentAdded(ProxyGalaxyComponent::Iterator proxyGalaxy) override;
     unsigned computeSkyBoxResolution();
 
     Engine& _engine;

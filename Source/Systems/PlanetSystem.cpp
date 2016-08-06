@@ -17,33 +17,20 @@ PlanetSystem::PlanetSystem(Engine& engine, Scene& scene) :
 {
 }
 
-void PlanetSystem::initialize()
+void PlanetSystem::adaptPlanets()
 {
-}
-
-void PlanetSystem::tick(double timeStep)
-{
-    (void)timeStep;
-
     if (_cameraSystem && _planet)
     {
         CameraComponent::Iterator activeCamera = _cameraSystem->activeCamera();
         if (activeCamera)
         {
             Vector3 cameraPosition = activeCamera->position;
-
-            // Adapt planets
-            adapt(cameraPosition, _planet->entity());
+            adapt(_planet->entity(), cameraPosition);
         }
     }
 }
 
-void PlanetSystem::onComponentAdded(PlanetComponent::Iterator planet)
-{
-    createPlanet(planet);
-}
-
-void PlanetSystem::adapt(Vector3 cameraPosition, Entity::Iterator entity)
+void PlanetSystem::adapt(Entity::Iterator entity, Vector3 cameraPosition)
 {
     PlanetPatchComponent::Iterator patch = entity->component<PlanetPatchComponent>();
     if (patch)
@@ -70,7 +57,7 @@ void PlanetSystem::adapt(Vector3 cameraPosition, Entity::Iterator entity)
                 {
                     for (Entity& child : entity->children())
                     {
-                        adapt(cameraPosition, child.iterator());
+                        adapt(child.iterator(), cameraPosition);
                     }
                 }
             }
@@ -80,7 +67,7 @@ void PlanetSystem::adapt(Vector3 cameraPosition, Entity::Iterator entity)
     {
         for (Entity& child : entity->children())
         {
-            adapt(cameraPosition, child.iterator());
+            adapt(child.iterator(), cameraPosition);
         }
     }
 }
@@ -275,6 +262,11 @@ Mesh::Handle PlanetSystem::buildPatchMesh(PlanetComponent::Iterator planet, Plan
     }
 
     return mesh;
+}
+
+void PlanetSystem::onComponentAdded(PlanetComponent::Iterator planet)
+{
+    createPlanet(planet);
 }
 
 Vector3 PlanetSystem::morphPointToSphere(Vector3 point, Vector3 localPosition, double radius)

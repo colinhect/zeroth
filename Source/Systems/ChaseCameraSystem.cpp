@@ -6,16 +6,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ChaseCameraSystem.h"
 
-#include "Components/ChaseCameraComponent.h"
-
 using namespace zeroth;
 
 ChaseCameraSystem::ChaseCameraSystem(Engine& engine, Scene& scene) :
     System(engine, scene)
 {
-}
-
-void ChaseCameraSystem::tick(double timeStep)
-{
-    (void)timeStep;
 }

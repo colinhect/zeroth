@@ -18,16 +18,12 @@ namespace zeroth
 
 /// \system
 class ZEROTH_EXPORT GalaxySystem :
-    public System<GalaxySystem, Components<SpiralGalaxyComponent>>,
-            public EventListener<KeyboardEvent>
+    public System<GalaxySystem, Components<SpiralGalaxyComponent>>
 {
 public:
     GalaxySystem(Engine& engine, Scene& scene);
 
-    void initialize() override;
-    void tick(double timeStep);
-    void onComponentAdded(SpiralGalaxyComponent::Iterator spiralGalaxy) override;
-    void receiveEvent(const KeyboardEvent& event) override;
+    void adaptGalaxyNodes();
 
     /// \property{required}
     Material::Handle starMaterial;
@@ -76,16 +72,16 @@ private:
     void generateParticleTexture(SpiralGalaxyComponent::Iterator galaxy);
     void sampleTopology(SpiralGalaxyComponent::Iterator galaxy, BoundingBoxComponent::Iterator boundingBox, Vector3 position, Color& color, double& thickness);
     void generateStars(GalaxyNodeComponent::Iterator galaxyNode, SpiralGalaxyComponent::Iterator galaxy, BoundingBoxComponent::Iterator boundingBox, MeshComponent::Iterator mesh);
-
     Entity::Iterator createGalaxyNode(SpiralGalaxyComponent::Iterator galaxy, Vector3 size, Vector3 localPosition, Vector3 parentGlobalPosition, bool rootNode);
     void adaptGalaxyNode(Vector3 cameraPosition, Entity::Iterator entity);
     void splitGalaxyNode(Entity::Iterator entity);
     void joinGalaxyNode(Entity::Iterator entity);
-
     double createSeedUniformValue(RandomSeed seed) const;
 
-    Renderer& _renderer;
+    // System overrides
+    void onComponentAdded(SpiralGalaxyComponent::Iterator spiralGalaxy) override;
 
+    Renderer& _renderer;
     CameraSystem::Handle _cameraSystem;
 };
 

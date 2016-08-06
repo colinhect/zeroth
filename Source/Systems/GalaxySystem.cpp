@@ -13,17 +13,10 @@ GalaxySystem::GalaxySystem(Engine& engine, Scene& scene) :
     _renderer(engine.renderer()),
     _cameraSystem(scene.system<CameraSystem>())
 {
-    engine.keyboard().registerListener(*this);
 }
 
-void GalaxySystem::initialize()
+void GalaxySystem::adaptGalaxyNodes()
 {
-}
-
-void GalaxySystem::tick(double timeStep)
-{
-    (void)timeStep;
-
     if (_cameraSystem)
     {
         // If there is an active camera
@@ -45,34 +38,6 @@ void GalaxySystem::tick(double timeStep)
             }
         }
     }
-}
-
-void GalaxySystem::onComponentAdded(SpiralGalaxyComponent::Iterator spiralGalaxy)
-{
-    generateSpiralGalaxy(spiralGalaxy);
-}
-
-void GalaxySystem::receiveEvent(const KeyboardEvent& event)
-{
-    /*
-    if (event.key == Key::F5 && event.type == KeyboardEventType::KeyDown)
-    {
-        // Destroy all galaxies
-        for (SpiralGalaxyComponent& galaxy : scene().components<SpiralGalaxyComponent>())
-        {
-            Entity::Iterator entity = galaxy.entity();
-            if (!entity->isPendingDestruction())
-            {
-                entity->destroy();
-            }
-        }
-
-        // Create a new one
-        Entity::Iterator entity = scene().createEntity("Galaxy");
-        entity->addComponent<SpiralGalaxyComponent>();
-        entity->activate();
-    }
-    */
 }
 
 void GalaxySystem::generateSpiralGalaxy(SpiralGalaxyComponent::Iterator galaxy)
@@ -456,4 +421,9 @@ void GalaxySystem::splitGalaxyNode(Entity::Iterator entity)
 double GalaxySystem::createSeedUniformValue(RandomSeed seed) const
 {
     return Random(seed).next(-100000.0, 100000.0);
+}
+
+void GalaxySystem::onComponentAdded(SpiralGalaxyComponent::Iterator spiralGalaxy)
+{
+    generateSpiralGalaxy(spiralGalaxy);
 }

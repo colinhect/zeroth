@@ -20,8 +20,6 @@ class ZEROTH_EXPORT ChaseCameraSystem :
 {
 public:
     ChaseCameraSystem(Engine& engine, Scene& scene);
-
-    void tick(double timeStep);
 };
 
 }
