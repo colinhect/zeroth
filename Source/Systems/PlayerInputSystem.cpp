@@ -108,22 +108,6 @@ void PlayerInputSystem::toggleDebugInterface()
     }
 }
 
-void PlayerInputSystem::toggleDebugRendering()
-{
-    SystemRegistry::SystemTypeIdSequence typeIds = SystemRegistry::typeIds();
-
-    for (SystemTypeId typeId : typeIds)
-    {
-        if (scene().hasSystemOfTypeId(typeId))
-        {
-            SystemBase& system = scene().systemOfTypeId(typeId);
-
-            bool enabled = system.isDebugEnabled();
-            system.setDebugEnabled(!enabled);
-        }
-    }
-}
-
 void PlayerInputSystem::parseKeyboardShortcut(const KeyboardEvent& event)
 {
     if (event.type != KeyboardEventType::KeyDown)
@@ -134,7 +118,6 @@ void PlayerInputSystem::parseKeyboardShortcut(const KeyboardEvent& event)
     switch (event.key)
     {
     case Key::F5:
-        toggleDebugRendering();
         break;
     }
 }

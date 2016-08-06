@@ -50,7 +50,7 @@ void ShipControlSystem::controlShip(Entity& ship, Vector3 directionalThrust, Vec
                 ship.forDescendants([&](Entity& entity)
                 {
                     ThrusterComponent::ConstIterator thruster = entity.component<ThrusterComponent>();
-                    if (thruster && thruster->type == ThrusterType::PrimaryEngine)
+                    if (thruster)
                     {
                         TransformComponent::Iterator thrusterTransform = entity.component<TransformComponent>();
                         if (thrusterTransform)
@@ -81,18 +81,7 @@ void ShipControlSystem::debugTick(double timeStep)
                 Vector3 origin = transform->globalPosition;
                 Vector3 direction = transform->globalRotation * thruster.direction;
 
-                Color color;
-                switch (thruster.type)
-                {
-                case ThrusterType::PrimaryEngine:
-                    color = Color::Red;
-                    break;
-                case ThrusterType::ReactionControl:
-                    color = Color::Green;
-                    break;
-                }
-
-                _debugSystem->renderLine(color, origin, origin + direction);
+                _debugSystem->renderLine(Color::Red, origin, origin + direction);
             }
         }
     }

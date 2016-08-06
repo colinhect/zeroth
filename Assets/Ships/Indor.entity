@@ -19,13 +19,5 @@ children:
       - componentType: TransformComponent
         localPosition: [ 0, -8, 0 ]
       - componentType: ThrusterComponent
-        type: PrimaryEngine
         direction: [ 0, 1, 0 ]
         power: 100000
-  - name: ReactionControl
-    components:
-      - componentType: TransformComponent
-        localPosition: [ 0, 8, 0 ]
-      - componentType: ThrusterComponent
-        type: ReactionControl
-        direction: [ 0, 0, 1 ]

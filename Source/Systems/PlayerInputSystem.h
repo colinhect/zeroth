@@ -24,12 +24,13 @@ public:
     PlayerInputSystem(Engine& engine, Scene& scene);
 
     void tick(double timeStep);
+
+    // EventListener<KeyboardEvent> overrides
     void receiveEvent(const KeyboardEvent& event) override;
 
 private:
     void swapMouseMode();
     void toggleDebugInterface();
-    void toggleDebugRendering();
     void parseKeyboardShortcut(const KeyboardEvent& event);
 
     void deactivateScene();
@@ -41,6 +42,9 @@ private:
     DebugSystem::Handle _debugSystem;
     InputSystem::Handle _inputSystem;
     ShipControlSystem::Handle _shipControlSystem;
+
+    Vector3 _angularInput;
+    Vector3 _thrustInput;
 };
 
 }
