@@ -28,39 +28,45 @@ void ShipControlSystem::controlShip(Entity& ship, Vector3 directionalThrust, Vec
             RigidBodyComponent::Iterator shipRigidBody = ship.component<RigidBodyComponent>();
             if (shipRigidBody)
             {
-                Vector3 angularVelocity = shipRigidBody->angularVelocity;
-                Vector3 linearVelocity = shipRigidBody->linearVelocity;
-
-                // Apply friction to angular velocity
-                angularVelocity = angularVelocity - angularVelocity * timeStep * 1.0;
-
-                // Compute angular velocity delta based on control amount
-                Vector3 angularDelta = shipTransform->globalRotation * angularThrust;
-                angularDelta *= timeStep * 2.0;
-
-                // Apply fiction to linear velocity
-                linearVelocity = linearVelocity - linearVelocity * timeStep * 0.5;
-
-                // Update the rigidy body based on new linear and angular velocities
-                shipRigidBody->angularVelocity = angularVelocity + angularDelta;
-                shipRigidBody->linearVelocity = linearVelocity;
-                _physicsSystem->commitRigidBody(*shipRigidBody);
-
-                // Apply force from primary engine thrusters
-                ship.forDescendants([&](Entity& entity)
+                if (angularThrust != Vector3::Zero)
                 {
-                    ThrusterComponent::ConstIterator thruster = entity.component<ThrusterComponent>();
-                    if (thruster)
+                    Vector3 angularVelocity = shipRigidBody->angularVelocity;
+                    Vector3 linearVelocity = shipRigidBody->linearVelocity;
+
+                    // Apply friction to angular velocity
+                    angularVelocity = angularVelocity - angularVelocity * timeStep * 1.0;
+
+                    // Compute angular velocity delta based on control amount
+                    Vector3 angularDelta = shipTransform->globalRotation * angularThrust;
+                    angularDelta *= timeStep * 2.0;
+
+                    // Apply fiction to linear velocity
+                    linearVelocity = linearVelocity - linearVelocity * timeStep * 0.5;
+
+                    // Update the rigidy body based on new linear and angular velocities
+                    shipRigidBody->angularVelocity = angularVelocity + angularDelta;
+                    shipRigidBody->linearVelocity = linearVelocity;
+                    _physicsSystem->commitRigidBody(*shipRigidBody);
+                }
+
+                if (directionalThrust != Vector3::Zero)
+                {
+                    // Apply force from primary engine thrusters
+                    ship.forDescendants([&](Entity& entity)
                     {
-                        TransformComponent::Iterator thrusterTransform = entity.component<TransformComponent>();
-                        if (thrusterTransform)
+                        ThrusterComponent::ConstIterator thruster = entity.component<ThrusterComponent>();
+                        if (thruster)
                         {
-                            const Vector3 relativePosition = shipTransform->globalRotation * thrusterTransform->localPosition;
-                            const Vector3 thrustVector = shipTransform->globalRotation * directionalThrust * thruster->power * timeStep;
-                            _physicsSystem->applyForceToRigidBody(*shipRigidBody, thrustVector, relativePosition);
+                            TransformComponent::Iterator thrusterTransform = entity.component<TransformComponent>();
+                            if (thrusterTransform)
+                            {
+                                const Vector3 relativePosition = shipTransform->globalRotation * thrusterTransform->localPosition;
+                                const Vector3 thrustVector = shipTransform->globalRotation * directionalThrust * thruster->power * timeStep;
+                                _physicsSystem->applyForceToRigidBody(*shipRigidBody, thrustVector, relativePosition);
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         }
     }
