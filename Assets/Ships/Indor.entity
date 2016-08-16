@@ -1,4 +1,5 @@
 ---
+name: Indor
 components:
   - componentType: RigidBodyComponent
     mass: 100
