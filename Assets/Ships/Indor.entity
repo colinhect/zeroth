@@ -13,6 +13,10 @@ components:
         material: Ships/Indor.Hull.material
       - mesh: Indor.Seat.mesh
         material: Hect/Materials/OpaqueSolid.material
+      - mesh: Indor.Screen.mesh
+        material: Hect/Materials/OpaqueSolid.material
+      - mesh: Indor.ScreenFrame.mesh
+        material: Hect/Materials/OpaqueSolid.material
   - componentType: TransformComponent
 children:
   - name: PrimaryEngine
