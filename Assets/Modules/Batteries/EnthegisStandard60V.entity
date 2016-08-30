@@ -1,0 +1,7 @@
+---
+name: Enthegis Standard 60V Battery
+components:
+  - componentType: BatteryComponent
+    electricPotential: 60
+    maximumEnergy: 48
+    energy: 48

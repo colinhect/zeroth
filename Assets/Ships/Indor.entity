@@ -19,10 +19,16 @@ components:
         material: Hect/Materials/OpaqueSolid.material
   - componentType: TransformComponent
 children:
-  - name: PrimaryEngine
+  - name: Primary Engine
     components:
       - componentType: TransformComponent
         localPosition: [ 0, -8, 0 ]
       - componentType: ThrusterComponent
         direction: [ 0, 1, 0 ]
         power: 100000
+  - name: Battery Slot
+    components:
+      - componentType: BatterySlotComponent
+        bBattery: Modules/Batteries/EnthegisStandard60V.entity
+      - componentType: TransformComponent
+        localPosition: [ 0, 0, 0 ]

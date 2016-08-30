@@ -13,6 +13,8 @@ include_directories(
 
 set(SOURCE_FILES
     "Source/Export.h"
+    "Source/Components/BatteryComponent.h"
+    "Source/Components/BatterySlotComponent.h"
     "Source/Components/ChaseCameraComponent.h"
     "Source/Components/CockpitCameraComponent.h"
     "Source/Components/GalaxyNodeComponent.h"
@@ -51,6 +53,8 @@ source_group("Source" FILES
     )
 
 source_group("Source\\Components" FILES
+    "Source/Components/BatteryComponent.h"
+    "Source/Components/BatterySlotComponent.h"
     "Source/Components/ChaseCameraComponent.h"
     "Source/Components/CockpitCameraComponent.h"
     "Source/Components/GalaxyNodeComponent.h"
