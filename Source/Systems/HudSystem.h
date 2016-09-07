@@ -40,7 +40,7 @@ private:
 
     InterfaceSystem::Handle _interfaceSystem;
     Interface::Handle _interface;
-    Label::Handle _cameraPositionLabel;
+    LabelWidget::Handle _cameraPositionLabel;
 };
 
 }
