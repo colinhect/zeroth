@@ -15,9 +15,9 @@ systems:
     spiralDiameterRange: [ 50000, 150000 ]
     spiralThicknessRange: [ 6000, 20000 ]
     spiralParticleSizeRange: [ 7000, 15000 ]
-    minimumNodeRadius: 250
-    minimumNodeRadiusWithStars: 12000
-    maxStarsPerNode: 4500
+    minimumNodeRadius: 1200
+    minimumNodeRadiusWithStars: 32000
+    maxStarsPerNode: 9500
   - systemType: PhysicsSystem
     gravity: [ 0, 0, 0 ]
   - systemType: ProxyGalaxySystem

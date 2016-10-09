@@ -34,12 +34,9 @@ ZerothScene::ZerothScene(Engine& engine) :
     DefaultScene(engine),
     _chaseCameraSystem(createSystem<ChaseCameraSystem>()),
     _cockpitCameraSystem(createSystem<CockpitCameraSystem>()),
-    _galaxySystem(createSystem<GalaxySystem>()),
     _hudSystem(createSystem<HudSystem>()),
     _observerCameraSystem(createSystem<ObserverCameraSystem>()),
-    _planetSystem(createSystem<PlanetSystem>()),
     _playerInputSystem(createSystem<PlayerInputSystem>()),
-    _proxyGalaxySystem(createSystem<ProxyGalaxySystem>()),
     _shipControlSystem(createSystem<ShipControlSystem>())
 {
 }
@@ -50,8 +47,7 @@ void ZerothScene::tick(double timeStep)
 
     _playerInputSystem->handlePlayerInput(timeStep);
 
-    _galaxySystem->adaptGalaxyNodes();
-    _planetSystem->adaptPlanets();
+    _observerCameraSystem->tickObservers(timeStep);
 
     _hudSystem->updateWidgets();
 

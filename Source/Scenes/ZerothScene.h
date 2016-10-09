@@ -11,14 +11,14 @@ using namespace hect;
 
 #include "Export.h"
 
+#include "Scenes/GalacticScene.h"
+
 #include "Systems/ChaseCameraSystem.h"
 #include "Systems/CockpitCameraSystem.h"
-#include "Systems/GalaxySystem.h"
 #include "Systems/HudSystem.h"
 #include "Systems/ObserverCameraSystem.h"
 #include "Systems/PlanetSystem.h"
 #include "Systems/PlayerInputSystem.h"
-#include "Systems/ProxyGalaxySystem.h"
 #include "Systems/ShipControlSystem.h"
 
 namespace zeroth
@@ -33,15 +33,15 @@ public:
 
     virtual void tick(double timeStep) override;
 
+    /// \property{required}
+    GalacticScene::Handle galacticScene;
+
 private:
     ChaseCameraSystem::Handle _chaseCameraSystem;
     CockpitCameraSystem::Handle _cockpitCameraSystem;
-    GalaxySystem::Handle _galaxySystem;
     HudSystem::Handle _hudSystem;
     ObserverCameraSystem::Handle _observerCameraSystem;
-    PlanetSystem::Handle _planetSystem;
     PlayerInputSystem::Handle _playerInputSystem;
-    ProxyGalaxySystem::Handle _proxyGalaxySystem;
     ShipControlSystem::Handle _shipControlSystem;
 };
 

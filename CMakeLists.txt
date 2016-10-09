@@ -26,6 +26,12 @@ set(SOURCE_FILES
     "Source/Components/ShipComponent.h"
     "Source/Components/SpiralGalaxyComponent.h"
     "Source/Components/ThrusterComponent.h"
+    "Source/Scenes/CelestialScene.cpp"
+    "Source/Scenes/CelestialScene.h"
+    "Source/Scenes/GalacticScene.cpp"
+    "Source/Scenes/GalacticScene.h"
+    "Source/Scenes/SystemicScene.cpp"
+    "Source/Scenes/SystemicScene.h"
     "Source/Scenes/ZerothScene.cpp"
     "Source/Scenes/ZerothScene.h"
     "Source/Systems/ChaseCameraSystem.cpp"
@@ -69,6 +75,12 @@ source_group("Source\\Components" FILES
     )
 
 source_group("Source\\Scenes" FILES
+    "Source/Scenes/CelestialScene.cpp"
+    "Source/Scenes/CelestialScene.h"
+    "Source/Scenes/GalacticScene.cpp"
+    "Source/Scenes/GalacticScene.h"
+    "Source/Scenes/SystemicScene.cpp"
+    "Source/Scenes/SystemicScene.h"
     "Source/Scenes/ZerothScene.cpp"
     "Source/Scenes/ZerothScene.h"
     )
