@@ -39,11 +39,29 @@ ZerothScene::ZerothScene(Engine& engine) :
     _playerInputSystem(createSystem<PlayerInputSystem>()),
     _shipControlSystem(createSystem<ShipControlSystem>())
 {
+    PhysicsSystem::Handle physicsSystem = system<PhysicsSystem>();
+    if (physicsSystem)
+    {
+        physicsSystem->gravity = Vector3::Zero;
+    }
+
+    const DataValue& settings = engine.settings();
+    const DataValue& galacticSceneValue = settings["galacticScene"];
+    if (!galacticSceneValue.isNull())
+    {
+        AssetCache& assetCache = engine.assetCache();
+        _galacticScene = assetCache.getHandle<GalacticScene>(galacticSceneValue.asString(), engine);
+    }
 }
 
 void ZerothScene::tick(double timeStep)
 {
     DefaultScene::preTick(timeStep);
+
+    if (_galacticScene)
+    {
+        _galacticScene->tick(timeStep);
+    }
 
     _playerInputSystem->handlePlayerInput(timeStep);
 

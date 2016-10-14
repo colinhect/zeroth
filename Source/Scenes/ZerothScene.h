@@ -33,10 +33,10 @@ public:
 
     virtual void tick(double timeStep) override;
 
-    /// \property{required}
-    GalacticScene::Handle galacticScene;
-
 private:
+    // Make Scene a CRTP type
+    AssetHandle<GalacticScene> _galacticScene;
+
     ChaseCameraSystem::Handle _chaseCameraSystem;
     CockpitCameraSystem::Handle _cockpitCameraSystem;
     HudSystem::Handle _hudSystem;

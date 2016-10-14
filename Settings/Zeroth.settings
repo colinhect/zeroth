@@ -14,6 +14,7 @@ assetCache:
     concurrent: false
 logging:
     levels: [ Info, Error, Warning ]
-scene: Scenes/Test/Galaxy.scene
+scene: Scenes/Master.scene
+galacticScene: Scenes/Test/Galaxy.scene
 include:
   - Zeroth.InputAxes.SaitekX52.settings

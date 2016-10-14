@@ -1,0 +1,12 @@
+---
+sceneType: ZerothScene
+base: Hect/Scenes/Default.scene
+systems:
+  - systemType: ObserverCameraSystem
+    observerArchetype: Test/Observer.entity
+entities:
+  - name: Observer
+    base: Test/Observer.entity
+    components:
+      - componentType: TransformComponent
+        localPosition: [ 0, 0, 0 ]
