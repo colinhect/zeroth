@@ -13,8 +13,8 @@ taskPool:
 assetCache:
     concurrent: false
 logging:
-    levels: [ Info, Error, Warning ]
+    levels: [ Info, Error, Warning, Debug, Trace ]
 scene: Scenes/Master.scene
-galacticScene: Scenes/Test/Galaxy.scene
+galacticScene: Scenes/BaseGalactic.scene
 include:
   - Zeroth.InputAxes.SaitekX52.settings

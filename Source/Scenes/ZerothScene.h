@@ -31,11 +31,15 @@ class ZEROTH_EXPORT ZerothScene :
 public:
     ZerothScene(Engine& engine);
 
+    // Scene overrides
     virtual void tick(double timeStep) override;
+    virtual void render(RenderTarget& target) override;
 
 private:
-    // Make Scene a CRTP type
     AssetHandle<GalacticScene> _galacticScene;
+
+    RenderSystem::Handle _renderSystem;
+    CameraSystem::Handle _cameraSystem;
 
     ChaseCameraSystem::Handle _chaseCameraSystem;
     CockpitCameraSystem::Handle _cockpitCameraSystem;

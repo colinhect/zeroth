@@ -32,6 +32,8 @@ using namespace zeroth;
 
 ZerothScene::ZerothScene(Engine& engine) :
     DefaultScene(engine),
+    _renderSystem(system<RenderSystem>()),
+    _cameraSystem(system<CameraSystem>()),
     _chaseCameraSystem(createSystem<ChaseCameraSystem>()),
     _cockpitCameraSystem(createSystem<CockpitCameraSystem>()),
     _hudSystem(createSystem<HudSystem>()),
@@ -61,6 +63,15 @@ void ZerothScene::tick(double timeStep)
     if (_galacticScene)
     {
         _galacticScene->tick(timeStep);
+
+        if (_cameraSystem)
+        {
+            CameraComponent::Iterator camera = _cameraSystem->activeCamera();
+            if (camera)
+            {
+                _galacticScene->updateCamera(*camera);
+            }
+        }
     }
 
     _playerInputSystem->handlePlayerInput(timeStep);
@@ -70,4 +81,12 @@ void ZerothScene::tick(double timeStep)
     _hudSystem->updateWidgets();
 
     DefaultScene::postTick(timeStep);
+}
+
+void ZerothScene::render(RenderTarget& target)
+{
+    if (_galacticScene && _renderSystem)
+    {
+        _renderSystem->render(*_galacticScene, target);
+    }
 }

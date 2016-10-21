@@ -52,7 +52,7 @@ void ProxyGalaxySystem::onComponentAdded(ProxyGalaxyComponent::Iterator proxyGal
             {
                 unsigned skyBoxResolution = computeSkyBoxResolution();
                 TextureCube::Handle texture(new TextureCube("ProxyGalaxySkyBox", skyBoxResolution, skyBoxResolution, PixelFormat::Rgb16));
-                renderSystem->renderToTextureCube(proxyGalaxy->position, *texture);
+                renderSystem->renderToTextureCube(scene(), proxyGalaxy->position, *texture);
 
                 // Create a sky box
                 Entity::Iterator skyBoxEntity = scene().createEntity();

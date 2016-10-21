@@ -12,10 +12,14 @@ using namespace zeroth;
 
 GalacticScene::GalacticScene(Engine& engine) :
     Scene(engine),
+    _boundingBoxSystem(createSystem<BoundingBoxSystem>()),
+    _cameraSystem(createSystem<CameraSystem>()),
+    _transformSystem(createSystem<TransformSystem>()),
     _galaxySystem(createSystem<GalaxySystem>()),
     _galacticCameraEntity(createEntity("GalacticCamera")->createHandle())
 {
     _galacticCameraComponent = _galacticCameraEntity->addComponent<CameraComponent>();
+    _galacticCameraEntity->activate();
 }
 
 void GalacticScene::updateCamera(const CameraComponent& camera)
