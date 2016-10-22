@@ -24,11 +24,6 @@ public:
     void controlShip(Entity& ship, Vector3 directionalThrust, Vector3 angularThrust, double timeStep);
 
     void renderDebugGeometry();
-
-private:
-    DebugSystem::Handle _debugSystem;
-    TransformSystem::Handle _transformSystem;
-    PhysicsSystem::Handle _physicsSystem;
 };
 
 }

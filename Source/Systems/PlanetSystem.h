@@ -49,10 +49,6 @@ private:
 
     AssetCache& _assetCache;
 
-    BoundingBoxSystem::Handle _boundingBoxSystem;
-    CameraSystem::Handle _cameraSystem;
-    TransformSystem::Handle _transformSystem;
-
     PlanetComponent::Iterator _planet;
 };
 

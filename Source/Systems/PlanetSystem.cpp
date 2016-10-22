@@ -10,18 +10,16 @@ using namespace zeroth;
 
 PlanetSystem::PlanetSystem(Engine& engine, Scene& scene) :
     System(engine, scene),
-    _assetCache(engine.assetCache()),
-    _boundingBoxSystem(scene.system<BoundingBoxSystem>()),
-    _cameraSystem(scene.system<CameraSystem>()),
-    _transformSystem(scene.system<TransformSystem>())
+    _assetCache(engine.assetCache())
 {
 }
 
 void PlanetSystem::adaptPlanets()
 {
-    if (_cameraSystem && _planet)
+    if (_planet)
     {
-        CameraComponent::Iterator activeCamera = _cameraSystem->activeCamera();
+        auto& cameraSystem = scene().system<CameraSystem>();
+        CameraComponent::Iterator activeCamera = cameraSystem.activeCamera();
         if (activeCamera)
         {
             Vector3 cameraPosition = activeCamera->position;

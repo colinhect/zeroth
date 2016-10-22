@@ -39,11 +39,6 @@ private:
     Keyboard& _keyboard;
     Mouse& _mouse;
 
-    CameraSystem::Handle _cameraSystem;
-    DebugSystem::Handle _debugSystem;
-    InputSystem::Handle _inputSystem;
-    ShipControlSystem::Handle _shipControlSystem;
-
     Vector3 _angularInput;
     Vector3 _thrustInput;
 };

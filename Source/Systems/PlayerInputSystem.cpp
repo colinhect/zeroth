@@ -14,11 +14,7 @@ using namespace zeroth;
 PlayerInputSystem::PlayerInputSystem(Engine& engine, Scene& scene) :
     System(engine, scene),
     _keyboard(engine.keyboard()),
-    _mouse(engine.mouse()),
-    _cameraSystem(scene.system<CameraSystem>()),
-    _debugSystem(scene.system<DebugSystem>()),
-    _inputSystem(scene.system<InputSystem>()),
-    _shipControlSystem(scene.system<ShipControlSystem>())
+    _mouse(engine.mouse())
 {
     _keyboard.registerListener(*this);
     _mouse.setMode(MouseMode::Relative);
@@ -32,42 +28,41 @@ void PlayerInputSystem::handlePlayerInput(double timeStep)
 
 void PlayerInputSystem::controlPlayerShips(double timeStep)
 {
-    if (_inputSystem && _shipControlSystem)
+    auto& inputSystem = scene().system<InputSystem>();
+
+    // Get the angular thrust from input
+    Vector3 angularThrust;
+    angularThrust.x = inputSystem.axisValue("pitch");
+    angularThrust.y = inputSystem.axisValue("roll");
+    angularThrust.z = inputSystem.axisValue("yaw");
+
+    // Get the directional thrust from input
+    Vector3 directionalThrust;
+    directionalThrust.x = inputSystem.axisValue("thrustX");
+    directionalThrust.y = inputSystem.axisValue("thrustY");
+    directionalThrust.z = inputSystem.axisValue("thrustZ");
+
+    ShipControlSystem& shipControlSystem = scene().system<ShipControlSystem>();
+    for (PlayerShipControlComponent& playerShipControl : scene().components<PlayerShipControlComponent>())
     {
-        // Get the angular thrust from input
-        Vector3 angularThrust;
-        angularThrust.x = _inputSystem->axisValue("pitch");
-        angularThrust.y = _inputSystem->axisValue("roll");
-        angularThrust.z = _inputSystem->axisValue("yaw");
-
-        // Get the directional thrust from input
-        Vector3 directionalThrust;
-        directionalThrust.x = _inputSystem->axisValue("thrustX");
-        directionalThrust.y = _inputSystem->axisValue("thrustY");
-        directionalThrust.z = _inputSystem->axisValue("thrustZ");
-
-        for (PlayerShipControlComponent& playerShipControl : scene().components<PlayerShipControlComponent>())
-        {
-            Entity::Iterator entity = playerShipControl.entity();
-            _shipControlSystem->controlShip(*entity, directionalThrust, angularThrust, timeStep);
-        }
+        Entity::Iterator entity = playerShipControl.entity();
+        shipControlSystem.controlShip(*entity, directionalThrust, angularThrust, timeStep);
     }
 }
 
 void PlayerInputSystem::adjustCameraExposure(double timeStep)
 {
-    if (_cameraSystem)
+    // Adjust the exposure of the active camera
+    auto& cameraSystem = scene().system<CameraSystem>();
+    CameraComponent::Iterator camera = cameraSystem.activeCamera();
+    if (camera)
     {
-        // Adjust the exposure of the active camera
-        CameraComponent::Iterator camera = _cameraSystem->activeCamera();
-        if (camera)
+        auto& inputSystem = scene().system<InputSystem>();
+        double exposure = inputSystem.axisValue("exposure");
+        if (exposure != 0.0)
         {
-            double exposure = _inputSystem->axisValue("exposure");
-            if (exposure != 0.0)
-            {
-                camera->exposure += exposure * 5.0 * timeStep;
-                camera->exposure = std::max(0.01, camera->exposure);
-            }
+            camera->exposure += exposure * 5.0 * timeStep;
+            camera->exposure = std::max(0.01, camera->exposure);
         }
     }
 }
@@ -87,9 +82,10 @@ void PlayerInputSystem::swapMouseMode()
 
 void PlayerInputSystem::toggleDebugInterface()
 {
-    if (_debugSystem)
+    if (scene().hasSystemType<DebugSystem>())
     {
-        _debugSystem->toggleShowInterface();
+        auto& debugSystem = scene().system<DebugSystem>();
+        debugSystem.toggleShowInterface();
     }
 }
 

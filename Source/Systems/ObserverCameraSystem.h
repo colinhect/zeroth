@@ -39,10 +39,6 @@ private:
     Keyboard& _keyboard;
     Mouse& _mouse;
 
-    CameraSystem::Handle _cameraSystem;
-    TransformSystem::Handle _transformSystem;
-    InputSystem::Handle _inputSystem;
-
     Entity::Iterator _observerArchetype;
     Entity::Handle _activeObserver;
     Entity::Handle _lastActiveCamera;

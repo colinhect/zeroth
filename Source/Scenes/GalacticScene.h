@@ -41,10 +41,10 @@ public:
     virtual void render(RenderTarget& target) override;
 
 private:
-    BoundingBoxSystem::Handle _boundingBoxSystem;
-    CameraSystem::Handle _cameraSystem;
-    TransformSystem::Handle _transformSystem;
-    GalaxySystem::Handle _galaxySystem;
+    BoundingBoxSystem& _boundingBoxSystem;
+    CameraSystem& _cameraSystem;
+    TransformSystem& _transformSystem;
+    GalaxySystem& _galaxySystem;
 
     // The camera from which the galactic scene is rendered
     Entity::Handle _galacticCameraEntity;

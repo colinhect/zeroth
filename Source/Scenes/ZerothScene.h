@@ -38,15 +38,15 @@ public:
 private:
     AssetHandle<GalacticScene> _galacticScene;
 
-    RenderSystem::Handle _renderSystem;
-    CameraSystem::Handle _cameraSystem;
+    RenderSystem& _renderSystem;
+    CameraSystem& _cameraSystem;
 
-    ChaseCameraSystem::Handle _chaseCameraSystem;
-    CockpitCameraSystem::Handle _cockpitCameraSystem;
-    HudSystem::Handle _hudSystem;
-    ObserverCameraSystem::Handle _observerCameraSystem;
-    PlayerInputSystem::Handle _playerInputSystem;
-    ShipControlSystem::Handle _shipControlSystem;
+    ChaseCameraSystem& _chaseCameraSystem;
+    CockpitCameraSystem& _cockpitCameraSystem;
+    HudSystem& _hudSystem;
+    ObserverCameraSystem& _observerCameraSystem;
+    PlayerInputSystem& _playerInputSystem;
+    ShipControlSystem& _shipControlSystem;
 };
 
 }

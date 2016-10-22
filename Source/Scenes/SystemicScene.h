@@ -27,8 +27,8 @@ public:
     virtual void tick(double timeStep) override;
 
 private:
-    GalaxySystem::Handle _galaxySystem;
-    ObserverCameraSystem::Handle _observerCameraSystem;
+    GalaxySystem& _galaxySystem;
+    ObserverCameraSystem& _observerCameraSystem;
 };
 
 }

@@ -54,9 +54,9 @@ void GalacticScene::tick(double timeStep)
 {
     Scene::refresh();
 
-    _transformSystem->updateCommittedTransforms();
-    _cameraSystem->updateAllCameras();
-    _galaxySystem->adaptGalaxyNodes();
+    _transformSystem.updateCommittedTransforms();
+    _cameraSystem.updateAllCameras();
+    _galaxySystem.adaptGalaxyNodes();
 
     Scene::refresh();
 }

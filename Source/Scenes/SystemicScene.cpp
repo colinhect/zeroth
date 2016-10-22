@@ -26,8 +26,8 @@ void SystemicScene::tick(double timeStep)
 {
     DefaultScene::preTick(timeStep);
 
-    _observerCameraSystem->tickObservers(timeStep);
-    _galaxySystem->adaptGalaxyNodes();
+    _observerCameraSystem.tickObservers(timeStep);
+    _galaxySystem.adaptGalaxyNodes();
 
     DefaultScene::postTick(timeStep);
 }

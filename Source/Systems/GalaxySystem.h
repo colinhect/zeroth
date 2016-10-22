@@ -80,9 +80,6 @@ private:
 
     // System overrides
     void onComponentAdded(SpiralGalaxyComponent::Iterator spiralGalaxy) override;
-
-    Renderer& _renderer;
-    CameraSystem::Handle _cameraSystem;
 };
 
 }

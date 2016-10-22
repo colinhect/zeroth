@@ -13,10 +13,7 @@ using namespace zeroth;
 ObserverCameraSystem::ObserverCameraSystem(Engine& engine, Scene& scene) :
     System(engine, scene),
     _keyboard(engine.keyboard()),
-    _mouse(engine.mouse()),
-    _cameraSystem(scene.system<CameraSystem>()),
-    _transformSystem(scene.system<TransformSystem>()),
-    _inputSystem(scene.system<InputSystem>())
+    _mouse(engine.mouse())
 {
     _keyboard.registerListener(*this);
     _mouse.registerListener(*this);
@@ -24,8 +21,10 @@ ObserverCameraSystem::ObserverCameraSystem(Engine& engine, Scene& scene) :
 
 void ObserverCameraSystem::tickObservers(double timeStep)
 {
-    if (_inputSystem && _transformSystem && _mouse.mode() == MouseMode::Relative)
+    if (_mouse.mode() == MouseMode::Relative)
     {
+        auto& inputSystem = scene().system<InputSystem>();
+        auto& transformSystem = scene().system<TransformSystem>();
         for (ObserverCameraComponent& observerCamera : scene().components<ObserverCameraComponent>())
         {
             Entity::Iterator entity = observerCamera.entity();
@@ -38,15 +37,15 @@ void ObserverCameraSystem::tickObservers(double timeStep)
             CameraComponent::Iterator camera = entity->component<CameraComponent>();
             if (transform && camera)
             {
-                transform->localRotation *= Quaternion::fromAxisAngle(camera->up, Radians(_inputSystem->axisValue("yaw") * -lookSpeed));
-                transform->localRotation *= Quaternion::fromAxisAngle(camera->right, Radians(_inputSystem->axisValue("pitch") * lookSpeed));
-                transform->localRotation *= Quaternion::fromAxisAngle(camera->front, Radians(_inputSystem->axisValue("roll") * -rollSpeed));
+                transform->localRotation *= Quaternion::fromAxisAngle(camera->up, Radians(inputSystem.axisValue("yaw") * -lookSpeed));
+                transform->localRotation *= Quaternion::fromAxisAngle(camera->right, Radians(inputSystem.axisValue("pitch") * lookSpeed));
+                transform->localRotation *= Quaternion::fromAxisAngle(camera->front, Radians(inputSystem.axisValue("roll") * -rollSpeed));
 
-                transform->localPosition += camera->right * _inputSystem->axisValue("thrustX") * moveSpeed;
-                transform->localPosition += camera->front * _inputSystem->axisValue("thrustY") * moveSpeed;
-                transform->localPosition += camera->up * _inputSystem->axisValue("thrustZ") * moveSpeed;
+                transform->localPosition += camera->right * inputSystem.axisValue("thrustX") * moveSpeed;
+                transform->localPosition += camera->front * inputSystem.axisValue("thrustY") * moveSpeed;
+                transform->localPosition += camera->up * inputSystem.axisValue("thrustZ") * moveSpeed;
 
-                _transformSystem->commitTransform(*transform);
+                transformSystem.commitTransform(*transform);
             }
         }
     }
@@ -62,8 +61,11 @@ void ObserverCameraSystem::initialize()
 
 void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
 {
-    if (_cameraSystem && _transformSystem && _observerArchetype)
+    if (_observerArchetype)
     {
+        auto& cameraSystem = scene().system<CameraSystem>();
+        auto& transformSystem = scene().system<TransformSystem>();
+
         if (event.type == KeyboardEventType::KeyDown && event.key == Key::F)
         {
             if (_activeObserver)
@@ -81,7 +83,7 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
                             camera->exposure = observerCamera->exposure;
                         }
 
-                        _cameraSystem->setActiveCamera(*camera);
+                        cameraSystem.setActiveCamera(*camera);
                     }
 
                     _lastActiveCamera = Entity::Handle();
@@ -92,7 +94,7 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
             else
             {
                 // Remember the active camera
-                CameraComponent::Iterator camera = _cameraSystem->activeCamera();
+                CameraComponent::Iterator camera = cameraSystem.activeCamera();
                 if (camera)
                 {
                     _lastActiveCamera = camera->entity()->createHandle();
@@ -124,7 +126,7 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
                         {
                             observerTransform->localPosition = transform->globalPosition;
                             observerTransform->localRotation = transform->globalRotation;
-                            _transformSystem->updateTransform(*observerTransform);
+                            transformSystem.updateTransform(*observerTransform);
                         }
                     }
                 }
@@ -136,7 +138,7 @@ void ObserverCameraSystem::receiveEvent(const KeyboardEvent& event)
                 CameraComponent::Iterator observerCamera = _activeObserver->component<CameraComponent>();
                 if (observerCamera)
                 {
-                    _cameraSystem->setActiveCamera(*observerCamera);
+                    cameraSystem.setActiveCamera(*observerCamera);
                 }
             }
         }

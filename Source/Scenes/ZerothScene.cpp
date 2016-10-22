@@ -41,11 +41,8 @@ ZerothScene::ZerothScene(Engine& engine) :
     _playerInputSystem(createSystem<PlayerInputSystem>()),
     _shipControlSystem(createSystem<ShipControlSystem>())
 {
-    PhysicsSystem::Handle physicsSystem = system<PhysicsSystem>();
-    if (physicsSystem)
-    {
-        physicsSystem->gravity = Vector3::Zero;
-    }
+    PhysicsSystem& physicsSystem = system<PhysicsSystem>();
+    physicsSystem.gravity = Vector3::Zero;
 
     const DataValue& settings = engine.settings();
     const DataValue& galacticSceneValue = settings["galacticScene"];
@@ -64,29 +61,26 @@ void ZerothScene::tick(double timeStep)
     {
         _galacticScene->tick(timeStep);
 
-        if (_cameraSystem)
+        CameraComponent::Iterator camera = _cameraSystem.activeCamera();
+        if (camera)
         {
-            CameraComponent::Iterator camera = _cameraSystem->activeCamera();
-            if (camera)
-            {
-                _galacticScene->updateCamera(*camera);
-            }
+            _galacticScene->updateCamera(*camera);
         }
     }
 
-    _playerInputSystem->handlePlayerInput(timeStep);
+    _playerInputSystem.handlePlayerInput(timeStep);
 
-    _observerCameraSystem->tickObservers(timeStep);
+    _observerCameraSystem.tickObservers(timeStep);
 
-    _hudSystem->updateWidgets();
+    _hudSystem.updateWidgets();
 
     DefaultScene::postTick(timeStep);
 }
 
 void ZerothScene::render(RenderTarget& target)
 {
-    if (_galacticScene && _renderSystem)
+    if (_galacticScene)
     {
-        _renderSystem->render(*_galacticScene, target);
+        _renderSystem.render(*_galacticScene, target);
     }
 }

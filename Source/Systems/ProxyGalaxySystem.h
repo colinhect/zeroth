@@ -28,9 +28,6 @@ public:
 private:
     void onComponentAdded(ProxyGalaxyComponent::Iterator proxyGalaxy) override;
     unsigned computeSkyBoxResolution();
-
-    Engine& _engine;
-    AssetCache& _assetCache;
 };
 
 }

@@ -38,7 +38,6 @@ private:
     Keyboard& _keyboard;
     Mouse& _mouse;
 
-    InterfaceSystem::Handle _interfaceSystem;
     Interface::Handle _interface;
     LabelWidget::Handle _cameraPositionLabel;
 };

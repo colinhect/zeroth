@@ -9,32 +9,28 @@
 using namespace zeroth;
 
 GalaxySystem::GalaxySystem(Engine& engine, Scene& scene) :
-    System(engine, scene),
-    _renderer(engine.renderer()),
-    _cameraSystem(scene.system<CameraSystem>())
+    System(engine, scene)
 {
 }
 
 void GalaxySystem::adaptGalaxyNodes()
 {
-    if (_cameraSystem)
+    // If there is an active camera
+    auto& cameraSystem = scene().system<CameraSystem>();
+    CameraComponent::Iterator activeCamera = cameraSystem.activeCamera();
+    if (activeCamera)
     {
-        // If there is an active camera
-        CameraComponent::Iterator activeCamera = _cameraSystem->activeCamera();
-        if (activeCamera)
-        {
-            Vector3 cameraPosition = activeCamera->position;
+        Vector3 cameraPosition = activeCamera->position;
 
-            // For each galaxy
-            for (SpiralGalaxyComponent& galaxy : scene().components<SpiralGalaxyComponent>())
+        // For each galaxy
+        for (SpiralGalaxyComponent& galaxy : scene().components<SpiralGalaxyComponent>())
+        {
+            // Adapt each root galaxy node to the camera position
+            Entity::Iterator galaxyEntity = galaxy.entity();
+            for (Entity& child : galaxyEntity->children())
             {
-                // Adapt each root galaxy node to the camera position
-                Entity::Iterator galaxyEntity = galaxy.entity();
-                for (Entity& child : galaxyEntity->children())
-                {
-                    Entity::Iterator rootGalaxyNode = child.iterator();
-                    adaptGalaxyNode(cameraPosition, rootGalaxyNode);
-                }
+                Entity::Iterator rootGalaxyNode = child.iterator();
+                adaptGalaxyNode(cameraPosition, rootGalaxyNode);
             }
         }
     }
@@ -214,7 +210,8 @@ void GalaxySystem::generateTopologyTexture(SpiralGalaxyComponent::Iterator galax
     FrameBuffer frameBuffer(topologyTextureResolution, topologyTextureResolution);
     frameBuffer.attach(FrameBufferSlot::Color0, *galaxy->topologyTexture);
 
-    Renderer::Frame frame = _renderer.beginFrame(frameBuffer);
+    Renderer& renderer = engine().renderer();
+    Renderer::Frame frame = renderer.beginFrame(frameBuffer);
 
     Shader& shader = *generateTopologyShader;
     frame.setShader(shader);
@@ -230,7 +227,8 @@ void GalaxySystem::generateParticleTexture(SpiralGalaxyComponent::Iterator galax
     FrameBuffer frameBuffer(particleTextureResolution, particleTextureResolution);
     frameBuffer.attach(FrameBufferSlot::Color0, *galaxy->particleTexture);
 
-    Renderer::Frame frame = _renderer.beginFrame(frameBuffer);
+    Renderer& renderer = engine().renderer();
+    Renderer::Frame frame = renderer.beginFrame(frameBuffer);
 
     Shader& shader = *generateParticleShader;
     frame.setShader(shader);
