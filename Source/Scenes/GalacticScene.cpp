@@ -15,11 +15,8 @@ GalacticScene::GalacticScene(Engine& engine) :
     _boundingBoxSystem(createSystem<BoundingBoxSystem>()),
     _cameraSystem(createSystem<CameraSystem>()),
     _transformSystem(createSystem<TransformSystem>()),
-    _galaxySystem(createSystem<GalaxySystem>()),
-    _galacticCameraEntity(createEntity("GalacticCamera")->createHandle())
+    _galaxySystem(createSystem<GalaxySystem>())
 {
-    _galacticCameraComponent = _galacticCameraEntity->addComponent<CameraComponent>();
-    _galacticCameraEntity->activate();
 }
 
 void GalacticScene::updateCamera(const CameraComponent& camera)
@@ -48,6 +45,19 @@ void GalacticScene::setObserverPosition(const Vector3& position)
     {
         _galacticCameraComponent->position = position;
     }
+}
+
+void GalacticScene::initialize()
+{
+    Scene::initialize();
+
+    _galacticCameraEntity = createEntity("Galaxy")->createHandle();
+    _galacticCameraComponent = _galacticCameraEntity->addComponent<CameraComponent>();
+    _galacticCameraEntity->activate();
+
+    _galaxyEntity = createEntity("GalacticCamera")->createHandle();
+    _galaxyEntity->addComponent<SpiralGalaxyComponent>();
+    _galaxyEntity->activate();
 }
 
 void GalacticScene::tick(double timeStep)

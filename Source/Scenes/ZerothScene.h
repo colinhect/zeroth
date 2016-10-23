@@ -32,14 +32,12 @@ public:
     ZerothScene(Engine& engine);
 
     // Scene overrides
+    virtual void initialize() override;
     virtual void tick(double timeStep) override;
     virtual void render(RenderTarget& target) override;
 
 private:
     AssetHandle<GalacticScene> _galacticScene;
-
-    RenderSystem& _renderSystem;
-    CameraSystem& _cameraSystem;
 
     ChaseCameraSystem& _chaseCameraSystem;
     CockpitCameraSystem& _cockpitCameraSystem;

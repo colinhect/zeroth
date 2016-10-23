@@ -32,8 +32,6 @@ using namespace zeroth;
 
 ZerothScene::ZerothScene(Engine& engine) :
     DefaultScene(engine),
-    _renderSystem(system<RenderSystem>()),
-    _cameraSystem(system<CameraSystem>()),
     _chaseCameraSystem(createSystem<ChaseCameraSystem>()),
     _cockpitCameraSystem(createSystem<CockpitCameraSystem>()),
     _hudSystem(createSystem<HudSystem>()),
@@ -41,15 +39,25 @@ ZerothScene::ZerothScene(Engine& engine) :
     _playerInputSystem(createSystem<PlayerInputSystem>()),
     _shipControlSystem(createSystem<ShipControlSystem>())
 {
+}
+
+void ZerothScene::initialize()
+{
+    Scene::initialize();
+
     PhysicsSystem& physicsSystem = system<PhysicsSystem>();
     physicsSystem.gravity = Vector3::Zero;
 
-    const DataValue& settings = engine.settings();
+    const DataValue& settings = engine().settings();
     const DataValue& galacticSceneValue = settings["galacticScene"];
     if (!galacticSceneValue.isNull())
     {
-        AssetCache& assetCache = engine.assetCache();
-        _galacticScene = assetCache.getHandle<GalacticScene>(galacticSceneValue.asString(), engine);
+        AssetCache& assetCache = engine().assetCache();
+        _galacticScene = assetCache.getHandle<GalacticScene>(galacticSceneValue.asString(), engine());
+        if (_galacticScene)
+        {
+            _galacticScene->initialize();
+        }
     }
 }
 
@@ -61,7 +69,8 @@ void ZerothScene::tick(double timeStep)
     {
         _galacticScene->tick(timeStep);
 
-        CameraComponent::Iterator camera = _cameraSystem.activeCamera();
+        auto& cameraSystem = system<CameraSystem>();
+        CameraComponent::Iterator camera = cameraSystem.activeCamera();
         if (camera)
         {
             _galacticScene->updateCamera(*camera);
@@ -81,6 +90,7 @@ void ZerothScene::render(RenderTarget& target)
 {
     if (_galacticScene)
     {
-        _renderSystem.render(*_galacticScene, target);
+        auto& renderSystem = system<RenderSystem>();
+        renderSystem.render(*_galacticScene, target);
     }
 }

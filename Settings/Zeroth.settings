@@ -11,9 +11,9 @@ archives:
 taskPool:
     threadCount: 6
 assetCache:
-    concurrent: false
+    concurrent: true
 logging:
-    levels: [ Info, Error, Warning, Debug, Trace ]
+    levels: [ Info, Error, Warning ]
 scene: Scenes/Master.scene
 galacticScene: Scenes/BaseGalactic.scene
 include:

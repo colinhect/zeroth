@@ -37,6 +37,7 @@ public:
     void setObserverPosition(const Vector3& position);
 
     // Scene overrides
+    virtual void initialize() override;
     virtual void tick(double timeStep) override;
     virtual void render(RenderTarget& target) override;
 
@@ -45,6 +46,8 @@ private:
     CameraSystem& _cameraSystem;
     TransformSystem& _transformSystem;
     GalaxySystem& _galaxySystem;
+
+    Entity::Handle _galaxyEntity;
 
     // The camera from which the galactic scene is rendered
     Entity::Handle _galacticCameraEntity;
