@@ -18,7 +18,7 @@ uniforms:
     type: Texture2
   - name: brightness
     type: Float
-    value: 0.0008
+    value: 0.08
 depthTested: false
 blendMode:
   sourceFactor: One

@@ -54,10 +54,7 @@ void ZerothScene::initialize()
     {
         AssetCache& assetCache = engine().assetCache();
         _galacticScene = assetCache.getHandle<GalacticScene>(galacticSceneValue.asString(), engine());
-        if (_galacticScene)
-        {
-            _galacticScene->initialize();
-        }
+        _galacticScene->initialize();
     }
 }
 
@@ -65,22 +62,18 @@ void ZerothScene::tick(double timeStep)
 {
     DefaultScene::preTick(timeStep);
 
-    if (_galacticScene)
-    {
-        _galacticScene->tick(timeStep);
+    _galacticScene->tick(timeStep);
 
-        auto& cameraSystem = system<CameraSystem>();
-        CameraComponent::Iterator camera = cameraSystem.activeCamera();
-        if (camera)
-        {
-            _galacticScene->updateCamera(*camera);
-        }
+    auto& cameraSystem = system<CameraSystem>();
+    CameraComponent::Iterator camera = cameraSystem.activeCamera();
+    if (camera)
+    {
+        _galacticScene->updateCamera(*camera);
+        _galacticScene->setObserverPosition(camera->position);
     }
 
     _playerInputSystem.handlePlayerInput(timeStep);
-
     _observerCameraSystem.tickObservers(timeStep);
-
     _hudSystem.updateWidgets();
 
     DefaultScene::postTick(timeStep);
