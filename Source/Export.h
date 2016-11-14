@@ -17,5 +17,6 @@
 #endif
 
 #else
-#define ZEROTH_EXPORTS
+#define ZEROTH_EXPORT
 #endif
+
