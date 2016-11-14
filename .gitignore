@@ -6,4 +6,5 @@ Source/Generated/xml/*
 *.sublime-workspace
 *.pyc
 *~
+*.swp
 *.blend1
