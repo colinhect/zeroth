@@ -94,7 +94,7 @@ void PlanetSystem::split(PlanetPatchComponent::Iterator patch)
         {
             Vector3 parentGlobalPosition = transform->globalPosition;
             const Vector3 localPosition = right * quarterSize * x + front * quarterSize * y;
-            const Vector3 morphedPosition = morphPointToSphere(localPosition, parentGlobalPosition, _planet->meanRadius);
+            //const Vector3 morphedPosition = morphPointToSphere(localPosition, parentGlobalPosition, _planet->meanRadius);
 
             createPatch(entity, patch->cubeSide, localPosition, parentGlobalPosition);
         }
@@ -161,8 +161,8 @@ void PlanetSystem::createPlanet(PlanetComponent::Iterator planet)
 
 Entity::Iterator PlanetSystem::createPatch(Entity::Iterator parent, CubeSide cubeSide, Vector3 localPosition, Vector3 parentGlobalPosition)
 {
-    Vector3 up = cubeSideUpVector(cubeSide);
-    Vector3 right = cubeSideRightVector(cubeSide);
+    //Vector3 up = cubeSideUpVector(cubeSide);
+    //Vector3 right = cubeSideRightVector(cubeSide);
 
     PlanetComponent::Iterator planet = parent->component<PlanetComponent>();
     PlanetPatchComponent::Iterator parentPatch = parent->component<PlanetPatchComponent>();

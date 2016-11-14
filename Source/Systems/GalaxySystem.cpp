@@ -310,7 +310,7 @@ Entity::Iterator GalaxySystem::createGalaxyNode(SpiralGalaxyComponent::Iterator 
     BoundingBoxComponent::Iterator boundingBox = entity->addComponent<BoundingBoxComponent>();
     boundingBox->adaptive = false;
     Vector3 minimum = parentGlobalPosition + localPosition;
-    Vector3 halfSize = size / 2;
+    //Vector3 halfSize = size / 2;
     boundingBox->extents = AxisAlignedBox(minimum - size / 2, minimum + size / 2);
 
     // Add galaxy node component

@@ -104,6 +104,8 @@ void PlayerInputSystem::parseKeyboardShortcut(const KeyboardEvent& event)
         case Key::Esc:
             deactivateScene();
             break;
+        default:
+            break;
         }
     }
 }
