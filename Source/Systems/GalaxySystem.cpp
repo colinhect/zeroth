@@ -205,7 +205,12 @@ void GalaxySystem::createParticlesMesh(SpiralGalaxyComponent::Iterator galaxy)
 
 void GalaxySystem::generateTopologyTexture(SpiralGalaxyComponent::Iterator galaxy)
 {
-    galaxy->topologyTexture = new Texture2("Topology", topologyTextureResolution, topologyTextureResolution, PixelFormat::Rgba32, TextureFilter::Linear, TextureFilter::Linear, false, false);
+    Texture2::Handle topologyTexture(new Texture2("Topology", topologyTextureResolution, topologyTextureResolution));
+    topologyTexture->setPixelFormat(PixelFormat::Rgba32);
+    topologyTexture->setMipmapped(false);
+    topologyTexture->setWrapped(false);
+    galaxy->topologyTexture = topologyTexture;
+
 
     FrameBuffer frameBuffer(topologyTextureResolution, topologyTextureResolution);
     frameBuffer.attach(FrameBufferSlot::Color0, *galaxy->topologyTexture);
@@ -222,8 +227,12 @@ void GalaxySystem::generateTopologyTexture(SpiralGalaxyComponent::Iterator galax
 
 void GalaxySystem::generateParticleTexture(SpiralGalaxyComponent::Iterator galaxy)
 {
-    galaxy->particleTexture = new Texture2("Particle", particleTextureResolution, particleTextureResolution, PixelFormat::Rg8, TextureFilter::Linear, TextureFilter::Linear, false, false);
-
+    Texture2::Handle particleTexture(new Texture2("Particle", particleTextureResolution, particleTextureResolution));
+    particleTexture->setPixelFormat(PixelFormat::Rg8);
+    particleTexture->setMipmapped(false);
+    particleTexture->setWrapped(false);
+    galaxy->particleTexture = particleTexture;
+    
     FrameBuffer frameBuffer(particleTextureResolution, particleTextureResolution);
     frameBuffer.attach(FrameBufferSlot::Color0, *galaxy->particleTexture);
 
