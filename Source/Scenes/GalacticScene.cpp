@@ -66,7 +66,7 @@ void GalacticScene::tick(double timeStep)
 
     _transformSystem.updateCommittedTransforms();
     _cameraSystem.updateAllCameras();
-    //_galaxySystem.adaptGalaxyNodes();
+    _galaxySystem.adaptGalaxyNodes();
 
     Scene::refresh();
 }

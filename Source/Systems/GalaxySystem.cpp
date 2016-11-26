@@ -245,13 +245,64 @@ void GalaxySystem::generateParticleTexture(SpiralGalaxyComponent::Iterator galax
     frame.renderViewport();
 }
 
+void GalaxySystem::createParticleTexturePreviewMesh(SpiralGalaxyComponent::Iterator galaxy)
+{
+    // If no seed was specified then generate a random seed
+    if (galaxy->seed == 0)
+    {
+        galaxy->seed = Random().next();
+    }
+    
+    // Create the vertex layout
+    VertexLayout vertexLayout;
+    VertexAttribute positionAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3);
+    vertexLayout.addAttribute(positionAttribute);
+    VertexAttribute colorAttribute(VertexAttributeSemantic::Color, VertexAttributeType::Float32, 3);
+    vertexLayout.addAttribute(colorAttribute);
+    VertexAttribute sizeAttribute(VertexAttributeSemantic::Weight0, VertexAttributeType::Float32, 1);
+    vertexLayout.addAttribute(sizeAttribute);
+    VertexAttribute rotationAttribute(VertexAttributeSemantic::Weight1, VertexAttributeType::Float32, 1);
+    vertexLayout.addAttribute(rotationAttribute);
+
+    // Create single point preview mesh
+    Mesh::Handle particlesMesh(new Mesh("Particles"));
+    particlesMesh->setVertexLayout(vertexLayout);
+    particlesMesh->setPrimitiveType(PrimitiveType::Points);
+    MeshWriter writer(*particlesMesh);
+
+    const Vector3 position = Vector3::Zero;
+    const Color color = Color::White;
+    const double size = 100000.0;
+    const double rotation = 0.0;
+    
+    const uint64_t index = writer.addVertex();
+    writer.writeAttributeData(VertexAttributeSemantic::Position, position);
+    writer.writeAttributeData(VertexAttributeSemantic::Color, color);
+    writer.writeAttributeData(VertexAttributeSemantic::Weight0, size);
+    writer.writeAttributeData(VertexAttributeSemantic::Weight1, rotation);
+    writer.addIndex(index);
+
+    // Generate the particle texture
+    generateParticleTexture(galaxy);
+
+    // Create the material
+    Material::Handle material(new Material("Particle"));
+    material->setShader(particleShader);
+    material->setUniformValue("particleTexture", galaxy->particleTexture);
+    material->setCullMode(CullMode::None);
+
+    // Add the mesh to the galaxy's mesh
+    MeshComponent::Iterator mesh = galaxy->entity()->addComponent<MeshComponent>();
+    mesh->addSurface(particlesMesh, material);
+}
+
 void GalaxySystem::sampleTopology(SpiralGalaxyComponent::Iterator galaxy, BoundingBoxComponent::Iterator boundingBox, Vector3 position, Color& color, double& thickness)
 {
-    AxisAlignedBox& extents = boundingBox->extents;
-    Vector3 totalSize = extents.size();
-    Vector3 coords = (position - extents.minimum()) / totalSize;
+    const AxisAlignedBox& extents = boundingBox->extents;
+    const Vector3 totalSize = extents.size();
+    const Vector3 coords = (position - extents.minimum()) / totalSize;
 
-    Vector2 densityCoords(coords.x, coords.y);
+    const Vector2 densityCoords(coords.x, coords.y);
     color = galaxy->topologyTexture->readPixel(densityCoords);
     thickness = color.a;
     color.a = 1.0;
@@ -433,4 +484,5 @@ double GalaxySystem::createSeedUniformValue(RandomSeed seed) const
 void GalaxySystem::onComponentAdded(SpiralGalaxyComponent::Iterator spiralGalaxy)
 {
     generateSpiralGalaxy(spiralGalaxy);
+    //createParticleTexturePreviewMesh(spiralGalaxy);
 }

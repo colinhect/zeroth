@@ -28,11 +28,12 @@ void proceduralTexture(
     shape = clamp(shape, -1.0, 1.0) * 1.3;
     shape = pow(shape, 3.0);
 
-    float shear = fractalNoise(vec3(point, seeds[0]) * 3.0, 2.0, 0.5, 8);
+    float shear = fractalNoise(vec3(point, seeds[1]) * 3.0, 2.0, 0.5, 8);
+    float shapeOffset = clamp(shear, -1.0, 1.0) * 0.5 + 1.5;
 
-    float value = fractalNoise(vec3(point + shear * 0.2, seeds[1]) * 2.0, 2.0, 0.5, 6);
+    float value = fractalNoise(vec3(point + shear * 0.14, seeds[1]) * 2.0, 2.0, 0.5, 6);
     value = value * 0.5 + 0.5;
-    value *= 1.0 - clamp((length(point) + 1.0 + shape * 0.02) * 0.7, 0.0, 1.0);
+    value *= 1.0 - clamp(length(point * shapeOffset) + 0.5, 0.0, 1.0);
     value = clamp(value, 0.0, 1.0);
 
     outputColor = vec4(vec3(value), 1.0);
