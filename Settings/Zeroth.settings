@@ -1,9 +1,9 @@
 ---
 videoMode:
-    width: 1440
-    height: 900
+    width: 1920
+    height: 1080
     bitsPerPixel: 32
-    fullscreen: false
+    fullscreen: true
 archives:
   - path: Hect.data
     mountPoint: Hect

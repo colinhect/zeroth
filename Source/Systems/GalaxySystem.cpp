@@ -50,7 +50,7 @@ void GalaxySystem::generateSpiralGalaxy(SpiralGalaxyComponent::Iterator galaxy)
     Random random(galaxy->seed);
     galaxy->diameter = random.next(spiralDiameterRange[0], spiralDiameterRange[1]);
     galaxy->thickness = random.next(spiralThicknessRange[0], spiralThicknessRange[1]);
-    galaxy->density = static_cast<unsigned>(galaxy->diameter * 0.011);
+    galaxy->density = static_cast<unsigned>(galaxy->diameter * 0.008);
 
     HECT_DEBUG(format("Seed: %i", galaxy->seed));
 
@@ -124,6 +124,7 @@ void GalaxySystem::createTopologyMesh(SpiralGalaxyComponent::Iterator galaxy)
     Material::Handle material(new Material("Topology"));
     material->setShader(topologyShader);
     material->setUniformValue("topologyTexture", galaxy->topologyTexture);
+    material->setUniformValue("topologyNormal", Vector3::UnitZ);
     material->setCullMode(CullMode::None);
 
     // Add the mesh to the galaxy's mesh
