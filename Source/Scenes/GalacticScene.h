@@ -24,6 +24,8 @@ class ZEROTH_EXPORT GalacticScene :
 public:
     GalacticScene(Engine& engine);
 
+    void spawnGalaxy();
+
     // TODO: Star query interface for the master scene to use when spawning in
     // the systemic/celestial scenes
 

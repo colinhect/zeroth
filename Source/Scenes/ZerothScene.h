@@ -36,7 +36,13 @@ public:
     virtual void tick(double timeStep) override;
     virtual void render(RenderTarget& target) override;
 
+    // DefaultScene overrides
+    virtual void receiveEvent(const KeyboardEvent& event) override;
+
 private:
+    void spawnGalaxy();
+    void parseKeyboardShortcut(const KeyboardEvent& event);
+    
     AssetHandle<GalacticScene> _galacticScene;
 
     ChaseCameraSystem& _chaseCameraSystem;

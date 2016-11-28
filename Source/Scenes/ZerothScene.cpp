@@ -55,6 +55,7 @@ void ZerothScene::initialize()
         AssetCache& assetCache = engine().assetCache();
         _galacticScene = assetCache.getHandle<GalacticScene>(galacticSceneValue.asString(), engine());
         _galacticScene->initialize();
+        _galacticScene->spawnGalaxy();
     }
 }
 
@@ -85,5 +86,30 @@ void ZerothScene::render(RenderTarget& target)
     {
         auto& renderSystem = system<RenderSystem>();
         renderSystem.render(*_galacticScene, target);
+    }
+}
+
+void ZerothScene::receiveEvent(const KeyboardEvent& event)
+{
+    parseKeyboardShortcut(event);
+}
+
+void ZerothScene::spawnGalaxy()
+{
+    _galacticScene->spawnGalaxy();
+}
+
+void ZerothScene::parseKeyboardShortcut(const KeyboardEvent& event)
+{
+    if (event.type == KeyboardEventType::KeyDown)
+    {
+        switch (event.key)
+        {
+        case Key::F8:
+            spawnGalaxy();
+            break;
+        default:
+            break;
+        }
     }
 }

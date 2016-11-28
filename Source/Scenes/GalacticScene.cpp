@@ -19,6 +19,18 @@ GalacticScene::GalacticScene(Engine& engine) :
 {
 }
 
+void GalacticScene::spawnGalaxy()
+{
+    if (_galaxyEntity)
+    {
+        _galaxyEntity->destroy();
+    }
+
+    _galaxyEntity = createEntity("Galaxy")->createHandle();
+    _galaxyEntity->addComponent<SpiralGalaxyComponent>();
+    _galaxyEntity->activate();
+}
+
 void GalacticScene::updateCamera(const CameraComponent& camera)
 {
     if (_galacticCameraEntity && _galacticCameraComponent)
@@ -51,13 +63,9 @@ void GalacticScene::initialize()
 {
     Scene::initialize();
 
-    _galacticCameraEntity = createEntity("Galaxy")->createHandle();
+    _galacticCameraEntity = createEntity("GalacticCamera")->createHandle();
     _galacticCameraComponent = _galacticCameraEntity->addComponent<CameraComponent>();
     _galacticCameraEntity->activate();
-
-    _galaxyEntity = createEntity("GalacticCamera")->createHandle();
-    _galaxyEntity->addComponent<SpiralGalaxyComponent>();
-    _galaxyEntity->activate();
 }
 
 void GalacticScene::tick(double timeStep)
