@@ -13,6 +13,8 @@ include_directories(
 
 set(SOURCE
     "Source/Export.h"
+    "Source/TextureGenerator.cpp"
+    "Source/TextureGenerator.h"
     )
 
 source_group("Source" FILES

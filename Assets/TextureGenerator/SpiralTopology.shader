@@ -2,7 +2,7 @@
 base: Procedural.shader
 modules:
   - type: Fragment
-    path: GenerateTopology.glsl
+    path: SpiralTopology.glsl
 uniforms:
   - name: seed
     type: Float

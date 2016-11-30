@@ -10,6 +10,7 @@
 using namespace hect;
 
 #include "Export.h"
+#include "TextureGenerator.h"
 #include "Components/GalaxyNodeComponent.h"
 #include "Components/SpiralGalaxyComponent.h"
 
@@ -32,16 +33,10 @@ public:
     Shader::Handle topologyShader;
 
     /// \property{required}
-    Shader::Handle generateTopologyShader;
-
-    /// \property{required}
     unsigned topologyTextureResolution;
 
     /// \property{required}
     Shader::Handle particleShader;
-
-    /// \property{required}
-    Shader::Handle generateParticleShader;
 
     /// \property{required}
     unsigned particleTextureResolution;
@@ -68,9 +63,6 @@ private:
     void generateSpiralGalaxy(SpiralGalaxyComponent::Iterator galaxy);
     void createTopologyMesh(SpiralGalaxyComponent::Iterator galaxy);
     void createParticlesMesh(SpiralGalaxyComponent::Iterator galaxy);
-    void generateTopologyTexture(SpiralGalaxyComponent::Iterator galaxy);
-    void generateParticleTexture(SpiralGalaxyComponent::Iterator galaxy);
-    void createParticleTexturePreviewMesh(SpiralGalaxyComponent::Iterator galaxy);
     void sampleTopology(SpiralGalaxyComponent::Iterator galaxy, BoundingBoxComponent::Iterator boundingBox, Vector3 position, Color& color, double& thickness);
     void generateStars(GalaxyNodeComponent::Iterator galaxyNode, SpiralGalaxyComponent::Iterator galaxy, BoundingBoxComponent::Iterator boundingBox, MeshComponent::Iterator mesh);
     Entity::Iterator createGalaxyNode(SpiralGalaxyComponent::Iterator galaxy, Vector3 size, Vector3 localPosition, Vector3 parentGlobalPosition, bool rootNode);
@@ -81,6 +73,8 @@ private:
 
     // System overrides
     void onComponentAdded(SpiralGalaxyComponent::Iterator spiralGalaxy) override;
+
+    TextureGenerator _textureGenerator;
 };
 
 }
