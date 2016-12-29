@@ -20,13 +20,13 @@ PlayerInputSystem::PlayerInputSystem(Engine& engine, Scene& scene) :
     _mouse.setMode(MouseMode::Relative);
 }
 
-void PlayerInputSystem::handlePlayerInput(double timeStep)
+void PlayerInputSystem::handlePlayerInput(Seconds timeStep)
 {
     controlPlayerShips(timeStep);
     adjustCameraExposure(timeStep);
 }
 
-void PlayerInputSystem::controlPlayerShips(double timeStep)
+void PlayerInputSystem::controlPlayerShips(Seconds timeStep)
 {
     auto& inputSystem = scene().system<InputSystem>();
 
@@ -50,7 +50,7 @@ void PlayerInputSystem::controlPlayerShips(double timeStep)
     }
 }
 
-void PlayerInputSystem::adjustCameraExposure(double timeStep)
+void PlayerInputSystem::adjustCameraExposure(Seconds timeStep)
 {
     // Adjust the exposure of the active camera
     auto& cameraSystem = scene().system<CameraSystem>();
@@ -61,7 +61,7 @@ void PlayerInputSystem::adjustCameraExposure(double timeStep)
         double exposure = inputSystem.axisValue("exposure");
         if (exposure != 0.0)
         {
-            camera->exposure += exposure * 5.0 * timeStep;
+            camera->exposure += exposure * 5.0 * timeStep.value;
             camera->exposure = std::max(0.01, camera->exposure);
         }
     }

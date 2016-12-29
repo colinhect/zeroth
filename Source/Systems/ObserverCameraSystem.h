@@ -23,7 +23,7 @@ class ZEROTH_EXPORT ObserverCameraSystem :
 public:
     ObserverCameraSystem(Engine& engine, Scene& scene);
 
-    void tickObservers(double timeStep);
+    void tickObservers(Seconds timeStep);
 
     /// \property{required}
     Path observerArchetype;

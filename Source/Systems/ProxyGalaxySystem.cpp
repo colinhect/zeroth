@@ -40,8 +40,8 @@ void ProxyGalaxySystem::onComponentAdded(ProxyGalaxyComponent::Iterator proxyGal
         }
 
         // Tick the scene to insure that the galaxy has adapted to the camera
-        galaxyScene->tick(0.0);
-        galaxyScene->tick(0.0); // Issue #186
+        galaxyScene->tick(Seconds(0.0));
+        galaxyScene->tick(Seconds(0.0)); // Issue #186
 
         // Render the scene to a cubic texture
         RenderSystem& renderSystem = galaxyScene->system<RenderSystem>();
@@ -77,7 +77,7 @@ unsigned ProxyGalaxySystem::computeSkyBoxResolution()
     CameraComponent::Iterator activeCamera = cameraSystem.activeCamera();
     if (activeCamera)
     {
-        double factor = activeCamera->fieldOfView.inDegrees() / 90.0;
+        double factor = activeCamera->fieldOfView.value / 90.0;
         resolution = static_cast<unsigned>(windowWidth * factor);
     }
 

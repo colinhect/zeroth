@@ -59,7 +59,7 @@ void ZerothScene::initialize()
     }
 }
 
-void ZerothScene::tick(double timeStep)
+void ZerothScene::tick(Seconds timeStep)
 {
     DefaultScene::preTick(timeStep);
 

@@ -8,19 +8,19 @@ include_directories(
     "${PROJECT_SOURCE_DIR}/../../Source"
     "${PROJECT_SOURCE_DIR}/../../../../Engine/Dependencies/Catch"
     )
-    
+
 set(SOURCE_FILES
     "Source/Main.cpp"
     )
-    
+
 source_group("Source" FILES
-    "Source/Main.cpp"
+    ${SOURCE_FILES}
     )
 
 add_executable(ZerothUnitTests ${SOURCE_FILES})
-    
+
 target_link_libraries(ZerothUnitTests Zeroth Hect)
-    
+
 set_target_properties(ZerothUnitTests PROPERTIES
     PROJECT_LABEL ZerothUnitTests
     LINKER_LANGUAGE CXX

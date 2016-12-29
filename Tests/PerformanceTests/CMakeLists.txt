@@ -10,15 +10,14 @@ include_directories(
     "${PROJECT_SOURCE_DIR}/../../Source"
     "${PROJECT_SOURCE_DIR}/../../../../Engine/Dependencies/Celero/include"
     )
-    
+
 set(SOURCE_FILES
     "Source/Main.cpp"
     "Source/PlanetTests.cpp"
     )
-    
+
 source_group("Source" FILES
-    "Source/Main.cpp"
-    "Source/PlanetTests.cpp"
+    ${SOURCE_FILES}
     )
 
 add_executable(ZerothPerformanceTests ${SOURCE_FILES})
@@ -32,7 +31,7 @@ else()
 endif()
 
 target_link_libraries(ZerothPerformanceTests ${LINK_LIBRARIES})
-    
+
 set_target_properties(ZerothPerformanceTests PROPERTIES
     PROJECT_LABEL ZerothPerformanceTests
     LINKER_LANGUAGE CXX

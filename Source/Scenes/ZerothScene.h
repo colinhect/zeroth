@@ -33,7 +33,7 @@ public:
 
     // Scene overrides
     virtual void initialize() override;
-    virtual void tick(double timeStep) override;
+    virtual void tick(Seconds timeStep) override;
     virtual void render(RenderTarget& target) override;
 
     // DefaultScene overrides

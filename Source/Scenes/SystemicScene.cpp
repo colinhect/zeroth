@@ -22,7 +22,7 @@ SystemicScene::SystemicScene(Engine& engine) :
 {
 }
 
-void SystemicScene::tick(double timeStep)
+void SystemicScene::tick(Seconds timeStep)
 {
     DefaultScene::preTick(timeStep);
 

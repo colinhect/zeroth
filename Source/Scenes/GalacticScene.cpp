@@ -68,7 +68,7 @@ void GalacticScene::initialize()
     _galacticCameraEntity->activate();
 }
 
-void GalacticScene::tick(double timeStep)
+void GalacticScene::tick(Seconds timeStep)
 {
     Scene::refresh();
 

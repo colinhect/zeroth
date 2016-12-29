@@ -22,7 +22,7 @@ CelestialScene::CelestialScene(Engine& engine) :
 {
 }
 
-void CelestialScene::tick(double timeStep)
+void CelestialScene::tick(Seconds timeStep)
 {
     DefaultScene::preTick(timeStep);
 

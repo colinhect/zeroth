@@ -8,8 +8,8 @@
 
 using namespace zeroth;
 
-static const Path GlowParticleShaderPath("TextureGenerator/GlowParticle.shader");
-static const Path SpiralTopologyShaderPath("TextureGenerator/SpiralTopology.shader");
+static const Path GlowParticleShaderPath = "TextureGenerator/GlowParticle.shader";
+static const Path SpiralTopologyShaderPath = "TextureGenerator/SpiralTopology.shader";
 
 TextureGenerator::TextureGenerator(Renderer& renderer, AssetCache& assetCache) :
     _renderer(&renderer),
@@ -26,7 +26,7 @@ Texture2::Handle TextureGenerator::generate(const GlowParticle& glowParticle)
     texture->setPixelFormat(PixelFormat::Rg8);
     texture->setMipmapped(false);
     texture->setWrapped(false);
-    
+
     FrameBuffer frameBuffer(resolution, resolution);
     frameBuffer.attach(FrameBufferSlot::Color0, *texture);
 

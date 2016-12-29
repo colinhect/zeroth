@@ -24,7 +24,7 @@ class ZEROTH_EXPORT SystemicScene :
 public:
     SystemicScene(Engine& engine);
 
-    virtual void tick(double timeStep) override;
+    virtual void tick(Seconds timeStep) override;
 
 private:
     GalaxySystem& _galaxySystem;

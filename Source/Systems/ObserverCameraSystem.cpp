@@ -19,7 +19,7 @@ ObserverCameraSystem::ObserverCameraSystem(Engine& engine, Scene& scene) :
     _mouse.registerListener(*this);
 }
 
-void ObserverCameraSystem::tickObservers(double timeStep)
+void ObserverCameraSystem::tickObservers(Seconds timeStep)
 {
     if (_mouse.mode() == MouseMode::Relative)
     {
@@ -29,9 +29,9 @@ void ObserverCameraSystem::tickObservers(double timeStep)
         {
             Entity::Iterator entity = observerCamera.entity();
 
-            double lookSpeed = observerCamera.lookSpeed * timeStep;
-            double rollSpeed = observerCamera.rollSpeed * timeStep;
-            double moveSpeed = observerCamera.moveSpeed * timeStep;
+            double lookSpeed = observerCamera.lookSpeed * timeStep.value;
+            double rollSpeed = observerCamera.rollSpeed * timeStep.value;
+            double moveSpeed = observerCamera.moveSpeed * timeStep.value;
 
             TransformComponent::Iterator transform = entity->component<TransformComponent>();
             CameraComponent::Iterator camera = entity->component<CameraComponent>();

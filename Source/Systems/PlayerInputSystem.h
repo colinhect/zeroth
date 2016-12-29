@@ -23,11 +23,11 @@ class ZEROTH_EXPORT PlayerInputSystem :
 public:
     PlayerInputSystem(Engine& engine, Scene& scene);
 
-    void handlePlayerInput(double timeStep);
+    void handlePlayerInput(Seconds timeStep);
 
 private:
-    void controlPlayerShips(double timeStep);
-    void adjustCameraExposure(double timeStep);
+    void controlPlayerShips(Seconds timeStep);
+    void adjustCameraExposure(Seconds timeStep);
     void swapMouseMode();
     void toggleDebugInterface();
     void parseKeyboardShortcut(const KeyboardEvent& event);

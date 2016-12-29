@@ -15,7 +15,7 @@ ShipControlSystem::ShipControlSystem(Engine& engine, Scene& scene) :
 {
 }
 
-void ShipControlSystem::controlShip(Entity& ship, Vector3 directionalThrust, Vector3 angularThrust, double timeStep)
+void ShipControlSystem::controlShip(Entity& ship, Vector3 directionalThrust, Vector3 angularThrust, Seconds timeStep)
 {
     TransformComponent::Iterator shipTransform = ship.component<TransformComponent>();
     if (shipTransform)
@@ -31,14 +31,14 @@ void ShipControlSystem::controlShip(Entity& ship, Vector3 directionalThrust, Vec
                 Vector3 linearVelocity = shipRigidBody->linearVelocity;
 
                 // Apply friction to angular velocity
-                angularVelocity = angularVelocity - angularVelocity * timeStep * 1.0;
+                angularVelocity = angularVelocity - angularVelocity * timeStep.value * 1.0;
 
                 // Compute angular velocity delta based on control amount
                 Vector3 angularDelta = shipTransform->globalRotation * angularThrust;
-                angularDelta *= timeStep * 2.0;
+                angularDelta *= timeStep.value * 2.0;
 
                 // Apply fiction to linear velocity
-                linearVelocity = linearVelocity - linearVelocity * timeStep * 0.5;
+                linearVelocity = linearVelocity - linearVelocity * timeStep.value * 0.5;
 
                 // Update the rigidy body based on new linear and angular velocities
                 shipRigidBody->angularVelocity = angularVelocity + angularDelta;
@@ -58,7 +58,7 @@ void ShipControlSystem::controlShip(Entity& ship, Vector3 directionalThrust, Vec
                         if (thrusterTransform)
                         {
                             const Vector3 relativePosition = shipTransform->globalRotation * thrusterTransform->localPosition;
-                            const Vector3 thrustVector = shipTransform->globalRotation * directionalThrust * thruster->power * timeStep;
+                            const Vector3 thrustVector = shipTransform->globalRotation * directionalThrust * thruster->power * timeStep.value;
                             physicsSystem.applyForceToRigidBody(*shipRigidBody, thrustVector, relativePosition);
                         }
                     }
