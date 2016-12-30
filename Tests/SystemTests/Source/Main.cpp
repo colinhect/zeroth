@@ -11,4 +11,4 @@
 #define CATCH_CONFIG_RUNNER
 #include <catch.hpp>
 
-HECT_MAIN_SYSTEM_TEST_HARNESS_PROJECT(zeroth, "ZerothSystemTests.settings", { code = Catch::Session().run(argc, argv); })
+HECT_MAIN_SYSTEM_TEST_HARNESS_PROJECT(zeroth, "ZerothSystemTestsSettings.yaml", { code = Catch::Session().run(argc, argv); })

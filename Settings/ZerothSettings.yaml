@@ -17,4 +17,4 @@ logging:
 scene: Scenes/Master.scene
 galacticScene: Scenes/BaseGalactic.scene
 include:
-  - Zeroth.InputAxes.SaitekX52.settings
+  - Zeroth.InputAxes.SaitekX52.yaml
