@@ -1,9 +1,0 @@
----
-base: Hect/Materials/OpaqueSolid.material
-uniformValues:
-  - name: roughness
-    type: Float
-    value: 0.3
-  - name: metallic
-    type: Float
-    value: 1.0

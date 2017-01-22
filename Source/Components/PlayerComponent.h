@@ -15,19 +15,10 @@ namespace zeroth
 {
 
 /// \component
-class ZEROTH_EXPORT SpiralGalaxyComponent :
-    public Component<SpiralGalaxyComponent>
+class ZEROTH_EXPORT PlayerComponent :
+    public Component<PlayerComponent>
 {
 public:
-
-    /// \property
-    unsigned seed { 0 };
-
-    double diameter;
-    double thickness;
-    unsigned density;
-
-    Texture2::Handle topologyTexture;
 };
 
 }

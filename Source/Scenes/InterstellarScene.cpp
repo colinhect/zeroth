@@ -4,11 +4,21 @@
 // Copyright (c) 2016 Colin Hill
 //
 ///////////////////////////////////////////////////////////////////////////////
-#include "CockpitCameraSystem.h"
+#include "InterstellarScene.h"
 
 using namespace zeroth;
 
-CockpitCameraSystem::CockpitCameraSystem(Engine& engine, Scene& scene) :
-    System(engine, scene)
+InterstellarScene::InterstellarScene(Engine& engine) :
+    Scene(engine)
 {
+}
+
+void InterstellarScene::tick(Seconds timeStep)
+{
+    (void)timeStep;
+}
+
+void InterstellarScene::render(RenderTarget& target)
+{
+    (void)target;
 }

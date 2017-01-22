@@ -15,6 +15,3 @@ assetCache:
 logging:
     levels: [ Info, Error, Warning ]
 scene: Scenes/Master.scene
-galacticScene: Scenes/BaseGalactic.scene
-include:
-  - Zeroth.InputAxes.SaitekX52.yaml

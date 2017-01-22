@@ -11,24 +11,25 @@ using namespace hect;
 
 #include "Export.h"
 
-#include "Systems/GalaxySystem.h"
-#include "Systems/ObserverCameraSystem.h"
-
 namespace zeroth
 {
 
 /// \scene
-class ZEROTH_EXPORT SystemicScene :
-    public DefaultScene
+class ZEROTH_EXPORT IntergalacticScene :
+    public Scene
 {
 public:
-    SystemicScene(Engine& engine);
+    IntergalacticScene(Engine& engine);
 
+    // Scene overrides
+    virtual void initialize() override;
     virtual void tick(Seconds timeStep) override;
+    virtual void render(RenderTarget& target) override;
 
 private:
-    GalaxySystem& _galaxySystem;
-    ObserverCameraSystem& _observerCameraSystem;
+    BoundingBoxSystem& _boundingBoxSystem;
+    CameraSystem& _cameraSystem;
+    TransformSystem& _transformSystem;
 };
 
 }

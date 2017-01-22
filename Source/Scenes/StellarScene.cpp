@@ -4,20 +4,21 @@
 // Copyright (c) 2016 Colin Hill
 //
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "StellarScene.h"
 
-#include <Hect.h>
-using namespace hect;
+using namespace zeroth;
 
-#include "Export.h"
-
-namespace zeroth
+StellarScene::StellarScene(Engine& engine) :
+    Scene(engine)
 {
+}
 
-/// \component
-class ZEROTH_EXPORT CockpitCameraComponent :
-    public Component<CockpitCameraComponent>
+void StellarScene::tick(Seconds timeStep)
 {
-};
+    (void)timeStep;
+}
 
+void StellarScene::render(RenderTarget& target)
+{
+    (void)target;
 }

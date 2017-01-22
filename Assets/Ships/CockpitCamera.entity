@@ -1,7 +1,0 @@
----
-components:
-  - componentType: CockpitCameraComponent
-  - componentType: CameraComponent
-    farClip: 200
-    nearClip: 0.1
-    fieldOfView: 75

@@ -13,7 +13,6 @@ include_directories(
 
 set(SOURCE_FILES
     "Source/Main.cpp"
-    "Source/PlanetTests.cpp"
     )
 
 source_group("Source" FILES

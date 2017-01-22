@@ -10,7 +10,6 @@
 using namespace hect;
 
 #include "Export.h"
-#include "Systems/ShipControlSystem.h"
 
 namespace zeroth
 {
@@ -26,7 +25,6 @@ public:
     void handlePlayerInput(Seconds timeStep);
 
 private:
-    void controlPlayerShips(Seconds timeStep);
     void adjustCameraExposure(Seconds timeStep);
     void swapMouseMode();
     void toggleDebugInterface();
@@ -38,9 +36,6 @@ private:
 
     Keyboard& _keyboard;
     Mouse& _mouse;
-
-    Vector3 _angularInput;
-    Vector3 _thrustInput;
 };
 
 }

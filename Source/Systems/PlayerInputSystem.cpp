@@ -6,9 +6,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "PlayerInputSystem.h"
 
-#include "Components/PlayerShipControlComponent.h"
-#include "Components/ObserverCameraComponent.h"
-
 using namespace zeroth;
 
 PlayerInputSystem::PlayerInputSystem(Engine& engine, Scene& scene) :
@@ -22,32 +19,7 @@ PlayerInputSystem::PlayerInputSystem(Engine& engine, Scene& scene) :
 
 void PlayerInputSystem::handlePlayerInput(Seconds timeStep)
 {
-    controlPlayerShips(timeStep);
     adjustCameraExposure(timeStep);
-}
-
-void PlayerInputSystem::controlPlayerShips(Seconds timeStep)
-{
-    auto& inputSystem = scene().system<InputSystem>();
-
-    // Get the angular thrust from input
-    Vector3 angularThrust;
-    angularThrust.x = inputSystem.axisValue("pitch");
-    angularThrust.y = inputSystem.axisValue("roll");
-    angularThrust.z = inputSystem.axisValue("yaw");
-
-    // Get the directional thrust from input
-    Vector3 directionalThrust;
-    directionalThrust.x = inputSystem.axisValue("thrustX");
-    directionalThrust.y = inputSystem.axisValue("thrustY");
-    directionalThrust.z = inputSystem.axisValue("thrustZ");
-
-    ShipControlSystem& shipControlSystem = scene().system<ShipControlSystem>();
-    for (PlayerShipControlComponent& playerShipControl : scene().components<PlayerShipControlComponent>())
-    {
-        Entity::Iterator entity = playerShipControl.entity();
-        shipControlSystem.controlShip(*entity, directionalThrust, angularThrust, timeStep);
-    }
 }
 
 void PlayerInputSystem::adjustCameraExposure(Seconds timeStep)

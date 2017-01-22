@@ -1,8 +1,0 @@
----
-sceneType: ZerothScene
-base: Hect/Scenes/Default.scene
-entities:
-  - name: Camera
-    components:
-    - componentType: CameraComponent
-      clearColor: [ 0.15, 0.15, 0.15, 0.0 ]

@@ -1,8 +1,0 @@
----
-sceneType: ZerothScene
-base: Base.scene
-entities:
-  - components:
-    - componentType: CameraComponent
-      farClip: 1000000
-    - componentType: TransformComponent

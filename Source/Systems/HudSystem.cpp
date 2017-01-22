@@ -24,7 +24,7 @@ void HudSystem::updateWidgets()
     CameraComponent::Iterator camera = cameraSystem.activeCamera();
     if (camera)
     {
-        TransformComponent::Iterator transform = camera->entity()->component<TransformComponent>();
+        auto transform = camera->entity()->component<TransformComponent>();
         if (transform)
         {
             Vector3 position = transform->localPosition;

@@ -14,17 +14,18 @@ using namespace hect;
 namespace zeroth
 {
 
-/// \component
-class ZEROTH_EXPORT ProxyGalaxyComponent :
-    public Component<ProxyGalaxyComponent>
+/// \scene
+class ZEROTH_EXPORT InterstellarScene :
+    public Scene
 {
 public:
+    InterstellarScene(Engine& engine);
 
-    /// \property
-    unsigned seed { 0 };
+    // Scene overrides
+    virtual void tick(Seconds timeStep) override;
+    virtual void render(RenderTarget& target) override;
 
-    /// \property
-    Vector3 position;
+private:
 };
 
 }

@@ -14,14 +14,18 @@ using namespace hect;
 namespace zeroth
 {
 
-/// \component
-class ZEROTH_EXPORT ChaseCameraComponent :
-    public Component<ChaseCameraComponent>
+/// \scene
+class ZEROTH_EXPORT StellarScene :
+    public Scene
 {
 public:
+    StellarScene(Engine& engine);
 
-    /// \property{required}
-    double distance { 10.0 };
+    // Scene overrides
+    virtual void tick(Seconds timeStep) override;
+    virtual void render(RenderTarget& target) override;
+
+private:
 };
 
 }

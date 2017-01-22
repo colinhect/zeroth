@@ -1,6 +1,0 @@
----
-shader: Star.shader
-uniformValues:
-  - name: starTexture
-    type: Texture2
-    value: Star.texture2
