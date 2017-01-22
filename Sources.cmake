@@ -27,12 +27,6 @@ set(SOURCE_COMPONENTS
 
 source_group("Source\\Components" FILES ${SOURCE_COMPONENTS})
 
-set(SOURCE_GENERATED
-    "Source/Generated/RegisterTypes.h"
-    )
-
-source_group("Source\\Generated" FILES ${SOURCE_GENERATED})
-
 set(SOURCE_SCENES
     "Source/Scenes/CelestialScene.cpp"
     "Source/Scenes/CelestialScene.h"
@@ -72,7 +66,6 @@ source_group("Source\\Systems" FILES ${SOURCE_SYSTEMS})
 set(SOURCE_FILES
     ${SOURCE}
     ${SOURCE_COMPONENTS}
-    ${SOURCE_GENERATED}
     ${SOURCE_SCENES}
     ${SOURCE_SYSTEMS}
     )
