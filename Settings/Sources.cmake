@@ -5,7 +5,7 @@ set(SOURCE
     "./ZerothSettings.yaml"
     )
 
-source_group("." FILES ${SOURCE})
+source_group("Settings" FILES ${SOURCE})
 
 set(SOURCE_FILES
     ${SOURCE}

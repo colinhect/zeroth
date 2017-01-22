@@ -9,7 +9,7 @@ set(SOURCE_GALAXY_MATERIALS
     "Galaxy/Materials/Star.Vertex.glsl"
     )
 
-source_group("Galaxy\\Materials" FILES ${SOURCE_GALAXY_MATERIALS})
+source_group("Assets\\Galaxy\\Materials" FILES ${SOURCE_GALAXY_MATERIALS})
 
 set(SOURCE_GALAXY_SHADERS
     "Galaxy/Shaders/Particle.Fragment.glsl"
@@ -21,13 +21,13 @@ set(SOURCE_GALAXY_SHADERS
     "Galaxy/Shaders/Topology.Vertex.glsl"
     )
 
-source_group("Galaxy\\Shaders" FILES ${SOURCE_GALAXY_SHADERS})
+source_group("Assets\\Galaxy\\Shaders" FILES ${SOURCE_GALAXY_SHADERS})
 
 set(SOURCE_MODULES_BATTERIES
     "Modules/Batteries/EnthegisStandard60V.entity"
     )
 
-source_group("Modules\\Batteries" FILES ${SOURCE_MODULES_BATTERIES})
+source_group("Assets\\Modules\\Batteries" FILES ${SOURCE_MODULES_BATTERIES})
 
 set(SOURCE_SCENES
     "Scenes/BaseGalactic.scene"
@@ -35,14 +35,14 @@ set(SOURCE_SCENES
     "Scenes/ProxyGalaxy.scene"
     )
 
-source_group("Scenes" FILES ${SOURCE_SCENES})
+source_group("Assets\\Scenes" FILES ${SOURCE_SCENES})
 
 set(SOURCE_SCENES_BASE
     "Scenes/Base/Base.scene"
     "Scenes/Base/ProxyGalaxyBase.scene"
     )
 
-source_group("Scenes\\Base" FILES ${SOURCE_SCENES_BASE})
+source_group("Assets\\Scenes\\Base" FILES ${SOURCE_SCENES_BASE})
 
 set(SOURCE_SCENES_TEST
     "Scenes/Test/Interface.scene"
@@ -51,7 +51,7 @@ set(SOURCE_SCENES_TEST
     "Scenes/Test/Simple.scene"
     )
 
-source_group("Scenes\\Test" FILES ${SOURCE_SCENES_TEST})
+source_group("Assets\\Scenes\\Test" FILES ${SOURCE_SCENES_TEST})
 
 set(SOURCE_SHIPS
     "Ships/CockpitCamera.entity"
@@ -64,7 +64,7 @@ set(SOURCE_SHIPS
     "Ships/Indor.Seat.mesh"
     )
 
-source_group("Ships" FILES ${SOURCE_SHIPS})
+source_group("Assets\\Ships" FILES ${SOURCE_SHIPS})
 
 set(SOURCE_TEST
     "Test/Cube.Main.mesh"
@@ -78,7 +78,7 @@ set(SOURCE_TEST
     "Test/Observer.entity"
     )
 
-source_group("Test" FILES ${SOURCE_TEST})
+source_group("Assets\\Test" FILES ${SOURCE_TEST})
 
 set(SOURCE_TEXTUREGENERATOR
     "TextureGenerator/GlowParticle.glsl"
@@ -90,7 +90,7 @@ set(SOURCE_TEXTUREGENERATOR
     "TextureGenerator/SpiralTopology.shader"
     )
 
-source_group("TextureGenerator" FILES ${SOURCE_TEXTUREGENERATOR})
+source_group("Assets\\TextureGenerator" FILES ${SOURCE_TEXTUREGENERATOR})
 
 set(SOURCE_WORKING
     "Working/1.blend"
@@ -104,7 +104,7 @@ set(SOURCE_WORKING
     "Working/Squid.blend"
     )
 
-source_group("Working" FILES ${SOURCE_WORKING})
+source_group("Assets\\Working" FILES ${SOURCE_WORKING})
 
 set(SOURCE_FILES
     ${SOURCE_GALAXY_MATERIALS}

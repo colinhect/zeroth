@@ -1,1 +1,1 @@
-python ..\..\..\Engine\Tools\Build GenerateSources . Sources.cmake .bat,.cmake,.txt,xml
+python ..\..\..\Engine\Tools\Build GenerateSources . Sources.cmake Assets .bat,.cmake,.txt,xml
