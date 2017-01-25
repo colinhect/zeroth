@@ -12,8 +12,7 @@ IntergalacticScene::IntergalacticScene(Engine& engine) :
     Scene(engine),
     _boundingBoxSystem(createSystem<BoundingBoxSystem>()),
     _cameraSystem(createSystem<CameraSystem>()),
-    _transformSystem(createSystem<TransformSystem>()),
-    _renderSystem(createSystem<RenderSystem>())
+    _transformSystem(createSystem<TransformSystem>())
 {
 }
 
@@ -24,12 +23,10 @@ void IntergalacticScene::initialize()
 
 void IntergalacticScene::tick(Seconds timeStep)
 {
-    Scene::refresh();
-
     _transformSystem.updateCommittedTransforms();
     _cameraSystem.updateAllCameras();
 
-    Scene::refresh();
+    refresh();
 }
 
 void IntergalacticScene::render(RenderTarget& target)

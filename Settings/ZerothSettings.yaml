@@ -1,9 +1,9 @@
 ---
 videoMode:
-    width: 1920
-    height: 1080
+    width: 1440
+    height: 900
     bitsPerPixel: 32
-    fullscreen: true
+    fullscreen: false
 archives:
   - path: Hect.data
     mountPoint: Hect
@@ -14,4 +14,4 @@ assetCache:
     concurrent: true
 logging:
     levels: [ Info, Error, Warning ]
-scene: Scenes/Master.scene
+scene: Scenes/Client.scene

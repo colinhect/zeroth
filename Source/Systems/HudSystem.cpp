@@ -11,7 +11,7 @@ using namespace zeroth;
 HudSystem::HudSystem(Engine& engine, Scene& scene) :
     System(engine, scene),
     _assetCache(engine.assetCache()),
-    _window(engine.window()),
+    _window(engine.mainWindow()),
     _keyboard(engine.keyboard()),
     _mouse(engine.mouse())
 {

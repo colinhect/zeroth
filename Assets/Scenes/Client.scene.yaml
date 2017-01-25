@@ -1,0 +1,15 @@
+---
+sceneType: ClientScene
+systems:
+  - systemType: RenderSystem
+    exposeShader: Hect/Rendering/Expose.shader
+    compositeShader: Hect/Rendering/Composite.shader
+    environmentShader: Hect/Rendering/Environment.shader
+    directionalLightShader: Hect/Rendering/DirectionalLight.shader
+    skyBoxShader: Hect/Shaders/SkyBox.shader
+    skyBoxMesh: Hect/Rendering/SkyBox.mesh
+  - systemType: DebugSystem
+    linesMaterial: Hect/Materials/DebugLines.material
+  - systemType: InterfaceSystem
+    defaultFont: Hect/Interface/Vera.font
+    defaultFontSize: 13

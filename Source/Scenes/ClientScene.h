@@ -11,15 +11,19 @@ using namespace hect;
 
 #include "Export.h"
 
+#include "Scenes/IntergalacticScene.h"
+#include "Scenes/InterstellarScene.h"
+#include "Scenes/StellarScene.h"
+
 namespace zeroth
 {
 
 /// \scene
-class ZEROTH_EXPORT IntergalacticScene :
+class ZEROTH_EXPORT ClientScene :
     public Scene
 {
 public:
-    IntergalacticScene(Engine& engine);
+    ClientScene(Engine& engine);
 
     // Scene overrides
     virtual void initialize() override;
@@ -27,9 +31,19 @@ public:
     virtual void render(RenderTarget& target) override;
 
 private:
-    BoundingBoxSystem& _boundingBoxSystem;
+    void createInterface();
+
     CameraSystem& _cameraSystem;
-    TransformSystem& _transformSystem;
+    DebugSystem& _debugSystem;
+    InputSystem& _inputSystem;
+    InterfaceSystem& _interfaceSystem;
+    RenderSystem& _renderSystem;
+
+    IntergalacticScene _intergalacticScene;
+    InterstellarScene _interstellarScene;
+    StellarScene _stellarScene;
+
+    Interface::Handle _interface;
 };
 
 }

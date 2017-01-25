@@ -14,12 +14,12 @@ set(SOURCE_COMPONENTS
 source_group("Source\\Components" FILES ${SOURCE_COMPONENTS})
 
 set(SOURCE_SCENES
+    "Source/Scenes/ClientScene.cpp"
+    "Source/Scenes/ClientScene.h"
     "Source/Scenes/IntergalacticScene.cpp"
     "Source/Scenes/IntergalacticScene.h"
     "Source/Scenes/InterstellarScene.cpp"
     "Source/Scenes/InterstellarScene.h"
-    "Source/Scenes/RootScene.cpp"
-    "Source/Scenes/RootScene.h"
     "Source/Scenes/StellarScene.cpp"
     "Source/Scenes/StellarScene.h"
     )
