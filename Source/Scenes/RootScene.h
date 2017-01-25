@@ -15,22 +15,17 @@ namespace zeroth
 {
 
 /// \scene
-class ZEROTH_EXPORT IntergalacticScene :
+class ZEROTH_EXPORT RootScene :
     public Scene
 {
 public:
-    IntergalacticScene(Engine& engine);
+    RootScene(Engine& engine);
 
     // Scene overrides
-    virtual void initialize() override;
     virtual void tick(Seconds timeStep) override;
     virtual void render(RenderTarget& target) override;
 
 private:
-    BoundingBoxSystem& _boundingBoxSystem;
-    CameraSystem& _cameraSystem;
-    TransformSystem& _transformSystem;
-    RenderSystem& _renderSystem;
 };
 
 }

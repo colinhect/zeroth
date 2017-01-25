@@ -8,4 +8,4 @@
 
 #include <Hect.h>
 
-HECT_MAIN_PROJECT(zeroth)
+HECT_MAIN_PROJECT(zeroth, "ZerothSettings.yaml")

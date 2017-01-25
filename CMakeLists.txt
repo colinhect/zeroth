@@ -16,7 +16,7 @@ include(Sources.cmake)
 add_library(Zeroth SHARED ${SOURCE_FILES})
 target_link_libraries(Zeroth Hect)
 
-add_subdirectory(${PROJECT_SOURCE_DIR}/Executable)
+add_subdirectory(${PROJECT_SOURCE_DIR}/Client)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/Assets)
 add_dependencies(Zeroth ZerothAssets)

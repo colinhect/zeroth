@@ -12,7 +12,8 @@ IntergalacticScene::IntergalacticScene(Engine& engine) :
     Scene(engine),
     _boundingBoxSystem(createSystem<BoundingBoxSystem>()),
     _cameraSystem(createSystem<CameraSystem>()),
-    _transformSystem(createSystem<TransformSystem>())
+    _transformSystem(createSystem<TransformSystem>()),
+    _renderSystem(createSystem<RenderSystem>())
 {
 }
 
