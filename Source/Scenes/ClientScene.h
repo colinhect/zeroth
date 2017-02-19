@@ -33,7 +33,6 @@ public:
 
 private:
     void createInterface();
-    void createLocalPlayerEntity();
 
     InterfaceSystem _interfaceSystem;
     DebugSystem _debugSystem;

@@ -17,14 +17,12 @@ IntergalacticScene::IntergalacticScene(Engine& engine) :
 
 void IntergalacticScene::initialize()
 {
-
     Scene::initialize();
 }
 
 void IntergalacticScene::tick(Seconds timeStep)
 {
     _transformSystem.updateCommittedTransforms();
-    //_cameraSystem.updateAllCameras();
 
     refresh();
 }

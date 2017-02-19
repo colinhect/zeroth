@@ -6,3 +6,11 @@ systems:
   - systemType: InterfaceSystem
     defaultFont: Hect/Interface/Vera.font
     defaultFontSize: 13
+entities:
+  - name: LocalPlayer
+    components:
+      - componentType: PlayerComponent
+      - componentType: TransformComponent
+      - componentType: CameraComponent
+        fieldOfView: 75
+        farClip: 1000000

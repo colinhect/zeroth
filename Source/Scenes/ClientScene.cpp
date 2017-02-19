@@ -32,7 +32,8 @@ ClientScene::ClientScene(Engine& engine) :
 void ClientScene::initialize()
 {
     createInterface();
-    createLocalPlayerEntity();
+
+    _localPlayerEntity = entities().findFirstByName("LocalPlayer");
 
     Scene::initialize();
 }
@@ -57,7 +58,7 @@ void ClientScene::render(RenderTarget& target)
 {
     Renderer& renderer = engine().renderer();
     _sceneRenderer.render(_intergalacticScene, _cameraSystem, renderer, target);
-    _sceneRenderer.render(*this, _cameraSystem, renderer, target);
+    //_sceneRenderer.render(*this, _cameraSystem, renderer, target);
     _interfaceSystem.renderAllInterfaces();
 }
 
@@ -68,15 +69,4 @@ void ClientScene::createInterface()
 
     LabelWidget::Handle label = _interface->createChild<LabelWidget>();
     label->setText("Testing...");
-}
-
-void ClientScene::createLocalPlayerEntity()
-{
-    if (_localPlayerEntity)
-    {
-        throw InvalidOperation("Local player entity already exists");
-    }
-
-    _localPlayerEntity = loadEntity(LocalPlayerBaseEntityPath)->createHandle();
-    _localPlayerEntity->activate();
 }
