@@ -21,7 +21,7 @@ class ZEROTH_EXPORT HudSystem :
     public EventListener<LogMessageEvent>
 {
 public:
-    HudSystem(Engine& engine, Scene& scene, CameraSystem& cameraSystem, InterfaceSystem& interfaceSystem);
+    HudSystem(Scene& scene, CameraSystem& cameraSystem, InterfaceSystem& interfaceSystem);
 
     void updateWidgets();
 
@@ -32,10 +32,10 @@ private:
     void receiveEvent(const KeyboardEvent& event) override;
     void receiveEvent(const LogMessageEvent& event) override;
 
-    AssetCache& _assetCache;
-    Window& _window;
-    Keyboard& _keyboard;
-    Mouse& _mouse;
+    //AssetCache& _assetCache;
+    //Window& _window;
+    //Keyboard& _keyboard;
+    //Mouse& _mouse;
 
     CameraSystem& _cameraSystem;
     InterfaceSystem& _interfaceSystem;

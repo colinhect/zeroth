@@ -10,8 +10,8 @@ using namespace zeroth;
 
 IntergalacticScene::IntergalacticScene(Engine& engine) :
     Scene(engine),
-    _boundingBoxSystem(engine, *this),
-    _transformSystem(engine, *this, _boundingBoxSystem)
+    _boundingBoxSystem(*this),
+    _transformSystem(*this, _boundingBoxSystem)
 {
 }
 

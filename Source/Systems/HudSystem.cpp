@@ -8,12 +8,12 @@
 
 using namespace zeroth;
 
-HudSystem::HudSystem(Engine& engine, Scene& scene, CameraSystem& cameraSystem, InterfaceSystem& interfaceSystem) :
-    System(engine, scene),
-    _assetCache(engine.assetCache()),
-    _window(engine.mainWindow()),
-    _keyboard(engine.keyboard()),
-    _mouse(engine.mouse()),
+HudSystem::HudSystem(Scene& scene, CameraSystem& cameraSystem, InterfaceSystem& interfaceSystem) :
+    System(scene),
+    //_assetCache(engine.assetCache()),
+    //_window(engine.mainWindow()),
+    //_keyboard(engine.keyboard()),
+    //_mouse(engine.mouse()),
     _cameraSystem(cameraSystem),
     _interfaceSystem(interfaceSystem)
 {
@@ -36,8 +36,8 @@ void HudSystem::updateWidgets()
 
 void HudSystem::initialize()
 {
-    _interface = _interfaceSystem.createInterface(_window);
-    _cameraPositionLabel = _interface->createChild<LabelWidget>();
+    //_interface = _interfaceSystem.createInterface(_window);
+    //_cameraPositionLabel = _interface->createChild<LabelWidget>();
 }
 
 void HudSystem::receiveEvent(const KeyboardEvent& event)

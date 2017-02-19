@@ -17,11 +17,11 @@ static const Path LocalPlayerBaseEntityPath("Entities/LocalPlayerBase.entity");
 
 ClientScene::ClientScene(Engine& engine) :
     Scene(engine),
-    _interfaceSystem(engine, *this),
-    _debugSystem(engine, *this, _interfaceSystem),
-    _inputSystem(engine, *this),
-    _cameraSystem(engine, *this),
-    _playerInputSystem(engine, *this, _cameraSystem, _inputSystem),
+    _interfaceSystem(*this, engine.mouse(), engine.renderer(), engine.vectorRenderer()),
+    _debugSystem(*this, _interfaceSystem),
+    _inputSystem(*this, engine.settings()),
+    _cameraSystem(*this),
+    _playerInputSystem(*this, _cameraSystem, _inputSystem, engine.keyboard(), engine.mouse()),
     _intergalacticScene(engine),
     _interstellarScene(engine),
     _stellarScene(engine),
@@ -39,7 +39,7 @@ void ClientScene::initialize()
 
 void ClientScene::tick(Seconds timeStep)
 {
-    _inputSystem.updateAxes(timeStep);
+    _inputSystem.updateAxes(engine(), timeStep);
     _playerInputSystem.handlePlayerInput(timeStep);
 
     _debugSystem.clearEnqueuedDebugGeometry();

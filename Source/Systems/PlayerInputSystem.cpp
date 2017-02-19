@@ -8,10 +8,10 @@
 
 using namespace zeroth;
 
-PlayerInputSystem::PlayerInputSystem(Engine& engine, Scene& scene, CameraSystem& cameraSystem, InputSystem& inputSystem) :
-    System(engine, scene),
-    _keyboard(engine.keyboard()),
-    _mouse(engine.mouse()),
+PlayerInputSystem::PlayerInputSystem(Scene& scene, CameraSystem& cameraSystem, InputSystem& inputSystem, Keyboard& keyboard, Mouse& mouse) :
+    System(scene),
+    _keyboard(keyboard),
+    _mouse(mouse),
     _cameraSystem(cameraSystem),
     _inputSystem(inputSystem)
 {
