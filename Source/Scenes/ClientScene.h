@@ -39,12 +39,13 @@ private:
     DebugSystem _debugSystem;
     InputSystem _inputSystem;
     CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
     PlayerInputSystem _playerInputSystem;
 
     IntergalacticScene _intergalacticScene;
     InterstellarScene _interstellarScene;
     StellarScene _stellarScene;
+
+    PhysicallyBasedSceneRenderer _sceneRenderer;
 
     Interface::Handle _interface;
 

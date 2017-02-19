@@ -21,20 +21,20 @@ ClientScene::ClientScene(Engine& engine) :
     _debugSystem(engine, *this, _interfaceSystem),
     _inputSystem(engine, *this),
     _cameraSystem(engine, *this),
-    _renderSystem(engine, *this, _cameraSystem, _debugSystem),
     _playerInputSystem(engine, *this, _cameraSystem, _inputSystem),
     _intergalacticScene(engine),
     _interstellarScene(engine),
-    _stellarScene(engine)
+    _stellarScene(engine),
+    _sceneRenderer(engine.assetCache(), engine.taskPool())
 {
 }
 
 void ClientScene::initialize()
 {
-    Scene::initialize();
-
     createInterface();
     createLocalPlayerEntity();
+
+    Scene::initialize();
 }
 
 void ClientScene::tick(Seconds timeStep)
@@ -55,8 +55,9 @@ void ClientScene::tick(Seconds timeStep)
 
 void ClientScene::render(RenderTarget& target)
 {
-    _renderSystem.render(_intergalacticScene, target);
-    _renderSystem.render(*this, target);
+    Renderer& renderer = engine().renderer();
+    _sceneRenderer.render(_intergalacticScene, _cameraSystem, renderer, target);
+    _sceneRenderer.render(*this, _cameraSystem, renderer, target);
     _interfaceSystem.renderAllInterfaces();
 }
 
