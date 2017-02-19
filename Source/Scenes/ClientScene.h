@@ -14,6 +14,7 @@ using namespace hect;
 #include "Scenes/IntergalacticScene.h"
 #include "Scenes/InterstellarScene.h"
 #include "Scenes/StellarScene.h"
+#include "Systems/PlayerInputSystem.h"
 
 namespace zeroth
 {
@@ -32,18 +33,22 @@ public:
 
 private:
     void createInterface();
+    void createLocalPlayerEntity();
 
     InterfaceSystem _interfaceSystem;
     DebugSystem _debugSystem;
     InputSystem _inputSystem;
     CameraSystem _cameraSystem;
     RenderSystem _renderSystem;
+    PlayerInputSystem _playerInputSystem;
 
     IntergalacticScene _intergalacticScene;
     InterstellarScene _interstellarScene;
     StellarScene _stellarScene;
 
     Interface::Handle _interface;
+
+    Entity::Handle _localPlayerEntity;
 };
 
 }

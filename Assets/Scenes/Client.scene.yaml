@@ -1,5 +1,6 @@
 ---
 sceneType: ClientScene
+localPlayerBaseEntity: Entities/LocalPlayerBase.entity
 systems:
   - systemType: RenderSystem
     exposeShader: Hect/Rendering/Expose.shader

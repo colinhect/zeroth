@@ -8,6 +8,13 @@
 
 using namespace zeroth;
 
+namespace
+{
+
+static const Path LocalPlayerBaseEntityPath("Entities/LocalPlayerBase.entity");
+
+}
+
 ClientScene::ClientScene(Engine& engine) :
     Scene(engine),
     _interfaceSystem(engine, *this),
@@ -15,6 +22,7 @@ ClientScene::ClientScene(Engine& engine) :
     _inputSystem(engine, *this),
     _cameraSystem(engine, *this),
     _renderSystem(engine, *this, _cameraSystem, _debugSystem),
+    _playerInputSystem(engine, *this, _cameraSystem, _inputSystem),
     _intergalacticScene(engine),
     _interstellarScene(engine),
     _stellarScene(engine)
@@ -24,12 +32,16 @@ ClientScene::ClientScene(Engine& engine) :
 void ClientScene::initialize()
 {
     Scene::initialize();
+
     createInterface();
+    createLocalPlayerEntity();
 }
 
 void ClientScene::tick(Seconds timeStep)
 {
     _inputSystem.updateAxes(timeStep);
+    _playerInputSystem.handlePlayerInput(timeStep);
+
     _debugSystem.clearEnqueuedDebugGeometry();
 
     _intergalacticScene.tick(timeStep);
@@ -55,4 +67,15 @@ void ClientScene::createInterface()
 
     LabelWidget::Handle label = _interface->createChild<LabelWidget>();
     label->setText("Testing...");
+}
+
+void ClientScene::createLocalPlayerEntity()
+{
+    if (_localPlayerEntity)
+    {
+        throw InvalidOperation("Local player entity already exists");
+    }
+
+    _localPlayerEntity = loadEntity(LocalPlayerBaseEntityPath)->createHandle();
+    _localPlayerEntity->activate();
 }
