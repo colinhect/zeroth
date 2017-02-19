@@ -1,0 +1,8 @@
+---
+name: LocalPlayer
+components:
+  - componentType: PlayerComponent
+  - componentType: TransformComponent
+  - componentType: CameraComponent
+    fieldOfView: 75
+    farClip: 1000000

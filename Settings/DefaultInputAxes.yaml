@@ -1,0 +1,77 @@
+---
+inputAxes:
+  - name: yaw
+    bindings:
+      - type: MouseMoveX
+        mouseSensitivity: 0.006
+        invert: true
+  - name: pitch
+    bindings:
+      - type: MouseMoveY
+        mouseSensitivity: 0.006
+        invert: true
+  - name: roll
+    bindings:
+      - type: Key
+        key: E
+        range: [ 0, 1 ]
+        acceleration: 5
+        gravity: 2
+      - type: Key
+        key: Q
+        range: [ -1, 0 ]
+        acceleration: 5
+        gravity: 2
+        invert: true
+  - name: thrustX
+    bindings:
+      - type: Key
+        key: D
+        range: [ 0, 1 ]
+        acceleration: 5
+        gravity: 2
+      - type: Key
+        key: A
+        range: [ -1, 0 ]
+        acceleration: 5
+        gravity: 2
+        invert: true
+  - name: thrustY
+    bindings:
+      - type: Key
+        key: W
+        range: [ 0, 1 ]
+        acceleration: 5
+        gravity: 2
+      - type: Key
+        key: S
+        range: [ -1, 0 ]
+        acceleration: 5
+        gravity: 2
+        invert: true
+  - name: thrustZ
+    bindings:
+      - type: Key
+        key: X
+        range: [ 0, 1 ]
+        acceleration: 5
+        gravity: 2
+      - type: Key
+        key: Z
+        range: [ -1, 0 ]
+        acceleration: 5
+        gravity: 2
+        invert: true
+  - name: exposure
+    bindings:
+      - type: Key
+        key: V
+        range: [ 0, 1 ]
+        acceleration: 5
+        gravity: 2
+      - type: Key
+        key: C
+        range: [ -1, 0 ]
+        acceleration: 5
+        gravity: 2
+        invert: true
