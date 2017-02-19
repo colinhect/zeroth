@@ -8,10 +8,12 @@
 
 using namespace zeroth;
 
-PlayerInputSystem::PlayerInputSystem(Engine& engine, Scene& scene) :
+PlayerInputSystem::PlayerInputSystem(Engine& engine, Scene& scene, CameraSystem& cameraSystem, InputSystem& inputSystem) :
     System(engine, scene),
     _keyboard(engine.keyboard()),
-    _mouse(engine.mouse())
+    _mouse(engine.mouse()),
+    _cameraSystem(cameraSystem),
+    _inputSystem(inputSystem)
 {
     _keyboard.registerListener(*this);
     _mouse.setMode(MouseMode::Relative);
@@ -25,12 +27,10 @@ void PlayerInputSystem::handlePlayerInput(Seconds timeStep)
 void PlayerInputSystem::adjustCameraExposure(Seconds timeStep)
 {
     // Adjust the exposure of the active camera
-    auto& cameraSystem = scene().system<CameraSystem>();
-    CameraComponent::Iterator camera = cameraSystem.activeCamera();
+    CameraComponent::Iterator camera = _cameraSystem.activeCamera();
     if (camera)
     {
-        auto& inputSystem = scene().system<InputSystem>();
-        double exposure = inputSystem.axisValue("exposure");
+        double exposure = _inputSystem.axisValue("exposure");
         if (exposure != 0.0)
         {
             camera->exposure += exposure * 5.0 * timeStep.value;
@@ -41,7 +41,7 @@ void PlayerInputSystem::adjustCameraExposure(Seconds timeStep)
 
 void PlayerInputSystem::swapMouseMode()
 {
-    MouseMode mode = _mouse.mode();
+    const MouseMode mode = _mouse.mode();
     if (mode == MouseMode::Cursor)
     {
         _mouse.setMode(MouseMode::Relative);
@@ -49,15 +49,6 @@ void PlayerInputSystem::swapMouseMode()
     else
     {
         _mouse.setMode(MouseMode::Cursor);
-    }
-}
-
-void PlayerInputSystem::toggleDebugInterface()
-{
-    if (scene().hasSystemType<DebugSystem>())
-    {
-        auto& debugSystem = scene().system<DebugSystem>();
-        debugSystem.toggleShowInterface();
     }
 }
 
@@ -69,9 +60,6 @@ void PlayerInputSystem::parseKeyboardShortcut(const KeyboardEvent& event)
         {
         case Key::Tab:
             swapMouseMode();
-            break;
-        case Key::F1:
-            toggleDebugInterface();
             break;
         case Key::Esc:
             deactivateScene();

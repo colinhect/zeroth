@@ -9,10 +9,7 @@
 using namespace zeroth;
 
 IntergalacticScene::IntergalacticScene(Engine& engine) :
-    Scene(engine),
-    _boundingBoxSystem(createSystem<BoundingBoxSystem>()),
-    _cameraSystem(createSystem<CameraSystem>()),
-    _transformSystem(createSystem<TransformSystem>())
+    Scene(engine)
 {
 }
 
@@ -23,8 +20,8 @@ void IntergalacticScene::initialize()
 
 void IntergalacticScene::tick(Seconds timeStep)
 {
-    _transformSystem.updateCommittedTransforms();
-    _cameraSystem.updateAllCameras();
+    //_transformSystem.updateCommittedTransforms();
+    //_cameraSystem.updateAllCameras();
 
     refresh();
 }

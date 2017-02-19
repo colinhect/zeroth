@@ -8,20 +8,21 @@
 
 using namespace zeroth;
 
-HudSystem::HudSystem(Engine& engine, Scene& scene) :
+HudSystem::HudSystem(Engine& engine, Scene& scene, CameraSystem& cameraSystem, InterfaceSystem& interfaceSystem) :
     System(engine, scene),
     _assetCache(engine.assetCache()),
     _window(engine.mainWindow()),
     _keyboard(engine.keyboard()),
-    _mouse(engine.mouse())
+    _mouse(engine.mouse()),
+    _cameraSystem(cameraSystem),
+    _interfaceSystem(interfaceSystem)
 {
     registerLogListener(*this);
 }
 
 void HudSystem::updateWidgets()
 {
-    auto& cameraSystem = scene().system<CameraSystem>();
-    CameraComponent::Iterator camera = cameraSystem.activeCamera();
+    CameraComponent::Iterator camera = _cameraSystem.activeCamera();
     if (camera)
     {
         auto transform = camera->entity()->component<TransformComponent>();
@@ -35,8 +36,7 @@ void HudSystem::updateWidgets()
 
 void HudSystem::initialize()
 {
-    auto& interfaceSystem = scene().system<InterfaceSystem>();
-    _interface = interfaceSystem.createInterface(_window);
+    _interface = _interfaceSystem.createInterface(_window);
     _cameraPositionLabel = _interface->createChild<LabelWidget>();
 }
 

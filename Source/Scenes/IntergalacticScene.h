@@ -27,9 +27,6 @@ public:
     virtual void render(RenderTarget& target) override;
 
 private:
-    BoundingBoxSystem& _boundingBoxSystem;
-    CameraSystem& _cameraSystem;
-    TransformSystem& _transformSystem;
 };
 
 }

@@ -33,11 +33,11 @@ public:
 private:
     void createInterface();
 
-    CameraSystem& _cameraSystem;
-    DebugSystem& _debugSystem;
-    InputSystem& _inputSystem;
-    InterfaceSystem& _interfaceSystem;
-    RenderSystem& _renderSystem;
+    InterfaceSystem _interfaceSystem;
+    DebugSystem _debugSystem;
+    InputSystem _inputSystem;
+    CameraSystem _cameraSystem;
+    RenderSystem _renderSystem;
 
     IntergalacticScene _intergalacticScene;
     InterstellarScene _interstellarScene;
