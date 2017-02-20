@@ -12,6 +12,7 @@ namespace
 {
 
 static const Path LocalPlayerBaseEntityPath("Entities/LocalPlayerBase.entity");
+static const Path IntergalacticScenePath("Scenes/Intergalactic.scene");
 
 }
 
@@ -27,15 +28,17 @@ ClientScene::ClientScene(Engine& engine) :
     _stellarScene(engine),
     _sceneRenderer(engine.assetCache(), engine.taskPool())
 {
+    _intergalacticScene.load(IntergalacticScenePath);
 }
 
 void ClientScene::initialize()
 {
     createInterface();
-
     _localPlayerEntity = entities().findFirstByName("LocalPlayer");
 
     Scene::initialize();
+
+    _intergalacticScene.initialize();
 }
 
 void ClientScene::tick(Seconds timeStep)
