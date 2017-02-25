@@ -18,11 +18,11 @@ static const Path IntergalacticScenePath("Scenes/Intergalactic.scene");
 
 ClientScene::ClientScene(Engine& engine) :
     Scene(engine),
-    _interfaceSystem(*this, engine.mouse(), engine.renderer(), engine.vectorRenderer()),
+    _interfaceSystem(*this, engine.platform(), engine.renderer(), engine.vectorRenderer()),
     _debugSystem(*this, _interfaceSystem),
-    _inputSystem(*this, engine.settings()),
+    _inputSystem(*this, engine.platform(), engine.settings()),
     _cameraSystem(*this),
-    _playerInputSystem(*this, _cameraSystem, _inputSystem, engine.keyboard(), engine.mouse()),
+    _playerInputSystem(*this, _cameraSystem, _inputSystem, engine.platform()),
     _intergalacticScene(engine),
     _interstellarScene(engine),
     _stellarScene(engine),
@@ -43,7 +43,7 @@ void ClientScene::initialize()
 
 void ClientScene::tick(Seconds timeStep)
 {
-    _inputSystem.updateAxes(engine(), timeStep);
+    _inputSystem.updateAxes(timeStep);
     _playerInputSystem.handlePlayerInput(timeStep);
 
     _debugSystem.clearEnqueuedDebugGeometry();

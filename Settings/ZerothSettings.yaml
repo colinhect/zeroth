@@ -5,8 +5,6 @@ videoMode:
     bitsPerPixel: 32
     fullscreen: false
 archives:
-  - path: Hect.data
-    mountPoint: Hect
   - path: Zeroth.data
 taskPool:
     threadCount: 6

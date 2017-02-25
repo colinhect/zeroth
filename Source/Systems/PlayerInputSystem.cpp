@@ -8,15 +8,14 @@
 
 using namespace zeroth;
 
-PlayerInputSystem::PlayerInputSystem(Scene& scene, CameraSystem& cameraSystem, InputSystem& inputSystem, Keyboard& keyboard, Mouse& mouse) :
+PlayerInputSystem::PlayerInputSystem(Scene& scene, CameraSystem& cameraSystem, InputSystem& inputSystem, Platform& platform) :
     System(scene),
-    _keyboard(keyboard),
-    _mouse(mouse),
     _cameraSystem(cameraSystem),
-    _inputSystem(inputSystem)
+    _inputSystem(inputSystem),
+    _platform(platform)
 {
-    _keyboard.registerListener(*this);
-    _mouse.setMode(MouseMode::Relative);
+    platform.keyboard().registerListener(*this);
+    platform.mouse().setMode(MouseMode::Relative);
 }
 
 void PlayerInputSystem::handlePlayerInput(Seconds timeStep)
@@ -41,14 +40,15 @@ void PlayerInputSystem::adjustCameraExposure(Seconds timeStep)
 
 void PlayerInputSystem::swapMouseMode()
 {
-    const MouseMode mode = _mouse.mode();
+    Mouse& mouse = _platform.mouse();
+    const MouseMode mode = mouse.mode();
     if (mode == MouseMode::Cursor)
     {
-        _mouse.setMode(MouseMode::Relative);
+        mouse.setMode(MouseMode::Relative);
     }
     else
     {
-        _mouse.setMode(MouseMode::Cursor);
+        mouse.setMode(MouseMode::Cursor);
     }
 }
 
