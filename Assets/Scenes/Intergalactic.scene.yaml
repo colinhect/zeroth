@@ -1,0 +1,8 @@
+---
+sceneType: IntergalacticScene
+entities:
+  - name: Box
+    components:
+      - componentType: TransformComponent
+      - componentType: BoundingBoxComponent
+      - componentType: MeshComponent
