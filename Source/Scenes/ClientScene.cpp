@@ -11,7 +11,6 @@ using namespace zeroth;
 namespace
 {
 
-static const Path LocalPlayerBaseEntityPath("Entities/LocalPlayerBase.entity");
 static const Path IntergalacticScenePath("Scenes/Intergalactic.scene");
 
 }
@@ -36,9 +35,9 @@ void ClientScene::initialize()
     createInterface();
     _localPlayerEntity = entities().findFirstByName("LocalPlayer");
 
-    Scene::initialize();
-
     _intergalacticScene.initialize();
+
+    Scene::initialize();
 }
 
 void ClientScene::tick(Seconds timeStep)

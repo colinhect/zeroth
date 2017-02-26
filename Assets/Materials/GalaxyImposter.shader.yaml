@@ -1,0 +1,16 @@
+---
+renderStage: PostPhysicalGeometry
+modules:
+  - type: Vertex
+    path: GalaxyImposter.Vertex.glsl
+  - type: Fragment
+    path: GalaxyImposter.Fragment.glsl
+uniforms:
+  - name: modelViewProjection
+    binding: ModelViewProjectionMatrix
+  - name: texture
+    type: Texture2
+depthTested: false
+blendMode:
+    sourceFactor: One
+    destinationFactor: One

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-// This source file is part of Zeroth.
+// This source file is part of Zeroth._particleOctreeSystem
 //
 // Copyright (c) 2016 Colin Hill
 //
@@ -10,6 +10,8 @@
 using namespace hect;
 
 #include "Export.h"
+
+#include "Systems/ParticleOctreeSystem.h"
 
 namespace zeroth
 {
@@ -29,6 +31,7 @@ public:
 private:
     BoundingBoxSystem _boundingBoxSystem;
     TransformSystem _transformSystem;
+    ParticleOctreeSystem _particleOctreeSystem;
 };
 
 }

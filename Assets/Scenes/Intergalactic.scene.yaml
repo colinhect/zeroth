@@ -1,8 +1,5 @@
 ---
 sceneType: IntergalacticScene
-entities:
-  - name: Box
-    components:
-      - componentType: TransformComponent
-      - componentType: BoundingBoxComponent
-      - componentType: MeshComponent
+systems:
+  - systemType: ParticleOctreeSystem
+    particleMaterial: Materials/GalaxyImposter.material

@@ -1,0 +1,14 @@
+///////////////////////////////////////////////////////////////////////////////
+// This source file is part of Zeroth.
+//
+// Copyright (c) 2016 Colin Hill
+//
+///////////////////////////////////////////////////////////////////////////////
+#include "ParticleOctreeSystem.h"
+
+using namespace zeroth;
+
+ParticleOctreeSystem::ParticleOctreeSystem(Scene& scene) :
+    System(scene)
+{
+}

@@ -11,7 +11,8 @@ using namespace zeroth;
 IntergalacticScene::IntergalacticScene(Engine& engine) :
     Scene(engine),
     _boundingBoxSystem(*this),
-    _transformSystem(*this, _boundingBoxSystem)
+    _transformSystem(*this, _boundingBoxSystem),
+    _particleOctreeSystem(*this)
 {
 }
 
@@ -31,4 +32,3 @@ void IntergalacticScene::render(RenderTarget& target)
 {
     (void)target;
 }
-
