@@ -11,17 +11,22 @@ using namespace hect;
 
 #include "Export.h"
 
-#include "Systems/ParticleOctreeSystem.h"
+#include "Systems/GalaxyImposterSystem.h"
 
 namespace zeroth
 {
 
+///
+/// A scene of galaxies and the space inbetween at a scale of megaparsecs.
+///
 /// \scene
 class ZEROTH_EXPORT IntergalacticScene :
     public Scene
 {
 public:
     IntergalacticScene(Engine& engine);
+
+    void setObserver(Entity& entity);
 
     // Scene overrides
     virtual void initialize() override;
@@ -31,7 +36,9 @@ public:
 private:
     BoundingBoxSystem _boundingBoxSystem;
     TransformSystem _transformSystem;
-    ParticleOctreeSystem _particleOctreeSystem;
+    GalaxyImposterSystem _galaxyImposterSystem;
+
+    Entity::Handle _observerEntity;
 };
 
 }

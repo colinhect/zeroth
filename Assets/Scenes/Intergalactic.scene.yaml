@@ -3,3 +3,5 @@ sceneType: IntergalacticScene
 systems:
   - systemType: ParticleOctreeSystem
     particleMaterial: Materials/GalaxyImposter.material
+    maxDepth: 4
+    maxCellSize: 10000

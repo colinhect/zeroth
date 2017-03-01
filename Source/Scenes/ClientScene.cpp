@@ -35,6 +35,7 @@ void ClientScene::initialize()
     createInterface();
     _localPlayerEntity = entities().findFirstByName("LocalPlayer");
 
+    _intergalacticScene.setObserver(*_localPlayerEntity);
     _intergalacticScene.initialize();
 
     Scene::initialize();

@@ -15,10 +15,12 @@ namespace zeroth
 {
 
 /// \component
-class ZEROTH_EXPORT ParticleOctreeNodeComponent :
-    public Component<ParticleOctreeNodeComponent>
+class ZEROTH_EXPORT GalaxyImposterCellComponent :
+    public Component<GalaxyImposterCellComponent>
 {
 public:
+    unsigned depth { 0 };
+    bool split { false };
 };
 
 }

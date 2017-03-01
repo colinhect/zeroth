@@ -4,21 +4,6 @@
 // Copyright (c) 2016 Colin Hill
 //
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "GalaxyGenerator.h"
 
-#include <Hect.h>
-using namespace hect;
-
-#include "Export.h"
-
-namespace zeroth
-{
-
-/// \component
-class ZEROTH_EXPORT ParticleOctreeComponent :
-    public Component<ParticleOctreeComponent>
-{
-public:
-};
-
-}
+using namespace zeroth;

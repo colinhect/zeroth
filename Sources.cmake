@@ -2,14 +2,15 @@
 
 set(SOURCE
     "Source/./Export.h"
+    "Source/./GalaxyGenerator.cpp"
+    "Source/./GalaxyGenerator.h"
     "Source/./Main.cpp"
     )
 
 source_group("Source" FILES ${SOURCE})
 
 set(SOURCE_COMPONENTS
-    "Source/Components/ParticleOctreeComponent.h"
-    "Source/Components/ParticleOctreeNodeComponent.h"
+    "Source/Components/GalaxyImposterCellComponent.h"
     "Source/Components/PlayerComponent.h"
     )
 
@@ -29,10 +30,10 @@ set(SOURCE_SCENES
 source_group("Source\\Scenes" FILES ${SOURCE_SCENES})
 
 set(SOURCE_SYSTEMS
+    "Source/Systems/GalaxyImposterSystem.cpp"
+    "Source/Systems/GalaxyImposterSystem.h"
     "Source/Systems/HudSystem.cpp"
     "Source/Systems/HudSystem.h"
-    "Source/Systems/ParticleOctreeSystem.cpp"
-    "Source/Systems/ParticleOctreeSystem.h"
     "Source/Systems/PlayerInputSystem.cpp"
     "Source/Systems/PlayerInputSystem.h"
     )

@@ -12,8 +12,13 @@ IntergalacticScene::IntergalacticScene(Engine& engine) :
     Scene(engine),
     _boundingBoxSystem(*this),
     _transformSystem(*this, _boundingBoxSystem),
-    _particleOctreeSystem(*this)
+    _galaxyImposterSystem(*this)
 {
+}
+
+void IntergalacticScene::setObserver(Entity& entity)
+{
+    _observerEntity = entity.createHandle();
 }
 
 void IntergalacticScene::initialize()
@@ -24,6 +29,15 @@ void IntergalacticScene::initialize()
 void IntergalacticScene::tick(Seconds timeStep)
 {
     _transformSystem.updateCommittedTransforms();
+
+    if (_observerEntity)
+    {
+        auto transform = _observerEntity->component<TransformComponent>();
+        if (transform)
+        {
+            _galaxyImposterSystem.adaptToObserver(transform->globalPosition, transform->globalRotation);
+        }
+    }
 
     refresh();
 }

@@ -15,16 +15,16 @@ namespace zeroth
 {
 
 /// \system
-class ZEROTH_EXPORT ParticleOctreeSystem :
-    public System<ParticleOctreeSystem>
+class ZEROTH_EXPORT GalaxyImposterSystem :
+    public System<GalaxyImposterSystem>
 {
 public:
-    ParticleOctreeSystem(Scene& scene);
+    GalaxyImposterSystem(Scene& scene);
 
-    /// \property{required}
-    Material::Handle particleMaterial;
+    void adaptToObserver(const Vector3& position, const Quaternion& rotation);
 
 private:
+    std::vector<Entity::Handle> _rootCellEntities;
 };
 
 }
