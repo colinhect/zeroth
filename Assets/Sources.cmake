@@ -18,8 +18,17 @@ set(SOURCE_SCENES
 
 source_group("Assets\\Scenes" FILES ${SOURCE_SCENES})
 
+set(SOURCE_TEST
+    "Test/MonkeyHead.blend"
+    "Test/MonkeyHead.blend1"
+    "Test/MonkeyHead.mesh"
+    )
+
+source_group("Assets\\Test" FILES ${SOURCE_TEST})
+
 set(SOURCE_FILES
     ${SOURCE_MATERIALS}
     ${SOURCE_SCENES}
+    ${SOURCE_TEST}
     )
 

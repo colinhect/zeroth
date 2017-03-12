@@ -14,3 +14,17 @@ entities:
       - componentType: CameraComponent
         fieldOfView: 75
         farClip: 1000000
+  - name: MonkeyHead
+    components:
+      - componentType: TransformComponent
+        localPosition: [ 0, 0, 0 ]
+      - componentType: GeometryComponent
+        surfaces:
+          - mesh: Test/MonkeyHead.mesh
+  - name: Light
+    components:
+      - componentType: TransformComponent
+        localPosition: [ 0, 50, 0 ]
+      - componentType: DirectionalLightComponent
+        direction: [ 1, 0, 0 ]
+        color: [ 1, 1, 1 ]

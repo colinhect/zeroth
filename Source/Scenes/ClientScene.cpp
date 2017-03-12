@@ -52,8 +52,6 @@ void ClientScene::tick(Seconds timeStep)
         _playerInputSystem.handlePlayerInput(timeStep, *_localPlayerEntity);
     }
 
-    _debugSystem.clearEnqueuedDebugGeometry();
-
     _intergalacticScene.tick(timeStep);
     _interstellarScene.tick(timeStep);
     _stellarScene.tick(timeStep);
@@ -66,8 +64,10 @@ void ClientScene::tick(Seconds timeStep)
 void ClientScene::render(RenderTarget& target)
 {
     Renderer& renderer = engine().renderer();
-    _sceneRenderer.render(_intergalacticScene, _cameraSystem, renderer, target);
-    //_sceneRenderer.render(*this, _cameraSystem, renderer, target);
+
+    //_sceneRenderer.render(_intergalacticScene, _cameraSystem, renderer, target);
+    _sceneRenderer.render(*this, _cameraSystem, renderer, target);
+
     _interfaceSystem.renderAllInterfaces();
 }
 
