@@ -21,7 +21,9 @@ ClientScene::ClientScene(Engine& engine) :
     _debugSystem(*this, _interfaceSystem),
     _inputSystem(*this, engine.platform(), engine.settings()),
     _cameraSystem(*this),
-    _playerInputSystem(*this, _cameraSystem, _inputSystem, engine.platform()),
+    _boundingBoxSystem(*this),
+    _transformSystem(*this, _boundingBoxSystem),
+    _playerInputSystem(*this, _inputSystem, _transformSystem, engine.platform()),
     _intergalacticScene(engine),
     _interstellarScene(engine),
     _stellarScene(engine),
@@ -44,7 +46,11 @@ void ClientScene::initialize()
 void ClientScene::tick(Seconds timeStep)
 {
     _inputSystem.updateAxes(timeStep);
-    _playerInputSystem.handlePlayerInput(timeStep);
+
+    if (_localPlayerEntity)
+    {
+        _playerInputSystem.handlePlayerInput(timeStep, *_localPlayerEntity);
+    }
 
     _debugSystem.clearEnqueuedDebugGeometry();
 

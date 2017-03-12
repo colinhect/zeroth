@@ -21,23 +21,25 @@ enum class GalaxyType
 
 struct ZEROTH_EXPORT Galaxy
 {
-    Name name;
-    GalaxyType type { GalaxyType::Spiral };
-};
-
-struct ZEROTH_EXPORT GalaxyImposter
-{
     Vector3 position;
     Color color;
-    double size;
+    double size { 0.0 };
+    RandomSeed seed { 0 };
+};
+
+struct ZEROTH_EXPORT GalaxyDescriptor
+{
+    Name name;
+    GalaxyType type { GalaxyType::Spiral };
 };
 
 class ZEROTH_EXPORT GalaxyGenerator
 {
 public:
 
-    //void generateGalaxyImposters(unsigned layer, const AxisAlignedBox& bounds, std::vector<GalaxyImposter>& galaxyImposters);
-    //void generateGalaxies
+    void generateGalaxies(unsigned layer, const AxisAlignedBox& bounds, std::vector<Galaxy>& galaxies);
+
+    GalaxyDescriptor generateGalaxyDescriptor(const Galaxy& galaxy) const;
 };
 
 }

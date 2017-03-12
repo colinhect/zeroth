@@ -25,12 +25,9 @@ void HudSystem::updateWidgets()
     CameraComponent::Iterator camera = _cameraSystem.activeCamera();
     if (camera)
     {
-        auto transform = camera->entity()->component<TransformComponent>();
-        if (transform)
-        {
-            Vector3 position = transform->localPosition;
-            _cameraPositionLabel->setText(format("%f %f %f", position.x, position.y, position.z));
-        }
+        auto& transform = camera->entity().component<TransformComponent>();
+        Vector3 position = transform.localPosition;
+        _cameraPositionLabel->setText(format("%f %f %f", position.x, position.y, position.z));
     }
 }
 

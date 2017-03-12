@@ -8,47 +8,50 @@
 
 using namespace zeroth;
 
-PlayerInputSystem::PlayerInputSystem(Scene& scene, CameraSystem& cameraSystem, InputSystem& inputSystem, Platform& platform) :
+PlayerInputSystem::PlayerInputSystem(Scene& scene, InputSystem& inputSystem, TransformSystem& transformSystem, Platform& platform) :
     System(scene),
-    _cameraSystem(cameraSystem),
     _inputSystem(inputSystem),
-    _platform(platform)
+    _transformSystem(transformSystem),
+    _keyboard(platform.keyboard()),
+    _mouse(platform.mouse())
 {
-    platform.keyboard().registerListener(*this);
-    platform.mouse().setMode(MouseMode::Relative);
+    _keyboard.registerListener(*this);
+    _mouse.setMode(MouseMode::Relative);
 }
 
-void PlayerInputSystem::handlePlayerInput(Seconds timeStep)
+void PlayerInputSystem::handlePlayerInput(Seconds timeStep, Entity& localPlayerEntity)
 {
-    adjustCameraExposure(timeStep);
-}
-
-void PlayerInputSystem::adjustCameraExposure(Seconds timeStep)
-{
-    // Adjust the exposure of the active camera
-    CameraComponent::Iterator camera = _cameraSystem.activeCamera();
-    if (camera)
+    if (_mouse.mode() == MouseMode::Relative)
     {
-        double exposure = _inputSystem.axisValue("exposure");
-        if (exposure != 0.0)
-        {
-            camera->exposure += exposure * 5.0 * timeStep.value;
-            camera->exposure = std::max(0.01, camera->exposure);
-        }
+        const double lookSpeed = 20.0 * timeStep.value;
+        const double rollSpeed = 2.0 * timeStep.value;
+        const double moveSpeed = 100.0 * timeStep.value;
+
+        auto& transform = localPlayerEntity.component<TransformComponent>();
+        auto& camera = localPlayerEntity.component<CameraComponent>();
+
+        transform.localRotation *= Quaternion::fromAxisAngle(camera.up, Radians(_inputSystem.axisValue("yaw") * -lookSpeed));
+        transform.localRotation *= Quaternion::fromAxisAngle(camera.right, Radians(_inputSystem.axisValue("pitch") * lookSpeed));
+        transform.localRotation *= Quaternion::fromAxisAngle(camera.front, Radians(_inputSystem.axisValue("roll") * -rollSpeed));
+
+        transform.localPosition += camera.right * _inputSystem.axisValue("thrustX") * moveSpeed;
+        transform.localPosition += camera.front * _inputSystem.axisValue("thrustY") * moveSpeed;
+        transform.localPosition += camera.up * _inputSystem.axisValue("thrustZ") * moveSpeed;
+
+        _transformSystem.commitTransform(transform);
     }
 }
 
 void PlayerInputSystem::swapMouseMode()
 {
-    Mouse& mouse = _platform.mouse();
-    const MouseMode mode = mouse.mode();
+    const MouseMode mode = _mouse.mode();
     if (mode == MouseMode::Cursor)
     {
-        mouse.setMode(MouseMode::Relative);
+        _mouse.setMode(MouseMode::Relative);
     }
     else
     {
-        mouse.setMode(MouseMode::Cursor);
+        _mouse.setMode(MouseMode::Cursor);
     }
 }
 

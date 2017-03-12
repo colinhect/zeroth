@@ -18,11 +18,12 @@ IntergalacticScene::IntergalacticScene(Engine& engine) :
 
 void IntergalacticScene::setObserver(Entity& entity)
 {
-    _observerEntity = entity.createHandle();
+    _observerEntity = entity.handle();
 }
 
 void IntergalacticScene::initialize()
 {
+    _galaxyImposterSystem.initialize();
     Scene::initialize();
 }
 
@@ -32,11 +33,8 @@ void IntergalacticScene::tick(Seconds timeStep)
 
     if (_observerEntity)
     {
-        auto transform = _observerEntity->component<TransformComponent>();
-        if (transform)
-        {
-            _galaxyImposterSystem.adaptToObserver(transform->globalPosition, transform->globalRotation);
-        }
+        auto& transform = _observerEntity->component<TransformComponent>();
+        _galaxyImposterSystem.adaptToObserver(transform.globalPosition, transform.globalRotation);
     }
 
     refresh();

@@ -38,6 +38,8 @@ private:
     DebugSystem _debugSystem;
     InputSystem _inputSystem;
     CameraSystem _cameraSystem;
+    BoundingBoxSystem _boundingBoxSystem;
+    TransformSystem _transformSystem;
     PlayerInputSystem _playerInputSystem;
 
     IntergalacticScene _intergalacticScene;

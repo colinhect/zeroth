@@ -20,12 +20,11 @@ class ZEROTH_EXPORT PlayerInputSystem :
     public EventListener<KeyboardEvent>
 {
 public:
-    PlayerInputSystem(Scene& scene, CameraSystem& cameraSystem, InputSystem& inputSystem, Platform& platform);
+    PlayerInputSystem(Scene& scene, InputSystem& inputSystem, TransformSystem& transformSystem, Platform& platform);
 
-    void handlePlayerInput(Seconds timeStep);
+    void handlePlayerInput(Seconds timeStep, Entity& localPlayerEntity);
 
 private:
-    void adjustCameraExposure(Seconds timeStep);
     void swapMouseMode();
     void parseKeyboardShortcut(const KeyboardEvent& event);
     void deactivateScene();
@@ -33,10 +32,11 @@ private:
     // EventListener overrides
     void receiveEvent(const KeyboardEvent& event) override;
 
-    CameraSystem& _cameraSystem;
     InputSystem& _inputSystem;
+    TransformSystem& _transformSystem;
 
-    Platform& _platform;
+    Keyboard& _keyboard;
+    Mouse& _mouse;
 };
 
 }
