@@ -14,13 +14,9 @@ entities:
       - componentType: CameraComponent
         fieldOfView: 75
         farClip: 1000000
-  - name: MonkeyHead
+  - name: LightProbe
     components:
-      - componentType: TransformComponent
-        localPosition: [ 0, 0, 0 ]
-      - componentType: GeometryComponent
-        surfaces:
-          - mesh: Test/MonkeyHead.mesh
+      - componentType: LightProbeComponent
   - name: Light
     components:
       - componentType: TransformComponent

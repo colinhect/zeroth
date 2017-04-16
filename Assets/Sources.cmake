@@ -20,7 +20,6 @@ source_group("Assets\\Scenes" FILES ${SOURCE_SCENES})
 
 set(SOURCE_TEST
     "Test/MonkeyHead.blend"
-    "Test/MonkeyHead.blend1"
     "Test/MonkeyHead.mesh"
     )
 

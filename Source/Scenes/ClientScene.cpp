@@ -40,6 +40,21 @@ void ClientScene::initialize()
     _intergalacticScene.setObserver(*_localPlayerEntity);
     _intergalacticScene.initialize();
 
+    static Mesh cubeMesh = Mesh::createBox(Vector3(1.0, 1.0, 1.0));
+
+    Entity& cubeEntity = createEntity("Cube");
+
+    auto& transform = cubeEntity.addComponent<TransformComponent>();
+    transform.localPosition = Vector3(0.0, 5.0, 0.0);
+
+    auto& geometry = cubeEntity.addComponent<GeometryComponent>();
+    geometry.addSurface(cubeMesh.createHandle());
+
+    auto& boundingBox = cubeEntity.addComponent<BoundingBoxComponent>();
+    boundingBox.adaptive = true;
+
+    cubeEntity.activate();
+
     Scene::initialize();
 }
 
