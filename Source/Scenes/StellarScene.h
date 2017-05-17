@@ -24,8 +24,6 @@ public:
     // Scene overrides
     virtual void tick(Seconds timeStep) override;
     virtual void render(RenderTarget& target) override;
-
-private:
 };
 
 }

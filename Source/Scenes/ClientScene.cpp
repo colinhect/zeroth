@@ -10,8 +10,7 @@ using namespace zeroth;
 
 namespace
 {
-
-static const Path IntergalacticScenePath("Scenes/Intergalactic.scene");
+    const Path IntergalacticScenePath("Scenes/Intergalactic.scene");
 
 }
 
@@ -40,7 +39,28 @@ void ClientScene::initialize()
     _intergalacticScene.setObserver(*_localPlayerEntity);
     _intergalacticScene.initialize();
 
-    static Mesh cubeMesh = Mesh::createBox(Vector3(1.0, 1.0, 1.0));
+    VertexLayout vertexLayout;
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Color, VertexAttributeType::Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Weight0, VertexAttributeType::Float32, 1));
+
+    Mesh::Descriptor descriptor;
+    descriptor.vertexLayout = vertexLayout;
+    descriptor.primitiveType = PrimitiveType::PointSprites;
+
+    Mesh::Handle mesh(new Mesh(descriptor));
+
+    {
+        MeshWriter meshWriter(*mesh);
+        auto index = meshWriter.addVertex();
+        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(0.0, 5.0, 0.0));
+        meshWriter.writeAttributeData(VertexAttributeSemantic::Color, Color::Red * 10.0);
+        meshWriter.writeAttributeData(VertexAttributeSemantic::Weight0, 10.0);
+
+        meshWriter.addIndex(index);
+    }
+
+    Material::Handle material = engine().assetCache().getHandle<Material>("Materials/GalaxyImposter.material");
 
     Entity& cubeEntity = createEntity("Cube");
 
@@ -48,7 +68,7 @@ void ClientScene::initialize()
     transform.localPosition = Vector3(0.0, 5.0, 0.0);
 
     auto& geometry = cubeEntity.addComponent<GeometryComponent>();
-    geometry.addSurface(cubeMesh.createHandle());
+    geometry.addSurface(mesh, material);
 
     auto& boundingBox = cubeEntity.addComponent<BoundingBoxComponent>();
     boundingBox.adaptive = true;
@@ -64,12 +84,15 @@ void ClientScene::tick(Seconds timeStep)
 
     if (_localPlayerEntity)
     {
-        _playerInputSystem.handlePlayerInput(timeStep, *_localPlayerEntity);
+        //_playerInputSystem.handlePlayerInput(timeStep, *_localPlayerEntity);
     }
 
     _intergalacticScene.tick(timeStep);
     _interstellarScene.tick(timeStep);
     _stellarScene.tick(timeStep);
+
+    _transformSystem.updateCommittedTransforms();
+    _cameraSystem.updateAllCameras();
 
     _interfaceSystem.tickAllInterfaces(timeStep);
 
@@ -83,7 +106,7 @@ void ClientScene::render(RenderTarget& target)
     //_sceneRenderer.render(_intergalacticScene, _cameraSystem, renderer, target);
     _sceneRenderer.render(*this, _cameraSystem, renderer, target);
 
-    _interfaceSystem.renderAllInterfaces();
+    //_interfaceSystem.renderAllInterfaces();
 }
 
 void ClientScene::createInterface()
@@ -92,5 +115,5 @@ void ClientScene::createInterface()
     _interface = _interfaceSystem.createInterface(mainWindow);
 
     LabelWidget::Handle label = _interface->createChild<LabelWidget>();
-    label->setText("Testing...");
+    label->setText("Testing... One two three and stuff");
 }

@@ -13,14 +13,5 @@ entities:
       - componentType: TransformComponent
       - componentType: CameraComponent
         fieldOfView: 75
-        farClip: 1000000
-  - name: LightProbe
-    components:
-      - componentType: LightProbeComponent
-  - name: Light
-    components:
-      - componentType: TransformComponent
-        localPosition: [ 0, 50, 0 ]
-      - componentType: DirectionalLightComponent
-        direction: [ 1, 0, 0 ]
-        color: [ 1, 1, 1 ]
+        farClip: 10000
+        exposure: 0

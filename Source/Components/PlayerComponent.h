@@ -18,7 +18,6 @@ namespace zeroth
 class ZEROTH_EXPORT PlayerComponent :
     public Component<PlayerComponent>
 {
-public:
 };
 
 }
