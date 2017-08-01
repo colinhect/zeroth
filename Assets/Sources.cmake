@@ -19,6 +19,7 @@ set(SOURCE_SCENES
 source_group("Assets\\Scenes" FILES ${SOURCE_SCENES})
 
 set(SOURCE_TEST
+    "Test/Entity.tbx"
     "Test/MonkeyHead.blend"
     "Test/MonkeyHead.mesh"
     )

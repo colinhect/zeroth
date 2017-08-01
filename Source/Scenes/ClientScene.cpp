@@ -11,7 +11,6 @@ using namespace zeroth;
 namespace
 {
     const Path IntergalacticScenePath("Scenes/Intergalactic.scene");
-
 }
 
 ClientScene::ClientScene(Engine& engine) :
@@ -39,41 +38,7 @@ void ClientScene::initialize()
     _intergalacticScene.setObserver(*_localPlayerEntity);
     _intergalacticScene.initialize();
 
-    VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Color, VertexAttributeType::Float32, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Weight0, VertexAttributeType::Float32, 1));
-
-    Mesh::Descriptor descriptor;
-    descriptor.vertexLayout = vertexLayout;
-    descriptor.primitiveType = PrimitiveType::PointSprites;
-
-    Mesh::Handle mesh(new Mesh(descriptor));
-
-    {
-        MeshWriter meshWriter(*mesh);
-        auto index = meshWriter.addVertex();
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(0.0, 5.0, 0.0));
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Color, Color::Red * 10.0);
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Weight0, 10.0);
-
-        meshWriter.addIndex(index);
-    }
-
-    Material::Handle material = engine().assetCache().getHandle<Material>("Materials/GalaxyImposter.material");
-
-    Entity& cubeEntity = createEntity("Cube");
-
-    auto& transform = cubeEntity.addComponent<TransformComponent>();
-    transform.localPosition = Vector3(0.0, 5.0, 0.0);
-
-    auto& geometry = cubeEntity.addComponent<GeometryComponent>();
-    geometry.addSurface(mesh, material);
-
-    auto& boundingBox = cubeEntity.addComponent<BoundingBoxComponent>();
-    boundingBox.adaptive = true;
-
-    cubeEntity.activate();
+    // Integrate content/asset generation from source files (from blender, YAML files, etc) to deserializable binary formats into the CMake build system.  Data is code, code is data... don't feel bad about hardcoding references to asset paths.  Write in Python, make extensible for adding any toolchain to the asset build process.  Could be a niche open source engine/framework for those who like manual control of a simple unified build system.
 
     Scene::initialize();
 }
@@ -84,7 +49,7 @@ void ClientScene::tick(Seconds timeStep)
 
     if (_localPlayerEntity)
     {
-        //_playerInputSystem.handlePlayerInput(timeStep, *_localPlayerEntity);
+        _playerInputSystem.handlePlayerInput(timeStep, *_localPlayerEntity);
     }
 
     _intergalacticScene.tick(timeStep);
@@ -106,7 +71,7 @@ void ClientScene::render(RenderTarget& target)
     //_sceneRenderer.render(_intergalacticScene, _cameraSystem, renderer, target);
     _sceneRenderer.render(*this, _cameraSystem, renderer, target);
 
-    //_interfaceSystem.renderAllInterfaces();
+    _interfaceSystem.renderAllInterfaces();
 }
 
 void ClientScene::createInterface()
