@@ -20,3 +20,11 @@ entities:
       - componentType: DirectionalLightComponent
         direction: [ 1, 1, 10 ] 
         color: [ 100, 100, 100 ] 
+  - components:
+      - componentType: TransformComponent
+        localPosition: [ 0, 10, 0 ]
+      - componentType: BoundingBoxComponent
+      - componentType: GeometryComponent
+        surfaces:
+          - mesh: Test/Cube.Main.mesh
+            material: Test/MetalCrate.material

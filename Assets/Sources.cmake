@@ -19,7 +19,14 @@ set(SOURCE_SCENES
 source_group("Assets\\Scenes" FILES ${SOURCE_SCENES})
 
 set(SOURCE_TEST
-    "Test/Entity.tbx"
+    "Test/Cube.Main.mesh"
+    "Test/MetalCrate.Diffuse.png"
+    "Test/MetalCrate.Diffuse.texture2"
+    "Test/MetalCrate.material"
+    "Test/MetalCrate.Material.png"
+    "Test/MetalCrate.Material.texture2"
+    "Test/MetalCrate.Normal.png"
+    "Test/MetalCrate.Normal.texture2"
     "Test/MonkeyHead.blend"
     "Test/MonkeyHead.mesh"
     )
