@@ -11,17 +11,18 @@ entities:
     components:
       - componentType: PlayerComponent
       - componentType: TransformComponent
+        localPosition: [ 0, -10, 0 ]
       - componentType: CameraComponent
         clearColor: [ 1, 0, 0 ]
         fieldOfView: 75
         farClip: 10000
-        exposure: 0
   - name: Light
     components:
       - componentType: DirectionalLightComponent
-        direction: [ 1, 1, 10 ] 
-        color: [ 100, 100, 100 ] 
-  - components:
+        direction: [ 1, 1, 1 ] 
+        color: [ 1000, 1000, 1000 ] 
+  - name: Crate
+    components:
       - componentType: TransformComponent
         localPosition: [ 0, 10, 0 ]
       - componentType: BoundingBoxComponent

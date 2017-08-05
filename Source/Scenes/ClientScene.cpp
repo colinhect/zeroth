@@ -39,12 +39,12 @@ ClientScene::ClientScene(Engine& engine) :
     _boundingBoxSystem(*this),
     _transformSystem(*this, _boundingBoxSystem),
     _playerInputSystem(*this, _inputSystem, _transformSystem, engine.platform()),
-    _intergalacticScene(engine),
-    _interstellarScene(engine),
-    _stellarScene(engine),
+    //_intergalacticScene(engine),
+    //_interstellarScene(engine),
+    //_stellarScene(engine),
     _sceneRenderer(engine.assetCache(), engine.taskPool())
 {
-    _intergalacticScene.load(IntergalacticScenePath);
+    //_intergalacticScene.load(IntergalacticScenePath);
 }
 
 void ClientScene::initialize()
@@ -52,8 +52,8 @@ void ClientScene::initialize()
     createInterface();
     _localPlayerEntity = entities().findFirstByName("LocalPlayer");
 
-    _intergalacticScene.setObserver(*_localPlayerEntity);
-    _intergalacticScene.initialize();
+    //_intergalacticScene.setObserver(*_localPlayerEntity);
+    //_intergalacticScene.initialize();
 
     // Integrate content/asset generation from source files (from blender, YAML files, etc) to deserializable binary formats into the CMake build system.  Data is code, code is data... don't feel bad about hardcoding references to asset paths.  Write in Python, make extensible for adding any toolchain to the asset build process.  Could be a niche open source engine/framework for those who like manual control of a simple unified build system.
 
@@ -66,12 +66,12 @@ void ClientScene::tick(Seconds timeStep)
 
     if (_localPlayerEntity)
     {
-        _playerInputSystem.handlePlayerInput(timeStep, *_localPlayerEntity);
+        //_playerInputSystem.handlePlayerInput(timeStep, *_localPlayerEntity);
     }
 
-    _intergalacticScene.tick(timeStep);
-    _interstellarScene.tick(timeStep);
-    _stellarScene.tick(timeStep);
+    //_intergalacticScene.tick(timeStep);
+    //_interstellarScene.tick(timeStep);
+    //_stellarScene.tick(timeStep);
 
     _transformSystem.updateCommittedTransforms();
     _cameraSystem.updateAllCameras();

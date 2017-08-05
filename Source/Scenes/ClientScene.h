@@ -59,9 +59,9 @@ private:
     TransformSystem _transformSystem;
     PlayerInputSystem _playerInputSystem;
 
-    IntergalacticScene _intergalacticScene;
-    InterstellarScene _interstellarScene;
-    StellarScene _stellarScene;
+    //IntergalacticScene _intergalacticScene;
+    //InterstellarScene _interstellarScene;
+    //StellarScene _stellarScene;
 
     PhysicallyBasedSceneRenderer _sceneRenderer;
 
