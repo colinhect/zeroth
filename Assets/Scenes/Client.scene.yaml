@@ -12,6 +12,7 @@ entities:
       - componentType: PlayerComponent
       - componentType: TransformComponent
       - componentType: CameraComponent
+        clearColor: [ 1, 0, 0 ]
         fieldOfView: 75
         farClip: 10000
         exposure: 0

@@ -1,0 +1,14 @@
+///////////////////////////////////////////////////////////////////////////////
+// This source file is part of Zeroth.
+//
+// Copyright (c) 2016 Colin Hill
+//
+///////////////////////////////////////////////////////////////////////////////
+#include "CelestialObjectSystem.h"
+
+using namespace zeroth;
+
+CelestialObjectSystem::CelestialObjectSystem(Scene& scene) :
+    System(scene)
+{
+}
