@@ -4,11 +4,22 @@
 // Copyright (c) 2016 Colin Hill
 //
 ///////////////////////////////////////////////////////////////////////////////
-#include "CelestialObjectSystem.h"
+#pragma once
 
-using namespace zeroth;
+#include <Hect.h>
+using namespace hect;
 
-CelestialObjectSystem::CelestialObjectSystem(Scene& scene) :
-    System(scene)
+#include "Export.h"
+
+namespace zeroth
 {
+
+/// \component
+class ZEROTH_EXPORT PlanetoidComponent :
+    public Component<PlanetoidComponent>
+{
+public:
+
+};
+
 }

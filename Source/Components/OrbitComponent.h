@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // This source file is part of Zeroth.
 //
-// Copyright (c) 2016 Colin Hill
+// Copyright (c) 2017 Colin Hill
 //
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
@@ -14,23 +14,18 @@ using namespace hect;
 namespace zeroth
 {
 
-enum CelestialObjectType
-{
-    Star,
-    Planetoid,
-    Comet,
-    Asteroid
-};
-
+///
+/// The orbit of a satellite object around a celestial body.
+///
 /// \component
-class ZEROTH_EXPORT CelestialObjectComponent :
-    public Component<CelestialObjectComponent>
+class ZEROTH_EXPORT OrbitComponent :
+    public Component<OrbitComponent>
 {
 public:
 
-    /// \property{enum}
-    CelestialObjectType type { CelestialObjectType::Star };
-
+    ///
+    /// The parent body of the orbit.
+    Entity::Handle parentBody;
 };
 
 }

@@ -10,9 +10,12 @@ set(SOURCE
 source_group("Source" FILES ${SOURCE})
 
 set(SOURCE_COMPONENTS
-    "Source/Components/CelestialObjectComponent.h"
+    "Source/Components/CelestialBodyComponent.h"
     "Source/Components/GalaxyImposterCellComponent.h"
+    "Source/Components/OrbitComponent.h"
+    "Source/Components/PlanetoidComponent.h"
     "Source/Components/PlayerComponent.h"
+    "Source/Components/StarComponent.h"
     )
 
 source_group("Source\\Components" FILES ${SOURCE_COMPONENTS})
@@ -31,8 +34,8 @@ set(SOURCE_SCENES
 source_group("Source\\Scenes" FILES ${SOURCE_SCENES})
 
 set(SOURCE_SYSTEMS
-    "Source/Systems/CelestialObjectSystem.cpp"
-    "Source/Systems/CelestialObjectSystem.h"
+    "Source/Systems/CelestialBodySystem.cpp"
+    "Source/Systems/CelestialBodySystem.h"
     "Source/Systems/GalaxyImposterSystem.cpp"
     "Source/Systems/GalaxyImposterSystem.h"
     "Source/Systems/HudSystem.cpp"

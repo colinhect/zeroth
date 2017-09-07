@@ -11,19 +11,27 @@ using namespace hect;
 
 #include "Export.h"
 
-#include "Components/CelestialObjectComponent.h"
-
 namespace zeroth
 {
 
-/// \system
-class ZEROTH_EXPORT CelestialObjectSystem :
-    public System<CelestialObjectSystem, Components<CelestialObjectComponent>>
+/// \component
+class ZEROTH_EXPORT CelestialBodyComponent :
+    public Component<CelestialBodyComponent>
 {
 public:
-    CelestialObjectSystem(Scene& scene);
 
-private:
+    ///
+    /// The mass of the celestial object in solar masses.
+    ///
+    /// \property
+    double mass { 1.0 };
+
+    ///
+    /// The velocity of the celestial object in kilometers per second.
+    ///
+    /// \property
+    Vector3 velocity;
+
 };
 
 }
