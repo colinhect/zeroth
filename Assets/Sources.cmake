@@ -35,7 +35,6 @@ set(SOURCE_TEST
     "Test/MetalCrate.Normal.png"
     "Test/MetalCrate.Normal.texture2"
     "Test/MonkeyHead.blend"
-    "Test/MonkeyHead.blend1"
     "Test/MonkeyHead.mesh"
     )
 
