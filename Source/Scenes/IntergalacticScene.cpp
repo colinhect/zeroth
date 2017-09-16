@@ -27,31 +27,31 @@ using namespace zeroth;
 
 IntergalacticScene::IntergalacticScene(Engine& engine) :
     Scene(engine),
-    _boundingBoxSystem(*this),
-    _transformSystem(*this, _boundingBoxSystem),
-    _galaxyImposterSystem(*this)
+    _bounding_box_system(*this),
+    _transform_system(*this, _bounding_box_system),
+    _galaxy_imposter_system(*this)
 {
 }
 
-void IntergalacticScene::setObserver(Entity& entity)
+void IntergalacticScene::set_observer(Entity& entity)
 {
-    _observerEntity = entity.handle();
+    _observer_entity = entity.handle();
 }
 
 void IntergalacticScene::initialize()
 {
-    _galaxyImposterSystem.initialize();
+    _galaxy_imposter_system.initialize();
     Scene::initialize();
 }
 
-void IntergalacticScene::tick(Seconds timeStep)
+void IntergalacticScene::tick(Seconds time_step)
 {
-    _transformSystem.updateCommittedTransforms();
+    _transform_system.update_committed_transforms();
 
-    if (_observerEntity)
+    if (_observer_entity)
     {
-        auto& transform = _observerEntity->component<TransformComponent>();
-        _galaxyImposterSystem.adaptToObserver(transform.globalPosition, transform.globalRotation);
+        auto& transform = _observer_entity->component<TransformComponent>();
+        _galaxy_imposter_system.adapt_to_observer(transform.global_position, transform.global_rotation);
     }
 
     refresh();

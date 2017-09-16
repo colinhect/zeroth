@@ -30,10 +30,10 @@ CelestialBodySystem::CelestialBodySystem(Scene& scene) :
 {
 }
 
-void CelestialBodySystem::onComponentAdded(CelestialBodyComponent& component)
+void CelestialBodySystem::on_component_added(CelestialBodyComponent& component)
 {
 }
 
-void CelestialBodySystem::onComponentRemoved(CelestialBodyComponent& component)
+void CelestialBodySystem::on_component_removed(CelestialBodyComponent& component)
 {
 }

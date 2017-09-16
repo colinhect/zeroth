@@ -32,51 +32,51 @@ namespace
 
 ClientScene::ClientScene(Engine& engine) :
     Scene(engine),
-    _interfaceSystem(*this, engine.platform(), engine.renderer(), engine.vectorRenderer()),
-    _debugSystem(*this, _interfaceSystem),
-    _inputSystem(*this, engine.platform(), engine.settings()),
-    _cameraSystem(*this),
-    _boundingBoxSystem(*this),
-    _transformSystem(*this, _boundingBoxSystem),
-    _playerInputSystem(*this, _inputSystem, _transformSystem, engine.platform()),
-    //_intergalacticScene(engine),
-    //_interstellarScene(engine),
-    //_stellarScene(engine),
-    _sceneRenderer(engine.assetCache(), engine.taskPool())
+    _interface_system(*this, engine.platform(), engine.renderer(), engine.vector_renderer()),
+    _debug_system(*this, _interface_system),
+    _input_system(*this, engine.platform(), engine.settings()),
+    _camera_system(*this),
+    _bounding_box_system(*this),
+    _transform_system(*this, _bounding_box_system),
+    _player_input_system(*this, _input_system, _transform_system, engine.platform()),
+    //_intergalactic_scene(engine),
+    //_interstellar_scene(engine),
+    //_stellar_scene(engine),
+    _scene_renderer(engine.asset_cache(), engine.task_pool())
 {
-    //_intergalacticScene.load(IntergalacticScenePath);
+    //_intergalactic_scene.load(IntergalacticScenePath);
 }
 
 void ClientScene::initialize()
 {
-    createInterface();
-    _localPlayerEntity = entities().findFirstByName("LocalPlayer");
+    create_interface();
+    _local_player_entity = entities().find_first_by_name("LocalPlayer");
 
-    //_intergalacticScene.setObserver(*_localPlayerEntity);
-    //_intergalacticScene.initialize();
+    //_intergalactic_scene.set_observer(*_local_player_entity);
+    //_intergalactic_scene.initialize();
 
     // Integrate content/asset generation from source files (from blender, YAML files, etc) to deserializable binary formats into the CMake build system.  Data is code, code is data... don't feel bad about hardcoding references to asset paths.  Write in Python, make extensible for adding any toolchain to the asset build process.  Could be a niche open source engine/framework for those who like manual control of a simple unified build system.
 
     Scene::initialize();
 }
 
-void ClientScene::tick(Seconds timeStep)
+void ClientScene::tick(Seconds time_step)
 {
-    _inputSystem.updateAxes(timeStep);
+    _input_system.update_axes(time_step);
 
-    if (_localPlayerEntity)
+    if (_local_player_entity)
     {
-        //_playerInputSystem.handlePlayerInput(timeStep, *_localPlayerEntity);
+        //_player_input_system.handle_player_input(time_step, *_local_player_entity);
     }
 
-    //_intergalacticScene.tick(timeStep);
-    //_interstellarScene.tick(timeStep);
-    //_stellarScene.tick(timeStep);
+    //_intergalactic_scene.tick(time_step);
+    //_interstellar_scene.tick(time_step);
+    //_stellar_scene.tick(time_step);
 
-    _transformSystem.updateCommittedTransforms();
-    _cameraSystem.updateAllCameras();
+    _transform_system.update_committed_transforms();
+    _camera_system.update_all_cameras();
 
-    _interfaceSystem.tickAllInterfaces(timeStep);
+    _interface_system.tick_all_interfaces(time_step);
 
     refresh();
 }
@@ -85,17 +85,17 @@ void ClientScene::render(RenderTarget& target)
 {
     Renderer& renderer = engine().renderer();
 
-    //_sceneRenderer.render(_intergalacticScene, _cameraSystem, renderer, target);
-    _sceneRenderer.render(*this, _cameraSystem, renderer, target);
+    //_scene_renderer.render(_intergalactic_scene, _camera_system, renderer, target);
+    _scene_renderer.render(*this, _camera_system, renderer, target);
 
-    _interfaceSystem.renderAllInterfaces();
+    _interface_system.render_all_interfaces();
 }
 
-void ClientScene::createInterface()
+void ClientScene::create_interface()
 {
-    Window& mainWindow = engine().mainWindow();
-    _interface = _interfaceSystem.createInterface(mainWindow);
+    Window& main_window = engine().main_window();
+    _interface = _interface_system.create_interface(main_window);
 
-    LabelWidget::Handle label = _interface->createChild<LabelWidget>();
-    label->setText("Testing... One two three and stuff");
+    LabelWidget::Handle label = _interface->create_child<LabelWidget>();
+    label->set_text("Testing... One two three and stuff");
 }

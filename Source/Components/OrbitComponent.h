@@ -42,7 +42,7 @@ public:
 
     ///
     /// The parent body of the orbit.
-    Entity::Handle parentBody;
+    Entity::Handle parent_body;
 };
 
 }

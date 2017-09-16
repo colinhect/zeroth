@@ -1,17 +1,17 @@
 #version 440
 
-uniform mat4 modelViewProjection;
+uniform mat4 model_view_projection;
 
-layout(location = 0) in vec3 vertexPosition;
-layout(location = 1) in vec3 vertexColor;
-layout(location = 2) in float vertexSize;
+layout(location = 0) in vec3 vertex_position;
+layout(location = 1) in vec3 vertex_color;
+layout(location = 2) in float vertex_size;
 
-out vec3 galaxyColor;
+out vec3 galaxy_color;
 
 void main()
 {
-    gl_Position = modelViewProjection * vec4(vertexPosition, 1.0);
-    gl_PointSize = vertexSize;
+    gl_Position = model_view_projection * vec4(vertex_position, 1.0);
+    gl_PointSize = vertex_size;
 
-    galaxyColor = vertexColor;
+    galaxy_color = vertex_color;
 }

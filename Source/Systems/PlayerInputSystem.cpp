@@ -25,64 +25,64 @@
 
 using namespace zeroth;
 
-PlayerInputSystem::PlayerInputSystem(Scene& scene, InputSystem& inputSystem, TransformSystem& transformSystem, Platform& platform) :
+PlayerInputSystem::PlayerInputSystem(Scene& scene, InputSystem& input_system, TransformSystem& transform_system, Platform& platform) :
     System(scene),
-    _inputSystem(inputSystem),
-    _transformSystem(transformSystem),
+    _input_system(input_system),
+    _transform_system(transform_system),
     _keyboard(platform.keyboard()),
     _mouse(platform.mouse())
 {
-    _keyboard.registerListener(*this);
-    _mouse.setMode(MouseMode::Relative);
+    _keyboard.register_listener(*this);
+    _mouse.set_mode(MouseMode::Relative);
 }
 
-void PlayerInputSystem::handlePlayerInput(Seconds timeStep, Entity& localPlayerEntity)
+void PlayerInputSystem::handle_player_input(Seconds time_step, Entity& local_player_entity)
 {
     if (_mouse.mode() == MouseMode::Relative)
     {
-        const double lookSpeed = 20.0 * timeStep.value;
-        const double rollSpeed = 2.0 * timeStep.value;
-        const double moveSpeed = 100.0 * timeStep.value;
+        const double look_speed = 20.0 * time_step.value;
+        const double roll_speed = 2.0 * time_step.value;
+        const double move_speed = 100.0 * time_step.value;
 
-        auto& transform = localPlayerEntity.component<TransformComponent>();
-        auto& camera = localPlayerEntity.component<CameraComponent>();
+        auto& transform = local_player_entity.component<TransformComponent>();
+        auto& camera = local_player_entity.component<CameraComponent>();
 
-        transform.localRotation *= Quaternion::fromAxisAngle(camera.up, Radians(_inputSystem.axisValue("yaw") * -lookSpeed));
-        transform.localRotation *= Quaternion::fromAxisAngle(camera.right, Radians(_inputSystem.axisValue("pitch") * lookSpeed));
-        transform.localRotation *= Quaternion::fromAxisAngle(camera.front, Radians(_inputSystem.axisValue("roll") * -rollSpeed));
+        transform.local_rotation *= Quaternion::from_axis_angle(camera.up, Radians(_input_system.axis_value("yaw") * -look_speed));
+        transform.local_rotation *= Quaternion::from_axis_angle(camera.right, Radians(_input_system.axis_value("pitch") * look_speed));
+        transform.local_rotation *= Quaternion::from_axis_angle(camera.front, Radians(_input_system.axis_value("roll") * -roll_speed));
 
-        transform.localPosition += camera.right * _inputSystem.axisValue("thrustX") * moveSpeed;
-        transform.localPosition += camera.front * _inputSystem.axisValue("thrustY") * moveSpeed;
-        transform.localPosition += camera.up * _inputSystem.axisValue("thrustZ") * moveSpeed;
+        transform.local_position += camera.right * _input_system.axis_value("thrust_x") * move_speed;
+        transform.local_position += camera.front * _input_system.axis_value("thrust_y") * move_speed;
+        transform.local_position += camera.up * _input_system.axis_value("thrust_z") * move_speed;
 
-        _transformSystem.commitTransform(transform);
+        _transform_system.commit_transform(transform);
     }
 }
 
-void PlayerInputSystem::swapMouseMode()
+void PlayerInputSystem::swap_mouse_mode()
 {
     const MouseMode mode = _mouse.mode();
     if (mode == MouseMode::Cursor)
     {
-        _mouse.setMode(MouseMode::Relative);
+        _mouse.set_mode(MouseMode::Relative);
     }
     else
     {
-        _mouse.setMode(MouseMode::Cursor);
+        _mouse.set_mode(MouseMode::Cursor);
     }
 }
 
-void PlayerInputSystem::parseKeyboardShortcut(const KeyboardEvent& event)
+void PlayerInputSystem::parse_keyboard_shortcut(const KeyboardEvent& event)
 {
     if (event.type == KeyboardEventType::KeyDown)
     {
         switch (event.key)
         {
         case Key::Tab:
-            swapMouseMode();
+            swap_mouse_mode();
             break;
         case Key::Esc:
-            deactivateScene();
+            deactivate_scene();
             break;
         default:
             break;
@@ -90,12 +90,12 @@ void PlayerInputSystem::parseKeyboardShortcut(const KeyboardEvent& event)
     }
 }
 
-void PlayerInputSystem::deactivateScene()
+void PlayerInputSystem::deactivate_scene()
 {
-    scene().setActive(false);
+    scene().set_active(false);
 }
 
-void PlayerInputSystem::receiveEvent(const KeyboardEvent& event)
+void PlayerInputSystem::receive_event(const KeyboardEvent& event)
 {
-    parseKeyboardShortcut(event);
+    parse_keyboard_shortcut(event);
 }

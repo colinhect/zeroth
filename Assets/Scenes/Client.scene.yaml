@@ -1,32 +1,32 @@
 ---
-sceneType: ClientScene
+scene_type: ClientScene
 systems:
-  - systemType: DebugSystem
-    linesMaterial: Hect/Materials/DebugLines.material
-  - systemType: InterfaceSystem
-    defaultFont: Hect/Interface/Vera.font
-    defaultFontSize: 13
+  - system_type: DebugSystem
+    lines_material: Hect/Materials/DebugLines.material
+  - system_type: InterfaceSystem
+    default_font: Hect/Interface/Vera.font
+    default_font_size: 13
 entities:
   - name: LocalPlayer
     components:
-      - componentType: PlayerComponent
-      - componentType: TransformComponent
-        localPosition: [ 0, -10, 0 ]
-      - componentType: CameraComponent
-        clearColor: [ 1, 0, 0 ]
-        fieldOfView: 75
-        farClip: 10000
+      - component_type: PlayerComponent
+      - component_type: TransformComponent
+        local_position: [ 0, -10, 0 ]
+      - component_type: CameraComponent
+        clear_color: [ 1, 0, 0 ]
+        field_of_view: 75
+        far_clip: 10000
   - name: Light
     components:
-      - componentType: DirectionalLightComponent
+      - component_type: DirectionalLightComponent
         direction: [ 1, 1, 1 ] 
         color: [ 1000, 1000, 1000 ] 
   - name: Crate
     components:
-      - componentType: TransformComponent
-        localPosition: [ 0, 10, 0 ]
-      - componentType: BoundingBoxComponent
-      - componentType: GeometryComponent
+      - component_type: TransformComponent
+        local_position: [ 0, 10, 0 ]
+      - component_type: BoundingBoxComponent
+      - component_type: GeometryComponent
         surfaces:
           - mesh: Test/Cube.Main.mesh
             material: Test/MetalCrate.material

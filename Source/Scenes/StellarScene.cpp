@@ -30,9 +30,9 @@ StellarScene::StellarScene(Engine& engine) :
 {
 }
 
-void StellarScene::tick(Seconds timeStep)
+void StellarScene::tick(Seconds time_step)
 {
-    (void)timeStep;
+    (void)time_step;
 }
 
 void StellarScene::render(RenderTarget& target)

@@ -1,14 +1,14 @@
 ---
-videoMode:
+video_mode:
     width: 1440
     height: 900
-    bitsPerPixel: 32
+    bits_per_pixel: 32
     fullscreen: false
 archives:
   - path: Zeroth.data
-taskPool:
-    threadCount: 6
-assetCache:
+task_pool:
+    thread_count: 6
+asset_cache:
     concurrent: true
 logging:
     levels: [ Info, Error, Warning ]

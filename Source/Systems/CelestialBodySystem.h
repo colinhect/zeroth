@@ -41,12 +41,12 @@ public:
     CelestialBodySystem(Scene& scene);
 
     // ComponentListener overrides
-    void onComponentAdded(CelestialBodyComponent& component) override;
-    void onComponentRemoved(CelestialBodyComponent& component) override;
+    void on_component_added(CelestialBodyComponent& component) override;
+    void on_component_removed(CelestialBodyComponent& component) override;
 
 private:
-    void updateOrbit(Entity& celestialBody);
-    Entity& determineParentBody(Entity& celestialBody);
+    void update_orbit(Entity& celestial_body);
+    Entity& determine_parent_body(Entity& celestial_body);
 };
 
 }

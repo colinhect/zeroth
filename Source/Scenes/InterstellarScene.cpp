@@ -30,9 +30,9 @@ InterstellarScene::InterstellarScene(Engine& engine) :
 {
 }
 
-void InterstellarScene::tick(Seconds timeStep)
+void InterstellarScene::tick(Seconds time_step)
 {
-    (void)timeStep;
+    (void)time_step;
 }
 
 void InterstellarScene::render(RenderTarget& target)

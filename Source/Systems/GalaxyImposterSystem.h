@@ -40,18 +40,18 @@ public:
 
     void initialize();
 
-    void adaptToObserver(Vector3 position, Quaternion rotation);
+    void adapt_to_observer(Vector3 position, Quaternion rotation);
 
 private:
-    Entity::Iterator createCell(Vector3 localPosition, double size, Entity::Iterator parentCell = Entity::Iterator());
+    Entity::Iterator create_cell(Vector3 local_position, double size, Entity::Iterator parent_cell = Entity::Iterator());
 
-    std::vector<Entity::Handle> _rootCells;
+    std::vector<Entity::Handle> _root_cells;
 
     // The maximum visibility distance; set to the radius of the obserable
     // universe in megaparsecs
-    const double _maxVisibilityDistance { 14000.0 };
+    const double _max_visibility_distance { 14000.0 };
 
-    const double _rootCellSize { 1000.0 };
+    const double _root_cell_size { 1000.0 };
 };
 
 }

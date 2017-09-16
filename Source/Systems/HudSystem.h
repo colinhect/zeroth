@@ -38,27 +38,27 @@ class ZEROTH_EXPORT HudSystem :
     public EventListener<LogMessageEvent>
 {
 public:
-    HudSystem(Scene& scene, CameraSystem& cameraSystem, InterfaceSystem& interfaceSystem);
+    HudSystem(Scene& scene, CameraSystem& camera_system, InterfaceSystem& interface_system);
 
-    void updateWidgets();
+    void update_widgets();
 
 private:
     void initialize();
 
     // EventListener overrides
-    void receiveEvent(const KeyboardEvent& event) override;
-    void receiveEvent(const LogMessageEvent& event) override;
+    void receive_event(const KeyboardEvent& event) override;
+    void receive_event(const LogMessageEvent& event) override;
 
-    //AssetCache& _assetCache;
+    //AssetCache& _asset_cache;
     //Window& _window;
     //Keyboard& _keyboard;
     //Mouse& _mouse;
 
-    CameraSystem& _cameraSystem;
-    InterfaceSystem& _interfaceSystem;
+    CameraSystem& _camera_system;
+    InterfaceSystem& _interface_system;
 
     Interface::Handle _interface;
-    LabelWidget::Handle _cameraPositionLabel;
+    LabelWidget::Handle _camera_position_label;
 };
 
 }

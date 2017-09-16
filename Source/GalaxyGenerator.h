@@ -54,9 +54,9 @@ class ZEROTH_EXPORT GalaxyGenerator
 {
 public:
 
-    void generateGalaxies(unsigned layer, const AxisAlignedBox& bounds, std::vector<Galaxy>& galaxies);
+    void generate_galaxies(unsigned layer, const AxisAlignedBox& bounds, std::vector<Galaxy>& galaxies);
 
-    GalaxyDescriptor generateGalaxyDescriptor(const Galaxy& galaxy) const;
+    GalaxyDescriptor generate_galaxy_descriptor(const Galaxy& galaxy) const;
 };
 
 }

@@ -25,41 +25,41 @@
 
 using namespace zeroth;
 
-HudSystem::HudSystem(Scene& scene, CameraSystem& cameraSystem, InterfaceSystem& interfaceSystem) :
+HudSystem::HudSystem(Scene& scene, CameraSystem& camera_system, InterfaceSystem& interface_system) :
     System(scene),
-    //_assetCache(engine.assetCache()),
-    //_window(engine.mainWindow()),
+    //_asset_cache(engine.asset_cache()),
+    //_window(engine.main_window()),
     //_keyboard(engine.keyboard()),
     //_mouse(engine.mouse()),
-    _cameraSystem(cameraSystem),
-    _interfaceSystem(interfaceSystem)
+    _camera_system(camera_system),
+    _interface_system(interface_system)
 {
-    registerLogListener(*this);
+    register_log_listener(*this);
 }
 
-void HudSystem::updateWidgets()
+void HudSystem::update_widgets()
 {
-    CameraComponent::Iterator camera = _cameraSystem.activeCamera();
+    CameraComponent::Iterator camera = _camera_system.active_camera();
     if (camera)
     {
         auto& transform = camera->entity().component<TransformComponent>();
-        Vector3 position = transform.localPosition;
-        _cameraPositionLabel->setText(format("%f %f %f", position.x, position.y, position.z));
+        Vector3 position = transform.local_position;
+        _camera_position_label->set_text(format("%f %f %f", position.x, position.y, position.z));
     }
 }
 
 void HudSystem::initialize()
 {
-    //_interface = _interfaceSystem.createInterface(_window);
-    //_cameraPositionLabel = _interface->createChild<LabelWidget>();
+    //_interface = _interface_system.create_interface(_window);
+    //_camera_position_label = _interface->create_child<LabelWidget>();
 }
 
-void HudSystem::receiveEvent(const KeyboardEvent& event)
+void HudSystem::receive_event(const KeyboardEvent& event)
 {
     (void)event;
 }
 
-void HudSystem::receiveEvent(const LogMessageEvent& event)
+void HudSystem::receive_event(const LogMessageEvent& event)
 {
     (void)event;
 }

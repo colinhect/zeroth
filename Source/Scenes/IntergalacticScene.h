@@ -43,19 +43,19 @@ class ZEROTH_EXPORT IntergalacticScene :
 public:
     IntergalacticScene(Engine& engine);
 
-    void setObserver(Entity& entity);
+    void set_observer(Entity& entity);
 
     // Scene overrides
     virtual void initialize() override;
-    virtual void tick(Seconds timeStep) override;
+    virtual void tick(Seconds time_step) override;
     virtual void render(RenderTarget& target) override;
 
 private:
-    BoundingBoxSystem _boundingBoxSystem;
-    TransformSystem _transformSystem;
-    GalaxyImposterSystem _galaxyImposterSystem;
+    BoundingBoxSystem _bounding_box_system;
+    TransformSystem _transform_system;
+    GalaxyImposterSystem _galaxy_imposter_system;
 
-    Entity::Handle _observerEntity;
+    Entity::Handle _observer_entity;
 };
 
 }

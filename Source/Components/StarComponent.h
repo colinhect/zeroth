@@ -42,7 +42,7 @@ public:
     /// -10 to 15.
     ///
     /// \property
-    double absoluteMagnitude { 0.0 };
+    double absolute_magnitude { 0.0 };
 
     ///
     /// The temperature of the star in kelvin.  Range for main sequence stars

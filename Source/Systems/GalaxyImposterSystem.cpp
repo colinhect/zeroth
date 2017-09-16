@@ -34,37 +34,37 @@ GalaxyImposterSystem::GalaxyImposterSystem(Scene& scene) :
 
 void GalaxyImposterSystem::initialize()
 {
-    createCell(Vector3::Zero, 1000.0);
+    create_cell(Vector3::Zero, 1000.0);
 }
 
-void GalaxyImposterSystem::adaptToObserver(Vector3 position, Quaternion rotation)
+void GalaxyImposterSystem::adapt_to_observer(Vector3 position, Quaternion rotation)
 {
     (void)position;
     (void)rotation;
 }
 
-Entity::Iterator GalaxyImposterSystem::createCell(Vector3 localPosition, double size, Entity::Iterator parentCell)
+Entity::Iterator GalaxyImposterSystem::create_cell(Vector3 local_position, double size, Entity::Iterator parent_cell)
 {
-    Entity& cell = scene().createEntity("GalaxyImposterCell");
+    Entity& cell = scene().create_entity("GalaxyImposterCell");
 
-    const Vector3 halfSize(size * 0.5);
+    const Vector3 half_size(size * 0.5);
 
-    auto& transform = cell.addComponent<TransformComponent>();
-    transform.localPosition = localPosition;
+    auto& transform = cell.add_component<TransformComponent>();
+    transform.local_position = local_position;
 
-    auto& boundingBox = cell.addComponent<BoundingBoxComponent>();
-    boundingBox.adaptive = false;
-    boundingBox.localExtents = AxisAlignedBox(-halfSize, halfSize);
+    auto& bounding_box = cell.add_component<BoundingBoxComponent>();
+    bounding_box.adaptive = false;
+    bounding_box.local_extents = AxisAlignedBox(-half_size, half_size);
 
-    auto& galaxyImposterCell = cell.addComponent<GalaxyImposterCellComponent>();
+    auto& galaxy_imposter_cell = cell.add_component<GalaxyImposterCellComponent>();
 
     cell.activate();
-    if (parentCell)
+    if (parent_cell)
     {
-        auto& parentGalaxyImposterCell = parentCell->component<GalaxyImposterCellComponent>();
-        galaxyImposterCell.depth = parentGalaxyImposterCell.depth + 1;
+        auto& parent_galaxy_imposter_cell = parent_cell->component<GalaxyImposterCellComponent>();
+        galaxy_imposter_cell.depth = parent_galaxy_imposter_cell.depth + 1;
 
-        parentCell->addChild(cell);
+        parent_cell->add_child(cell);
     }
 
     return cell.iterator();

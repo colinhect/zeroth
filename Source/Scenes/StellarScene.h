@@ -39,7 +39,7 @@ public:
     StellarScene(Engine& engine);
 
     // Scene overrides
-    virtual void tick(Seconds timeStep) override;
+    virtual void tick(Seconds time_step) override;
     virtual void render(RenderTarget& target) override;
 };
 

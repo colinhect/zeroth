@@ -37,20 +37,20 @@ class ZEROTH_EXPORT PlayerInputSystem :
     public EventListener<KeyboardEvent>
 {
 public:
-    PlayerInputSystem(Scene& scene, InputSystem& inputSystem, TransformSystem& transformSystem, Platform& platform);
+    PlayerInputSystem(Scene& scene, InputSystem& input_system, TransformSystem& transform_system, Platform& platform);
 
-    void handlePlayerInput(Seconds timeStep, Entity& localPlayerEntity);
+    void handle_player_input(Seconds time_step, Entity& local_player_entity);
 
 private:
-    void swapMouseMode();
-    void parseKeyboardShortcut(const KeyboardEvent& event);
-    void deactivateScene();
+    void swap_mouse_mode();
+    void parse_keyboard_shortcut(const KeyboardEvent& event);
+    void deactivate_scene();
 
     // EventListener overrides
-    void receiveEvent(const KeyboardEvent& event) override;
+    void receive_event(const KeyboardEvent& event) override;
 
-    InputSystem& _inputSystem;
-    TransformSystem& _transformSystem;
+    InputSystem& _input_system;
+    TransformSystem& _transform_system;
 
     Keyboard& _keyboard;
     Mouse& _mouse;

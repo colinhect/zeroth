@@ -1,4 +1,4 @@
 ---
 base: CelestialBody.entity
 components:
-  - componentType: StarComponent
+  - component_type: StarComponent

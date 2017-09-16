@@ -1,6 +1,6 @@
 ---
 shader: GalaxyImposter.shader
-uniformValues:
-  - name: spriteTexture
+uniform_values:
+  - name: sprite_texture
     type: Texture2
     value: GalaxyImposter.texture2

@@ -45,29 +45,29 @@ public:
 
     // Scene overrides
     virtual void initialize() override;
-    virtual void tick(Seconds timeStep) override;
+    virtual void tick(Seconds time_step) override;
     virtual void render(RenderTarget& target) override;
 
 private:
-    void createInterface();
+    void create_interface();
 
-    InterfaceSystem _interfaceSystem;
-    DebugSystem _debugSystem;
-    InputSystem _inputSystem;
-    CameraSystem _cameraSystem;
-    BoundingBoxSystem _boundingBoxSystem;
-    TransformSystem _transformSystem;
-    PlayerInputSystem _playerInputSystem;
+    InterfaceSystem _interface_system;
+    DebugSystem _debug_system;
+    InputSystem _input_system;
+    CameraSystem _camera_system;
+    BoundingBoxSystem _bounding_box_system;
+    TransformSystem _transform_system;
+    PlayerInputSystem _player_input_system;
 
-    //IntergalacticScene _intergalacticScene;
-    //InterstellarScene _interstellarScene;
-    //StellarScene _stellarScene;
+    //IntergalacticScene _intergalactic_scene;
+    //InterstellarScene _interstellar_scene;
+    //StellarScene _stellar_scene;
 
-    PhysicallyBasedSceneRenderer _sceneRenderer;
+    PhysicallyBasedSceneRenderer _scene_renderer;
 
     Interface::Handle _interface;
 
-    Entity::Handle _localPlayerEntity;
+    Entity::Handle _local_player_entity;
 };
 
 }

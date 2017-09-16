@@ -1,14 +1,14 @@
 ---
-inputAxes:
+input_axes:
   - name: yaw
     bindings:
       - type: MouseMoveX
-        mouseSensitivity: 0.006
+        mouse_sensitivity: 0.006
         invert: true
   - name: pitch
     bindings:
       - type: MouseMoveY
-        mouseSensitivity: 0.006
+        mouse_sensitivity: 0.006
         invert: true
   - name: roll
     bindings:
@@ -23,7 +23,7 @@ inputAxes:
         acceleration: 5
         gravity: 2
         invert: true
-  - name: thrustX
+  - name: thrust_x
     bindings:
       - type: Key
         key: D
@@ -36,7 +36,7 @@ inputAxes:
         acceleration: 5
         gravity: 2
         invert: true
-  - name: thrustY
+  - name: thrust_y
     bindings:
       - type: Key
         key: W
@@ -49,7 +49,7 @@ inputAxes:
         acceleration: 5
         gravity: 2
         invert: true
-  - name: thrustZ
+  - name: thrust_z
     bindings:
       - type: Key
         key: X
