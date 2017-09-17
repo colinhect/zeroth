@@ -1,11 +1,5 @@
 ---
 scene_type: ClientScene
-systems:
-  - system_type: DebugSystem
-    lines_material: Hect/Materials/DebugLines.material
-  - system_type: InterfaceSystem
-    default_font: Hect/Interface/Vera.font
-    default_font_size: 13
 entities:
   - name: LocalPlayer
     components:
