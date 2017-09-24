@@ -47,13 +47,13 @@ void PlayerInputSystem::handle_player_input(Seconds time_step, Entity& local_pla
         auto& transform = local_player_entity.component<TransformComponent>();
         auto& camera = local_player_entity.component<CameraComponent>();
 
-        transform.local_rotation *= Quaternion::from_axis_angle(camera.up, Radians(_input_system.axis_value("yaw") * -look_speed));
-        transform.local_rotation *= Quaternion::from_axis_angle(camera.right, Radians(_input_system.axis_value("pitch") * look_speed));
-        transform.local_rotation *= Quaternion::from_axis_angle(camera.front, Radians(_input_system.axis_value("roll") * -roll_speed));
+        transform.local_rotation *= Quaternion::from_axis_angle(camera.up, Radians(_input_system.axis_value("Yaw") * -look_speed));
+        transform.local_rotation *= Quaternion::from_axis_angle(camera.right, Radians(_input_system.axis_value("Pitch") * look_speed));
+        transform.local_rotation *= Quaternion::from_axis_angle(camera.front, Radians(_input_system.axis_value("Roll") * -roll_speed));
 
-        transform.local_position += camera.right * _input_system.axis_value("thrust_x") * move_speed;
-        transform.local_position += camera.front * _input_system.axis_value("thrust_y") * move_speed;
-        transform.local_position += camera.up * _input_system.axis_value("thrust_z") * move_speed;
+        transform.local_position += camera.right * _input_system.axis_value("ThrustX") * move_speed;
+        transform.local_position += camera.front * _input_system.axis_value("ThrustY") * move_speed;
+        transform.local_position += camera.up * _input_system.axis_value("ThrustZ") * move_speed;
 
         _transform_system.commit_transform(transform);
     }
