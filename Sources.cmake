@@ -42,6 +42,8 @@ set(SOURCE_SYSTEMS
     "Source/Systems/HudSystem.h"
     "Source/Systems/PlayerInputSystem.cpp"
     "Source/Systems/PlayerInputSystem.h"
+    "Source/Systems/StarSystemGeneratorSystem.cpp"
+    "Source/Systems/StarSystemGeneratorSystem.h"
     )
 
 source_group("Source\\Systems" FILES ${SOURCE_SYSTEMS})

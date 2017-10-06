@@ -21,51 +21,35 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "GalaxyImposterSystem.h"
+#pragma once
 
-#include "Components/GalaxyImposterCellComponent.h"
+#include <Hect.h>
+using namespace hect;
 
-using namespace zeroth;
+#include "Export.h"
 
-GalaxyImposterSystem::GalaxyImposterSystem(Scene& scene) :
-    System(scene)
+#include "Components/CelestialBodyComponent.h"
+
+namespace zeroth
 {
-}
 
-void GalaxyImposterSystem::initialize()
+
+/// \system
+class ZEROTH_EXPORT StarSystemGeneratorSystem :
+    public System<StarSystemGeneratorSystem, Components<CelestialBodyComponent>>
 {
-    create_cell(Vector3::Zero, 1000.0);
-}
+public:
+    StarSystemGeneratorSystem(Scene& scene);
 
-void GalaxyImposterSystem::adapt_to_observer(Vector3 position, Quaternion rotation)
-{
-    (void)position;
-    (void)rotation;
-}
+    void generate_star_system(RandomSeed seed);
 
-EntityIterator GalaxyImposterSystem::create_cell(Vector3 local_position, double size, EntityIterator parent_cell)
-{
-    Entity& cell = scene().create_entity("GalaxyImposterCell");
+private:
+    typedef RandomSeed GeneratorInstance;
 
-    const Vector3 half_size(size * 0.5);
+    GeneratorInstance create_generator(RandomSeed seed) const;
+    Entity& create_star(GeneratorInstance& generator);
 
-    auto& transform = cell.add_component<TransformComponent>();
-    transform.local_position = local_position;
+    EntityHandle _star_archetype;
+};
 
-    auto& bounding_box = cell.add_component<BoundingBoxComponent>();
-    bounding_box.adaptive = false;
-    bounding_box.local_extents = AxisAlignedBox(-half_size, half_size);
-
-    auto& galaxy_imposter_cell = cell.add_component<GalaxyImposterCellComponent>();
-
-    cell.activate();
-    if (parent_cell)
-    {
-        auto& parent_galaxy_imposter_cell = parent_cell->component<GalaxyImposterCellComponent>();
-        galaxy_imposter_cell.depth = parent_galaxy_imposter_cell.depth + 1;
-
-        parent_cell->add_child(cell);
-    }
-
-    return cell.iterator();
 }

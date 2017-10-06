@@ -30,10 +30,22 @@ CelestialBodySystem::CelestialBodySystem(Scene& scene) :
 {
 }
 
+void CelestialBodySystem::update_bodies(Seconds time_step)
+{
+    for (auto& celestial_body : scene().components<CelestialBodyComponent>())
+    {
+
+    }
+}
+
 void CelestialBodySystem::on_component_added(CelestialBodyComponent& component)
 {
 }
 
 void CelestialBodySystem::on_component_removed(CelestialBodyComponent& component)
+{
+}
+
+void zeroth::CelestialBodySystem::update_orbit(CelestialBodyComponent & body)
 {
 }

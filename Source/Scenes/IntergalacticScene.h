@@ -55,7 +55,7 @@ private:
     TransformSystem _transform_system;
     GalaxyImposterSystem _galaxy_imposter_system;
 
-    Entity::Handle _observer_entity;
+    EntityHandle _observer_entity;
 };
 
 }

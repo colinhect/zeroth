@@ -40,13 +40,16 @@ class ZEROTH_EXPORT CelestialBodySystem :
 public:
     CelestialBodySystem(Scene& scene);
 
+    void update_bodies(Seconds time_step);
+
+    CelestialBodyComponent& create_star();
+
     // ComponentListener overrides
     void on_component_added(CelestialBodyComponent& component) override;
     void on_component_removed(CelestialBodyComponent& component) override;
 
 private:
-    void update_orbit(Entity& celestial_body);
-    Entity& determine_parent_body(Entity& celestial_body);
+    void update_orbit(CelestialBodyComponent& body);
 };
 
 }

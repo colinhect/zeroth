@@ -39,7 +39,7 @@ HudSystem::HudSystem(Scene& scene, CameraSystem& camera_system, InterfaceSystem&
 
 void HudSystem::update_widgets()
 {
-    CameraComponent::Iterator camera = _camera_system.active_camera();
+    CameraComponent* camera = _camera_system.active_camera();
     if (camera)
     {
         auto& transform = camera->entity().component<TransformComponent>();

@@ -67,7 +67,7 @@ private:
 
     Interface::Handle _interface;
 
-    Entity::Handle _local_player_entity;
+    EntityHandle _local_player_entity;
 };
 
 }

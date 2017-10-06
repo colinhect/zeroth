@@ -21,51 +21,39 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "GalaxyImposterSystem.h"
+#include "StarSystemGeneratorSystem.h"
 
-#include "Components/GalaxyImposterCellComponent.h"
+#include "Components/StarComponent.h"
 
 using namespace zeroth;
 
-GalaxyImposterSystem::GalaxyImposterSystem(Scene& scene) :
-    System(scene)
+StarSystemGeneratorSystem::StarSystemGeneratorSystem(Scene& scene) :
+    System(scene),
+    _star_archetype(scene, HECT_ASSET("Entities/Star.entity"))
 {
 }
 
-void GalaxyImposterSystem::initialize()
+void StarSystemGeneratorSystem::generate_star_system(RandomSeed seed)
 {
-    create_cell(Vector3::Zero, 1000.0);
+    GeneratorInstance generator = create_generator(seed);
+    create_star(generator);
 }
 
-void GalaxyImposterSystem::adapt_to_observer(Vector3 position, Quaternion rotation)
+StarSystemGeneratorSystem::GeneratorInstance StarSystemGeneratorSystem::create_generator(RandomSeed seed) const
 {
-    (void)position;
-    (void)rotation;
+    return GeneratorInstance(seed);
 }
 
-EntityIterator GalaxyImposterSystem::create_cell(Vector3 local_position, double size, EntityIterator parent_cell)
+Entity& StarSystemGeneratorSystem::create_star(StarSystemGeneratorSystem::GeneratorInstance& generator)
 {
-    Entity& cell = scene().create_entity("GalaxyImposterCell");
+    Entity& star_entity = _star_archetype->clone();
 
-    const Vector3 half_size(size * 0.5);
+    Random random(generator);
 
-    auto& transform = cell.add_component<TransformComponent>();
-    transform.local_position = local_position;
+    auto& star = star_entity.component<StarComponent>();
+    star.absolute_magnitude = random.next(-10.0, 15.0);
+    star.temperature = random.next(2000.0, 30000.0);
 
-    auto& bounding_box = cell.add_component<BoundingBoxComponent>();
-    bounding_box.adaptive = false;
-    bounding_box.local_extents = AxisAlignedBox(-half_size, half_size);
-
-    auto& galaxy_imposter_cell = cell.add_component<GalaxyImposterCellComponent>();
-
-    cell.activate();
-    if (parent_cell)
-    {
-        auto& parent_galaxy_imposter_cell = parent_cell->component<GalaxyImposterCellComponent>();
-        galaxy_imposter_cell.depth = parent_galaxy_imposter_cell.depth + 1;
-
-        parent_cell->add_child(cell);
-    }
-
-    return cell.iterator();
+    star_entity.activate();
+    return star_entity;
 }
