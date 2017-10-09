@@ -1,4 +1,8 @@
 ---
 base: CelestialBody.entity
+name: Star
 components:
   - component_type: StarComponent
+  - component_type: GeometryComponent
+    surfaces:
+      - mesh: Meshes/Point.mesh

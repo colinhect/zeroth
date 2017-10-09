@@ -22,36 +22,30 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include "HudSystem.h"
+#include "Components/StarComponent.h"
+#include "Scenes/StellarScene.h"
 
 using namespace zeroth;
 
-HudSystem::HudSystem(Scene& scene, CameraSystem& camera_system, InterfaceSystem& interface_system) :
+HudSystem::HudSystem(Scene& scene, StellarScene& stellar_scene, InterfaceSystem& interface_system, Window& window) :
     System(scene),
-    //_asset_cache(engine.asset_cache()),
-    //_window(engine.main_window()),
-    //_keyboard(engine.keyboard()),
-    //_mouse(engine.mouse()),
-    _camera_system(camera_system),
+    _stellar_scene(stellar_scene),
+    _window(window),
     _interface_system(interface_system)
 {
     register_log_listener(*this);
+
+    _interface = _interface_system.create_interface(_window);
+    _camera_position_label = _interface->create_child<LabelWidget>();
 }
 
 void HudSystem::update_widgets()
 {
-    CameraComponent* camera = _camera_system.active_camera();
-    if (camera)
+    auto star = _stellar_scene.components<StarComponent>().begin();
+    if (star)
     {
-        auto& transform = camera->entity().component<TransformComponent>();
-        Vector3 position = transform.local_position;
-        _camera_position_label->set_text(format("%f %f %f", position.x, position.y, position.z));
+        _camera_position_label->set_text(format("Absolute Magnitude: %f", star->absolute_magnitude));
     }
-}
-
-void HudSystem::initialize()
-{
-    //_interface = _interface_system.create_interface(_window);
-    //_camera_position_label = _interface->create_child<LabelWidget>();
 }
 
 void HudSystem::receive_event(const KeyboardEvent& event)

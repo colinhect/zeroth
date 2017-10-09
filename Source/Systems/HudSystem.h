@@ -31,6 +31,8 @@ using namespace hect;
 namespace zeroth
 {
 
+class StellarScene;
+
 /// \system
 class ZEROTH_EXPORT HudSystem :
     public System<HudSystem>,
@@ -38,23 +40,20 @@ class ZEROTH_EXPORT HudSystem :
     public EventListener<LogMessageEvent>
 {
 public:
-    HudSystem(Scene& scene, CameraSystem& camera_system, InterfaceSystem& interface_system);
+    HudSystem(Scene& scene, StellarScene& steller_scene, InterfaceSystem& interface_system, Window& window);
 
     void update_widgets();
 
 private:
-    void initialize();
 
     // EventListener overrides
     void receive_event(const KeyboardEvent& event) override;
     void receive_event(const LogMessageEvent& event) override;
 
-    //AssetCache& _asset_cache;
-    //Window& _window;
-    //Keyboard& _keyboard;
-    //Mouse& _mouse;
+    StellarScene& _stellar_scene;
 
-    CameraSystem& _camera_system;
+    Window& _window;
+
     InterfaceSystem& _interface_system;
 
     Interface::Handle _interface;

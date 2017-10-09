@@ -1,0 +1,11 @@
+---
+vertex_layout:
+  attributes:
+    - semantic: Position
+      type: Float32
+      cardinality: 3
+index_type: UInt8
+primitive_type: PointSprites
+vertices:
+  - attributes: [ { semantic: Position, data: [ 0, 0, 0 ] } ]
+indices: [ 0 ]

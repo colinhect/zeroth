@@ -28,6 +28,9 @@ using namespace hect;
 
 #include "Export.h"
 
+#include "Systems/CelestialBodySystem.h"
+#include "Systems/StarSystemGeneratorSystem.h"
+
 namespace zeroth
 {
 
@@ -39,8 +42,13 @@ public:
     StellarScene(Engine& engine);
 
     // Scene overrides
+    virtual void initialize();
     virtual void tick(Seconds time_step) override;
     virtual void render(RenderTarget& target) override;
+
+private:
+    CelestialBodySystem _celestial_body_system;
+    StarSystemGeneratorSystem _star_system_generator_system;
 };
 
 }

@@ -25,11 +25,6 @@
 
 using namespace zeroth;
 
-namespace
-{
-    const Path IntergalacticScenePath("Scenes/Intergalactic.scene");
-}
-
 ClientScene::ClientScene(Engine& engine) :
     Scene(engine),
     _interface_system(*this, engine.asset_cache(), engine.platform(), engine.renderer(), engine.vector_renderer()),
@@ -39,29 +34,23 @@ ClientScene::ClientScene(Engine& engine) :
     _bounding_box_system(*this),
     _transform_system(*this, _bounding_box_system),
     _player_input_system(*this, _input_system, _transform_system, engine.platform()),
-    //_intergalactic_scene(engine),
-    //_interstellar_scene(engine),
-    //_stellar_scene(engine),
+    _stellar_scene(engine),
+    _hud_system(*this, _stellar_scene, _interface_system, engine.main_window()),
     _scene_renderer(engine.asset_cache(), engine.task_pool())
 {
-    //_intergalactic_scene.load(IntergalacticScenePath);
 }
 
 void ClientScene::initialize()
 {
-    create_interface();
-    _local_player_entity = entities().find_first_by_name("LocalPlayer");
-
-    //_intergalactic_scene.set_observer(*_local_player_entity);
-    //_intergalactic_scene.initialize();
-
-    // Integrate content/asset generation from source files (from blender, YAML files, etc) to deserializable binary formats into the CMake build system.  Data is code, code is data... don't feel bad about hardcoding references to asset paths.  Write in Python, make extensible for adding any toolchain to the asset build process.  Could be a niche open source engine/framework for those who like manual control of a simple unified build system.
+    _stellar_scene.initialize();
 
     Scene::initialize();
 }
 
 void ClientScene::tick(Seconds time_step)
 {
+    _hud_system.update_widgets();
+
     _input_system.update_axes(time_step);
 
     if (_local_player_entity)
@@ -71,7 +60,7 @@ void ClientScene::tick(Seconds time_step)
 
     //_intergalactic_scene.tick(time_step);
     //_interstellar_scene.tick(time_step);
-    //_stellar_scene.tick(time_step);
+    _stellar_scene.tick(time_step);
 
     _transform_system.update_committed_transforms();
     _camera_system.update_all_cameras();
@@ -91,11 +80,7 @@ void ClientScene::render(RenderTarget& target)
     _interface_system.render_all_interfaces();
 }
 
-void ClientScene::create_interface()
+StellarScene& ClientScene::stellar_scene()
 {
-    Window& main_window = engine().main_window();
-    _interface = _interface_system.create_interface(main_window);
-
-    LabelWidget::Handle label = _interface->create_child<LabelWidget>();
-    label->set_text("Testing... One two three and stuff");
+    return _stellar_scene;
 }

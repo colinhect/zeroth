@@ -18,6 +18,12 @@ set(SOURCE_MATERIALS
 
 source_group("Assets\\Materials" FILES ${SOURCE_MATERIALS})
 
+set(SOURCE_MESHES
+    "Meshes/Point.mesh.yaml"
+    )
+
+source_group("Assets\\Meshes" FILES ${SOURCE_MESHES})
+
 set(SOURCE_SCENES
     "Scenes/Client.scene.yaml"
     "Scenes/Intergalactic.scene.yaml"
@@ -43,6 +49,7 @@ source_group("Assets\\Test" FILES ${SOURCE_TEST})
 set(SOURCE_FILES
     ${SOURCE_ENTITIES}
     ${SOURCE_MATERIALS}
+    ${SOURCE_MESHES}
     ${SOURCE_SCENES}
     ${SOURCE_TEST}
     )

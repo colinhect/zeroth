@@ -32,6 +32,7 @@ using namespace hect;
 #include "Scenes/InterstellarScene.h"
 #include "Scenes/StellarScene.h"
 #include "Systems/PlayerInputSystem.h"
+#include "Systems/HudSystem.h"
 
 namespace zeroth
 {
@@ -48,9 +49,9 @@ public:
     virtual void tick(Seconds time_step) override;
     virtual void render(RenderTarget& target) override;
 
-private:
-    void create_interface();
+    StellarScene& stellar_scene();
 
+private:
     InterfaceSystem _interface_system;
     DebugSystem _debug_system;
     InputSystem _input_system;
@@ -61,11 +62,11 @@ private:
 
     //IntergalacticScene _intergalactic_scene;
     //InterstellarScene _interstellar_scene;
-    //StellarScene _stellar_scene;
+    StellarScene _stellar_scene;
+
+    HudSystem _hud_system;
 
     PhysicallyBasedSceneRenderer _scene_renderer;
-
-    Interface::Handle _interface;
 
     EntityHandle _local_player_entity;
 };

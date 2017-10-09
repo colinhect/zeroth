@@ -26,13 +26,24 @@
 using namespace zeroth;
 
 StellarScene::StellarScene(Engine& engine) :
-    Scene(engine)
+    Scene(engine),
+    _celestial_body_system(*this),
+    _star_system_generator_system(*this)
 {
+}
+
+void StellarScene::initialize()
+{
+    _star_system_generator_system.generate_star_system(Random().next());
 }
 
 void StellarScene::tick(Seconds time_step)
 {
+    refresh();
+
     (void)time_step;
+
+    refresh();
 }
 
 void StellarScene::render(RenderTarget& target)
