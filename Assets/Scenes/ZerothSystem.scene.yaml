@@ -1,0 +1,10 @@
+---
+base: Stellar.scene
+entities:
+  - name: Zeroth II
+    base: Entities/Star.entity
+    components:
+      - component_type: StarComponent
+        absolute_magnitude: 1.26
+        temperature: 16030.223
+    

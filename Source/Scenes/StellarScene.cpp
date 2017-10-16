@@ -34,7 +34,6 @@ StellarScene::StellarScene(Engine& engine) :
 
 void StellarScene::initialize()
 {
-    _star_system_generator_system.generate_star_system(Random().next());
 }
 
 void StellarScene::tick(Seconds time_step)

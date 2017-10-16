@@ -27,6 +27,8 @@ source_group("Assets\\Meshes" FILES ${SOURCE_MESHES})
 set(SOURCE_SCENES
     "Scenes/Client.scene.yaml"
     "Scenes/Intergalactic.scene.yaml"
+    "Scenes/Stellar.scene.yaml"
+    "Scenes/ZerothSystem.scene.yaml"
     )
 
 source_group("Assets\\Scenes" FILES ${SOURCE_SCENES})
