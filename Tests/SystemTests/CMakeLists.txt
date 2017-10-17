@@ -32,3 +32,7 @@ add_custom_command(TARGET ZerothSystemTests
     POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/Settings ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
     )
+
+add_test(NAME ZerothSystemTests
+    WORKING_DIRECTORY ${OUTPUT_DIR}
+    COMMAND ZerothSystemTests)

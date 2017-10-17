@@ -26,3 +26,7 @@ set_target_properties(ZerothUnitTests PROPERTIES
     LINKER_LANGUAGE CXX
     FOLDER "/Projects/Zeroth/Tests"
     )
+
+add_test(NAME ZerothUnitTests
+    WORKING_DIRECTORY ${OUTPUT_DIR}
+    COMMAND ZerothUnitTests)
